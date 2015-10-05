@@ -1,0 +1,25 @@
+# examples/00-20-example-update_file.cf
+bundle agent cf_agent_heartbeat
+{
+  meta:
+    "tags" slist => { "autorun" };
+
+  files:
+    "$(sys.statedir)/$(this.bundle)" -> { "Monitoring" }
+      create  => "true",
+      touch   => "true",
+      classes => scoped_classes_generic("bundle", "heartbeat"),
+      handle  => "cf_agent_heartbeat_thump",
+      comment => "This policy simply updates the timestamp
+		  of the file so an external monitoring
+                  system can validate the system is working.";
+
+  reports:
+    DEBUG|DEBUG_cf_agent_heartbeat::
+
+      "DEBUG $(this.bundle): Heartbeat"
+        if => "heartbeat_repaired";
+
+      "DEBUG $(this.bundle): Flatline"
+        unless => "heartbeat_repaired";
+}

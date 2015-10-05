@@ -1,0 +1,10 @@
+# examples/00-10-classes_example_ifvarclass.cf
+bundle agent main
+{
+  vars:
+    "platforms" slist => { "linux", "windows" };
+
+  reports:
+    "I am a $(platforms) host"
+      ifvarclass => "$(platforms)";
+}

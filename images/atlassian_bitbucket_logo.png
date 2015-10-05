@@ -1,0 +1,11 @@
+--2015-09-26 13:30:04--  http://static1.squarespace.com/static/512f7f28e4b0e0699d176018/t/53eb3868e4b0ef9279a1ade6/1395335209635/
+Resolving static1.squarespace.com (static1.squarespace.com)... 23.235.44.238
+Connecting to static1.squarespace.com (static1.squarespace.com)|23.235.44.238|:80... connected.
+HTTP request sent, awaiting response... 200 OK
+Length: 20247 (20K) [image/png]
+Saving to: ‘index.html’
+
+     0K .......... .........                                  100%  528K=0.04s
+
+2015-09-26 13:30:04 (528 KB/s) - ‘index.html’ saved [20247/20247]
+

@@ -1,0 +1,7 @@
+bundle agent main
+{
+  reports:
+    linux.!(Saturday|Sunday)::
+      "This is a linux host";
+      "Today is not Saturday or Sunday";
+}

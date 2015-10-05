@@ -1,0 +1,15 @@
+bundle agent main
+{
+  vars:
+    "string1" string => "one";
+    "string2" string => "strings
+can be multi-line";
+    "string3" string => "with \"quotes\"";
+    "string4" string => 'or "quotes"';
+
+  reports:
+    "string1 = '$(string1)'";
+    "string2 = '$(string2)'";
+    "string3 = '$(string3)'";
+    "string4 = '$(string4)'";
+}

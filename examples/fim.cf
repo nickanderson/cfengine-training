@@ -1,0 +1,24 @@
+body file control
+{
+  inputs => { "$(sys.libdir)/stdlib.cf" };
+}
+
+bundle agent main
+{
+  files:
+    "$(this.promise_filename)"
+      changes => detect_all_change,
+      classes => scoped_classes_generic("bundle", "myfile_changed");
+
+  vars:
+    "classes" slist => classesmatching(".*myfile_changed.*");
+
+  reports:
+    "$(classes)";
+
+  commands:
+   myfile_changed_repaired::
+    "$(paths.echo) MY FILE CHANGED";
+}
+
+

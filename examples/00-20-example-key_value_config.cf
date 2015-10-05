@@ -1,0 +1,85 @@
+# examples/00-20-example-key_value_config.cf
+bundle agent manage_ssh 
+{
+  meta:
+    "tags" slist => { "autorun" };
+
+  methods:
+    "SSH Config Data"
+      usebundle => ssh_config;
+
+    "Manage SSH Config"
+      usebundle => ssh_config_manage_kv("ssh_config.data");
+}
+
+bundle agent ssh_config
+{
+  vars:
+    # Global defaults
+      "data[Protocol]" string => "2";
+      "data[Port]" string => "22";
+
+    env_prod::
+      "data[PermitRootLogin]" string => "no";
+    env_dev::
+      "data[PermitRootLogin]" string => "yes";
+
+    special_something::
+      "data[PermitRootLogin]" string => "with-key";
+
+    #Last one overrides
+    any::
+      "data[Protocol]" string => "2";
+      "data[Port]" string => "22";
+
+    DEBUG|DEBUG_ssh_config::
+      "keys" slist => getindices(data);
+
+  reports:
+    DEBUG|DEBUG_ssh_config::
+      "DEBUG $(this.bundle): $(keys) = '$(data[$(keys)])'";
+}
+
+bundle agent ssh_config_manage_kv(data)
+{
+  vars:
+    "config" string => "/etc/ssh/sshd_config";
+    "staged_config" string => "/etc/ssh/sshd_config.staged";
+
+  classes:
+    staged_sshd_config_repaired::
+      "staged_config_valid"
+        expression => returnszero("/usr/sbin/sshd -t -f $(staged_config)", noshell),
+	comment => "It's important that we don't restart the service with a
+                    broken config, or the service will be down.";
+
+  files:
+      "$(staged_config)"
+        handle => "ssh_config_manage_kv_entries",
+        edit_line => set_line_based("$(data)", " ", "\s+", ".*", "\s*#\s*"),
+        classes => scoped_classes_generic("bundle", "staged_sshd_config");
+
+    staged_config_valid::
+      "$(config)"
+        copy_from => local_dcp( $(staged_config) );
+        classes => scoped_classes_generic("bundle", "sshd_config");
+
+
+  commands:
+    sshd_config_repaired::
+      "$(paths.service)"
+        handle => "ssh_config_manage_kv_restart_after_config_change",
+        args => "sshd restart",
+	comment => "The service must be restarted in order to pick up new
+                    configuration settings.";
+
+  reports:
+      "DEBUG $(this.bundle): Staged Configuration Valid"
+        if => "staged_config_valid";
+
+      "DEBUG $(this.bundle): Reparied configuration"
+        if => "sshd_config_repaired";
+
+      "DEBUG $(this.bundle): Restarted sshd after config change"
+        depends_on => { "ssh_config_manage_kv_restart_after_config_change" };
+}

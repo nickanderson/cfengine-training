@@ -1,0 +1,12 @@
+
+/* CFEngine logo in the bottom right */
+div.slide {
+  background-image: url("images/cfengine-logo.png");
+  background-repeat: no-repeat;
+  background-position: bottom right; 
+  background-size: 200px;
+}
+
+div.slide a:visited, a:link{
+	color: #FE8130;
+}

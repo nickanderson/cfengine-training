@@ -1,0 +1,18 @@
+# examples/00-10-classes_by_expression.cf
+bundle agent main
+{
+  classes:
+    "weekend" or => { "Saturday", "Sunday" };
+    "weekday" not => { "weekend" };
+
+    "business_hours"
+      expression => "weekday.(Hr9|Hr10|Hr11|Hr13|Hr14|Hr15|Hr16|Hr17)",
+      comment => "Weekdays from 9-5 excluding the lunch hour.";
+    
+    "webserver"
+      expression => regcmp( "www.*", $(sys.fqhost) ),
+      comment => "Identify webservers based on their name";
+    
+    "north_america" 
+      expression => iprange( "10.1.0.0/16" );
+}

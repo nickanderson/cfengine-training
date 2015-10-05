@@ -1,0 +1,13 @@
+bundle agent motd
+{
+  meta:
+    "tags" slist => { "autorun" };
+
+  vars:
+    "owner" string => "Bruce Wayne";
+
+  files:
+    "/tmp/motd"
+      template_method => "mustache",
+      edit_template => "$(this.promise_filename).mustache";
+}

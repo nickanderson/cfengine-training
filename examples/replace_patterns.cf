@@ -1,0 +1,2 @@
+Pro Tip: The most precise "not this exact pattern" is 'foo=(?!bar$).*'. This will replace any instance of 'foo=.*' where the right hand side does not equal exactly "bar".
+i

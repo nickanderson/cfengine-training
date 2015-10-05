@@ -1,0 +1,14 @@
+bundle agent main
+{
+  vars:
+    "var1" int => "1";
+    "var2" int => "10K";
+    "var3" real => "1.2";
+    "var4" real => "10e-5";
+
+  reports:
+    "var1 = '$(var1)'";
+    "var2 = '$(var2)'";
+    "var3 = '$(var3)'";
+    "var4 = '$(var4)'";
+}

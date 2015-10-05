@@ -1,0 +1,16 @@
+bundle agent main
+{
+  vars:
+    "file[motd][path]"  string => "/etc/motd";
+    "file[motd][mode]"  string => "644";
+    "file[fstab][path]" string => "/etc/fstab";
+    "file[fstab][mode]" string => "700";
+
+    "file_idx" slist => getindices( file );
+    "files" slist => getvalues( file );
+
+  reports:
+   "The key '$(file_idx)' has the value '$(file[$(file_idx)])'";
+   "file: '$(files)'";
+   "The file '$(file[$(file_idx)][path])' should have mode '$(file[$(file_idx)][mode])'";
+}

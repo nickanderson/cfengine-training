@@ -1,0 +1,16 @@
+bundle agent main
+{
+  vars:
+    "name_parts" slist => { "Ronald", "Mck", "Donald" };
+
+    "random_int"
+      int => randomint(0, inf),
+      unless => isvariable(random_int);
+
+    "shuffled" slist => shuffle( name_parts, $(random_int) );
+    "name" string => join(" ", shuffled );
+
+  reports:
+    "$(random_int) $(name)";
+}
+

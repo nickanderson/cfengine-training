@@ -1,0 +1,47 @@
+# examples/00-20-example-classes-geographic_location_by_network
+bundle common classify_geo_location_by_network
+{
+  meta:
+    "tags" slist => { "autorun" };
+
+  vars:
+    "nadc01_subnets"
+      slist => { "172.16.25.0/25", "172.17.0.0/16",
+                 "192.168.33.2/32",
+               };
+
+    "nadc02_subnets"
+      slist => { "172.17.5.0/25", "172.42.0.0/16",
+                 "192.168.33.3/32",
+               };
+
+    "sadc01_subnets"
+      slist => { "172.19.4.0/23", "192.168.33.4-5" };
+
+    "continent"
+      string => ifelse("north_america", "North America",
+                       "south_america", "South America",
+                       "Unknown"),
+      meta => { "inventory", "attribute_name=Continent" };
+
+
+  classes:
+    "north_america"
+      or => { "nadc01", "nadc02" };
+
+    "south_america"
+      expression => classmatch("^sadc\d+");
+
+    "nadc01"
+      expression => iprange( $(nadc01_subnets) );
+
+    "nadc02"
+      expression => iprange( $(nadc02_subnets) );
+
+    "sadc01"
+      expression => iprange( $(sadc01_subnets) );
+
+  reports:
+    "DEBUG|DEBUG_$(this.bundle)"::
+      "DEBUG $(this.bundle): Continent = '$(continent)'";
+}

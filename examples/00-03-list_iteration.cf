@@ -1,0 +1,13 @@
+# examples/00-03-list_iteration.cf
+bundle agent main
+{
+  vars:
+    "numbers" slist => { "1", "2", "3" };
+    "colors" slist => { "red", "green", "blue" };
+
+  reports:
+    "$(numbers)";
+    "$(colors)";
+    "$(numbers) with $(colors)";
+    "$(colors) with $(numbers)";
+}

@@ -1,0 +1,19 @@
+# examples/00-20-example-classes-role_by_hostname.cf
+bundle common classes_role_by_hostname
+{
+  classes:
+    "env_prod"
+      meta => { "inventory", "attribute_name=Role Classes" };
+      or => {
+              regcmp( "hub", $(sys.fqhost) ), 
+              regcmp( "^prd.*", $(sys.fqhost) ),
+            };
+
+    "webserver"
+      expression => "host001",
+      meta => { "inventory", "attribute_name=Role Classes" };
+
+    "webserver"
+      expression => regcmp( "^www.*", $(sys.fqhost) ),
+      meta => { "inventory", "attribute_name=Role Classes" };
+}

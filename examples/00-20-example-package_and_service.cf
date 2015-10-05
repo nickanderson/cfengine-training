@@ -1,0 +1,20 @@
+# examples/00-20-example-package_and_service.cf
+bundle agent training_simple_website
+{
+  meta:
+    host001::
+      "tags" slist => { "autorun" };
+
+  packages:
+      "httpd"
+        policy => "present",
+        package_module => yum;
+
+  services:
+      "httpd"
+        service_policy => "start";
+
+  reports:
+    DEBUG|DEBUG_training_simple_website::
+      "DEBUG $(this.bundle)";
+}

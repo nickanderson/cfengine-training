@@ -1,0 +1,10 @@
+# examples/00-10-classes_example_variable_class_expressions.cf
+bundle agent main
+{
+  vars:
+    "platforms" slist => { "linux", "windows" };
+
+  reports:
+    "$(platforms)"::
+      "I am a $(platforms) host";
+}

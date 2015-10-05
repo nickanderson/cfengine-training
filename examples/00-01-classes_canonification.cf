@@ -1,0 +1,17 @@
+bundle agent main
+{
+  vars:
+    "my_class_name" string => "Invalid-Class/Name!";
+    "c_my_class_name" string => canonify( "$(my_class_name)" );
+
+  classes:
+    "$(my_class_name)" expression => "any";
+
+  reports:
+
+    "'$(my_class_name)' is **NOT** a class that is defined"
+      unless => "$(my_class_name)";
+
+    "'$(c_my_class_name)' **IS** a defined class"
+      if => canonify( $(my_class_name) );
+}

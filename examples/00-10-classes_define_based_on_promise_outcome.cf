@@ -1,0 +1,17 @@
+# examples/00-10-classes_define_based_on_promise_outcome.cf
+bundle agent main
+{
+  vars:
+    "config[PermitRootLogin]" string => "no";
+
+  files:
+    "/etc/ssh/sshd_config"
+      edit_line => set_line_based("$(this.bundle).config", " ", "\s+", ".*", "\s*#\s*"),
+      classes => scoped_classes_generic("bundle", "sshd_config");
+
+  services:
+    sshd_config_repaired::
+      "sshd"
+        service_policy => "restart",
+        comment => "For sshd to pick up changed config it must be restarted."
+}

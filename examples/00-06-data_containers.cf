@@ -1,0 +1,18 @@
+bundle agent main
+{
+  vars:
+    "server" string => "mirror.int.cfengine.com";
+    "repos"
+      data => parsejson('{
+                "rhel6_updates": {
+                  "id": { "value":"RHEL6_UPDATES" },
+                  "name": { "value": "RHEL 6.x Updates" },
+                  "baseurl": { "value": "https://$(server)/RHEL6/updates" }
+                }
+              }');
+
+    "idx" slist => getindices( repos );
+
+  reports:
+    "URL = '$(repos[$(idx)][baseurl][value])'";
+}

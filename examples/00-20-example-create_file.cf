@@ -1,0 +1,10 @@
+# examples/00-20-example-create_file.cf
+bundle agent no_login
+{
+  meta:
+    "tags" slist => { "autorun" };
+
+  files:
+      "/etc/nologin"
+        create => "true";
+}
