@@ -1,0 +1,11 @@
+bundle agent main
+{
+  vars:
+  "data" data => datastate();
+
+  files:
+    "$(this.promise_filename).txt"
+      edit_template => "$(this.promise_filename).mustache",
+      create => "true",
+      template_method => "mustache";
+}
