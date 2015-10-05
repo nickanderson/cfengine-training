@@ -4,7 +4,8 @@ This content is used during CFEngine Trainings. Please feel free to
 use it for your own trainings and submit improvements.
 
 This training material uses [[https://github.com/adamzap/landslide][landslide]] to build the slides used with
-the [[https://github.com/akrabat/avalanche][avalanche]] theme.
+the [[https://github.com/akrabat/avalanche][avalanche]] theme. You need to install landslide before trying to
+build this deck.
 
 To generate the slide deck simply run
 
