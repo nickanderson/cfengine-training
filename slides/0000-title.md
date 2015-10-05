@@ -1,10 +1,14 @@
 # Automating System Administration with CFEngine 3.7
-
 Nick Anderson
 
 [[dark]](training-1-day_dark.html) **2015-09-29** [[light]](training-1-day_light.html)
 
+
 .fx: titleslide
+
+---
+# Get the presentation source
+* [https://bitbucket.org/nickanderson/cfengine-training](https://bitbucket.org/nickanderson/cfengine-training)
 
 ---
 # Introductions
