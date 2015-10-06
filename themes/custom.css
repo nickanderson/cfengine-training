@@ -2,24 +2,14 @@
 /* The bits that you probably want to override! */
 body {
     font-size: 24px;
-    font-family: "Helvetica", "Arial", "Liberation Sans", sans-serif;
-    color: black;
-    background-color: #333; /* Colour outside of slide */
-
-}
-
-div.presentation, div.slide {
-  background-color: white; /* colour of the slide */
 }
 
 div.slide h1 {
-  color: black;
   font-weight: normal;
-    font-size: 42px;
+  font-size: 42px;
 }
 
 div.slide div.slide h2, div.slide h3, div.slide h4, div.slide h5, div.slide h6 {
-  color: black;
   font-weight: normal;
   font-size: 32px;
 }
@@ -56,7 +46,7 @@ tr > td:first-child, tr > th:first-child {
 .notes {
   color: white;
   background: #777;
-  opacity:0.90;
+  opacity:0;
 }
 
 /* A title slide is a single header */
