@@ -67,7 +67,7 @@
 
 ---
 ## Pro Tip: Syntax Checking
-.notes: Consider places that you can automate this. Editors, vcs hooks, build systems.
+Consider places that you can automate this. Editors, vcs hooks, build systems.
 
 ### Full syntax check:
 
@@ -75,12 +75,15 @@
     $ cf-promises --eval-functions=yes --full-check \
                   -f ./examples/00-01-hello_world.cf
 
+* Full syntax check needs to find a `body common control` to pass. Typically this is only used when you run cf-promsies against promises.cf or update.cf
+
 ### Partial syntax check:
 
     !console
     $ cf-promises -f ./examples/00-01-hello_world.cf
 
 ## presenter notes
+TODO move this slide? body common control not introduced?
 
 Its typical to wire full policy syntax checks into pre-commit hooks or have
 them run by a continuous integration system like Jenkins.
