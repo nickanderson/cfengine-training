@@ -8,7 +8,7 @@ Nick Anderson
 
 ---
 # Get the presentation source
-* [https://bitbucket.org/nickanderson/cfengine-training](https://bitbucket.org/nickanderson/cfengine-training)
+* [https://github.com/nickanderson/cfengine-training](https://bitbucket.org/nickanderson/cfengine-training)
 
 ---
 # Introductions
