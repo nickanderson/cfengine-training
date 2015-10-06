@@ -72,7 +72,7 @@
 ### Full syntax check:
 
     !console
-    $ cf-promises --eval-functions yes --full-check \
+    $ cf-promises --eval-functions=yes --full-check \
                   -f ./examples/00-01-hello_world.cf
 
 ### Partial syntax check:
