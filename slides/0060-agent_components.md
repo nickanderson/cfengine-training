@@ -80,7 +80,7 @@
     !console
     $ cf-promises -f ./examples/00-01-hello_world.cf
 
-# presenter notes
+## presenter notes
 
 Its typical to wire full policy syntax checks into pre-commit hooks or have
 them run by a continuous integration system like Jenkins.
@@ -123,7 +123,7 @@ editor, you may be able to do this as a save hook.
 - Obeys "common control" and "agent control" bodies.
 - By default runs /var/cfengine/inputs/promises.cf
 
-## presenter_notes
+## presenter notes
 cf-agent is the agent of change, its the pointy end of the stick, or the
 dangerous end of the gun.
 

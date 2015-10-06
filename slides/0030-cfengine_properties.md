@@ -73,7 +73,7 @@ Works when other things don't, self repair.
 * Convergence - Repair what you can
 
 ---
-## Resilliance
+## Resiliance
 <img src="../images/flesh_wound.jpg">
 
 ---
