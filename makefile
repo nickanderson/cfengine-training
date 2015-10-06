@@ -3,14 +3,14 @@ default: light dark
 presentation: light dark
 
 light: themes/avalanche/.git
-		~/.local/bin/landslide --relative --embed presentation-light.cfg
+		landslide --relative --embed presentation-light.cfg
 
 dark: themes/avalanche/.git
-		~/.local/bin/landslide --relative --embed presentation-dark.cfg
+		landslide --relative --embed presentation-dark.cfg
 
 # The PDF that is currently generated is not great
 pdf: themes/avalanche/.git
-		~/.local/bin/landslide --relative --embed presentation-pdf.cfg
+		landslide --relative --embed presentation-pdf.cfg
 
 themes:
 	mkdir themes
