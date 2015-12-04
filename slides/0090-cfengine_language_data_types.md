@@ -215,7 +215,7 @@ having no limit at all.
     R: file: '/etc/fstab'
 
 ---
-## Example - data containters
+## Example - data containers
     !cf3
     # examples/00-06-data_containers.cf
     bundle agent main

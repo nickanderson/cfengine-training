@@ -290,17 +290,18 @@ Classes can be combined into expressions to make complex decisions.
     !cf3
     bundle agent main
     {
-      linux.(Sunday|Saturday)::
-        "/etc/no-login" -> { "Human Resources" }
-          create => "true",
-          comment => "Disallow non-root logins on the weekend.
-                      We believe in work-life balance, and
-                      encourage it.";
+      files:
+        linux.(Sunday|Saturday)::
+          "/etc/nologin" -> { "Human Resources" }
+            create => "true",
+            comment => "Disallow non-root logins on the weekend.
+                        We believe in work-life balance, and
+                        encourage it.";
 
-      linux.!(Sunday|Saturday)::
-        "/etc/no-login" -> { "Business Operations" }
-          delete => tidy,
-          comment => "People need to be able to log in for them
+        linux.!(Sunday|Saturday)::
+          "/etc/nologin" -> { "Business Operations" }
+            delete => tidy,
+            comment => "People need to be able to log in for them
                       to do their work during the week";
     }
 
