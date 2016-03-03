@@ -84,7 +84,7 @@ There are many type of promises. The promise type available depend on the type o
             attribute_1 => value_1,
             attribute_2 => value_2,
             attribute_3 => value_3,
-            attribute_n => value_n,
+            attribute_n => value_n;
     }
 
 ## presenter notes
