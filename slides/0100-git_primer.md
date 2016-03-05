@@ -114,7 +114,7 @@ play around with git and get setarted.
 ---
 ## Diff to validate detail of content change
     !shell
-    [root@hub masterfiles] # git diff 
+    [root@hub masterfiles] # git diff
     diff --git a/file b/file
     index 45b983b..313352b 100644
     --- a/file
@@ -135,7 +135,7 @@ play around with git and get setarted.
     #   (use "git reset HEAD <file>..." to unstage)
     #
     #	modified:   file
-    # 
+    #
     # git commit -m "Modified file"
     [master fd94885] Modified file
      1 files changed, 1 insertions(+), 0 deletions(-)
@@ -201,7 +201,7 @@ play around with git and get setarted.
 
     !shell
     [root@hub masterfiles]# echo '{ "classes": { "cfengine_internal_masterfiles_update": [ "policy_server" ] } }' > def.json
-    [root@hub masterfiles]# git add def.json 
+    [root@hub masterfiles]# git add def.json
     [root@hub masterfiles]# git commit -m "Enable automatic masterfiles update from repository"
     [master c206654] Enable automatic masterfiles update from repository
      1 file changed, 1 insertion(+)
@@ -210,17 +210,17 @@ play around with git and get setarted.
     warning: push.default is unset; its implicit value is changing in
     Git 2.0 from 'matching' to 'simple'. To squelch this message
     and maintain the current behavior after the default changes, use:
-    
+
       git config --global push.default matching
-    
+
     To squelch this message and adopt the new behavior now, use:
-    
+
       git config --global push.default simple
-    
+
     See 'git help config' and search for 'push.default' for further information.
     (the 'simple' mode was introduced in Git 1.7.11. Use the similar mode
     'current' instead of 'simple' if you sometimes use older versions of Git)
-    
+
     Counting objects: 4, done.
     Delta compression using up to 2 threads.
     Compressing objects: 100% (3/3), done.
@@ -258,22 +258,19 @@ This means new policy will be distributed as you push it into the repository.
 ## Git command reference
 <table>
   <tr>
-   <td>git status</td> <td>git pull --rebase</td>
+   <td>git status</td>         <td>git pull --rebase</td>
   </tr>
   <tr>
-   <td>git diff</td>   <td>git grep</td>
+   <td>git diff</td>           <td>git grep</td>
   </tr>
   <tr>
-   <td>git add</td>    <td>git log</td>
+   <td>git add</td>            <td>git log</td>
   </tr>
   <tr>
-   <td>git diff cached</td> <td>git checkout -b new_feature</td>
+   <td>git diff --cached</td>  <td>git checkout -b new_feature</td>
   </tr>
   <tr>
-   <td>git commit</td>
-  </tr>
-  <tr>
-   <td>git push origin</td>
+   <td>git commit</td>         <td>git push origin</td>
   </tr>
 </table>
 
@@ -283,4 +280,3 @@ This means new policy will be distributed as you push it into the repository.
 * How do you get an overview of the changes to your clone?
 * How can you easily search a git repository?
 * What **must** you do in order to make changes?
-

@@ -336,6 +336,7 @@ redhat, Thursday, linux
     * Based on anything
     * Available after definition
     * Can persist for period of time
+    * Can be namespace or bundle scoped
     * Can be undefined
 
 webserver, prod_env, north_america
