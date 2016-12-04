@@ -1,4 +1,3 @@
-# examples/00-20-example-update_file.cf
 bundle agent cf_agent_heartbeat
 {
   meta:
@@ -11,7 +10,7 @@ bundle agent cf_agent_heartbeat
       classes => scoped_classes_generic("bundle", "heartbeat"),
       handle  => "cf_agent_heartbeat_thump",
       comment => "This policy simply updates the timestamp
-		  of the file so an external monitoring
+                  of the file so an external monitoring
                   system can validate the system is working.";
 
   reports:

@@ -7,7 +7,7 @@ bundle agent motd
     "owner" string => "Bruce Wayne";
 
   files:
-    "/tmp/motd"
+    "/etc/motd"
       template_method => "mustache",
       edit_template => "$(this.promise_filename).mustache";
 }

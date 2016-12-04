@@ -1,4 +1,3 @@
-# examples/00-20-example-package_and_service.cf
 bundle agent training_simple_website
 {
   meta:

@@ -1,4 +1,3 @@
-# examples/00-20-example-classes-geographic_location_by_network
 bundle common classify_geo_location_by_network
 {
   meta:
@@ -24,8 +23,7 @@ bundle common classify_geo_location_by_network
                        "Unknown"),
       meta => { "inventory", "attribute_name=Continent" };
 
-
-  classes:
+classes:
     "north_america"
       or => { "nadc01", "nadc02" };
 
