@@ -1,0 +1,2 @@
+Add Tip for collectiing from all hosts
+ for i in $(cf-key -s | awk '/Incoming/ {print $2}' | sort | uniq); do cf-hub -q rebase -H $i -v ; done

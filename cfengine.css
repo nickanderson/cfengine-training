@@ -1,0 +1,34 @@
+body {
+    background-color: #F8FAFB;
+}
+
+.reveal.section {
+    background-color: #F4F7F8;
+    color: #8AB2B9;
+}
+
+.reveal pre {
+    background-color: #FCFDFD;
+}
+
+.reveal a{
+    color: #F79B4D;
+}
+.reveal h1 {
+    color: #F58220;
+}
+
+.reveal h2 {
+    color: #F58220;
+}
+
+.reveal h3 {
+    color: #1D6B91;
+}
+
+.reveal h4 {
+    color: #1D6B91;
+}
+li:before {
+    color: #F58220;
+}

@@ -1,0 +1,2636 @@
+#+Title: CFEngine in a day
+#+Author: Nick Anderson
+#+Email: nick.anderson@cfengine.com
+#+REVEAL_ROOT: file:///home/nickanderson/src/reveal.js/
+#+OPTIONS: reveal_center:t reveal_progress:t reveal_history:nil reveal_control:t
+#+OPTIONS: reveal_rolling_links:t reveal_keyboard:t reveal_overview:t num:nil
+#+OPTIONS: reveal_width:1200 reveal_height:800
+#+OPTIONS: toc:nil
+#+OPTIONS: tags:nil timestamp:nil
+#+REVEAL_MARGIN: 0.1
+#+REVEAL_MIN_SCALE: 0.5
+#+REVEAL_MAX_SCALE: 2.5
+#+REVEAL_TRANS: fade
+#+REVEAL_THEME: black
+#+REVEAL_HLEVEL: 1
+#+REVEAL_HEAD_PREAMBLE: <meta name="description" content="CFEngine in a Day">
+#+REVEAL_POSTAMBLE: <p> CFEngine </p>
+#+REVEAL_PLUGINS: (markdown notes)
+#+PROPERTY: header-args :eval never-export
+
+* Before we start
+:PROPERTIES:
+:ID:       27318943-487d-4805-a592-26281f4f5bb2
+:END:
+** Schedule
+:PROPERTIES:
+:ID:       c3399d41-b849-41b7-b113-b6c8bec076a0
+:END:
+
+A rough schedule (this varies greatly).
+
+| Time                | Activity        |
+|---------------------+-----------------|
+| 09:00 AM - 10:30 AM | Class           |
+| 10:30 AM - 11:00 AM | Morning break   |
+| 11:00 AM - 12:30 PM | Class           |
+| 12:30 PM - 01:30 PM | Lunch break     |
+| 01:30 PM - 03:00 PM | Class           |
+| 03:00 PM - 03:30 PM | Afternoon break |
+| 03:30 PM - 05:00 PM | Class           |
+
+Who will volunteer to *remind me of breaks*?
+
+** Use the source
+:PROPERTIES:
+:ID:       5be6e6a0-0539-4103-8677-6fafbeef2511
+:END:
+
+The source materials for this presentation can be found on github.
+
+- https://github.com/nickanderson/cfengine-training
+
+See a *mistake*? Please consider submitting a Pull Request.
+** Hi, I'm Nick
+:PROPERTIES:
+:ID:       a122e01c-8345-44d6-977f-ace81375a540
+:END:
+
+- Wife, 2 kids and a dog
+- Sysadmin/Infrastructure Engineer/Doer of things
+- Find me online
+  - [[mailto:nick@cmdln.org][nick@cmdln.org]] | [[mailto:nick.anderson@cfengine.com][nick.anderson@cfengine.com]]
+  - [[https://twitter.com/cmdln_][@cmdln_]]
+  - [[http://www.cmdln.org][cmdln.org]]
+  - [[https://linkedin.com/in/hithisisnick][linkedin.com/in/hithisisnick]]
+  - [[https://sks-keyservers.net/pks/lookup?op=get&search=0x9EB3AD425D1CCC11][=9274 E588 E866 A10B 713C  9CCD 9EB3 AD42 5D1C CC11=]]
+
+#+BEGIN_NOTES
+  I have worked in a wide variety of environments:
+  - E-commerce
+  - Large Enterprise
+  - High Perform acne Computing
+  - Usually working closely with developers
+#+END_NOTES
+** Who are you?
+:PROPERTIES:
+:ID:       b0c328e7-2675-48e4-80f4-75003bb0e09b
+:END:
+
+- Name
+- Role
+- Goals for this training
+
+* Why Automation?
+:PROPERTIES:
+:ID:       4154199e-2aab-4080-99e4-3870373a4327
+:END:
+
+#+BEGIN_QUOTE
+  Every time someone logs onto a system by hand, they jeopardize everyone's
+  understanding of the system. -- Mark Burgess
+#+END_QUOTE
+* What is CFEngine?
+:PROPERTIES:
+:ID:       3b1b50d5-c41a-49d7-9af4-5c65963a957e
+:END:
+
+Modern, Secure, scale-able, and agile *infrastructure automation tool* designed to
+provide continuous operations using a distributed model based approach.
+
+** History
+- Written by [[https://en.wikipedia.org/wiki/Mark_Burgess_(computer_scientist)][Mark Burgess]]
+- Originally released in 1993.
+- [[http://people.scs.carleton.ca/~soma/biosec/readings/burgess-immunology.pdf][Computer Immunology]] (Self Healing) 1998
+- CFEngine 2 (1998)
+- [[http://download.springer.com/static/pdf/884/chp%25253A10.1007%25252F11568285_9.pdf][Promise Theory]] (2005)
+- CFEngine 3 (2008)
+- Company Founded (2008)
+- CFEngine 3.10 (2016)?
+
+** Small
+:PROPERTIES:
+:ID:       a6f4338f-6820-4047-b286-ee33ca152158
+:END:
+
+As of October 2016:
+
+- ~ 125k Lines of code
+- ~ 20M Memory usage
+- ~ 10M Package size
+
+** Secure
+:PROPERTIES:
+:ID:       8576f075-ad2b-494d-9b08-c5f1c1561031
+:END:
+
+A good track record.
+
+- http://web.nvd.nist.gov/view/vuln/search
+
+** Portable                                                         :ATTACH:
+:PROPERTIES:
+:ID:       4d85802b-4bd6-4473-be8c-4add03fa9c6c
+:Attachments: laser-cutting_2016-10-15_14-46-28.jpg waratah-trains_2016-10-15_14-55-13.jpg rover-deploy-2_2016-10-15_15-07-51.jpg server-farm-shot_2016-10-15_15-08-07.jpg raspberry_pi_b_2_0_0_2016-10-15_15-09-16.jpg Where%20CFEngine%20Runs_2016-10-15_15-18-02.png Where%20CFEngine%20Runs_2016-10-15_15-18-26.png Where_CFEngine_Runs_2016-10-15_15-20-42.png
+:END:
+
+Known to run on many platforms, and interesting places.
+
+#+DOWNLOADED: file:///home/nickanderson/Downloads/Where_CFEngine_Runs.png @ 2016-10-15 15:20:42
+[[file:data/4d/85802b-4bd6-4473-be8c-4add03fa9c6c/Where_CFEngine_Runs_2016-10-15_15-20-42.png]]
+
+
+#+BEGIN_NOTES
+- HPUX
+- Android
+- Solaris (sparc/x86)
+- Linux
+- AIX
+- Windows
+- Smart infrastructure (interactive bus signs in France)
+    * Interactive Bus Signs in France
+    * Automated payment system collections
+- Lasers (that make puppets)
+    * From Hallway track at LISA 2013
+- Dialysis Machines (over 50% of machines in the US)
+    * From user report
+- Appliances
+    * Ezuce sipXecs
+        * Voip
+        * [CFEngine Inside](https://sipfoundry.atlassian.net/wiki/display/sipXecs/cfengine+tips)
+    * [Cryptoo](https://github.com/Cryptoo/cfengine)
+        * DMZ
+        * Tor
+        * Bitcoin
+        * Bittorrent
+#+END_NOTES
+
+** Resilient                                                        :ATTACH:
+:PROPERTIES:
+:ID:       2981a0e7-5430-44bd-84b3-32928fbdeea1
+:Attachments: flesh_wound_2016-10-15_15-24-06.jpg
+:END:
+
+#+DOWNLOADED: file:///home/nickanderson/CFEngine/cfengine-training/images/flesh_wound.jpg @ 2016-10-15 15:24:06
+[[file:data/29/81a0e7-5430-44bd-84b3-32928fbdeea1/flesh_wound_2016-10-15_15-24-06.jpg]]
+
+- Policy cached locally
+- Decisions made locally
+- Convergence :: Repair what you can and re-vist soon
+
+** Declarative                                                      :ATTACH:
+:PROPERTIES:
+:ID:       a6e60c34-5641-48b6-913b-85e54fa9effd
+:Attachments: declarative_vs_imperative_crop_2016-10-15_15-28-37.png
+:END:
+
+#+DOWNLOADED: http://lh6.ggpht.com/_dIvFa14S0yc/Sj0WX0c9kSI/AAAAAAAAG18/qer_Oef9wXY/image%5B8%5D.png @ 2016-10-15 15:28:37
+[[file:data/a6/e60c34-5641-48b6-913b-85e54fa9effd/declarative_vs_imperative_crop_2016-10-15_15-28-37.png]]
+
+#+REVEAL: split
+
+Focus on the *desired end state*.
+
+
+- Focus on the GOAL
+- Align with business priorities
+
+
+#+BEGIN_NOTES
+http://blog.aggregatedintelligence.com/2009/06/difference-between-imperative-and.html
+http://channel9.msdn.com/blogs/pdc2008/tl16
+
+It works kind of like a GPS. It doesn't matter where you start, or the wrong
+turns you make it will continually re-route to reach the destination. And your
+still responsible for driving, the GPS doesn't drive your car (would you trust
+it to? (Alaskan airports, ponds, fields, etc ...)
+#+END_NOTES
+** Declarative vs Imperative
+:PROPERTIES:
+:ID:       863dd604-7851-4f02-9134-e0bee2d00d8a
+:END:
+
+ Strict Order of operations  vs  Goals/Way-points
+** Typical use cases
+- Any *local* operation
+  - Manage files, processes, commands
+- Compliance 
+  - Security Hardening
+- Application Deployment/Management
+- Inventory
+- What's possible?
+
+#+BEGIN_NOTES
+  - Interesting places:
+    - Industrial (lazer cutters, water testing devices)
+    - Smart Infrastructure (Trains, Trams, Signs, Grocery Shopper Behaviour)
+  - Integrating CFEngine with other services
+    - Classes and variables from data provided by other services (JSON)
+    - Set environment
+  - Extrememly dynamic policies
+    - When production host has deviated from "normal" amount of outbound ssh
+      connections kill ssh sessions, firewall host, ticket.
+#+END_NOTES
+
+* Editions
+:PROPERTIES:
+:ID:       e335ea4b-6720-4d7e-9867-aefacee9797e
+:END:
+** Community (core)
+:PROPERTIES:
+:ID:       ef0d1800-194b-4748-a9cb-8bfa83c19a47
+:END:
+
+- [[https://github.com/cfengine/core][Github]]
+- [[https://cfengine.com/product/community/source-code/][Tarballs]]
+- [[https://cfengine.com/product/community/][Binary Packages]]
+- [[https://cfengine.com/product/community/cfengine-linux-distros/][Linux Package Repositories]]
+
+#+Caption: Quick Install Community
+#+BEGIN_SRC sh
+  wget -O- http://cfengine.package-repos.s3.amazonaws.com/\
+    quickinstall/quick-install-cfengine-community.sh | sudo bash
+#+END_SRC
+
+** Enterprise Features
+:PROPERTIES:
+:ID:       6214cee3-03c7-48c9-840a-6c87fb05a236
+:END:
+
+- Inventory Reporting
+- Change Reporting
+- Audit and Compliance
+- Anomoly Detection
+- Monitoring
+- REST API
+- SQL Reporting
+- File Integrity Monitoring
+
+** Enterprise
+:PROPERTIES:
+:ID:       2fad1e0b-62b7-4b95-904e-8ac793084aa5
+:END:
+
+- [[https://docs.cfengine.com/latest/guide-installation-and-configuration-general-installation-installation-enterprise-vagrant.html][Vagrant Environment]]
+- [[http://cfengine.com/product/cfengine-enterprise-free-25/][Binary Packages]]
+
+#+Caption: Quick Install Enterprise
+#+BEGIN_SRC sh
+  wget http://cfengine.package-repos.s3.amazonaws.com/quickinstall/\
+  quick-install-cfengine-enterprise.sh
+  sudo bash ./quick-install-cfengine-enterprise.sh <hub|agent>
+#+END_SRC
+
+* Client/Server Architecture                                         :ATTACH:
+:PROPERTIES:
+:ID:       66fd45c5-3f73-49e4-a938-ec3ecbdcd8ef
+:Attachments: client_server_architecture_2016-10-15_15-57-49.png
+:END:
+
+#+REVEAL: split
+
+#+DOWNLOADED: file:///home/nickanderson/CFEngine/cfengine-training/images/client_server_architecture.png @ 2016-10-15 15:57:49
+[[file:data/66/fd45c5-3f73-49e4-a938-ec3ecbdcd8ef/client_server_architecture_2016-10-15_15-57-49.png]]
+
+** Client Server Communications
+:PROPERTIES:
+:ID:       a4baabe0-6dda-42b1-9961-678f3bfa5a0c
+:END:
+
+- Utilizes port 5308 for client – server communication
+- Encrypted (TLS)
+- SSH-like model (public/private keypair)
+- Does not use complicated chains of trust
+- Agents download policy from hub
+- Hub downloads reports from remote agents
+
+* Agent Components                                                   :ATTACH:
+:PROPERTIES:
+:ID:       21633eaf-2b0a-4fef-a25f-7760276b0a5d
+:Attachments: cfengine_agent_components_diagram_2016-10-15_16-01-34.png
+:END:
+
+** Agent Components
+:PROPERTIES:
+:ID:       a2500d9e-1b71-4438-9553-daf5e13c226c
+:END:
+
+
+[[file:data/21/633eaf-2b0a-4fef-a25f-7760276b0a5d/cfengine_agent_components_diagram_2016-10-15_16-01-34.png]]
+
+** =cf-hub=                                                          :ATTACH:
+:PROPERTIES:
+:ID:       98b666a6-d302-47e4-b164-b6653bcca1a8
+:Attachments: cfengine_agent_components_diagram_cf-hub_2016-10-15_16-03-31.png
+:END:
+
+[[file:data/98/b666a6-d302-47e4-b164-b6653bcca1a8/cfengine_agent_components_diagram_cf-hub_2016-10-15_16-03-31.png]]
+
+** =cf-hub=
+:PROPERTIES:
+:ID:       b4a1a42b-961c-4112-b173-7ec39cee42e1
+:END:
+
+- Collect reports from remote agents
+- Obeys "=common control=" and "=hub control=" bodies
+
+** =cf-runagent=                                                  :ATTACH:
+:PROPERTIES:
+:ID:       9c2d7c2f-c5e3-47b2-b7df-fdf875f38643
+:Attachments: cfengine_agent_components_diagram_cf-runagent_2016-10-15_21-11-14.png
+:END:
+
+[[file:data/9c/2d7c2f-c5e3-47b2-b7df-fdf875f38643/cfengine_agent_components_diagram_cf-runagent_2016-10-15_21-11-14.png]]
+
+** =cf-runagent=
+:PROPERTIES:
+:ID:       a9bb9656-88d3-4fa7-8cbd-961c4d800c2e
+:END:
+- Invokes cf-agent on remote hosts
+- Normally run on the server to “ping” the clients
+- Cannot invoke arbitrary commands - just wake up cf-agent
+- Define classes to modify behavior
+- Specify bundlesequence (=--remote-bundles= added in 3.10)
+
+** =cf-serverd=                                                     :ATTACH:
+:PROPERTIES:
+:ID:       9f5cf6c5-5e00-49f9-8392-5cec4c2bb9ea
+:Attachments: cfengine_agent_components_diagram_cf-serverd_2016-10-15_21-16-21.png
+:END:
+
+[[file:data/9f/5cf6c5-5e00-49f9-8392-5cec4c2bb9ea/cfengine_agent_components_diagram_cf-serverd_2016-10-15_21-16-21.png]]
+
+** =cf-serverd=
+:PROPERTIES:
+:ID:       5c6f6d3a-afc5-448f-be85-91c5b6bc67f9
+:END:
++ Listens for connections on *TCP/5308*
++ Enforces access control and authentication
++ Serves files
++ Serves =cf-runagent= requests
++ Serves reports to =cf-hub=
++ Runs on both server and clients
++ Evaluates "=common=" and "=server=" bundles
++ Obeys body "=server control="
+
+** =cf-key=                                                           :ATTACH:
+:PROPERTIES:
+:ID:       57b0a68d-ece6-4ffc-81e3-cc84b6009b35
+:Attachments: cfengine_agent_components_diagram_cf-key_2016-10-15_21-18-51.png
+:END:
+
+[[file:data/57/b0a68d-ece6-4ffc-81e3-cc84b6009b35/cfengine_agent_components_diagram_cf-key_2016-10-15_21-18-51.png]]
+
+** =cf-key=
+:PROPERTIES:
+:ID:       73d6f44c-0241-4b62-bb56-80a6c152af0d
+:END:
+- Show recent connections
+- Manage trust of public keys
+- Generates key pairs
+- Installs Enterprise License
+
+** =cf-promises=                                                    :ATTACH:
+:PROPERTIES:
+:ID:       52bb3c22-18bf-4c80-82ba-0aad82ea1393
+:Attachments: cfengine_agent_components_diagram_cf-promises_2016-10-15_21-21-02.png
+:END:
+
+[[file:data/52/bb3c22-18bf-4c80-82ba-0aad82ea1393/cfengine_agent_components_diagram_cf-promises_2016-10-15_21-21-02.png]]
+
+** =cf-promises=
+:PROPERTIES:
+:ID:       bfba9dc5-8cc4-4945-9622-75f8d619759f
+:END:
+
+- Checks Syntax
+- Performs pre-evaluation & discovery
+- Dump Syntax
+- Tag Policy Releases
+- Show Variables
+- Show Classes
+
+*** Pro Tip: Syntax Checking
+:PROPERTIES:
+:ID:       78de2122-05f5-4ebe-bce5-1c616e22faf3
+:END:
+
+#+Caption: Full Syntax Check
+#+BEGIN_SRC sh
+  cf-promises --eval-functions=yes --full-check \
+    -f ./examples/00-01-hello_world.cf
+#+END_SRC
+
+- Full check requires =body common control= (or =bundle agent main=). Typically
+  this is only used when you run cf-promsies against promises.cf or update.cf
+
+#+REVEAL: split
+
+#+Caption: Partial Syntax Check
+#+BEGIN_SRC sh
+  cf-promises -f ./examples/00-01-hello_world.cf
+#+END_SRC
+
+Build into your workflow!
+- Editors
+- vcs hooks
+- build systems
+
+#+BEGIN_NOTES
+  # TODO move this slide? body common control not introduced?
+
+  Its typical to wire full policy syntax checks into pre-commit hooks or have
+  them run by a continuous integration system like Jenkins.
+
+  Partial checks are useful to run while developing policy, and depending on the
+  editor, you may be able to do this as a save hook.
+#+END_NOTES
+
+** =cf-monitord=                                                      :ATTACH:
+:PROPERTIES:
+:ID:       bcd33f08-1c02-4d78-b118-a98bf6986040
+:Attachments: cfengine_agent_components_diagram_cf-monitord_2016-10-15_21-22-23.png
+:END:
+
+[[file:data/bc/d33f08-1c02-4d78-b118-a98bf6986040/cfengine_agent_components_diagram_cf-monitord_2016-10-15_21-22-23.png]]
+
+** =cf-monitord=
+:PROPERTIES:
+:ID:       8464d9b0-186e-43bc-b1e8-5af912aa37b5
+:END:
+
+- Collect system status information
+- Provides information to =cf-agent= through =mon.*= variables
+- Defines classes based on anomaly detection
+- Evaluates "=common=" and "=monitor=" bundles
+- Obeys "=common control=" and "=monitor control=" bodies
+
+** =cf-execd=                                                       :ATTACH:
+:PROPERTIES:
+:ID:       3c3c8cee-7086-4250-9152-21ca5879c2b2
+:Attachments: cfengine_agent_components_diagram_cf-execd_2016-10-15_21-24-05.png
+:END:
+
+[[file:data/3c/3c8cee-7086-4250-9152-21ca5879c2b2/cfengine_agent_components_diagram_cf-execd_2016-10-15_21-24-05.png]]
+
+** =cf-execd=
+:PROPERTIES:
+:ID:       938f4c5d-4219-48f5-aba8-774d3014f057
+:END:
+
+- Executes =cf-agent= periodically
+- Controls period and splay time
+- Collects, stores and sends output
+- Evaluates "=common=" bundles
+- Obeys "=executor control=" body
+
+** =cf-agent=                                                       :ATTACH:
+:PROPERTIES:
+:ID:       b49a887f-6963-4b7c-a131-fcd2c0794be0
+:Attachments: cfengine_agent_components_diagram_cf-agent_2016-10-15_21-25-11.png
+:END:
+
+[[file:data/b4/9a887f-6963-4b7c-a131-fcd2c0794be0/cfengine_agent_components_diagram_cf-agent_2016-10-15_21-25-11.png]]
+
+** =cf-agent=
+:PROPERTIES:
+:ID:       1a3c5bb3-bdec-408a-b35c-3e34e3e0c0c2
+:END:
+
+- The Catalyst or instigator of change
+- Evaluates "=agent=" and "=common=" bundles
+- Obeys "=common control=" and "=agent control=" bodies.
+- By default runs =/var/cfengine/inputs/promises.cf=
+
+#+BEGIN_NOTES
+  =cf-agent= is the agent of change, its the pointy end of the stick, or the
+  dangerous end of the gun.
+#+END_NOTES
+
+** Policy flow diagram                                              :ATTACH:
+:PROPERTIES:
+:ID:       22f5f5e0-c36f-4be8-ae6e-702619a863cf
+:Attachments: policy_flow_diagram_2016-10-15_21-25-54.png
+:END:
+
+# TODO Replace with UML diagram?
+[[file:data/22/f5f5e0-c36f-4be8-ae6e-702619a863cf/policy_flow_diagram_2016-10-15_21-25-54.png]]
+
+** Pop Quiz
+:PROPERTIES:
+:ID:       09f10078-32a9-4e15-8e91-798fe1170b53
+:END:
+
+#+ATTR_REVEAL: :frag roll-in
+- What needs to happen before remote agents can get policy from the hub?
+
+#+ATTR_REVEAL: :frag roll-in
+- Where is the policy that the agent runs by default?
+
+#+ATTR_REVEAL: :frag roll-in
+- What port needs to be open bidirectionally?
+
+#+ATTR_REVEAL: :frag roll-in
+- What is the meaning of life, the universe and everything?
+
+#+BEGIN_NOTES
+  - Establish Trust
+  - =/var/cfengine/inputs= or =$(sys.inputdir)=
+  - 5308
+  - 42
+#+END_NOTES
+** Client/Server Checkpoint
+:PROPERTIES:
+:ID:       a2263a6c-64ac-4750-9451-5e1373f91c35
+:END:
+
+- Any system can be a policy server
+- Bootstrapping establishes trust relationship
+- Policy server bootstraps to itself
+- Agent runs locally cached policy in =/var/cfengine/inputs=
+- Communicates over port *=5308=* (tcp)
+- Agents downloads policy from server
+- Hub downloads reports from remote agents
+
+* Language
+:PROPERTIES:
+:ID:       5edd13bb-9803-4597-8021-26c2bd7fe6ab
+:END:
+
+- *Promise Theory* is a model of *voluntary cooperation* between individual
+  autonomous actors.
+- The fundamental underlying philosophy that CFEngine is based on.
+
+#+Caption: Promise Theory Primcipals and Applications
+#+ATTR_HTML: :alt Promise Theory Principles and Appications :style border:none;
+[[file:images/promise_theory_cover.jpg]]
+
+** Promises
+:PROPERTIES:
+:ID:       6cd785ef-1412-495b-a790-c9d09db48669
+:END:
+- A promise is a *statement of intent*
+  - The webserver process promises to be running
+  - The file promises to have specific permissions
+- An agent can only make promises about itself
+
+#+Caption: Thinking in promises
+#+ATTR_HTML: :alt Thinking in Promises :style border:none;
+[[file:images/thinking_in_promises_book_cover.jpg]]
+
+** Promise outcomes/results
+:PROPERTIES:
+:ID:       2b7a5dde-ba92-4861-90ae-2e1dc77875b2
+:END:
+
+- =kept=
+- =repaired=
+- =not_kept=
+  - =failed=
+  - =denied=
+  - =timeout=
+
+*Note:* Compound promises *can* have *multiple outcomes* at the same time
+(=not_kept= & =kept=).
+
+** Promise types
+:PROPERTIES:
+:ID:       d8bf0344-95fc-408a-8d86-5fa382dace2b
+:END:
+
+| [[https://docs.cfengine.com/latest/reference-promise-types-commands.html][=commands=]]  | [[https://docs.cfengine.com/latest/reference-promise-types-files.html][=files=]]     | [[https://docs.cfengine.com/latest/reference-promise-types-services.html][=services=]]           |
+| [[https://docs.cfengine.com/latest/reference-promise-types-packages.html][=packages=]]  | [[https://docs.cfengine.com/latest/reference-promise-types-methods.html][=methods=]]   | [[https://docs.cfengine.com/latest/reference-promise-types-defaults.html][=defaults=]]           |
+| [[https://docs.cfengine.com/latest/reference-promise-types-meta.html][=meta=]]      | [[https://docs.cfengine.com/latest/reference-promise-types-classes.html][=classes=]]   | [[https://docs.cfengine.com/latest/reference-promise-types-reports.html][=reports=]]            |
+| [[https://docs.cfengine.com/latest/reference-promise-types-vars.html][=vars=]]      | [[https://docs.cfengine.com/latest/reference-promise-types-databases.html][=databases=]] | [[https://docs.cfengine.com/latest/reference-promise-types-guest_environments.html][=guest_environments=]] |
+| [[https://docs.cfengine.com/latest/reference-promise-types-processes.html][=processes=]] | [[https://docs.cfengine.com/latest/reference-promise-types-storage.html][=storage=]]   | [[https://docs.cfengine.com/latest/reference-promise-types-guest_environments.html][=users=]]              |
+| [[https://docs.cfengine.com/latest/reference-promise-types-access.html][=access=]]    | [[https://docs.cfengine.com/latest/reference-promise-types-roles.html][=roles=]]     | [[https://docs.cfengine.com/latest/reference-promise-types-measurements.html][=measurements=]]       |
+
+#+BEGIN_NOTE
+  There are many type of promises. The promise type available depend on the type
+  of bundle used.
+#+END_NOTE
+
+** Anatomy of a promise
+:PROPERTIES:
+:ID:       a25de10e-8da3-4d79-b960-d409b8b4541a
+:END:
+
+#+BEGIN_SRC cfengine3
+  bundle type name
+  {
+    promise_type:
+
+      context::
+
+        "promiser" -> { "optional", "stakeholder" }
+          attribute_1 => value_1,
+          attribute_2 => value_2,
+          attribute_3 => value_3,
+          attribute_n => value_n;
+  }
+#+END_SRC
+
+
+#+BEGIN_NOTES
+  - Promise type: What kind? For example packages, or commands
+  - Context: When/Where? For example prod Linux hosts in north America on
+    Sundays at GMT 1700
+  - Promiser: What. For example the httpd package, or the name of a command.
+  - Stakeholders: Who Cards. For example Security Department, a specific policy
+    or compliance id CIS-1.1.17, another promise, a ticketing system identifier.
+  - Attributes: How/Details. For example should the package be present or absent
+    on the system? Should the command be executed inside of a shell, jailed
+    withing a specific directory, or run as a specific user?
+  - Why: Why is this important? What can go wrong if this is not in place.
+    Visible in verbose logs.
+#+END_NOTES
+** Bundles
+:PROPERTIES:
+:ID:       0d0ded6f-dfa3-4d2e-bc87-c79528f63667
+:END:
+
+- Collection of promises grouped logically
+- Can take parameters
+- Maintain variable state
+- Are *not functions*
+
+#+BEGIN_NOTES
+  A [[https://docs.cfengine.com/latest/guide-language-concepts-bundles.html][*bundle*]] is a collection of promises. It is a logical grouping of any number
+  of promises, usually for a common purpose. Bundles can optionally take
+  parameters. Check out the documentation on [[https://docs.cfengine.com/latest/guide-writing-and-serving-policy-bundles-best-practices.html][best practices with bundles]].
+
+  - Bundles can be used /like/ functions. However, please note they maintain
+    some state from thier last actuation.
+    - Strings, lists, and data containers contain last value and may be
+      re-defined.
+    - Classic arrays are cleared at the beginning of each bundle actuation.
+    - Bundle scoped classes do not persist
+#+END_NOTES
+
+** Example bundles hold state
+#+BEGIN_SRC cfengine3 :exports both :wrap EXAMPLE
+  bundle agent main
+  {
+    methods:
+        "" usebundle => set_item_in_bag( "hammer", "slightly damaged");
+        "" usebundle => set_item_in_bag( "pickaxe", "perfect");
+        "" usebundle => set_item_in_bag( "flask", "half full");
+        "" usebundle => report_bag_contents;
+
+  }
+  bundle agent set_item_in_bag(item, value)
+  {
+    vars: "$(item)" string => "$(value)";
+  }
+  bundle agent report_bag_contents
+  {
+    vars:
+      "l" slist => variablesmatching("default:set_item_in_bag\..*");
+      "a[$(l)]" string => nth( string_split( "$(l)", "\.", 2 ), 1);
+    reports: "You look in the bag and see ...."; "A $($(l)) $(a[$(l)])";
+  }
+#+END_SRC
+
+#+REVEAL: split
+
+#+RESULTS:
+#+BEGIN_EXAMPLE
+R: You look in the bag and see ....
+R: A half full flask
+R: A slightly damaged hammer
+R: A perfect pickaxe
+#+END_EXAMPLE
+
+** Bundles for logical abstraction
+:PROPERTIES:
+:ID:       07926d58-2e11-4835-a6a9-19542cb28ef4
+:END:
+
+For example, a bundle to configure Apache might:
+
+- install the =apache2= package
+- edit the configuration file
+- copy the web server content
+- configure file-system permissions
+- ensure the httpd process is running
+- restart the httpd process when necessary
+
+** Bundle types
+:PROPERTIES:
+:ID:       db7db64f-bb90-40eb-9fbf-052ef57f14e8
+:END:
+
+Bundles have a type which specify how they can be used.
+
+- [[https://docs.cfengine.com/latest/guide-language-concepts-bundles.html*common-bundles][=common=]] :: evaluated by *all* components
+- [[https://docs.cfengine.com/latest/guide-language-concepts-normal-ordering.html*agent-normal-ordering][=agent=]] :: evaluated by =cf-agent=
+- [[https://docs.cfengine.com/latest/reference-promise-types-edit_line.html][=edit_line=]] :: evaluated by =cf-agent= for files type promises
+- [[https://docs.cfengine.com/latest/reference-promise-types-edit_xml.html][=edit_xml=]] :: evaluated by =cf-agent= for files type promises
+- [[https://docs.cfengine.com/latest/guide-language-concepts-normal-ordering.html*server-normal-ordering][=server=]] :: evaluated by =cf-serverd=
+- [[https://docs.cfengine.com/latest/guide-language-concepts-normal-ordering.html*server-normal-ordering][=monitor=]] :: evaluated by =cf-monitord=
+
+** Normal Order
+:PROPERTIES:
+:ID:       cae5d292-c985-4217-90c9-770e83c83164
+:END:
+
+- The order in which CFEngine executes *promise types*
+
+  - Classes then Vars are evaluated during [[https://docs.cfengine.com/docs/3.7/guide-language-concepts-normal-ordering.html*cf-promises-policy-validation-step][policy parsing]] and [[https://docs.cfengine.com/docs/3.7/guide-language-concepts-normal-ordering.html*agent-pre-evaluation-step][pre-eval]].
+  - Promises are evaluated from top to bottom respecting class restrictions
+  - Bundles listed in the bundlesequence or activated via methods are given 3
+    pass evaluation.
+
+** Bodies
+:PROPERTIES:
+:ID:       624ead8d-4aac-47c4-8cd1-e1eeed2326c8
+:END:
+
+- Collection of attributes
+- Have a type ( e.g. =classes=, =perms=, =copy_from= )
+- Can take parameters
+- Can be inherited (3.8+)
+- Cab be /defaulted/ for a given promise /type/ (3.9+)
+
+There are [[https://docs.cfengine.com/latest/reference-all-types.html*all-body-types][*MANY*]] body types.
+
+** Pop Quiz
+:PROPERTIES:
+:ID:       0b0376ac-661e-498f-b3a3-b4c8a3716854
+:END:
+
+#+ATTR_REVEAL: :frag roll-in
+- What is a bundle?
+#+ATTR_REVEAL: :frag roll-in
+- What is the fundamental underlying philosophy that CFEngine is based on?
+#+ATTR_REVEAL: :frag roll-in
+- When is the next break?
+#+ATTR_REVEAL: :frag roll-in
+- Which component collects reports from remote agents?
+#+ATTR_REVEAL: :frag roll-in
+- What types of bundles are there?
+
+#+BEGIN_NOTES
+  - A collection of *promises*
+  - *Promise Theory*
+  -
+  - *cf-hub*
+  - *common*, *agent*, *edit_line*, *server*, *monitor*, *edit_xml*
+#+END_NOTES
+
+* Making Decisions: Context Classes and Expressions
+:PROPERTIES:
+:ID:       ad47d876-4578-446e-be87-c2ef138167e6
+:END:
+
+** Classes
+:PROPERTIES:
+:ID:       bb4ef74b-6c71-419c-8db1-ad212c192eb0
+:END:
+
+- Restrict promises based on context.
+- Usable in bundles and bodies
+- Used for making decisions
+- Can be combined with expressions
+
+#+BEGIN_NOTES
+  A promise might only apply to Linux systems on Sundays, when a [[https://docs.cfengine.com/latest/guide-language-concepts-variables.html][variable]] has a
+  certain value or any other arbitrary condition or combination of various
+  conditions.
+
+- Think in [[https://en.wikipedia.org/wiki/Set_%28mathematics%29][sets]]
+  - Try and treat servers like cattle *not* pets
+#+END_NOTES
+
+** Show Classes
+:PROPERTIES:
+:ID:       d314d4d2-4ca9-4636-9562-203df412b474
+:END:
+
+#+BEGIN_SRC sh :exports both :wrap EXAMPLE
+  cf-promises --show-classes
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_EXAMPLE
+| Class name                                                   Meta tags                 |                            |                          |                             |           |
+| 127_0_0_1                                                    inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| 172_17_0_1                                                   inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| 4_cpus                                                       source=agent              | derived-from=sys.cpus      | hardclass                |                             |           |
+| 64_bit                                                       source=agent              | hardclass                  |                          |                             |           |
+| Day15                                                        time_based                | source=agent               | hardclass                |                             |           |
+| Evening                                                      time_based                | source=agent               | hardclass                |                             |           |
+| GMT_Day16                                                    time_based                | source=agent               | hardclass                |                             |           |
+| GMT_Hr03                                                     time_based                | source=agent               | hardclass                |                             |           |
+| GMT_Hr03_Q2                                                  time_based                | source=agent               | hardclass                |                             |           |
+| GMT_Hr3                                                      time_based                | source=agent               | hardclass                |                             |           |
+| GMT_Lcycle_0                                                 time_based                | source=agent               | hardclass                |                             |           |
+| GMT_Min15_20                                                 time_based                | source=agent               | hardclass                |                             |           |
+| GMT_Min16                                                    time_based                | source=agent               | hardclass                |                             |           |
+| GMT_Night                                                    time_based                | source=agent               | hardclass                |                             |           |
+| GMT_October                                                  time_based                | source=agent               | hardclass                |                             |           |
+| GMT_Q2                                                       time_based                | source=agent               | hardclass                |                             |           |
+| GMT_Sunday                                                   time_based                | source=agent               | hardclass                |                             |           |
+| GMT_Yr2016                                                   time_based                | source=agent               | hardclass                |                             |           |
+| Hr22                                                         time_based                | source=agent               | hardclass                |                             |           |
+| Hr22_Q2                                                      time_based                | source=agent               | hardclass                |                             |           |
+| Lcycle_0                                                     time_based                | source=agent               | hardclass                |                             |           |
+| Min15_20                                                     time_based                | source=agent               | hardclass                |                             |           |
+| Min16                                                        time_based                | source=agent               | hardclass                |                             |           |
+| October                                                      time_based                | source=agent               | hardclass                |                             |           |
+| PK_SHA_43c979e264924d0b4a2d3b568d71ab8c768ef63487670f2c51cd85e8cec63834 inventory      | attribute_name=none        | source=agent             | derived-from=sys.key_digest | hardclass |
+| Q2                                                           time_based                | source=agent               | hardclass                |                             |           |
+| Saturday                                                     time_based                | source=agent               | hardclass                |                             |           |
+| Yr2016                                                       time_based                | source=agent               | hardclass                |                             |           |
+| any                                                          source=agent              | hardclass                  |                          |                             |           |
+| cfengine                                                     inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| cfengine_3                                                   inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| cfengine_3_9                                                 inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| cfengine_3_9_1                                               inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| common                                                       cfe_internal              | source=agent               | hardclass                |                             |           |
+| compiled_on_linux_gnu                                        source=agent              | hardclass                  |                          |                             |           |
+| debian                                                       inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| debian_stretch                                               inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| enterprise                                                   inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| enterprise_3                                                 inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| enterprise_3_9                                               inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| enterprise_3_9_1                                             inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| enterprise_edition                                           inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| feature                                                      source=agent              | hardclass                  |                          |                             |           |
+| feature_curl                                                 source=agent              | hardclass                  |                          |                             |           |
+| feature_def                                                  source=agent              | hardclass                  |                          |                             |           |
+| feature_def_json                                             source=agent              | hardclass                  |                          |                             |           |
+| feature_def_json_preparse                                    source=agent              | hardclass                  |                          |                             |           |
+| feature_xml                                                  source=agent              | hardclass                  |                          |                             |           |
+| feature_yaml                                                 source=agent              | hardclass                  |                          |                             |           |
+| have_aptitude                                                inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| ipv4_127                                                     inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| ipv4_127_0                                                   inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| ipv4_127_0_0                                                 inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| ipv4_127_0_0_1                                               inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| ipv4_172                                                     inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| ipv4_172_17                                                  inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| ipv4_172_17_0                                                inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| ipv4_172_17_0_1                                              inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| linux                                                        inventory                 | attribute_name=none        | source=agent             | derived-from=sys.class      | hardclass |
+| linux_4_4_0_43_generic                                       source=agent              | derived-from=sys.sysname   | derived-from=sys.release | hardclass                   |           |
+| linux_x86_64                                                 source=agent              | derived-from=sys.sysname   | derived-from=sys.machine | hardclass                   |           |
+| linux_x86_64_4_4_0_43_generic                                source=agent              | derived-from=sys.sysname   | derived-from=sys.machine | derived-from=sys.release    | hardclass |
+| linux_x86_64_4_4_0_43_generic__63_Ubuntu_SMP_Wed_Oct_12_13_48_03_UTC_2016 source=agent | derived-from=sys.long_arch | hardclass                |                             |           |
+| mac_02_42_2d_73_e9_95                                        inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| net_iface_docker0                                            source=agent              | hardclass                  |                          |                             |           |
+| net_iface_lo                                                 source=agent              | hardclass                  |                          |                             |           |
+| nickanderson_thinkpad_w550s                                  source=agent              | derived-from=sys.uqhost    | hardclass                |                             |           |
+| nova                                                         inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| nova_3                                                       inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| nova_3_9                                                     inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| nova_3_9_1                                                   inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| nova_edition                                                 source=agent              | hardclass                  |                          |                             |           |
+| systemd                                                      inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| ubuntu                                                       inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| ubuntu_16                                                    inventory                 | attribute_name=none        | source=agent             | derived-from=sys.flavor     | hardclass |
+| ubuntu_16_4                                                  inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| x86_64                                                       source=agent              | derived-from=sys.machine   | hardclass                |                             |           |
+#+END_EXAMPLE
+
+#+BEGIN_NOTES
+  Note, show-classes will not show ALL possible classes. It only performs
+  pre-eval so it is only showing the classes that are defined after pre-eval.
+#+END_NOTES
+
+** Class expressions
+:PROPERTIES:
+:ID:       65733534-2c63-4bb5-86b6-7ed9140c7050
+:END:
+
+#+Caption: Class Expressions
+| *.*  (dot)         | *AND*      |
+| *&*  (ampersand)   | *AND*      |
+| *l*  (pipe)        | *OR*       |
+| *!*  (exclamation) | *NOT*      |
+| *()* (parenthesis) | *grouping* |
+
+- It's more common to use *=.=* than *=&=* to express AND
+
+#+BEGIN_NOTES
+  Classes can be combined into expressions to make complex decisions.
+#+END_NOTES
+
+** classes example
+:PROPERTIES:
+:ID:       161654cc-bffb-4401-a211-9b17f600136d
+:END:
+
+#+BEGIN_SRC cfengine3
+  bundle agent main
+  {
+    files:
+      linux.(Sunday|Saturday)::
+        "/etc/nologin" -> { "Human Resources" }
+          create => "true",
+          comment => "Disallow non-root logins on the weekend.
+                      We believe in work-life balance, and
+                      encourage it.";
+
+      linux.!(Sunday|Saturday)::
+        "/etc/nologin" -> { "Business Operations" }
+          delete => tidy,
+          comment => "People need to be able to log in for them
+                    to do their work during the week";
+  }
+#+END_SRC
+
+#+BEGIN_NOTES
+  Here we use class expressions to make sure that unprivileged users are not
+  allowed to log in on the weekend, and also that they are allowed to log in
+  during the week.
+#+END_NOTES
+
+** Class types
+:PROPERTIES:
+:ID:       c897c3c2-1b36-4109-a447-de511147c19f
+:END:
+
+- Hard Classes
+- Soft Classes
+
+** Hard classes
+:PROPERTIES:
+:ID:       7eb9939c-b88a-4914-81c4-7439a46fb94d
+:END:
+
+- Defined by agent
+- Not configurable
+- Always available
+- Discovered each run
+- Cannot be undefined
+
+=redhat=, =Thursday=, =linux=
+
+** Soft classes
+:PROPERTIES:
+:ID:       ac5c9911-31e1-4a9c-a0f5-eea6013b78dc
+:END:
+
+- Defined by policy
+- Based on anything
+- Available after definition
+- Can persist for period of time
+- Can be namespace or bundle scoped
+- Can be undefined
+
+=webserver=, =prod_env=, =north_america=
+
+** Valid Class names
+:PROPERTIES:
+:ID:       c908f05c-9569-43a9-9444-3ea5201bd44a
+:END:
+
+- Allowed characters include =[a-zA-Z0-9_]=
+- *Canonify* a string to produce a valid class name (by converting invalid
+  characters to =_=).
+- Automatically canonified *when defined*
+
+*Note:* Classes are *NOT* automatically canonified when *checked*.
+
+** Example of automatic canonification
+:PROPERTIES:
+:ID:       5e6887e9-914e-4f09-91ea-f117bfda7cd3
+:END:
+
+#+Caption: =examples/00-01-classes_canonification.cf=
+#+BEGIN_SRC cfengine3 :exports both :wrap EXAMPLE :tangle ./examples/00-01-classes_canonification.cf
+  bundle agent main
+  {
+    vars:
+      "my_class_name" string => "Invalid-Class/Name!";
+      "c_my_class_name" string => canonify( "$(my_class_name)" );
+
+    classes:
+      "$(my_class_name)" expression => "any";
+
+    reports:
+
+      "'$(my_class_name)' is **NOT** a class that is defined"
+        unless => "$(my_class_name)";
+
+      "'$(c_my_class_name)' **IS** a defined class"
+        if => canonify( $(my_class_name) );
+  }
+#+END_SRC
+
+#+REVEAL: split
+
+#+RESULTS: =examples/00-01-classes_canonification.cf=
+#+BEGIN_EXAMPLE
+R: 'Invalid-Class/Name!' is **NOT** a class that is defined
+R: 'Invalid_Class_Name_' **IS** a defined class
+#+END_EXAMPLE
+
+** Class scope
+:PROPERTIES:
+:ID:       3000b84d-cd58-49c7-9e2e-06f72d5e3b80
+:END:
+
+- Namespace scoped classes are accessible from any bundle.
+- Persist until end of agent run or explicitly undefined.
+- Bundle scoped classes are only accessible from within the bundle the class was
+  defined.
+- All hard classes are namespace scoped
+
+#+BEGIN_NOTES
+  Don't worry too much about namespaces yet. It's an advanced topic and mostly
+  relates to very large policy sets or environments with many different groups
+  of policy writers.
+
+  - Namespace scoped classes are also referred to as "global" classes.
+  - Inventoried classes *must be =namespace= scoped*.
+#+END_NOTES
+
+** Class scope rules
+:PROPERTIES:
+:ID:       b10aa5d5-fb2a-46d5-8d17-eddc7db5a327
+:END:
+
+#+Caption: Default scope for =classes= *type* promises
+| Bundle Type | Scope       |
+| =common=    | =namespace= |
+| =agent=     | =bundle=    |
+
+- =classes= bodies default to *namespace scope*
+
+*Pro Tip:* Use *=bundle=* scoped classes whenever possible.
+
+#+BEGIN_NOTES
+  - By default classes defined by classes type promises in *common bundles* are
+    *namespace scoped*
+  - By default classes defined by classes type promises in *agent bundles* are
+    *bundle scoped*
+  - By default classes defined as the *result of promise outcomes* (=classes
+    bodies=) are *namespace scoped*
+
+  Namespace scope classes if not maintained well can cause other conditions to
+  be met unexpectedly. For example, consider if you defined the class
+  =config_repaired= or =restart_service=. Which config, which service?
+#+END_NOTES
+
+** Define custom classes by expression
+:PROPERTIES:
+:ID:       59e5f34c-ef7d-41ff-a24e-6f07e7cba410
+:END:
+#+Caption: =examples/00-10-classes_by_expression.cf=
+#+BEGIN_SRC cfengine3 :tangle examples/00-10-classes_by_expression.cf
+  bundle agent main
+  {
+    classes:
+      "weekend" or => { "Saturday", "Sunday" };
+      "weekday" not => { "weekend" };
+
+      "business_hours"
+        expression => "weekday.(Hr9|Hr10|Hr11|Hr13|Hr14|Hr15|Hr16|Hr17)",
+        comment => "Weekdays from 9-5 excluding the lunch hour.";
+
+      "webserver"
+        expression => regcmp( "www.*", $(sys.fqhost) ),
+        comment => "Identify webservers based on their name";
+
+      "north_america"
+        expression => iprange( "10.1.0.0/16" );
+  }
+#+END_SRC
+
+** Define custom classes by promise outcome
+:PROPERTIES:
+:ID:       a644656f-2389-4d3c-9b7a-043608beb030
+:END:
+
+#+Caption: =examples/00-10-classes_define_based_on_promise_outcome.cf=
+#+BEGIN_SRC cfengine3 :tangle examples/00-10-classes_define_based_on_promise_outcome.cf
+  bundle agent main
+  {
+    vars:
+      "config[PermitRootLogin]" string => "no";
+
+    files:
+      "/etc/ssh/sshd_config"
+        edit_line => set_line_based("$(this.bundle).config", " ", "\s+", ".*", "\s*#\s*"),
+        classes => scoped_classes_generic("bundle", "sshd_config");
+
+    services:
+      sshd_config_repaired::
+        "sshd"
+          service_policy => "restart",
+          comment => "For sshd to pick up changed config it must be restarted."
+  }
+#+END_SRC
+
+** Example - traditional class expressions
+:PROPERTIES:
+:ID:       8c2e63ee-c972-4faa-bdd7-515c75ca2f16
+:END:
+
+#+Caption: =examples/00-10-classes_traditional_expression.cf=
+#+BEGIN_SRC cfengine3 :tangle examples/00-10-classes_traditional_expression.cf
+  bundle agent main
+  {
+    reports:
+      linux.!(Saturday|Sunday)::
+        "This is a linux host";
+        "Today is not Saturday or Sunday";
+  }
+#+END_SRC
+
+Traditional class expressions apply until the next class expression, promise
+type, or end of bundle. If unspecified promises are in the =any= context.
+
+#+BEGIN_NOTES
+  Variables are not allowed in traditional class expressions.
+#+END_NOTES
+
+** Example - ifvarclass
+:PROPERTIES:
+:ID:       db36a183-b9b0-4bd1-9cde-c28aa7dafcfd
+:END:
+
+#+Caption: =examples/00-10-classes_example_ifvarclass.cf=
+#+BEGIN_SRC cfengine3
+    bundle agent main
+    {
+      vars:
+        "platforms" slist => { "linux", "windows" };
+
+      reports:
+        "I am a $(platforms) host"
+          ifvarclass => "$(platforms)";
+    }
+#+END_SRC
+
+- Restrict individual promises
+
+#+BEGIN_NOTES
+  It's also useful to further restrict a promise in combination with a
+  traditional class expression as it acts as an **AND** with a traditional class
+  expression.
+#+END_NOTES
+
+** Example - if and unless
+:PROPERTIES:
+:ID:       fb1f6643-9313-4053-8b09-fa190448ef0a
+:END:
+
+*Better readability with if/unless*
+
+#+Caption: =examples/00-10-classes_example_if_and_unless.cf=
+#+BEGIN_SRC cfengine3
+    bundle agent main
+    {
+      vars:
+        "platforms" slist => { "linux", "windows" };
+
+      reports:
+        "I am a $(platforms) host"
+          if => "$(platforms)";
+
+        "I was made by Microsoft"
+          unless => "!windows";
+    }
+#+END_SRC
+
+#+BEGIN_NOTES
+  - Added in 3.7
+#+END_NOTES
+
+** Example - variable class expressions
+:PROPERTIES:
+:ID:       ca2bd83a-79ec-4b13-a637-8ccd547e1660
+:END:
+
+*More flexibility with variable class expressions*
+
+#+Caption: =examples/00-10-classes_example_variable_class_expressions.cf=
+#+BEGIN_SRC cfengine3
+    bundle agent main
+    {
+      vars:
+        "platforms" slist => { "linux", "windows" };
+
+      reports:
+        "$(platforms)"::
+          "I am a $(platforms) host";
+    }
+#+END_SRC
+
+#+BEGIN_NOTES
+  Like traditional class expressions variable class expressions apply until the
+  next class expression, promise type, or end of bundle.
+
+  In 3.7 traditional class expressions gained the ability to de-reference
+  variables when quoted.
+#+END_NOTES
+
+** Pop Quiz
+:PROPERTIES:
+:ID:       8aec7270-5f1d-4e29-80b5-e1c635bedf19
+:END:
+
+#+ATTR_REVEAL: :frag roll-in
+- What types of classes are there?
+
+#+ATTR_REVEAL: :frag roll-in
+  - What is the difference?
+
+#+ATTR_REVEAL: :frag roll-in
+- What are valid class characters?
+
+#+ATTR_REVEAL: :frag roll-in
+- What is the default scope for classes defined as the result of a promise
+  outcome using a classes body?
+
+* Data Types
+:PROPERTIES:
+:ID:       90852a3c-ff79-4bee-a71b-df6d9e13cc34
+:END:
+
+** Variable Scoping
+:PROPERTIES:
+:ID:       6e7ca748-f46a-4914-b512-cd626ee34165
+:END:
+
+- =$(variable)=, =@(list)=
+- Use fully qualified variable names when accessing variables in other bundles.
+  - =$(bundle.variable)=, =@(bundle.list)=
+  - =$(namespace:bundle.variable)=, =@(namespace:bundle.list)=
+
+** Example - strings
+:PROPERTIES:
+:ID:       33870a0a-4fbd-4d3c-878c-e88bd9b47188
+:END:
+#+Caption: =examples/00-01-strings.cf=
+#+Name: =examples/00-01-strings.cf=
+#+BEGIN_SRC cfengine3 :exports both :wrap EXAMPLE :tanlge examples/00-01-strings.cf
+  bundle agent main
+  {
+    vars:
+     "string1" string => "one";
+      "string2" string => "strings
+  can be multi-line";
+      "string3" string => "with \"quotes\"";
+      "string4" string => 'or "quotes"';
+
+    reports:
+      "string1 = '$(string1)'";
+      "string2 = '$(string2)'";
+      "string3 = '$(string3)'";
+      "string4 = '$(string4)'";
+  }
+#+END_SRC
+
+#+REVEAL: split
+
+#+RESULTS: =examples/00-01-strings.cf=
+#+BEGIN_EXAMPLE
+R: string1 = 'one'
+R: string2 = 'strings
+can be multi-line'
+R: string3 = 'with "quotes"'
+R: string4 = 'or "quotes"'
+#+END_EXAMPLE
+
+** Example - numbers
+:PROPERTIES:
+:ID:       01d51493-c97f-4804-b3e7-3c448222d8f5
+:END:
+#+Caption: =examples/00-02-numbers.cf=
+#+Name: =examples/00-02-numbers.cf=
+#+BEGIN_SRC cfengine3 :exports both :wrap EXAMPLE :tangle examples/00-02-numbers.cf
+  bundle agent main
+  {
+    vars:
+      "var1" int => "1";
+      "var2" int => "10K";
+      "var3" real => "1.2";
+      "var4" real => "10e-5";
+      "var5" int => "inf";
+
+    reports:
+      "var1 = '$(var1)'";
+      "var2 = '$(var2)'";
+      "var3 = '$(var3)'";
+      "var4 = '$(var4)'";
+      "inf = '$(var5)'";
+  }
+#+END_SRC
+
+#+REVEAL: split
+
+#+RESULTS: =examples/00-02-numbers.cf=
+#+BEGIN_EXAMPLE
+R: var1 = '1'
+R: var2 = '10240'
+R: var3 = '1.200000'
+R: var4 = '0.000100'
+R: inf = '999999999'
+#+END_EXAMPLE
+
+#+BEGIN_NOTES
+Integers may use suffixes to represent large numbers. The following suffixes can
+be used to create integer values for common powers of 1000.
+
+- =k= :: value times 1000
+- =m= :: value times 1000^2
+- =g= :: value times 1000^3
+
+Since computing systems such as storage and memory are based on binary values,
+CFEngine also provide the following uppercase suffixes to create integer
+values for common powers of 1024.
+
+- =K= :: value times 1024
+- =M= :: value times 1024^2
+- =G= :: value times 1024^3
+
+However, the values must have an integer numeric part (e.g. 1.5M is not
+allowed).
+
+In some contexts, =%= can be used a special suffix to denote percentages.
+
+Lastly, there is a reserved value which can be used to specific a parameter as
+having no limit at all.
+
+- =inf= :: a constant representing an unlimited value.
+#+END_NOTES
+
+** Example - lists
+:PROPERTIES:
+:ID:       476782d9-3e3f-415b-bbc1-b0a010f31663
+:END:
+#+Caption: =examples/00-04-lists.cf=
+#+Name: =examples/00-04-lists.cf=
+#+BEGIN_SRC cfengine3 :exports both :wrap EXAMPLE :tanlge examples/00-04-lists.cf
+  bundle agent main
+  {
+    vars:
+      "var1" ilist => { 1, 2, "3", "4" };
+      "var2" rlist => { "1.2", "2.0", "3.3" };
+      "var3" slist => { "one", "two", three,
+                        @(var1), @(var2),
+                      };
+      "var4" real => sum( var2 );
+
+    reports:
+      "var1 = '$(var1)'";
+      "var2 = '$(var2)'";
+      "var3 = '$(var3)'";
+      "var4 = '$(var4)'";
+  }
+#+END_SRC
+
+#+REVEAL: split
+
+#+RESULTS: =examples/00-04-lists.cf=
+#+BEGIN_EXAMPLE
+R: var1 = '1'
+R: var1 = '2'
+R: var1 = '3'
+R: var1 = '4'
+R: var2 = '1.2'
+R: var2 = '2.0'
+R: var2 = '3.3'
+R: var3 = 'one'
+R: var3 = 'two'
+R: var3 = 'three'
+R: var3 = '1'
+R: var3 = '2'
+R: var3 = '3'
+R: var3 = '4'
+R: var3 = '1.2'
+R: var3 = '2.0'
+R: var3 = '3.3'
+R: var4 = '6.500000'
+#+END_EXAMPLE
+
+** Example - list iteration
+:PROPERTIES:
+:ID:       d9be1dbe-d799-4da1-8968-ee3f2b044cf5
+:END:
+#+Caption: =examples/00-03-list_iteration.cf=
+#+Name: =examples/00-03-list_iteration.cf=
+#+BEGIN_SRC cfengine3 :exports both :wrap EXAMPLE :tangle  examples/00-03-list_iteration.cf
+  bundle agent main
+  {
+    vars:
+      "numbers" slist => { "1", "2", "3" };
+      "colors" slist => { "red", "green", "blue" };
+
+    reports:
+      "$(numbers)";
+      "$(colors)";
+      "$(numbers) with $(colors)";
+      "$(colors) with $(numbers)";
+  }
+#+END_SRC
+
+#+REVEAL: split
+
+#+RESULTS: =examples/00-03-list_iteration.cf=
+#+BEGIN_EXAMPLE
+R: 1
+R: 2
+R: 3
+R: red
+R: green
+R: blue
+R: 1 with red
+R: 2 with red
+R: 3 with red
+R: 1 with green
+R: 2 with green
+R: 3 with green
+R: 1 with blue
+R: 2 with blue
+R: 3 with blue
+R: red with 1
+R: green with 1
+R: blue with 1
+R: red with 2
+R: green with 2
+R: blue with 2
+R: red with 3
+R: green with 3
+R: blue with 3
+#+END_EXAMPLE
+
+** Example - "Classic" Arrays
+
+#+Caption: =examples/00-05-classic_arrays.cf=
+#+Name: =examples/00-05-classic_arrays.cf=
+#+BEGIN_SRC cfengine3 :exports both :wrap EXAMPLE :tangle examples/00-05-classic_arrays.cf
+  bundle agent main
+  {
+    vars:
+      "file[motd]"  string => "/etc/motd";
+      "file[fstab]" string => "/etc/fstab";
+
+      "file_idx" slist => getindices( file );
+      "files" slist => getvalues( file );
+
+    reports:
+     "The key '$(file_idx)' has the value '$(file[$(file_idx)])'";
+     "file: '$(files)'";
+  }
+#+END_SRC
+
+#+REVEAL: split
+
+#+RESULTS: =examples/00-05-classic_arrays.cf=
+#+BEGIN_EXAMPLE
+R: The key 'fstab' has the value '/etc/fstab'
+R: The key 'motd' has the value '/etc/motd'
+R: file: '/etc/fstab'
+R: file: '/etc/motd'
+#+END_EXAMPLE
+
+** Example - data containers
+#+Caption: =examples/00-06-data_containers.cf=
+#+Name: =examples/00-06-data_containers.cf=
+#+BEGIN_SRC cfengine3 :exports both :wrap EXAMPLE :tangle examples/00-06-data_containers.cf
+  bundle agent main
+  {
+    vars:
+      "server" string => "mirror.int.cfengine.com";
+      "repos"
+        data => parsejson('{
+                  "rhel6_updates": {
+                    "id": { "value":"RHEL6_UPDATES" },
+                    "name": { "value": "RHEL 6.x Updates" },
+                    "baseurl": { "value": "https://$(server)/RHEL6/updates" }
+                  }
+                }');
+
+      "idx" slist => getindices( repos );
+
+    reports:
+      "URL = '$(repos[$(idx)][baseurl][value])'";
+  }
+#+END_SRC
+
+#+REVEAL: split
+
+#+RESULTS: =examples/00-06-data_containers.cf=
+#+BEGIN_EXAMPLE
+R: URL = 'https://mirror.int.cfengine.com/RHEL6/updates'
+#+END_EXAMPLE
+
+** Pop Quiz
+:PROPERTIES:
+:ID:       7f27eca0-1121-4c25-bfb3-b5e0cdd3de46
+:END:
+
+#+ATTR_REVEAL: :frag roll-in
+- Which component makes changes to your system?
+
+#+ATTR_REVEAL: :frag roll-in
+- Which component schedules agent runs?
+
+#+ATTR_REVEAL: :frag roll-in
+- What symbol terminates a promise?
+
+#+ATTR_REVEAL: :frag roll-in
+- What is your quest?
+
+#+ATTR_REVEAL: :frag roll-in
+- What are promise comments used for?
+
+#+ATTR_REVEAL: :frag roll-in
+- What types of variables are available?
+
+#+ATTR_REVEAL: :frag roll-in
+- How are decisions made?
+* Git Primer
+:PROPERTIES:
+:ID:       8980313e-65a6-4d8b-a616-3e77b77e059e
+:END:
+
+** Git
+:PROPERTIES:
+:ID:       60e8c549-6a49-4d10-8fdc-7943b8895b0f
+:END:
+Git is the most popular modern version control management tool. [[https://github.com][Github]],
+[[https://bitbucket.org][Bitbucket]], and [[https://gitlab.com][GitLab]] all provide great hosted and on prem repository management
+solutions.
+
+Using a git management system is reccomended for implementing access controls
+and improved collaboration with regard to policy and systems management.
+
+#+BEGIN_NOTES
+  CFEngine Enterprise tooling works with git out of the box. If you don't want
+  to use git the tooling is easily customized to support any version control
+  system.
+#+END_NOTES
+
+** Getting started
+:PROPERTIES:
+:ID:       1c6d3b1e-9189-420c-a80b-4ed581eca528
+:END:
+Log into the policy server
+
+#+BEGIN_EXAMPLE
+  [user@workstation] $ vagrant ssh hub
+  [vagrant@hub] $ sudo -i
+#+END_EXAMPLE
+
+Configure git author
+
+#+BEGIN_EXAMPLE
+  [root@hub masterfiles] # git config -–global user.name “Mr. Slate”
+  [root@hub masterfiles] # git config -–global user.email “bossman@slateco.com”
+  [root@hub masterfiles] # git config --global push.default simple
+#+END_EXAMPLE
+
+** Clone builtin repository
+:PROPERTIES:
+:ID:       0fc590cd-54a2-4b11-91e7-dc06653d12e0
+:END:
+
+#+BEGIN_EXAMPLE
+  [root@hub masterfiles] # git clone /opt/cfengine/masterfiles.git /vagrant/masterfiles
+  Cloning into '/vagrant/masterfiles'...
+#+END_EXAMPLE
+
+#+BEGIN_NOTES
+  When an Enterprise hub is installed, a git repository is seeded with the stock
+  Masterfiles Policy Framework for that release. It provides an easy place to
+  play around with git and get setarted.
+#+END_NOTES
+
+** Add a file to the repository
+:PROPERTIES:
+:ID:       dc014f99-e08c-4000-adb3-771a898428ed
+:END:
+
+#+BEGIN_EXAMPLE
+  [root@hub masterfiles] # cd /vagrant/masterfiles
+  [root@hub masterfiles] # ls
+  cfe_internal  Changelog  controls  def.cf  lessons  lib  libraries  promises.cf  services  sketches  update  update.cf
+  [root@hub masterfiles] # echo hi > file
+  [root@hub masterfiles] # git status
+  # On branch master
+  # Untracked files:
+  #   (use "git add <file>..." to include in what will be committed)
+  #
+  #	file
+  nothing added to commit but untracked files present (use "git add" to track)
+#+END_EXAMPLE
+
+** Stage and commit the changes
+:PROPERTIES:
+:ID:       af76a43e-5f72-48d8-b41d-4651e789f6b6
+:END:
+
+#+BEGIN_EXAMPLE
+  [root@hub masterfiles] # git add file
+  [root@hub masterfiles] # git status
+  # On branch master
+  # Changes to be committed:
+  #   (use "git reset HEAD <file>..." to unstage)
+  #
+  #	new file:   file
+  #
+  # git commit -m “Testing git workflow”
+  [master c886caf] Testing git workflow
+   0 files changed, 0 insertions(+), 0 deletions(-)
+   create mode 100644 file
+#+END_EXAMPLE
+
+** Publish the change
+:PROPERTIES:
+:ID:       40a49bb0-202c-417f-bae6-af7fcf02b63a
+:END:
+
+#+BEGIN_EXAMPLE
+  [root@hub masterfiles] # git status
+  # On branch master
+  # Your branch is ahead of 'origin/master' by 1 commit.
+  #
+  nothing to commit (working directory clean)
+  [root@hub masterfiles] # git push
+  Counting objects: 4, done.
+  Delta compression using up to 2 threads.
+  Compressing objects: 100% (2/2), done.
+  Writing objects: 100% (3/3), 280 bytes, done.
+  Total 3 (delta 1), reused 0 (delta 0)
+  Unpacking objects: 100% (3/3), done.
+  To /opt/cfengine/masterfiles.git
+     ee31801..94b8151  master -> master
+  # git status
+  # On branch master
+  nothing to commit (working directory clean)
+#+END_EXAMPLE
+
+** Modify a file
+:PROPERTIES:
+:ID:       f2e1db3c-e8d3-4383-b4cd-3ca30859f203
+:END:
+
+#+BEGIN_EXAMPLE
+  [root@hub masterfiles] # echo HI >> file
+  [root@hub masterfiles] # git status
+  # On branch master
+  # Your branch is ahead of 'origin/master' by 1 commit.
+  #
+  # Changed but not updated:
+  #   (use "git add <file>..." to update what will be committed)
+  #   (use "git checkout -- <file>..." to discard changes in working directory)
+  #
+  #	modified:   file
+  #
+  no changes added to commit (use "git add" and/or "git commit -a")
+#+END_EXAMPLE
+
+** Diff to validate detail of content change
+:PROPERTIES:
+:ID:       f21892a0-120f-4afb-b682-109d60993a61
+:END:
+
+#+BEGIN_EXAMPLE
+    [root@hub masterfiles] # git diff
+    diff --git a/file b/file
+    index 45b983b..313352b 100644
+    --- a/file
+    +++ b/file
+    @@ -1 +1,2 @@
+     hi
+    +HI
+#+END_EXAMPLE
+
+** Stage and commit the changes
+:PROPERTIES:
+:ID:       a9fa607f-a1d6-4c65-9f8d-63eff10b765d
+:END:
+
+#+BEGIN_EXAMPLE
+  [root@hub masterfiles] # git add file
+  [root@hub masterfiles] # git status
+  # On branch master
+  # Your branch is ahead of 'origin/master' by 1 commit.
+  #
+  # Changes to be committed:
+  #   (use "git reset HEAD <file>..." to unstage)
+  #
+  #	modified:   file
+  #
+  # git commit -m "Modified file"
+  [master fd94885] Modified file
+   1 files changed, 1 insertions(+), 0 deletions(-)
+  # git status
+  # On branch master
+  # Your branch is ahead of 'origin/master' by 1 commits.
+  #
+  nothing to commit (working directory clean)
+#+END_EXAMPLE
+
+** Publish the change
+:PROPERTIES:
+:ID:       749f73cb-553e-4356-a2ed-81d5b731ee51
+:END:
+
+#+BEGIN_EXAMPLE
+  [root@hub masterfiles] # git push
+  Counting objects: 7, done.
+  Delta compression using up to 2 threads.
+  Compressing objects: 100% (4/4), done.
+  Writing objects: 100% (5/5), 493 bytes, done.
+  Total 5 (delta 2), reused 0 (delta 0)
+  Unpacking objects: 100% (5/5), done.
+  To /opt/cfengine/masterfiles.git
+     c886caf..fd94885  master -> master
+#+END_EXAMPLE
+
+** Remove a file
+:PROPERTIES:
+:ID:       90d60450-fbb2-4493-8b4e-d5dc7e2dc027
+:END:
+
+#+BEGIN_EXAMPLE
+  [root@hub masterfiles] # git rm file
+  # rm 'file'
+  [root@hub masterfiles] # git status
+  # On branch master
+  # Changes to be committed:
+  #   (use "git reset HEAD <file>..." to unstage)
+  #
+  #	deleted:    file
+  #
+  # git commit -m "Remove file"
+  [master 4c9d46d] Remove file
+   1 files changed, 0 insertions(+), 3 deletions(-)
+   delete mode 100644 file
+#+END_EXAMPLE
+
+** Publish the change
+:PROPERTIES:
+:ID:       6e18b671-4717-46df-8fd6-f83909e4b811
+:END:
+
+#+BEGIN_EXAMPLE
+  [root@hub masterfiles] # git push
+  Counting objects: 3, done.
+  Delta compression using up to 2 threads.
+  Compressing objects: 100% (2/2), done.
+  Writing objects: 100% (2/2), 230 bytes, done.
+  Total 2 (delta 1), reused 0 (delta 0)
+  Unpacking objects: 100% (2/2), done.
+  To /opt/cfengine/masterfiles.git
+     92660a9..4c9d46d  master -> master
+#+END_EXAMPLE
+
+** Place masterfiles into the repository
+:PROPERTIES:
+:ID:       6734a7c7-ac82-4b99-90c2-3490bffbdd9b
+:END:
+
+#+BEGIN_EXAMPLE
+  [root@hub masterfiles] # rsync -avz /var/cfengine/masterfiles/ .
+  [root@hub masterfiles] # git add -A
+  [root@hub masterfiles] # git commit -m "Seed repository with masterfiles"
+  [root@hub masterfiles] # git push
+#+END_EXAMPLE
+
+** Configure masterfiles for git integration
+:PROPERTIES:
+:ID:       2a44d62e-cfa3-4247-a762-9cb02431ed72
+:END:
+
+#+BEGIN_EXAMPLE
+  [root@hub masterfiles]# echo '{ "classes": { "cfengine_internal_masterfiles_update": [ "policy_server" ] } }' > def.json
+  [root@hub masterfiles]# git add def.json
+  [root@hub masterfiles]# git commit -m "Enable automatic masterfiles update from repository"
+  [master c206654] Enable automatic masterfiles update from repository
+   1 file changed, 1 insertion(+)
+   create mode 100644 def.json
+  [root@hub masterfiles]# git push
+  warning: push.default is unset; its implicit value is changing in
+  Git 2.0 from 'matching' to 'simple'. To squelch this message
+  and maintain the current behavior after the default changes, use:
+
+    git config --global push.default matching
+
+  To squelch this message and adopt the new behavior now, use:
+
+    git config --global push.default simple
+
+  See 'git help config' and search for 'push.default' for further information.
+  (the 'simple' mode was introduced in Git 1.7.11. Use the similar mode
+  'current' instead of 'simple' if you sometimes use older versions of Git)
+
+  Counting objects: 4, done.
+  Delta compression using up to 2 threads.
+  Compressing objects: 100% (3/3), done.
+  Writing objects: 100% (3/3), 370 bytes | 0 bytes/s, done.
+  Total 3 (delta 1), reused 0 (delta 0)
+  To /opt/cfengine/masterfiles.git
+     a181449..c206654  master -> master
+#+END_EXAMPLE
+
+** Activate current update policy with enablement class
+:PROPERTIES:
+:ID:       c4897f12-c9e8-4f6c-860d-c033258c4c9f
+:END:
+
+#+BEGIN_EXAMPLE
+  [root@hub masterfiles]# cf-agent --no-lock \
+  --verbose \
+  --define cfengine_internal_masterfiles_update \
+  --file update.cf
+#+END_EXAMPLE
+
+** Verify presence of def.json
+:PROPERTIES:
+:ID:       458ad6fd-9f5d-4e6c-9284-d3bf1bd796f4
+:END:
+
+#+BEGIN_EXAMPLE
+  [root@hub masterfiles]# cat /var/cfengine/masterfiles/def.json
+#+END_EXAMPLE
+
+#+BEGIN_NOTES
+  As you recall, we put the def.json into the repository not in
+  =/var/cfengine/masterfiles= directly. We want to make sure that masterfiles is
+  updating from our repository.
+#+END_NOTES
+
+** Review
+:PROPERTIES:
+:ID:       8b086174-7afd-4113-b50a-d77c60d7216d
+:END:
+
+Now when the agent runs on hosts that define =policy_server= policy will be
+activated that keeps =/var/cfengine/masterfiles= up to date with whats in the
+repository as configured in mission portal (which by default is
+=/opt/cfengine/masterfiles.git=).
+
+This means new policy will be distributed as you push it into the repository.
+[[https://en.wikipedia.org/wiki/Continuous_delivery][Continuous delivery]] FTW!
+
+** Git command reference
+:PROPERTIES:
+:ID:       aa7df660-daf8-4842-af4c-4a30ce5acc0b
+:END:
+
+| ~git status~        | ~git pull --rebase~           |
+| ~git diff~          | ~git grep~                    |
+| ~git add~           | ~git log~                     |
+| ~git diff --cached~ | ~git checkout -b new_feature~ |
+| ~git commit~        | ~git push origin <branch>~    |
+
+** Pop Quiz
+:PROPERTIES:
+:ID:       cb545ca0-bfe9-4115-a52a-f46b101cef43
+:END:
+
+#+ATTR_REVEAL: :frag roll-in
+- Who was Mr. Slate?
+
+#+ATTR_REVEAL: :frag roll-in
+- How do you get an overview of the changes to your clone?
+
+#+ATTR_REVEAL: :frag roll-in
+- How can you easily search a git repository?
+
+#+BEGIN_NOTES
+- Fred Flintstones Boss on The Flintstones
+- ~git status~
+- ~git grep~
+#+END_NOTES
+
+* Examples and Exercises
+:PROPERTIES:
+:ID:       190c0079-5336-4e03-8ea4-c71a2cfa684f
+:END:
+
+#+BEGIN_NOTES
+  For convenience in working with examples we will use the [autorun]() feature
+  from the masterfiles policy framework.
+
+  - Autorun bundles are executed in lexical order. Use digit prefixes to get
+    specific ordering.
+#+END_NOTES
+
+** Enable services_autorun
+:PROPERTIES:
+:ID:       94b248ac-68df-4677-b03c-9149d3a548df
+:END:
+#+BEGIN_EXAMPLE
+  [root@hub masterfiles]# cat > def.json <<EOF
+  {
+      "classes": {
+          "cfengine_internal_masterfiles_update": [
+              "policy_server"
+          ],
+          "services_autorun": [ "any" ]
+      }
+  }
+  EOF
+#+END_EXAMPLE
+
+** Inspect
+:PROPERTIES:
+:ID:       8ae87bb0-6245-49e2-a9e0-cb769a5a70c2
+:END:
+
+#+BEGIN_EXAMPLE
+  [root@hub masterfiles]# git status
+  # On branch master
+  # Changes not staged for commit:
+  #   (use "git add <file>..." to update what will be committed)
+  #   (use "git checkout -- <file>..." to discard changes in working directory)
+  #
+  #	modified:   def.json
+  #
+  no changes added to commit (use "git add" and/or "git commit -a")
+#+END_EXAMPLE
+
+** What you expect
+:PROPERTIES:
+:ID:       f7b21389-1c0c-4f2f-be6d-a60d5454e047
+:END:
+
+#+BEGIN_EXAMPLE
+  [root@hub masterfiles]# git diff
+  diff --git a/def.json b/def.json
+  index 0b1c721..bf3b515 100644
+  --- a/def.json
+  +++ b/def.json
+  @@ -1 +1,8 @@
+  -{ "classes": { "cfengine_internal_masterfiles_update": [ "policy_server" ] } }
+  +{
+  +    "classes": {
+  +        "cfengine_internal_masterfiles_update": [
+  +            "policy_server"
+  +        ],
+  +        "services_autorun": [ "any" ]
+  +    }
+  +}
+#+END_EXAMPLE
+
+** Publish the change
+:PROPERTIES:
+:ID:       dd25e013-80bd-4954-a446-ff0608358383
+:END:
+
+#+BEGIN_EXAMPLE
+  [root@hub masterfiles]# git add def.json
+  [root@hub masterfiles]# git commit -m "Enable autorun"
+  [master 7e57301] Enable autorun
+   1 file changed, 8 insertions(+), 1 deletion(-)
+  [root@hub masterfiles]# git push origin master
+  Counting objects: 5, done.
+  Delta compression using up to 2 threads.
+  Compressing objects: 100% (3/3), done.
+  Writing objects: 100% (3/3), 364 bytes | 0 bytes/s, done.
+  Total 3 (delta 1), reused 0 (delta 0)
+  To /opt/cfengine/masterfiles.git
+     c206654..7e57301  master -> master
+#+END_EXAMPLE
+
+** Example - Create a file
+:PROPERTIES:
+:ID:       9cb68439-c70c-4fe1-be2c-176fdf328588
+:END:
+
+Copy this example to =services/autorun/nologin.cf=
+
+#+Caption: =examples/00-20-example-create_file.cf=
+#+BEGIN_SRC cfengine3 :tangle examples/00-20-example-create_file.cf
+  bundle agent no_login
+  {
+    meta:
+      "tags" slist => { "autorun" };
+
+    files:
+        "/etc/nologin"
+          create => "true";
+  }
+#+END_SRC
+
+** Example - update file
+:PROPERTIES:
+:ID:       6c117f0e-2e5a-44e3-9119-4ea9568ab8c3
+:END:
+
+#+Caption: =examples/00-20-example-update_file.cf=
+#+BEGIN_SRC cfengine3 :tangle examples/00-20-example-update_file.cf
+  bundle agent cf_agent_heartbeat
+  {
+    meta:
+      "tags" slist => { "autorun" };
+
+    files:
+      "$(sys.statedir)/$(this.bundle)" -> { "Monitoring" }
+        create  => "true",
+        touch   => "true",
+        classes => scoped_classes_generic("bundle", "heartbeat"),
+        handle  => "cf_agent_heartbeat_thump",
+        comment => "This policy simply updates the timestamp
+                    of the file so an external monitoring
+                    system can validate the system is working.";
+
+    reports:
+      DEBUG|DEBUG_cf_agent_heartbeat::
+
+        "DEBUG $(this.bundle): Heartbeat"
+          if => "heartbeat_repaired";
+
+        "DEBUG $(this.bundle): Flatline"
+          unless => "heartbeat_repaired";
+  }
+#+END_SRC
+
+** Exercise - create a file
+:PROPERTIES:
+:ID:       4cb97441-1e2f-42ed-afbf-1658e1376199
+:END:
+
+Write a policy that ensures =/etc/cron.allow= is present so that only users
+listed in the file are allowed to schedule jobs.
+
+Test with ~crontab -e~
+
+** Example - install a package and start a service
+:PROPERTIES:
+:ID:       aa3065ea-f167-4b8a-9fde-f07ca8677429
+:END:
+
+#+Caption: =examples/00-20-example-package_and_service.cf=
+#+BEGIN_SRC cfengine3 :tangle examples/00-20-example-package_and_service.cf
+  bundle agent training_simple_website
+  {
+    meta:
+      host001::
+        "tags" slist => { "autorun" };
+
+    packages:
+        "httpd"
+          policy => "present",
+          package_module => yum;
+
+    services:
+        "httpd"
+          service_policy => "start";
+
+    reports:
+      DEBUG|DEBUG_training_simple_website::
+        "DEBUG $(this.bundle)";
+  }
+#+END_SRC
+
+** Example - Classify role based on hostname
+:PROPERTIES:
+:ID:       b4f7b0a9-5839-4d1b-bbec-f12d6a68f282
+:END:
+
+#+Caption: =examples/00-20-example-classes-role_by_hostname.cf=
+#+BEGIN_SRC cfengine3 :tangle examples/00-20-example-classes-role_by_hostname.cf
+  bundle common classes_role_by_hostname
+  {
+    classes:
+      "env_prod"
+        meta => { "inventory", "attribute_name=Role Classes" };
+        or => {
+                regcmp( "hub", $(sys.fqhost) ),
+                regcmp( "^prd.*", $(sys.fqhost) ),
+              };
+
+      "webserver"
+        expression => "host001",
+        meta => { "inventory", "attribute_name=Role Classes" };
+
+      "webserver"
+        expression => regcmp( "^www.*", $(sys.fqhost) ),
+        meta => { "inventory", "attribute_name=Role Classes" };
+  }
+#+END_SRC
+
+** Example - Classify geographic location by network
+:PROPERTIES:
+:ID:       fae34dc9-c6af-4bb2-9755-142af0f22d79
+:END:
+
+#+Caption: =examples/00-20-example-classes-geographic_location_by_network.cf=
+#+BEGIN_SRC cfengine3 :tangle examples/00-20-example-classes-geographic_location_by_network.cf
+  bundle common classify_geo_location_by_network
+  {
+    meta:
+      "tags" slist => { "autorun" };
+
+    vars:
+      "nadc01_subnets"
+        slist => { "172.16.25.0/25", "172.17.0.0/16",
+                   "192.168.33.2/32",
+                 };
+
+      "nadc02_subnets"
+        slist => { "172.17.5.0/25", "172.42.0.0/16",
+                   "192.168.33.3/32",
+                 };
+
+      "sadc01_subnets"
+        slist => { "172.19.4.0/23", "192.168.33.4-5" };
+
+      "continent"
+        string => ifelse("north_america", "North America",
+                         "south_america", "South America",
+                         "Unknown"),
+        meta => { "inventory", "attribute_name=Continent" };
+
+#+END_SRC
+
+#+REVEAL: split
+
+#+Caption: Continued =examples/00-20-example-classes-geographic_location_by_network.cf=
+#+BEGIN_SRC cfengine3 :tangle examples/00-20-example-classes-geographic_location_by_network.cf
+
+    classes:
+      "north_america"
+        or => { "nadc01", "nadc02" };
+
+      "south_america"
+        expression => classmatch("^sadc\d+");
+
+      "nadc01"
+        expression => iprange( $(nadc01_subnets) );
+
+      "nadc02"
+        expression => iprange( $(nadc02_subnets) );
+
+      "sadc01"
+        expression => iprange( $(sadc01_subnets) );
+
+    reports:
+      "DEBUG|DEBUG_$(this.bundle)"::
+        "DEBUG $(this.bundle): Continent = '$(continent)'";
+  }
+#+END_SRC
+
+** Example - Manage key value entries in a config file
+:PROPERTIES:
+:ID:       61e9705e-9cec-49f1-89cb-31322c34a17c
+:END:
+
+#+Caption: =manage_ssh= in =examples/00-20-example-key_value_config.cf=
+#+BEGIN_SRC cfengine3 :tangle examples/00-20-example-key_value_config.cf
+  bundle agent manage_ssh
+  {
+    meta:
+      "tags" slist => { "autorun" };
+
+    methods:
+      "SSH Config Data"
+        usebundle => ssh_config;
+
+      "Manage SSH Config"
+        usebundle => ssh_config_manage_kv("ssh_config.data");
+  }
+#+END_SRC
+
+#+REVEAL: split
+
+#+Caption: =ssh_config= in =examples/00-20-example-key_value_config.cf=
+#+BEGIN_SRC cfengine3 :tangle examples/00-20-example-key_value_config.cf
+  bundle agent ssh_config
+  {
+    vars:
+        "data[PermitRootLogin]" string => "no";
+        "data[Protocol]" string => "2";
+        "data[Port]" string => "22";
+
+      DEBUG|DEBUG_ssh_config::
+        "keys" slist => getindices(data);
+
+    reports:
+      DEBUG|DEBUG_ssh_config::
+        "DEBUG $(this.bundle): $(keys) = '$(data[$(keys)])'";
+  }
+#+END_SRC
+
+#+REVEAL: split
+
+#+Caption: =ssh_config_manage_kv= in =examples/00-20-example-key_value_config.cf=
+#+BEGIN_SRC cfengine3 :tangle examples/00-20-example-key_value_config.cf
+  bundle agent ssh_config_manage_kv(data)
+  {
+    vars:
+      "config" string => "/etc/ssh/sshd_config";
+
+    files:
+      "$(config)"
+        handle => "ssh_config_manage_kv_entries",
+        edit_line => set_line_based("$(data)", " ", "\s+", ".*", "\s*#\s*"),
+        classes => scoped_classes_generic("bundle", "sshd_config");
+
+    classes:
+      sshd_config_repaired::
+        "config_valid"
+          expression => returnszero("/usr/sbin/sshd -t -f $(config)", noshell),
+          comment => "It's important that we don't restart the service with a
+                      broken config, or the service will be down.";
+
+    commands:
+      sshd_config_repaired.config_valid::
+        "$(paths.service)"
+          handle => "ssh_config_manage_kv_restart_after_config_change",
+          args => "sshd restart",
+          comment => "The service must be restarted in order to pick up new
+                      configuration settings.";
+
+    reports:
+        "DEBUG $(this.bundle): Reparied configuration"
+          if => "sshd_config_repaired";
+
+        "DEBUG $(this.bundle): Configuration Valid"
+          if => "config_valid";
+
+        "DEBUG $(this.bundle): Restarted sshd after config change"
+          depends_on => { "ssh_config_manage_kv_restart_after_config_change" };
+  }
+#+END_SRC
+
+** Example - Manage key value entries output
+:PROPERTIES:
+:ID:       450b2e59-fd0b-4b96-8013-1cecbf3dc0bc
+:END:
+
+#+BEGIN_EXAMPLE
+  [root@hub masterfiles]# cf-agent -KID DEBUG_ssh_config,DEBUG_ssh_config_manage_kv
+      info: Installing cfe_internal_non_existing_package...
+  R: DEBUG ssh_config: PermitRootLogin = 'no'
+  R: DEBUG ssh_config: Protocol = '2'
+  R: DEBUG ssh_config: Port = '22'
+      info: Edit file '/etc/ssh/sshd_config'
+  R: DEBUG ssh_config_manage_kv: Reparied configuration
+      info: Executing 'no timeout' ... '/sbin/service sshd restart'
+    notice: Q: "...in/service sshd": Stopping sshd:          [  OK  ]
+  Q: "...in/service sshd": Starting sshd:                    [  OK  ]
+      info: Last 2 quoted lines were generated by promiser '/sbin/service sshd restart'
+      info: Completed execution of '/sbin/service sshd restart'
+  R: DEBUG ssh_config_manage_kv: Configuration Valid
+  R: DEBUG ssh_config_manage_kv: Restarted sshd after config change
+#+END_EXAMPLE
+** Example - Templating a file
+:PROPERTIES:
+:ID:       c2bc7d78-1a04-4439-9ee8-935999e0ef06
+:END:
+
+#+Caption: =examples/00-20-example-mustache_template_vars.cf=
+#+BEGIN_SRC cfengine3 :tangle examples/00-20-example-mustache_template_vars.cf
+  bundle agent motd
+  {
+    meta:
+      "tags" slist => { "autorun" };
+
+    vars:
+      "owner" string => "Bruce Wayne";
+
+    files:
+      "/etc/motd"
+        template_method => "mustache",
+        edit_template => "$(this.promise_filename).mustache";
+  }
+#+END_SRC
+
+** Example - mustache template
+:PROPERTIES:
+:ID:       8e4a5617-1e35-470b-8b52-2bd82c59b6cd
+:END:
+
+#+Caption: examples/00-20-example-mustache_template_vars.cf.mustache
+#+BEGIN_SRC txt :tangle examples/00-20-example-mustache_template_vars.cf.mustache
+  Welcome to {{{vars.sys.fqhost}}}!
+
+  For support issues please contact {{{vars.motd.owner}}}.
+#+END_SRC
+
+** TODO Mustache Pro Tip: =-top-=
+
+The =-top-= key is very useful for completely generic data models and debugging.
+
+#+BEGIN_SRC txt
+  {{{%-top-}}}
+#+END_SRC
+
+** Exercise - Edit a file
+:PROPERTIES:
+:ID:       40ddd7ed-b47e-4439-9939-666c1afac57b
+:END:
+
+Write a policy that populates =/etc/issue= with legaleze.
+
+** Example - Enable sshd banner
+:PROPERTIES:
+:ID:       c920a39c-f4e3-46a2-9567-c214e4b45390
+:END:
+
+Write a policy that enables the ssh banner and directs it to =/etc/issue=. sshd
+should be restarted after changing its configuration.
+
+** Example - multiple outcomes
+:PROPERTIES:
+:ID:       4044c834-6662-40bf-b16e-d5ad864fdcd9
+:END:
+
+#+Caption: Setup for the example
+#+BEGIN_SRC shell :dir /sudo::
+  sudo touch /tmp/immutable
+  sudo chatter +i /tmp/immutable
+#+END_SRC
+
+#+Caption: =examples/00-20-example-multiple_outcomes.cf=
+#+BEGIN_SRC cfengine3 :tangle examples/00-20-example-multiple_outcomes.cf
+  body file control { inputs => { "$(sys.libdir)/stdlib.cf" }; }
+  bundle agent main
+  {
+    files:
+      "/tmp/immutable"
+        create => "true",
+        edit_line =>  example_edit_line,
+        classes => results("bundle", "my_id");
+
+    vars:
+      "classes" slist => classesmatching(".*my_id.*");
+
+    reports:
+      "Found Class = '$(classes)'";
+  }
+
+  bundle edit_line example_edit_line
+  {
+    insert_lines:
+      "I want to edit an immutable file";
+  }
+#+END_SRC
+
+#+REVEAL: split
+
+#+RESULTS:
+:    error: Can't copy file permissions from '/tmp/immutable' to '/tmp/immutable.cf-after-edit' - so promised edits could not be moved into place.
+:    error: Unable to save file '/tmp/immutable' after editing
+: R: Found Class = 'my_id_failed'
+: R: Found Class = 'my_id_not_kept'
+: R: Found Class = 'my_id_error'
+: R: Found Class = 'my_id_kept'
+: R: Found Class = 'my_id_reached'
+
+Reference the [[https://docs.cfengine.com/docs/3.10/reference-masterfiles-policy-framework-lib-common.html#results][implementation of the =results= classes body]] in the stdlib.
+
+#+Caption: Cleanup immutable file
+#+BEGIN_SRC shell :dir /sudo::
+  sudo chattr -i /tmp/immutable
+  sudo rm /tmp/immutable
+#+END_SRC
+
+** Exercise - Report
+:PROPERTIES:
+:ID:       3bfc2fab-ad7c-4092-8896-98d36d7b8aad
+:END:
+
+Write a policy that defines a name in separate parts (at least 3). Then have
+CFEngine report the name in a random order.
+
+#+Caption: Example Solution
+#+BEGIN_SRC cfengine3 :exports both :wrap EXAMPLE
+  bundle agent main
+  {
+    vars:
+      "name_parts" slist => { "Ronald", "Mck", "Donald" };
+      "shuffled" slist => shuffle( name_parts, randomint(0, inf) );
+      "name" string => join(" ", shuffled );
+
+    reports:
+      "$(name)";
+  }
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_EXAMPLE
+R: Donald Mck Ronald
+R: Donald Ronald Mck
+R: Ronald Donald Mck
+#+END_EXAMPLE
+
+#+BEGIN_NOTES
+  This solution will print the name multiple times, exposing normal order.
+#+END_NOTES
+
+** Excercise - Trigger an action when a file changes
+:PROPERTIES:
+:ID:       e0fb3d65-e3d8-4a1a-bc57-8338cc2e70f7
+:END:
+
+Write policy to monitor a file for change. When a change is seen report =Winner
+Winner Chicken Dinner=. Manually edit the file, show how cfengine detects and
+reports on the change.
+
+** Exercise - Automatically abort based on file presence
+:PROPERTIES:
+:ID:       8d8825af-14a4-418b-a5cd-4f9141c0ed22
+:END:
+
+Write a policy that will abort cfengine execution if the file
+=$(sys.statedir)/abort_agent_execution= exists.
+
+- See [[https://docs.cfengine.com/lts/reference-components-cf-agent.html#abortclasses][abortclasses]] in the cfengine documentation
+
+** Exercise - Delete file based on age
+:PROPERTIES:
+:ID:       b4ba2fd4-f546-49ed-aa97-3de9be1cc771
+:END:
+
+Write a policy that will delete =$(sys.statedir)/abort_agent_execution= if it is
+older than 1 hour.
+** Exercise - Kill a process
+:PROPERTIES:
+:ID:       c1ae5f7c-ff93-4833-be0f-e58a5c6798f1
+:END:
+
+Write a policy to kill irssi running on webservers. No need for our webservers
+to be connected to IRC.
+
+#+BEGIN_EXAMPLE
+  cp /bin/sleep /tmp/irssi
+  /tmp/irssi 5000
+#+END_EXAMPLE
+
+* MPF & stdlib
+
+The "Default Masterfiles"
+
+** Overview 
+- =promises.cf= :: The main entry. This is the first file the agent reads by
+     default. This is the stem cell for the rest of your policy.
+- =update.cf= :: This is a seperate *standalone* policy to manage updating
+     policy and the cfengine agent itself.
+** User Entries
+
+- =def.json=
+- =services/main.cf=
+- =services/autorun/*.cf=
+- =promises.cf=
+- =update.cf=
+
+* Useful Tools and Tips
+:PROPERTIES:
+:ID:       1b3901a6-ecaa-4da9-8f05-133827bb92bb
+:END:
+** cf-locate
+:PROPERTIES:
+:ID:       aa03c0a5-ec8b-472f-bf96-c15c1227f8aa
+:END:
+
+- =cf-locate= :: Command line tool to help locate and optionally display a body
+     or bundle within a policy
+
+#+BEGIN_NOTES
+  Ever read a policy and see a body that you want to understand more?
+  
+  Try it with ~cf-locate scoped_classes_generic -f /path_to_masterfiles~
+#+END_NOTES
+
+** Debug Reports
+:PROPERTIES:
+:ID:       a5a29f9c-1a23-4249-b21c-4644fdbe6172
+:END:
+
+Use standardized =DEBUG= reports for policy development and troubleshooting.
+
+#+BEGIN_SRC cfengine3
+  bundle agent main
+  {
+    reports:
+      DEBUG|DEBUG_this_bundle_name::
+        "DEBUG $(this.bundle): ....";
+      "DEBUG|DEBUG_$(this.bundle)"::
+        "DEBUG $(this.bundle): ....";
+   }
+#+END_SRC
+
+** Promise comments
+:PROPERTIES:
+:ID:       d3a98695-f6a2-409f-9530-03530d6cb58c
+:END:
+
+Use promise comments to document *WHY* the promise is important.
+
+#+BEGIN_SRC cfengine3
+  bundle agent main
+  {
+    services:
+      "firewalld"
+        policy => "start",
+        comment => "If this service isnt running, then we have unnecessary
+                    exposure and increase our risk of a security breach.";
+  }
+#+END_SRC
+
+** Getting the most from the documentation
+:PROPERTIES:
+:ID:       7d8d9121-6468-4bed-b1c7-9ff1082476ee
+:END:
+* Additional Resources
+:PROPERTIES:
+:ID:       1f6c0380-eca8-4b00-a54d-33621f881e3f
+:END:
+- [[https://www.cfenginetutorial.org][VSA Training Material]] :: Self paced in depth tutorial based on Vertical Sysadmin training coursework 
+- [[https://github.com/nickanderson/example-a10042][Example Policy Layout]] :: An example policy layout
+- [[https://github.com/syl20bnr/spacemacs/tree/master/layers/%252Btools/cfengine][CFEngine Spacemacs Layer]] :: The best editor is neither Emacs nor Vim, it's
+     Emacs and Vim!
+- [[https://github.com/cfengine/core/tree/master/contrib/cf-locate][=cf-locate=]] :: Find and optionally display body and bundle definitions within a
+     policy set
+- [[https://github.com/cfengineers-net/cf-keycrypt][=cf-keycrypt=]] :: Tool to encrypt data with CFEngine public keys
+  - Allows to encrypt data for individual hosts using the public key
+  - Can be used with non host keys for "group" encryption
+- [[http://www.cfengineers.net/downloads/cfengine-tools-and-utilities/][=cf-profile=]] :: Displays time summaries from agent runs. Helps to find the
+     bundles you spend the most time in.
+- [[https://github.com/neilhwatson/vim_cf3][=vim_cf3=]] :: CFEngine 3 vim plugin with Syntax highlighting
+- [[https://github.com/cfengine/core/blob/master/contrib/reindent.pl][=reindent.pl=]] :: Re-indent CFEngine policy using this script that leverages the excellent cfengine3 mode in Emacs
+- [[https://github.com/naksu/cfengine_beautifier][Sublime Text 3 CFEngine Beautifier]] :: Automatically reformat CFEngine policy in Sublime Text
+- [[https://github.com/lastops/sublime-cfengine][Sublime Text 3 Syntax Highlighter & Snippets]] :: CFEngine Syntax highlighting and snippets for Sublime Text 
+- [[https://github.com/lpefferkorn/cfe-rsplaytime][=cfe-rsplaytime=]]  Compute splaytime for a given host
+- [[https://github.com/lpefferkorn/cfe-profiler][=cfe-profiler=]] :: Measures bundle execution time helping to uncover the most
+     time consuming bundles.
+* More
+** Default bodies
+
+- [[https://docs.cfengine.com/docs/3.10/reference-language-concepts-bodies.html#default-bodies][Default Bodies]] in language concepts
+
+3.9 introduced the ability to define a body that is used by all occurances of a
+given promise type unless otherwise specified.
+
+For example, to set all file type promises to warn you can add the
+=files_action= body in the =bodydefault= namespace.
+
+#+BEGIN_SRC cfengine3 :exports both :wrap EXAMPLE
+bundle agent main
+{
+  files:
+    "/tmp/show_default_action"
+      create => "true";
+
+    "/tmp/show_explicit_action"
+      create => "true",
+      action => fix;
+}
+
+body action fix
+{
+  action_policy => "fix";
+}
+
+body file control
+{
+  namespace => "bodydefault";
+}
+body action files_action
+{
+  action_policy => "warn";
+}
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_EXAMPLE
+ warning: Warning promised, need to create file '/tmp/show_default_action'
+#+END_EXAMPLE
+** Feature Macro
+- [[https://docs.cfengine.com/docs/3.10/reference-macros.html#features][Feature Macro]] documentation
+
+You can conditionally parse policy based on compiled in features using this
+macro.
+
+#+BEGIN_SRC cfengine3
+  bundle agent main
+  {
+
+  @if feature(xml)
+  # the yaml library may not be compiled in
+    vars: "container" data => parseyaml(...);
+  @endif
+
+  }
+#+END_SRC
+
+* Special Topics
+** Internal agent upgrade mechanism
+
+- Place agent packages in
+  =/var/cfengine/master_software_updates/$(sys.flavour)_$(sys.arch)=
+- Define =trigger_upgrade= for set of hosts. Ref =update_def.cf=
+  #+BEGIN_SRC cfengine3
+    classes:
+      "trigger_upgrade" or => { "host1", "host2", "redhat_5" }; 
+  #+END_SRC
+
+#+BEGIN_NOTES
+  The MPF comes with policy that allows for clients to upgrade their own
+  packages that are served from the hub.
+#+END_NOTES
+
+
+

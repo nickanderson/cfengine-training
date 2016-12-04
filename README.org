@@ -3,33 +3,8 @@
 This content is used during CFEngine Trainings. Please feel free to
 use it for your own trainings and submit improvements.
 
-This training material uses [[https://github.com/adamzap/landslide][landslide]] to build the slides used with
-the [[https://github.com/akrabat/avalanche][avalanche]] theme. You need to install landslide before trying to
-build this deck.
+This training material uses org-mode to build the slides.
 
-To generate the slide deck simply run
+Examples are "tangled" from the presentation itself.
 
-#+begin_src sh
-make
-#+end_src
 
-By default both dark and light versions of the presentation are
-generated.
-
-** Known Issues
-- Examples do not always fit on the screen
-- PDF is quite ugly with many things cut off
-
-** Contribution Guidance
-- Example policy should go into examples directory
-- Examples should be self-contained or designed for use with
-  services_autorun
-- When modifying the way things look use themes/*.css dont alter
-  upstream themes
-
-** Deck Timing
-Notes about how long it takes to get through the material
-
-| Start  | Complete Components | Complete Making Decisions with Classes | Complete Git Primer | Complete Excercises |
-|--------+---------------------+----------------------------------------+---------------------+---------------------|
-| 9:00am | 10:45am             | 12:45pm                                | 3:30pm              | Day 2               |

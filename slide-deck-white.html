@@ -1,0 +1,3250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<title>CFEngine in a day</title>
+<meta name="author" content="(Nick Anderson)"/>
+<style type="text/css">
+.underline { text-decoration: underline; }
+</style>
+<link rel="stylesheet" href="file:///home/nickanderson/src/reveal.js/css/reveal.css"/>
+
+<link rel="stylesheet" href="file:///home/nickanderson/src/reveal.js/css/theme/white.css" id="theme"/>
+
+
+<!-- If the query includes 'print-pdf', include the PDF print sheet -->
+<script>
+    if( window.location.search.match( /print-pdf/gi ) ) {
+        var link = document.createElement( 'link' );
+        link.rel = 'stylesheet';
+        link.type = 'text/css';
+        link.href = 'file:///home/nickanderson/src/reveal.js/css/print/pdf.css';
+        document.getElementsByTagName( 'head' )[0].appendChild( link );
+    }
+</script>
+<meta name="description" content="CFEngine in a Day">
+</head>
+<body>
+<div class="reveal">
+<div class="slides">
+<section id="sec-title-slide"><h1 class="title">CFEngine in a day</h1><h2 class="author">Nick Anderson</h2>
+</section>
+
+<section>
+<section id="slide-org63f4183">
+<h2 id="org63f4183"><a id="ID-27318943-487d-4805-a592-26281f4f5bb2"></a>Before we start</h2>
+</section>
+<section id="slide-org4b76d5f">
+<h3 id="org4b76d5f"><a id="ID-c3399d41-b849-41b7-b113-b6c8bec076a0"></a>Schedule</h3>
+<p>
+A rough schedule (this varies greatly).
+</p>
+
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<thead>
+<tr>
+<th scope="col" class="org-left">Time</th>
+<th scope="col" class="org-left">Activity</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td class="org-left">09:00 AM - 10:30 AM</td>
+<td class="org-left">Class</td>
+</tr>
+
+<tr>
+<td class="org-left">10:30 AM - 11:00 AM</td>
+<td class="org-left">Morning break</td>
+</tr>
+
+<tr>
+<td class="org-left">11:00 AM - 12:30 PM</td>
+<td class="org-left">Class</td>
+</tr>
+
+<tr>
+<td class="org-left">12:30 PM - 01:30 PM</td>
+<td class="org-left">Lunch break</td>
+</tr>
+
+<tr>
+<td class="org-left">01:30 PM - 03:00 PM</td>
+<td class="org-left">Class</td>
+</tr>
+
+<tr>
+<td class="org-left">03:00 PM - 03:30 PM</td>
+<td class="org-left">Afternoon break</td>
+</tr>
+
+<tr>
+<td class="org-left">03:30 PM - 05:00 PM</td>
+<td class="org-left">Class</td>
+</tr>
+</tbody>
+</table>
+
+<p>
+Who will volunteer to <b>remind me of breaks</b>?
+</p>
+
+</section>
+<section id="slide-orgca1b4f9">
+<h3 id="orgca1b4f9"><a id="ID-5be6e6a0-0539-4103-8677-6fafbeef2511"></a>Use the source</h3>
+<p>
+The source materials for this presentation can be found on github.
+</p>
+
+<ul>
+<li><a href="https://github.com/nickanderson/cfengine-training">https://github.com/nickanderson/cfengine-training</a></li>
+
+</ul>
+
+<p>
+See a <b>mistake</b>? Please consider submitting a Pull Request.
+</p>
+</section>
+<section id="slide-orgfafdce6">
+<h3 id="orgfafdce6"><a id="ID-a122e01c-8345-44d6-977f-ace81375a540"></a>Hi, I'm Nick</h3>
+<ul>
+<li>Wife, 2 kids and a dog</li>
+<li>Sysadmin/Infrastructure Engineer/Doer of things</li>
+<li>Find me online
+<ul>
+<li><a href="mailto:nick@cmdln.org">nick@cmdln.org</a> | <a href="mailto:nick.anderson@cfengine.com">nick.anderson@cfengine.com</a></li>
+<li><a href="https://twitter.com/cmdln_">@cmdln_</a></li>
+<li><a href="http://www.cmdln.org/">cmdln.org</a></li>
+<li><a href="https://linkedin.com/in/hithisisnick">linkedin.com/in/hithisisnick</a></li>
+<li><a href="https://sks-keyservers.net/pks/lookup?op=get&amp;search=0x9EB3AD425D1CCC11"><code>9274 E588 E866 A10B 713C  9CCD 9EB3 AD42 5D1C CC11</code></a></li>
+
+</ul></li>
+
+</ul>
+
+<aside class="notes">
+<p>
+I have worked in a wide variety of environments:
+</p>
+<ul>
+<li>E-commerce</li>
+<li>Large Enterprise</li>
+<li>High Perform acne Computing</li>
+<li>Usually working closely with developers</li>
+
+</ul>
+
+</aside>
+</section>
+<section id="slide-orgc684d99">
+<h3 id="orgc684d99"><a id="ID-b0c328e7-2675-48e4-80f4-75003bb0e09b"></a>Who are you?</h3>
+<ul>
+<li>Name</li>
+<li>Role</li>
+<li>Goals for this training</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org168f4b8">
+<h2 id="org168f4b8"><a id="ID-4154199e-2aab-4080-99e4-3870373a4327"></a>Why Automation?</h2>
+<blockquote nil>
+<p>
+Every time someone logs onto a system by hand, they jeopardize everyone's
+understanding of the system. &#x2013; Mark Burgess
+</p>
+</blockquote>
+</section>
+</section>
+<section>
+<section id="slide-org2fb8621">
+<h2 id="org2fb8621"><a id="ID-3b1b50d5-c41a-49d7-9af4-5c65963a957e"></a>What is CFEngine?</h2>
+<p>
+Modern, Secure, scale-able, and agile <b>infrastructure automation tool</b> designed to
+provide continuous operations using a distributed model based approach.
+</p>
+
+</section>
+<section id="slide-orgb8024bf">
+<h3 id="orgb8024bf">History</h3>
+<ul>
+<li>Written by <a href="https://en.wikipedia.org/wiki/Mark_Burgess_(computer_scientist)">Mark Burgess</a></li>
+<li>Originally released in 1993.</li>
+<li><a href="http://people.scs.carleton.ca/~soma/biosec/readings/burgess-immunology.pdf">Computer Immunology</a> (Self Healing) 1998</li>
+<li>CFEngine 2 (1998)</li>
+<li><a href="http://download.springer.com/static/pdf/884/chp%253A10.1007%252F11568285_9.pdf">Promise Theory</a> (2005)</li>
+<li>CFEngine 3 (2008)</li>
+<li>Company Founded (2008)</li>
+<li>CFEngine 3.10 (2016)?</li>
+
+</ul>
+
+</section>
+<section id="slide-orgc118e9b">
+<h3 id="orgc118e9b"><a id="ID-a6f4338f-6820-4047-b286-ee33ca152158"></a>Small</h3>
+<p>
+As of October 2016:
+</p>
+
+<ul>
+<li>~ 125k Lines of code</li>
+<li>~ 20M Memory usage</li>
+<li>~ 10M Package size</li>
+
+</ul>
+
+</section>
+<section id="slide-org0f5b781">
+<h3 id="org0f5b781"><a id="ID-8576f075-ad2b-494d-9b08-c5f1c1561031"></a>Secure</h3>
+<p>
+A good track record.
+</p>
+
+<ul>
+<li><a href="http://web.nvd.nist.gov/view/vuln/search">http://web.nvd.nist.gov/view/vuln/search</a></li>
+
+</ul>
+
+</section>
+<section id="slide-org026c41c">
+<h3 id="org026c41c"><a id="ID-4d85802b-4bd6-4473-be8c-4add03fa9c6c"></a>Portable</h3>
+<p>
+Known to run on many platforms, and interesting places.
+</p>
+
+
+<div class="figure">
+<p><img src="data/4d/85802b-4bd6-4473-be8c-4add03fa9c6c/Where_CFEngine_Runs_2016-10-15_15-20-42.png" alt="Where_CFEngine_Runs_2016-10-15_15-20-42.png" />
+</p>
+</div>
+
+
+<aside class="notes">
+<ul>
+<li>HPUX</li>
+<li>Android</li>
+<li>Solaris (sparc/x86)</li>
+<li>Linux</li>
+<li>AIX</li>
+<li>Windows</li>
+<li>Smart infrastructure (interactive bus signs in France)
+<ul>
+<li>Interactive Bus Signs in France</li>
+<li>Automated payment system collections</li>
+
+</ul></li>
+<li>Lasers (that make puppets)
+<ul>
+<li>From Hallway track at LISA 2013</li>
+
+</ul></li>
+<li>Dialysis Machines (over 50% of machines in the US)
+<ul>
+<li>From user report</li>
+
+</ul></li>
+<li>Appliances
+<ul>
+<li>Ezuce sipXecs
+<ul>
+<li>Voip</li>
+<li>[CFEngine Inside](<a href="https://sipfoundry.atlassian.net/wiki/display/sipXecs/cfengine+tips">https://sipfoundry.atlassian.net/wiki/display/sipXecs/cfengine+tips</a>)</li>
+
+</ul></li>
+<li>[Cryptoo](<a href="https://github.com/Cryptoo/cfengine">https://github.com/Cryptoo/cfengine</a>)
+<ul>
+<li>DMZ</li>
+<li>Tor</li>
+<li>Bitcoin</li>
+<li>Bittorrent</li>
+
+</ul></li>
+
+</ul></li>
+
+</ul>
+
+</aside>
+
+</section>
+<section id="slide-org11483bf">
+<h3 id="org11483bf"><a id="ID-2981a0e7-5430-44bd-84b3-32928fbdeea1"></a>Resilient</h3>
+
+<div class="figure">
+<p><img src="data/29/81a0e7-5430-44bd-84b3-32928fbdeea1/flesh_wound_2016-10-15_15-24-06.jpg" alt="flesh_wound_2016-10-15_15-24-06.jpg" />
+</p>
+</div>
+
+<ul>
+<li>Policy cached locally</li>
+<li>Decisions made locally</li>
+<li id="Convergence">Repair what you can and re-vist soon</li>
+
+</ul>
+
+</section>
+<section id="slide-orgd3aedcd">
+<h3 id="orgd3aedcd"><a id="ID-a6e60c34-5641-48b6-913b-85e54fa9effd"></a>Declarative</h3>
+
+<div class="figure">
+<p><img src="data/a6/e60c34-5641-48b6-913b-85e54fa9effd/declarative_vs_imperative_crop_2016-10-15_15-28-37.png" alt="declarative_vs_imperative_crop_2016-10-15_15-28-37.png" />
+</p>
+</div>
+
+</section>
+<section>
+
+<p>
+Focus on the <b>desired end state</b>.
+</p>
+
+
+<ul>
+<li>Focus on the GOAL</li>
+<li>Align with business priorities</li>
+
+</ul>
+
+
+<aside class="notes">
+<p>
+<a href="http://blog.aggregatedintelligence.com/2009/06/difference-between-imperative-and.html">http://blog.aggregatedintelligence.com/2009/06/difference-between-imperative-and.html</a>
+<a href="http://channel9.msdn.com/blogs/pdc2008/tl16">http://channel9.msdn.com/blogs/pdc2008/tl16</a>
+</p>
+
+<p>
+It works kind of like a GPS. It doesn't matter where you start, or the wrong
+turns you make it will continually re-route to reach the destination. And your
+still responsible for driving, the GPS doesn't drive your car (would you trust
+it to? (Alaskan airports, ponds, fields, etc &#x2026;)
+</p>
+
+</aside>
+</section>
+<section id="slide-org1b90cb6">
+<h3 id="org1b90cb6"><a id="ID-863dd604-7851-4f02-9134-e0bee2d00d8a"></a>Declarative vs Imperative</h3>
+<p>
+Strict Order of operations  vs  Goals/Way-points
+</p>
+</section>
+<section id="slide-org4b80fa4">
+<h3 id="org4b80fa4">Typical use cases</h3>
+<ul>
+<li>Any <b>local</b> operation
+<ul>
+<li>Manage files, processes, commands</li>
+
+</ul></li>
+<li>Compliance 
+<ul>
+<li>Security Hardening</li>
+
+</ul></li>
+<li>Application Deployment/Management</li>
+<li>Inventory</li>
+<li>What's possible?</li>
+
+</ul>
+
+<aside class="notes">
+<ul>
+<li>Interesting places:
+<ul>
+<li>Industrial (lazer cutters, water testing devices)</li>
+<li>Smart Infrastructure (Trains, Trams, Signs, Grocery Shopper Behaviour)</li>
+
+</ul></li>
+<li>Integrating CFEngine with other services
+<ul>
+<li>Classes and variables from data provided by other services (JSON)</li>
+<li>Set environment</li>
+
+</ul></li>
+<li>Extrememly dynamic policies
+<ul>
+<li>When production host has deviated from "normal" amount of outbound ssh
+connections kill ssh sessions, firewall host, ticket.</li>
+
+</ul></li>
+
+</ul>
+
+</aside>
+
+</section>
+</section>
+<section>
+<section id="slide-orge057044">
+<h2 id="orge057044"><a id="ID-e335ea4b-6720-4d7e-9867-aefacee9797e"></a>Editions</h2>
+</section>
+<section id="slide-org0a7993c">
+<h3 id="org0a7993c"><a id="ID-ef0d1800-194b-4748-a9cb-8bfa83c19a47"></a>Community (core)</h3>
+<ul>
+<li><a href="https://github.com/cfengine/core">Github</a></li>
+<li><a href="https://cfengine.com/product/community/source-code/">Tarballs</a></li>
+<li><a href="https://cfengine.com/product/community/">Binary Packages</a></li>
+<li><a href="https://cfengine.com/product/community/cfengine-linux-distros/">Linux Package Repositories</a></li>
+
+</ul>
+
+<div class="org-src-container">
+<label class="org-src-name">Quick Install Community</label>
+<pre  class="src src-sh">wget -O- http://cfengine.package-repos.s3.amazonaws.com/<span style="color: #b58900; font-weight: bold;">\</span>
+  quickinstall/quick-install-cfengine-community.sh | sudo bash
+</pre>
+</div>
+
+</section>
+<section id="slide-org0f3caec">
+<h3 id="org0f3caec"><a id="ID-6214cee3-03c7-48c9-840a-6c87fb05a236"></a>Enterprise Features</h3>
+<ul>
+<li>Inventory Reporting</li>
+<li>Change Reporting</li>
+<li>Audit and Compliance</li>
+<li>Anomoly Detection</li>
+<li>Monitoring</li>
+<li>REST API</li>
+<li>SQL Reporting</li>
+<li>File Integrity Monitoring</li>
+
+</ul>
+
+</section>
+<section id="slide-org2014ac0">
+<h3 id="org2014ac0"><a id="ID-2fad1e0b-62b7-4b95-904e-8ac793084aa5"></a>Enterprise</h3>
+<ul>
+<li><a href="https://docs.cfengine.com/latest/guide-installation-and-configuration-general-installation-installation-enterprise-vagrant.html">Vagrant Environment</a></li>
+<li><a href="http://cfengine.com/product/cfengine-enterprise-free-25/">Binary Packages</a></li>
+
+</ul>
+
+<div class="org-src-container">
+<label class="org-src-name">Quick Install Enterprise</label>
+<pre  class="src src-sh">wget http://cfengine.package-repos.s3.amazonaws.com/quickinstall/<span style="color: #b58900; font-weight: bold;">\</span>
+quick-install-cfengine-enterprise.sh
+sudo bash ./quick-install-cfengine-enterprise.sh &lt;hub|agent&gt;
+</pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-org4c27c47">
+<h2 id="org4c27c47"><a id="ID-66fd45c5-3f73-49e4-a938-ec3ecbdcd8ef"></a>Client/Server Architecture</h2>
+</section>
+<section>
+
+
+<div class="figure">
+<p><img src="data/66/fd45c5-3f73-49e4-a938-ec3ecbdcd8ef/client_server_architecture_2016-10-15_15-57-49.png" alt="client_server_architecture_2016-10-15_15-57-49.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-orgb23d20a">
+<h3 id="orgb23d20a"><a id="ID-a4baabe0-6dda-42b1-9961-678f3bfa5a0c"></a>Client Server Communications</h3>
+<ul>
+<li>Utilizes port 5308 for client – server communication</li>
+<li>Encrypted (TLS)</li>
+<li>SSH-like model (public/private keypair)</li>
+<li>Does not use complicated chains of trust</li>
+<li>Agents download policy from hub</li>
+<li>Hub downloads reports from remote agents</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org04de52a">
+<h2 id="org04de52a"><a id="ID-21633eaf-2b0a-4fef-a25f-7760276b0a5d"></a>Agent Components</h2>
+</section>
+<section id="slide-orgce6bd8c">
+<h3 id="orgce6bd8c"><a id="ID-a2500d9e-1b71-4438-9553-daf5e13c226c"></a>Agent Components</h3>
+
+<div class="figure">
+<p><img src="data/21/633eaf-2b0a-4fef-a25f-7760276b0a5d/cfengine_agent_components_diagram_2016-10-15_16-01-34.png" alt="cfengine_agent_components_diagram_2016-10-15_16-01-34.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-org9d7433e">
+<h3 id="org9d7433e"><a id="ID-98b666a6-d302-47e4-b164-b6653bcca1a8"></a><code>cf-hub</code></h3>
+
+<div class="figure">
+<p><img src="data/98/b666a6-d302-47e4-b164-b6653bcca1a8/cfengine_agent_components_diagram_cf-hub_2016-10-15_16-03-31.png" alt="cfengine_agent_components_diagram_cf-hub_2016-10-15_16-03-31.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-orgc28a67d">
+<h3 id="orgc28a67d"><a id="ID-b4a1a42b-961c-4112-b173-7ec39cee42e1"></a><code>cf-hub</code></h3>
+<ul>
+<li>Collect reports from remote agents</li>
+<li>Obeys "<code>common control</code>" and "<code>hub control</code>" bodies</li>
+
+</ul>
+
+</section>
+<section id="slide-org8f6a449">
+<h3 id="org8f6a449"><a id="ID-9c2d7c2f-c5e3-47b2-b7df-fdf875f38643"></a><code>cf-runagent</code></h3>
+
+<div class="figure">
+<p><img src="data/9c/2d7c2f-c5e3-47b2-b7df-fdf875f38643/cfengine_agent_components_diagram_cf-runagent_2016-10-15_21-11-14.png" alt="cfengine_agent_components_diagram_cf-runagent_2016-10-15_21-11-14.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-org0511065">
+<h3 id="org0511065"><a id="ID-a9bb9656-88d3-4fa7-8cbd-961c4d800c2e"></a><code>cf-runagent</code></h3>
+<ul>
+<li>Invokes cf-agent on remote hosts</li>
+<li>Normally run on the server to “ping” the clients</li>
+<li>Cannot invoke arbitrary commands - just wake up cf-agent</li>
+<li>Define classes to modify behavior</li>
+<li>Specify bundlesequence (<code>--remote-bundles</code> added in 3.10)</li>
+
+</ul>
+
+</section>
+<section id="slide-org5e0ebc6">
+<h3 id="org5e0ebc6"><a id="ID-9f5cf6c5-5e00-49f9-8392-5cec4c2bb9ea"></a><code>cf-serverd</code></h3>
+
+<div class="figure">
+<p><img src="data/9f/5cf6c5-5e00-49f9-8392-5cec4c2bb9ea/cfengine_agent_components_diagram_cf-serverd_2016-10-15_21-16-21.png" alt="cfengine_agent_components_diagram_cf-serverd_2016-10-15_21-16-21.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-org940753a">
+<h3 id="org940753a"><a id="ID-5c6f6d3a-afc5-448f-be85-91c5b6bc67f9"></a><code>cf-serverd</code></h3>
+<ul>
+<li>Listens for connections on <b>TCP/5308</b></li>
+<li>Enforces access control and authentication</li>
+<li>Serves files</li>
+<li>Serves <code>cf-runagent</code> requests</li>
+<li>Serves reports to <code>cf-hub</code></li>
+<li>Runs on both server and clients</li>
+<li>Evaluates "<code>common</code>" and "<code>server</code>" bundles</li>
+<li>Obeys body "<code>server control</code>"</li>
+
+</ul>
+
+</section>
+<section id="slide-org4de0aa1">
+<h3 id="org4de0aa1"><a id="ID-57b0a68d-ece6-4ffc-81e3-cc84b6009b35"></a><code>cf-key</code></h3>
+
+<div class="figure">
+<p><img src="data/57/b0a68d-ece6-4ffc-81e3-cc84b6009b35/cfengine_agent_components_diagram_cf-key_2016-10-15_21-18-51.png" alt="cfengine_agent_components_diagram_cf-key_2016-10-15_21-18-51.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-orgbab485f">
+<h3 id="orgbab485f"><a id="ID-73d6f44c-0241-4b62-bb56-80a6c152af0d"></a><code>cf-key</code></h3>
+<ul>
+<li>Show recent connections</li>
+<li>Manage trust of public keys</li>
+<li>Generates key pairs</li>
+<li>Installs Enterprise License</li>
+
+</ul>
+
+</section>
+<section id="slide-orgd467a3a">
+<h3 id="orgd467a3a"><a id="ID-52bb3c22-18bf-4c80-82ba-0aad82ea1393"></a><code>cf-promises</code></h3>
+
+<div class="figure">
+<p><img src="data/52/bb3c22-18bf-4c80-82ba-0aad82ea1393/cfengine_agent_components_diagram_cf-promises_2016-10-15_21-21-02.png" alt="cfengine_agent_components_diagram_cf-promises_2016-10-15_21-21-02.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-orgd92ced4">
+<h3 id="orgd92ced4"><a id="ID-bfba9dc5-8cc4-4945-9622-75f8d619759f"></a><code>cf-promises</code></h3>
+<ul>
+<li>Checks Syntax</li>
+<li>Performs pre-evaluation &amp; discovery</li>
+<li>Dump Syntax</li>
+<li>Tag Policy Releases</li>
+<li>Show Variables</li>
+<li>Show Classes</li>
+
+</ul>
+
+</section>
+<section id="slide-org59225a5">
+<h4 id="org59225a5"><a id="ID-78de2122-05f5-4ebe-bce5-1c616e22faf3"></a>Pro Tip: Syntax Checking</h4>
+<div class="org-src-container">
+<label class="org-src-name">Full Syntax Check</label>
+<pre  class="src src-sh">cf-promises --eval-functions=yes --full-check <span style="color: #b58900; font-weight: bold;">\</span>
+  -f ./examples/00-01-hello_world.cf
+</pre>
+</div>
+
+<ul>
+<li>Full check requires <code>body common control</code> (or <code>bundle agent main</code>). Typically
+this is only used when you run cf-promsies against promises.cf or update.cf</li>
+
+</ul>
+
+</section>
+<section>
+
+<div class="org-src-container">
+<label class="org-src-name">Partial Syntax Check</label>
+<pre  class="src src-sh">cf-promises -f ./examples/00-01-hello_world.cf
+</pre>
+</div>
+
+<p>
+Build into your workflow!
+</p>
+<ul>
+<li>Editors</li>
+<li>vcs hooks</li>
+<li>build systems</li>
+
+</ul>
+
+<aside class="notes">
+<p>
+Its typical to wire full policy syntax checks into pre-commit hooks or have
+them run by a continuous integration system like Jenkins.
+</p>
+
+<p>
+Partial checks are useful to run while developing policy, and depending on the
+editor, you may be able to do this as a save hook.
+</p>
+
+</aside>
+
+</section>
+<section id="slide-org2f1718a">
+<h3 id="org2f1718a"><a id="ID-bcd33f08-1c02-4d78-b118-a98bf6986040"></a><code>cf-monitord</code></h3>
+
+<div class="figure">
+<p><img src="data/bc/d33f08-1c02-4d78-b118-a98bf6986040/cfengine_agent_components_diagram_cf-monitord_2016-10-15_21-22-23.png" alt="cfengine_agent_components_diagram_cf-monitord_2016-10-15_21-22-23.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-orgf78fd94">
+<h3 id="orgf78fd94"><a id="ID-8464d9b0-186e-43bc-b1e8-5af912aa37b5"></a><code>cf-monitord</code></h3>
+<ul>
+<li>Collect system status information</li>
+<li>Provides information to <code>cf-agent</code> through <code>mon.*</code> variables</li>
+<li>Defines classes based on anomaly detection</li>
+<li>Evaluates "<code>common</code>" and "<code>monitor</code>" bundles</li>
+<li>Obeys "<code>common control</code>" and "<code>monitor control</code>" bodies</li>
+
+</ul>
+
+</section>
+<section id="slide-org497364f">
+<h3 id="org497364f"><a id="ID-3c3c8cee-7086-4250-9152-21ca5879c2b2"></a><code>cf-execd</code></h3>
+
+<div class="figure">
+<p><img src="data/3c/3c8cee-7086-4250-9152-21ca5879c2b2/cfengine_agent_components_diagram_cf-execd_2016-10-15_21-24-05.png" alt="cfengine_agent_components_diagram_cf-execd_2016-10-15_21-24-05.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-org80f0e47">
+<h3 id="org80f0e47"><a id="ID-938f4c5d-4219-48f5-aba8-774d3014f057"></a><code>cf-execd</code></h3>
+<ul>
+<li>Executes <code>cf-agent</code> periodically</li>
+<li>Controls period and splay time</li>
+<li>Collects, stores and sends output</li>
+<li>Evaluates "<code>common</code>" bundles</li>
+<li>Obeys "<code>executor control</code>" body</li>
+
+</ul>
+
+</section>
+<section id="slide-orgc273197">
+<h3 id="orgc273197"><a id="ID-b49a887f-6963-4b7c-a131-fcd2c0794be0"></a><code>cf-agent</code></h3>
+
+<div class="figure">
+<p><img src="data/b4/9a887f-6963-4b7c-a131-fcd2c0794be0/cfengine_agent_components_diagram_cf-agent_2016-10-15_21-25-11.png" alt="cfengine_agent_components_diagram_cf-agent_2016-10-15_21-25-11.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-org87af635">
+<h3 id="org87af635"><a id="ID-1a3c5bb3-bdec-408a-b35c-3e34e3e0c0c2"></a><code>cf-agent</code></h3>
+<ul>
+<li>The Catalyst or instigator of change</li>
+<li>Evaluates "<code>agent</code>" and "<code>common</code>" bundles</li>
+<li>Obeys "<code>common control</code>" and "<code>agent control</code>" bodies.</li>
+<li>By default runs <code>/var/cfengine/inputs/promises.cf</code></li>
+
+</ul>
+
+<aside class="notes">
+<p>
+<code>cf-agent</code> is the agent of change, its the pointy end of the stick, or the
+dangerous end of the gun.
+</p>
+
+</aside>
+
+</section>
+<section id="slide-orgea139b1">
+<h3 id="orgea139b1"><a id="ID-22f5f5e0-c36f-4be8-ae6e-702619a863cf"></a>Policy flow diagram</h3>
+
+<div class="figure">
+<p><img src="data/22/f5f5e0-c36f-4be8-ae6e-702619a863cf/policy_flow_diagram_2016-10-15_21-25-54.png" alt="policy_flow_diagram_2016-10-15_21-25-54.png" />
+</p>
+</div>
+
+</section>
+<section id="slide-orgc15a8ee">
+<h3 id="orgc15a8ee"><a id="ID-09f10078-32a9-4e15-8e91-798fe1170b53"></a>Pop Quiz</h3>
+<ul class="fragment roll-in">
+<li>What needs to happen before remote agents can get policy from the hub?</li>
+
+</ul>
+
+<ul class="fragment roll-in">
+<li>Where is the policy that the agent runs by default?</li>
+
+</ul>
+
+<ul class="fragment roll-in">
+<li>What port needs to be open bidirectionally?</li>
+
+</ul>
+
+<ul class="fragment roll-in">
+<li>What is the meaning of life, the universe and everything?</li>
+
+</ul>
+
+<aside class="notes">
+<ul>
+<li>Establish Trust</li>
+<li><code>/var/cfengine/inputs</code> or <code>$(sys.inputdir)</code></li>
+<li>5308</li>
+<li>42</li>
+
+</ul>
+
+</aside>
+</section>
+<section id="slide-org9d5b150">
+<h3 id="org9d5b150"><a id="ID-a2263a6c-64ac-4750-9451-5e1373f91c35"></a>Client/Server Checkpoint</h3>
+<ul>
+<li>Any system can be a policy server</li>
+<li>Bootstrapping establishes trust relationship</li>
+<li>Policy server bootstraps to itself</li>
+<li>Agent runs locally cached policy in <code>/var/cfengine/inputs</code></li>
+<li>Communicates over port <b><code>5308</code></b> (tcp)</li>
+<li>Agents downloads policy from server</li>
+<li>Hub downloads reports from remote agents</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-org9d366a7">
+<h2 id="org9d366a7"><a id="ID-5edd13bb-9803-4597-8021-26c2bd7fe6ab"></a>Language</h2>
+<ul>
+<li><b>Promise Theory</b> is a model of <b>voluntary cooperation</b> between individual
+autonomous actors.</li>
+<li>The fundamental underlying philosophy that CFEngine is based on.</li>
+
+</ul>
+
+
+<div class="figure">
+<p><img src="images/promise_theory_cover.jpg" alt="Promise Theory Principles and Appications" style="border:none;" />
+</p>
+<p><span class="figure-number">Figure 15: </span>Promise Theory Primcipals and Applications</p>
+</div>
+
+</section>
+<section id="slide-org3592bd8">
+<h3 id="org3592bd8"><a id="ID-6cd785ef-1412-495b-a790-c9d09db48669"></a>Promises</h3>
+<ul>
+<li>A promise is a <b>statement of intent</b>
+<ul>
+<li>The webserver process promises to be running</li>
+<li>The file promises to have specific permissions</li>
+
+</ul></li>
+<li>An agent can only make promises about itself</li>
+
+</ul>
+
+
+<div class="figure">
+<p><img src="images/thinking_in_promises_book_cover.jpg" alt="Thinking in Promises" style="border:none;" />
+</p>
+<p><span class="figure-number">Figure 16: </span>Thinking in promises</p>
+</div>
+
+</section>
+<section id="slide-org66a1560">
+<h3 id="org66a1560"><a id="ID-2b7a5dde-ba92-4861-90ae-2e1dc77875b2"></a>Promise outcomes/results</h3>
+<ul>
+<li><code>kept</code></li>
+<li><code>repaired</code></li>
+<li><code>not_kept</code>
+<ul>
+<li><code>failed</code></li>
+<li><code>denied</code></li>
+<li><code>timeout</code></li>
+
+</ul></li>
+
+</ul>
+
+<p>
+<b>Note:</b> Compound promises <b>can</b> have <b>multiple outcomes</b> at the same time
+(<code>not_kept</code> &amp; <code>kept</code>).
+</p>
+
+</section>
+<section id="slide-org8c9a8ba">
+<h3 id="org8c9a8ba"><a id="ID-d8bf0344-95fc-408a-8d86-5fa382dace2b"></a>Promise types</h3>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><a href="https://docs.cfengine.com/latest/reference-promise-types-commands.html"><code>commands</code></a></td>
+<td class="org-left"><a href="https://docs.cfengine.com/latest/reference-promise-types-files.html"><code>files</code></a></td>
+<td class="org-left"><a href="https://docs.cfengine.com/latest/reference-promise-types-services.html"><code>services</code></a></td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="https://docs.cfengine.com/latest/reference-promise-types-packages.html"><code>packages</code></a></td>
+<td class="org-left"><a href="https://docs.cfengine.com/latest/reference-promise-types-methods.html"><code>methods</code></a></td>
+<td class="org-left"><a href="https://docs.cfengine.com/latest/reference-promise-types-defaults.html"><code>defaults</code></a></td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="https://docs.cfengine.com/latest/reference-promise-types-meta.html"><code>meta</code></a></td>
+<td class="org-left"><a href="https://docs.cfengine.com/latest/reference-promise-types-classes.html"><code>classes</code></a></td>
+<td class="org-left"><a href="https://docs.cfengine.com/latest/reference-promise-types-reports.html"><code>reports</code></a></td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="https://docs.cfengine.com/latest/reference-promise-types-vars.html"><code>vars</code></a></td>
+<td class="org-left"><a href="https://docs.cfengine.com/latest/reference-promise-types-databases.html"><code>databases</code></a></td>
+<td class="org-left"><a href="https://docs.cfengine.com/latest/reference-promise-types-guest_environments.html"><code>guest_environments</code></a></td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="https://docs.cfengine.com/latest/reference-promise-types-processes.html"><code>processes</code></a></td>
+<td class="org-left"><a href="https://docs.cfengine.com/latest/reference-promise-types-storage.html"><code>storage</code></a></td>
+<td class="org-left"><a href="https://docs.cfengine.com/latest/reference-promise-types-guest_environments.html"><code>users</code></a></td>
+</tr>
+
+<tr>
+<td class="org-left"><a href="https://docs.cfengine.com/latest/reference-promise-types-access.html"><code>access</code></a></td>
+<td class="org-left"><a href="https://docs.cfengine.com/latest/reference-promise-types-roles.html"><code>roles</code></a></td>
+<td class="org-left"><a href="https://docs.cfengine.com/latest/reference-promise-types-measurements.html"><code>measurements</code></a></td>
+</tr>
+</tbody>
+</table>
+
+<div class="NOTE">
+<p>
+There are many type of promises. The promise type available depend on the type
+of bundle used.
+</p>
+
+</div>
+
+</section>
+<section id="slide-org467c01e">
+<h3 id="org467c01e"><a id="ID-a25de10e-8da3-4d79-b960-d409b8b4541a"></a>Anatomy of a promise</h3>
+<div class="org-src-container">
+
+<pre  class="src src-cfengine3"><span style="color: #839496; font-weight: bold;">bundle</span> <span style="color: #268bd2; font-weight: bold;">type</span> <span style="color: #268bd2;">name</span>
+<span style="color: #2aa198;">{</span>
+  <span style="color: #839496; font-weight: bold;">promise_type</span>:
+
+    <span style="color: #859900; font-weight: bold;">context</span>::
+
+      <span style="color: #2aa198;">"promiser"</span> -&gt; <span style="color: #b58900;">{</span> <span style="color: #2aa198;">"optional"</span>, <span style="color: #2aa198;">"stakeholder"</span> <span style="color: #b58900;">}</span>
+        attribute_1 =&gt; value_1,
+        attribute_2 =&gt; value_2,
+        attribute_3 =&gt; value_3,
+        attribute_n =&gt; value_n;
+<span style="color: #2aa198;">}</span>
+</pre>
+</div>
+
+
+<aside class="notes">
+<ul>
+<li>Promise type: What kind? For example packages, or commands</li>
+<li>Context: When/Where? For example prod Linux hosts in north America on
+Sundays at GMT 1700</li>
+<li>Promiser: What. For example the httpd package, or the name of a command.</li>
+<li>Stakeholders: Who Cards. For example Security Department, a specific policy
+or compliance id CIS-1.1.17, another promise, a ticketing system identifier.</li>
+<li>Attributes: How/Details. For example should the package be present or absent
+on the system? Should the command be executed inside of a shell, jailed
+withing a specific directory, or run as a specific user?</li>
+<li>Why: Why is this important? What can go wrong if this is not in place.
+Visible in verbose logs.</li>
+
+</ul>
+
+</aside>
+</section>
+<section id="slide-org8226be1">
+<h3 id="org8226be1"><a id="ID-0d0ded6f-dfa3-4d2e-bc87-c79528f63667"></a>Bundles</h3>
+<ul>
+<li>Collection of promises grouped logically</li>
+<li>Can take parameters</li>
+<li>Maintain variable state</li>
+<li>Are <b>not functions</b></li>
+
+</ul>
+
+<aside class="notes">
+<p>
+A <a href="https://docs.cfengine.com/latest/guide-language-concepts-bundles.html"><b>bundle</b></a> is a collection of promises. It is a logical grouping of any number
+of promises, usually for a common purpose. Bundles can optionally take
+parameters. Check out the documentation on <a href="https://docs.cfengine.com/latest/guide-writing-and-serving-policy-bundles-best-practices.html">best practices with bundles</a>.
+</p>
+
+<ul>
+<li>Bundles can be used <i>like</i> functions. However, please note they maintain
+some state from thier last actuation.
+<ul>
+<li>Strings, lists, and data containers contain last value and may be
+re-defined.</li>
+<li>Classic arrays are cleared at the beginning of each bundle actuation.</li>
+<li>Bundle scoped classes do not persist</li>
+
+</ul></li>
+
+</ul>
+
+</aside>
+
+</section>
+<section id="slide-orgcec989c">
+<h3 id="orgcec989c">Example bundles hold state</h3>
+<div class="org-src-container">
+
+<pre  class="src src-cfengine3"><span style="color: #839496; font-weight: bold;">bundle</span> <span style="color: #268bd2; font-weight: bold;">agent</span> <span style="color: #268bd2;">main</span>
+<span style="color: #2aa198;">{</span>
+  <span style="color: #839496; font-weight: bold;">methods</span>:
+      <span style="color: #2aa198;">""</span> usebundle =&gt; set_item_in_bag<span style="color: #b58900;">(</span> <span style="color: #2aa198;">"hammer"</span>, <span style="color: #2aa198;">"slightly damaged"</span><span style="color: #b58900;">)</span>;
+      <span style="color: #2aa198;">""</span> usebundle =&gt; set_item_in_bag<span style="color: #b58900;">(</span> <span style="color: #2aa198;">"pickaxe"</span>, <span style="color: #2aa198;">"perfect"</span><span style="color: #b58900;">)</span>;
+      <span style="color: #2aa198;">""</span> usebundle =&gt; set_item_in_bag<span style="color: #b58900;">(</span> <span style="color: #2aa198;">"flask"</span>, <span style="color: #2aa198;">"half full"</span><span style="color: #b58900;">)</span>;
+      <span style="color: #2aa198;">""</span> usebundle =&gt; report_bag_contents;
+
+<span style="color: #2aa198;">}</span>
+<span style="color: #839496; font-weight: bold;">bundle</span> <span style="color: #268bd2; font-weight: bold;">agent</span> <span style="color: #268bd2;">set_item_in_bag</span><span style="color: #2aa198;">(</span><span style="color: #268bd2;">item, value</span><span style="color: #2aa198;">)</span>
+<span style="color: #2aa198;">{</span>
+  <span style="color: #839496; font-weight: bold;">vars</span>: <span style="color: #2aa198;">"$(item)"</span> <span style="color: #b58900;">string</span> =&gt; <span style="color: #2aa198;">"$(value)"</span>;
+<span style="color: #2aa198;">}</span>
+<span style="color: #839496; font-weight: bold;">bundle</span> <span style="color: #268bd2; font-weight: bold;">agent</span> <span style="color: #268bd2;">report_bag_contents</span>
+<span style="color: #2aa198;">{</span>
+  <span style="color: #839496; font-weight: bold;">vars</span>:
+    <span style="color: #2aa198;">"l"</span> <span style="color: #b58900;">slist</span> =&gt; variablesmatching<span style="color: #b58900;">(</span><span style="color: #2aa198;">"default:set_item_in_bag\..*"</span><span style="color: #b58900;">)</span>;
+    <span style="color: #2aa198;">"a[$(l)]"</span> <span style="color: #b58900;">string</span> =&gt; nth<span style="color: #b58900;">(</span> string_split<span style="color: #268bd2;">(</span> <span style="color: #2aa198;">"$(l)"</span>, <span style="color: #2aa198;">"\."</span>, <span style="color: #6c71c4;">2</span> <span style="color: #268bd2;">)</span>, <span style="color: #6c71c4;">1</span><span style="color: #b58900;">)</span>;
+  <span style="color: #839496; font-weight: bold;">reports</span>: <span style="color: #2aa198;">"You look in the bag and see ...."</span>; <span style="color: #2aa198;">"A $($(l)) $(a[$(l)])"</span>;
+<span style="color: #2aa198;">}</span>
+</pre>
+</div>
+
+</section>
+<section>
+
+<pre class="example">
+R: You look in the bag and see ....
+R: A half full flask
+R: A slightly damaged hammer
+R: A perfect pickaxe
+</pre>
+
+</section>
+<section id="slide-org5873d6a">
+<h3 id="org5873d6a"><a id="ID-07926d58-2e11-4835-a6a9-19542cb28ef4"></a>Bundles for logical abstraction</h3>
+<p>
+For example, a bundle to configure Apache might:
+</p>
+
+<ul>
+<li>install the <code>apache2</code> package</li>
+<li>edit the configuration file</li>
+<li>copy the web server content</li>
+<li>configure file-system permissions</li>
+<li>ensure the httpd process is running</li>
+<li>restart the httpd process when necessary</li>
+
+</ul>
+
+</section>
+<section id="slide-org624d3d3">
+<h3 id="org624d3d3"><a id="ID-db7db64f-bb90-40eb-9fbf-052ef57f14e8"></a>Bundle types</h3>
+<p>
+Bundles have a type which specify how they can be used.
+</p>
+
+<dl>
+<dt><a href="https://docs.cfengine.com/latest/guide-language-concepts-bundles.html*common-bundles"><code>common</code></a></dt><dd>evaluated by <b>all</b> components</dd>
+<dt><a href="https://docs.cfengine.com/latest/guide-language-concepts-normal-ordering.html*agent-normal-ordering"><code>agent</code></a></dt><dd>evaluated by <code>cf-agent</code></dd>
+<dt><a href="https://docs.cfengine.com/latest/reference-promise-types-edit_line.html"><code>edit_line</code></a></dt><dd>evaluated by <code>cf-agent</code> for files type promises</dd>
+<dt><a href="https://docs.cfengine.com/latest/reference-promise-types-edit_xml.html"><code>edit_xml</code></a></dt><dd>evaluated by <code>cf-agent</code> for files type promises</dd>
+<dt><a href="https://docs.cfengine.com/latest/guide-language-concepts-normal-ordering.html*server-normal-ordering"><code>server</code></a></dt><dd>evaluated by <code>cf-serverd</code></dd>
+<dt><a href="https://docs.cfengine.com/latest/guide-language-concepts-normal-ordering.html*server-normal-ordering"><code>monitor</code></a></dt><dd>evaluated by <code>cf-monitord</code></dd>
+
+</dl>
+
+</section>
+<section id="slide-org6f72353">
+<h3 id="org6f72353"><a id="ID-cae5d292-c985-4217-90c9-770e83c83164"></a>Normal Order</h3>
+<ul>
+<li>The order in which CFEngine executes <b>promise types</b>
+
+<ul>
+<li>Classes then Vars are evaluated during <a href="https://docs.cfengine.com/docs/3.7/guide-language-concepts-normal-ordering.html*cf-promises-policy-validation-step">policy parsing</a> and <a href="https://docs.cfengine.com/docs/3.7/guide-language-concepts-normal-ordering.html*agent-pre-evaluation-step">pre-eval</a>.</li>
+<li>Promises are evaluated from top to bottom respecting class restrictions</li>
+<li>Bundles listed in the bundlesequence or activated via methods are given 3
+pass evaluation.</li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-org042727c">
+<h3 id="org042727c"><a id="ID-624ead8d-4aac-47c4-8cd1-e1eeed2326c8"></a>Bodies</h3>
+<ul>
+<li>Collection of attributes</li>
+<li>Have a type ( e.g. <code>classes</code>, <code>perms</code>, <code>copy_from</code> )</li>
+<li>Can take parameters</li>
+<li>Can be inherited (3.8+)</li>
+<li>Cab be <i>defaulted</i> for a given promise <i>type</i> (3.9+)</li>
+
+</ul>
+
+<p>
+There are <a href="https://docs.cfengine.com/latest/reference-all-types.html*all-body-types"><b>MANY</b></a> body types.
+</p>
+
+</section>
+<section id="slide-orgfa40004">
+<h3 id="orgfa40004"><a id="ID-0b0376ac-661e-498f-b3a3-b4c8a3716854"></a>Pop Quiz</h3>
+<ul class="fragment roll-in">
+<li>What is a bundle?</li>
+
+</ul>
+<ul class="fragment roll-in">
+<li>What is the fundamental underlying philosophy that CFEngine is based on?</li>
+
+</ul>
+<ul class="fragment roll-in">
+<li>When is the next break?</li>
+
+</ul>
+<ul class="fragment roll-in">
+<li>Which component collects reports from remote agents?</li>
+
+</ul>
+<ul class="fragment roll-in">
+<li>What types of bundles are there?</li>
+
+</ul>
+
+<aside class="notes">
+<ul>
+<li>A collection of <b>promises</b></li>
+<li><b>Promise Theory</b></li>
+<li></li>
+
+<li><b>cf-hub</b></li>
+<li><b>common</b>, <b>agent</b>, <b>edit<sub>line</sub></b>, <b>server</b>, <b>monitor</b>, <b>edit<sub>xml</sub></b></li>
+
+</ul>
+
+</aside>
+
+</section>
+</section>
+<section>
+<section id="slide-org188fd34">
+<h2 id="org188fd34"><a id="ID-ad47d876-4578-446e-be87-c2ef138167e6"></a>Making Decisions: Context Classes and Expressions</h2>
+</section>
+<section id="slide-org903d644">
+<h3 id="org903d644"><a id="ID-bb4ef74b-6c71-419c-8db1-ad212c192eb0"></a>Classes</h3>
+<ul>
+<li>Restrict promises based on context.</li>
+<li>Usable in bundles and bodies</li>
+<li>Used for making decisions</li>
+<li>Can be combined with expressions</li>
+
+</ul>
+
+<aside class="notes">
+<p>
+A promise might only apply to Linux systems on Sundays, when a <a href="https://docs.cfengine.com/latest/guide-language-concepts-variables.html">variable</a> has a
+certain value or any other arbitrary condition or combination of various
+conditions.
+</p>
+
+<ul>
+<li>Think in <a href="https://en.wikipedia.org/wiki/Set_(mathematics)">sets</a>
+<ul>
+<li>Try and treat servers like cattle <b>not</b> pets</li>
+
+</ul></li>
+
+</ul>
+
+</aside>
+
+</section>
+<section id="slide-org87d4101">
+<h3 id="org87d4101"><a id="ID-d314d4d2-4ca9-4636-9562-203df412b474"></a>Show Classes</h3>
+<div class="org-src-container">
+
+<pre  class="src src-sh">cf-promises --show-classes
+</pre>
+</div>
+
+<pre class="example">
+| Class name                                                   Meta tags                 |                            |                          |                             |           |
+| 127_0_0_1                                                    inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| 172_17_0_1                                                   inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| 4_cpus                                                       source=agent              | derived-from=sys.cpus      | hardclass                |                             |           |
+| 64_bit                                                       source=agent              | hardclass                  |                          |                             |           |
+| Day15                                                        time_based                | source=agent               | hardclass                |                             |           |
+| Evening                                                      time_based                | source=agent               | hardclass                |                             |           |
+| GMT_Day16                                                    time_based                | source=agent               | hardclass                |                             |           |
+| GMT_Hr03                                                     time_based                | source=agent               | hardclass                |                             |           |
+| GMT_Hr03_Q2                                                  time_based                | source=agent               | hardclass                |                             |           |
+| GMT_Hr3                                                      time_based                | source=agent               | hardclass                |                             |           |
+| GMT_Lcycle_0                                                 time_based                | source=agent               | hardclass                |                             |           |
+| GMT_Min15_20                                                 time_based                | source=agent               | hardclass                |                             |           |
+| GMT_Min16                                                    time_based                | source=agent               | hardclass                |                             |           |
+| GMT_Night                                                    time_based                | source=agent               | hardclass                |                             |           |
+| GMT_October                                                  time_based                | source=agent               | hardclass                |                             |           |
+| GMT_Q2                                                       time_based                | source=agent               | hardclass                |                             |           |
+| GMT_Sunday                                                   time_based                | source=agent               | hardclass                |                             |           |
+| GMT_Yr2016                                                   time_based                | source=agent               | hardclass                |                             |           |
+| Hr22                                                         time_based                | source=agent               | hardclass                |                             |           |
+| Hr22_Q2                                                      time_based                | source=agent               | hardclass                |                             |           |
+| Lcycle_0                                                     time_based                | source=agent               | hardclass                |                             |           |
+| Min15_20                                                     time_based                | source=agent               | hardclass                |                             |           |
+| Min16                                                        time_based                | source=agent               | hardclass                |                             |           |
+| October                                                      time_based                | source=agent               | hardclass                |                             |           |
+| PK_SHA_43c979e264924d0b4a2d3b568d71ab8c768ef63487670f2c51cd85e8cec63834 inventory      | attribute_name=none        | source=agent             | derived-from=sys.key_digest | hardclass |
+| Q2                                                           time_based                | source=agent               | hardclass                |                             |           |
+| Saturday                                                     time_based                | source=agent               | hardclass                |                             |           |
+| Yr2016                                                       time_based                | source=agent               | hardclass                |                             |           |
+| any                                                          source=agent              | hardclass                  |                          |                             |           |
+| cfengine                                                     inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| cfengine_3                                                   inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| cfengine_3_9                                                 inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| cfengine_3_9_1                                               inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| common                                                       cfe_internal              | source=agent               | hardclass                |                             |           |
+| compiled_on_linux_gnu                                        source=agent              | hardclass                  |                          |                             |           |
+| debian                                                       inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| debian_stretch                                               inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| enterprise                                                   inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| enterprise_3                                                 inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| enterprise_3_9                                               inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| enterprise_3_9_1                                             inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| enterprise_edition                                           inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| feature                                                      source=agent              | hardclass                  |                          |                             |           |
+| feature_curl                                                 source=agent              | hardclass                  |                          |                             |           |
+| feature_def                                                  source=agent              | hardclass                  |                          |                             |           |
+| feature_def_json                                             source=agent              | hardclass                  |                          |                             |           |
+| feature_def_json_preparse                                    source=agent              | hardclass                  |                          |                             |           |
+| feature_xml                                                  source=agent              | hardclass                  |                          |                             |           |
+| feature_yaml                                                 source=agent              | hardclass                  |                          |                             |           |
+| have_aptitude                                                inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| ipv4_127                                                     inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| ipv4_127_0                                                   inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| ipv4_127_0_0                                                 inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| ipv4_127_0_0_1                                               inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| ipv4_172                                                     inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| ipv4_172_17                                                  inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| ipv4_172_17_0                                                inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| ipv4_172_17_0_1                                              inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| linux                                                        inventory                 | attribute_name=none        | source=agent             | derived-from=sys.class      | hardclass |
+| linux_4_4_0_43_generic                                       source=agent              | derived-from=sys.sysname   | derived-from=sys.release | hardclass                   |           |
+| linux_x86_64                                                 source=agent              | derived-from=sys.sysname   | derived-from=sys.machine | hardclass                   |           |
+| linux_x86_64_4_4_0_43_generic                                source=agent              | derived-from=sys.sysname   | derived-from=sys.machine | derived-from=sys.release    | hardclass |
+| linux_x86_64_4_4_0_43_generic__63_Ubuntu_SMP_Wed_Oct_12_13_48_03_UTC_2016 source=agent | derived-from=sys.long_arch | hardclass                |                             |           |
+| mac_02_42_2d_73_e9_95                                        inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| net_iface_docker0                                            source=agent              | hardclass                  |                          |                             |           |
+| net_iface_lo                                                 source=agent              | hardclass                  |                          |                             |           |
+| nickanderson_thinkpad_w550s                                  source=agent              | derived-from=sys.uqhost    | hardclass                |                             |           |
+| nova                                                         inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| nova_3                                                       inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| nova_3_9                                                     inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| nova_3_9_1                                                   inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| nova_edition                                                 source=agent              | hardclass                  |                          |                             |           |
+| systemd                                                      inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| ubuntu                                                       inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| ubuntu_16                                                    inventory                 | attribute_name=none        | source=agent             | derived-from=sys.flavor     | hardclass |
+| ubuntu_16_4                                                  inventory                 | attribute_name=none        | source=agent             | hardclass                   |           |
+| x86_64                                                       source=agent              | derived-from=sys.machine   | hardclass                |                             |           |
+</pre>
+
+<aside class="notes">
+<p>
+Note, show-classes will not show ALL possible classes. It only performs
+pre-eval so it is only showing the classes that are defined after pre-eval.
+</p>
+
+</aside>
+
+</section>
+<section id="slide-orgc759c69">
+<h3 id="orgc759c69"><a id="ID-65733534-2c63-4bb5-86b6-7ed9140c7050"></a>Class expressions</h3>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 1:</span> Class Expressions</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><b>.</b>  (dot)</td>
+<td class="org-left"><b>AND</b></td>
+</tr>
+
+<tr>
+<td class="org-left"><b>&amp;</b>  (ampersand)</td>
+<td class="org-left"><b>AND</b></td>
+</tr>
+
+<tr>
+<td class="org-left"><b>l</b>  (pipe)</td>
+<td class="org-left"><b>OR</b></td>
+</tr>
+
+<tr>
+<td class="org-left"><b>!</b>  (exclamation)</td>
+<td class="org-left"><b>NOT</b></td>
+</tr>
+
+<tr>
+<td class="org-left"><b>()</b> (parenthesis)</td>
+<td class="org-left"><b>grouping</b></td>
+</tr>
+</tbody>
+</table>
+
+<ul>
+<li>It's more common to use <b><code>.</code></b> than <b><code>&amp;</code></b> to express AND</li>
+
+</ul>
+
+<aside class="notes">
+<p>
+Classes can be combined into expressions to make complex decisions.
+</p>
+
+</aside>
+
+</section>
+<section id="slide-orge64b66a">
+<h3 id="orge64b66a"><a id="ID-161654cc-bffb-4401-a211-9b17f600136d"></a>classes example</h3>
+<div class="org-src-container">
+
+<pre  class="src src-cfengine3"><span style="color: #839496; font-weight: bold;">bundle</span> <span style="color: #268bd2; font-weight: bold;">agent</span> <span style="color: #268bd2;">main</span>
+<span style="color: #2aa198;">{</span>
+  <span style="color: #839496; font-weight: bold;">files</span>:
+    <span style="color: #859900; font-weight: bold;">linux.</span><span style="color: #b58900; font-weight: bold;">(</span><span style="color: #859900; font-weight: bold;">Sunday|Saturday</span><span style="color: #b58900; font-weight: bold;">)</span>::
+      <span style="color: #2aa198;">"/etc/nologin"</span> -&gt; <span style="color: #b58900;">{</span> <span style="color: #2aa198;">"Human Resources"</span> <span style="color: #b58900;">}</span>
+        create =&gt; <span style="color: #2aa198;">"true"</span>,
+        comment =&gt; <span style="color: #2aa198;">"Disallow non-root logins on the weekend.</span>
+<span style="color: #2aa198;">                    We believe in work-life balance, and</span>
+<span style="color: #2aa198;">                    encourage it."</span>;
+
+    <span style="color: #859900; font-weight: bold;">linux.!</span><span style="color: #b58900; font-weight: bold;">(</span><span style="color: #859900; font-weight: bold;">Sunday|Saturday</span><span style="color: #b58900; font-weight: bold;">)</span>::
+      <span style="color: #2aa198;">"/etc/nologin"</span> -&gt; <span style="color: #b58900;">{</span> <span style="color: #2aa198;">"Business Operations"</span> <span style="color: #b58900;">}</span>
+        delete =&gt; tidy,
+        comment =&gt; <span style="color: #2aa198;">"People need to be able to log in for them</span>
+<span style="color: #2aa198;">                  to do their work during the week"</span>;
+<span style="color: #2aa198;">}</span>
+</pre>
+</div>
+
+<aside class="notes">
+<p>
+Here we use class expressions to make sure that unprivileged users are not
+allowed to log in on the weekend, and also that they are allowed to log in
+during the week.
+</p>
+
+</aside>
+
+</section>
+<section id="slide-org7ff0131">
+<h3 id="org7ff0131"><a id="ID-c897c3c2-1b36-4109-a447-de511147c19f"></a>Class types</h3>
+<ul>
+<li>Hard Classes</li>
+<li>Soft Classes</li>
+
+</ul>
+
+</section>
+<section id="slide-orgc548e14">
+<h3 id="orgc548e14"><a id="ID-7eb9939c-b88a-4914-81c4-7439a46fb94d"></a>Hard classes</h3>
+<ul>
+<li>Defined by agent</li>
+<li>Not configurable</li>
+<li>Always available</li>
+<li>Discovered each run</li>
+<li>Cannot be undefined</li>
+
+</ul>
+
+<p>
+<code>redhat</code>, <code>Thursday</code>, <code>linux</code>
+</p>
+
+</section>
+<section id="slide-org4f3496c">
+<h3 id="org4f3496c"><a id="ID-ac5c9911-31e1-4a9c-a0f5-eea6013b78dc"></a>Soft classes</h3>
+<ul>
+<li>Defined by policy</li>
+<li>Based on anything</li>
+<li>Available after definition</li>
+<li>Can persist for period of time</li>
+<li>Can be namespace or bundle scoped</li>
+<li>Can be undefined</li>
+
+</ul>
+
+<p>
+<code>webserver</code>, <code>prod_env</code>, <code>north_america</code>
+</p>
+
+</section>
+<section id="slide-org649dde3">
+<h3 id="org649dde3"><a id="ID-c908f05c-9569-43a9-9444-3ea5201bd44a"></a>Valid Class names</h3>
+<ul>
+<li>Allowed characters include <code>[a-zA-Z0-9_]</code></li>
+<li><b>Canonify</b> a string to produce a valid class name (by converting invalid
+characters to <code>_</code>).</li>
+<li>Automatically canonified <b>when defined</b></li>
+
+</ul>
+
+<p>
+<b>Note:</b> Classes are <b>NOT</b> automatically canonified when <b>checked</b>.
+</p>
+
+</section>
+<section id="slide-org11dc9cc">
+<h3 id="org11dc9cc"><a id="ID-5e6887e9-914e-4f09-91ea-f117bfda7cd3"></a>Example of automatic canonification</h3>
+<div class="org-src-container">
+<label class="org-src-name"><code>examples/00-01-classes_canonification.cf</code></label>
+<pre  class="src src-cfengine3"><span style="color: #839496; font-weight: bold;">bundle</span> <span style="color: #268bd2; font-weight: bold;">agent</span> <span style="color: #268bd2;">main</span>
+<span style="color: #2aa198;">{</span>
+  <span style="color: #839496; font-weight: bold;">vars</span>:
+    <span style="color: #2aa198;">"my_class_name"</span> <span style="color: #b58900;">string</span> =&gt; <span style="color: #2aa198;">"Invalid-Class/Name!"</span>;
+    <span style="color: #2aa198;">"c_my_class_name"</span> <span style="color: #b58900;">string</span> =&gt; canonify<span style="color: #b58900;">(</span> <span style="color: #2aa198;">"$(my_class_name)"</span> <span style="color: #b58900;">)</span>;
+
+  <span style="color: #839496; font-weight: bold;">classes</span>:
+    <span style="color: #2aa198;">"$(my_class_name)"</span> expression =&gt; <span style="color: #2aa198;">"any"</span>;
+
+  <span style="color: #839496; font-weight: bold;">reports</span>:
+
+    <span style="color: #2aa198;">"'$(my_class_name)' is **NOT** a class that is defined"</span>
+      unless =&gt; <span style="color: #2aa198;">"$(my_class_name)"</span>;
+
+    <span style="color: #2aa198;">"'$(c_my_class_name)' **IS** a defined class"</span>
+      if =&gt; canonify<span style="color: #b58900;">(</span> $<span style="color: #268bd2;">(</span><span style="color: #268bd2;">my_class_name</span><span style="color: #268bd2;">)</span> <span style="color: #b58900;">)</span>;
+<span style="color: #2aa198;">}</span>
+</pre>
+</div>
+
+</section>
+<section>
+
+<pre class="example">
+R: 'Invalid-Class/Name!' is **NOT** a class that is defined
+R: 'Invalid_Class_Name_' **IS** a defined class
+</pre>
+
+</section>
+<section id="slide-org643832f">
+<h3 id="org643832f"><a id="ID-3000b84d-cd58-49c7-9e2e-06f72d5e3b80"></a>Class scope</h3>
+<ul>
+<li>Namespace scoped classes are accessible from any bundle.</li>
+<li>Persist until end of agent run or explicitly undefined.</li>
+<li>Bundle scoped classes are only accessible from within the bundle the class was
+defined.</li>
+<li>All hard classes are namespace scoped</li>
+
+</ul>
+
+<aside class="notes">
+<p>
+Don't worry too much about namespaces yet. It's an advanced topic and mostly
+relates to very large policy sets or environments with many different groups
+of policy writers.
+</p>
+
+<ul>
+<li>Namespace scoped classes are also referred to as "global" classes.</li>
+<li>Inventoried classes <b>must be <code>namespace</code> scoped</b>.</li>
+
+</ul>
+
+</aside>
+
+</section>
+<section id="slide-org8ebd121">
+<h3 id="org8ebd121"><a id="ID-b10aa5d5-fb2a-46d5-8d17-eddc7db5a327"></a>Class scope rules</h3>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+<caption class="t-above"><span class="table-number">Table 2:</span> Default scope for <code>classes</code> <b>type</b> promises</caption>
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left">Bundle Type</td>
+<td class="org-left">Scope</td>
+</tr>
+
+<tr>
+<td class="org-left"><code>common</code></td>
+<td class="org-left"><code>namespace</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>agent</code></td>
+<td class="org-left"><code>bundle</code></td>
+</tr>
+</tbody>
+</table>
+
+<ul>
+<li><code>classes</code> bodies default to <b>namespace scope</b></li>
+
+</ul>
+
+<p>
+<b>Pro Tip:</b> Use <b><code>bundle</code></b> scoped classes whenever possible.
+</p>
+
+<aside class="notes">
+<ul>
+<li>By default classes defined by classes type promises in <b>common bundles</b> are
+<b>namespace scoped</b></li>
+<li>By default classes defined by classes type promises in <b>agent bundles</b> are
+<b>bundle scoped</b></li>
+<li>By default classes defined as the <b>result of promise outcomes</b> (<code>classes
+    bodies</code>) are <b>namespace scoped</b></li>
+
+</ul>
+
+<p>
+Namespace scope classes if not maintained well can cause other conditions to
+be met unexpectedly. For example, consider if you defined the class
+<code>config_repaired</code> or <code>restart_service</code>. Which config, which service?
+</p>
+
+</aside>
+
+</section>
+<section id="slide-orgb884cc4">
+<h3 id="orgb884cc4"><a id="ID-59e5f34c-ef7d-41ff-a24e-6f07e7cba410"></a>Define custom classes by expression</h3>
+<div class="org-src-container">
+<label class="org-src-name"><code>examples/00-10-classes_by_expression.cf</code></label>
+<pre  class="src src-cfengine3"><span style="color: #839496; font-weight: bold;">bundle</span> <span style="color: #268bd2; font-weight: bold;">agent</span> <span style="color: #268bd2;">main</span>
+<span style="color: #2aa198;">{</span>
+  <span style="color: #839496; font-weight: bold;">classes</span>:
+    <span style="color: #2aa198;">"weekend"</span> or =&gt; <span style="color: #b58900;">{</span> <span style="color: #2aa198;">"Saturday"</span>, <span style="color: #2aa198;">"Sunday"</span> <span style="color: #b58900;">}</span>;
+    <span style="color: #2aa198;">"weekday"</span> not =&gt; <span style="color: #b58900;">{</span> <span style="color: #2aa198;">"weekend"</span> <span style="color: #b58900;">}</span>;
+
+    <span style="color: #2aa198;">"business_hours"</span>
+      expression =&gt; <span style="color: #2aa198;">"weekday.(Hr9|Hr10|Hr11|Hr13|Hr14|Hr15|Hr16|Hr17)"</span>,
+      comment =&gt; <span style="color: #2aa198;">"Weekdays from 9-5 excluding the lunch hour."</span>;
+
+    <span style="color: #2aa198;">"webserver"</span>
+      expression =&gt; regcmp<span style="color: #b58900;">(</span> <span style="color: #2aa198;">"www.*"</span>, $<span style="color: #268bd2;">(</span><span style="color: #268bd2;">sys.fqhost</span><span style="color: #268bd2;">)</span> <span style="color: #b58900;">)</span>,
+      comment =&gt; <span style="color: #2aa198;">"Identify webservers based on their name"</span>;
+
+    <span style="color: #2aa198;">"north_america"</span>
+      expression =&gt; iprange<span style="color: #b58900;">(</span> <span style="color: #2aa198;">"10.1.0.0/16"</span> <span style="color: #b58900;">)</span>;
+<span style="color: #2aa198;">}</span>
+</pre>
+</div>
+
+</section>
+<section id="slide-org2002b8d">
+<h3 id="org2002b8d"><a id="ID-a644656f-2389-4d3c-9b7a-043608beb030"></a>Define custom classes by promise outcome</h3>
+<div class="org-src-container">
+<label class="org-src-name"><code>examples/00-10-classes_define_based_on_promise_outcome.cf</code></label>
+<pre  class="src src-cfengine3"><span style="color: #839496; font-weight: bold;">bundle</span> <span style="color: #268bd2; font-weight: bold;">agent</span> <span style="color: #268bd2;">main</span>
+<span style="color: #2aa198;">{</span>
+  <span style="color: #839496; font-weight: bold;">vars</span>:
+    <span style="color: #2aa198;">"config[PermitRootLogin]"</span> <span style="color: #b58900;">string</span> =&gt; <span style="color: #2aa198;">"no"</span>;
+
+  <span style="color: #839496; font-weight: bold;">files</span>:
+    <span style="color: #2aa198;">"/etc/ssh/sshd_config"</span>
+      edit_line =&gt; set_line_based<span style="color: #b58900;">(</span><span style="color: #2aa198;">"$(this.bundle).config"</span>, <span style="color: #2aa198;">" "</span>, <span style="color: #2aa198;">"\s+"</span>, <span style="color: #2aa198;">".*"</span>, <span style="color: #2aa198;">"\s*#\s*"</span><span style="color: #b58900;">)</span>,
+      classes =&gt; scoped_classes_generic<span style="color: #b58900;">(</span><span style="color: #2aa198;">"bundle"</span>, <span style="color: #2aa198;">"sshd_config"</span><span style="color: #b58900;">)</span>;
+
+  <span style="color: #839496; font-weight: bold;">services</span>:
+    <span style="color: #859900; font-weight: bold;">sshd_config_repaired</span>::
+      <span style="color: #2aa198;">"sshd"</span>
+        service_policy =&gt; <span style="color: #2aa198;">"restart"</span>,
+        comment =&gt; <span style="color: #2aa198;">"For sshd to pick up changed config it must be restarted."</span>
+<span style="color: #2aa198;">}</span>
+</pre>
+</div>
+
+</section>
+<section id="slide-orgfb43d10">
+<h3 id="orgfb43d10"><a id="ID-8c2e63ee-c972-4faa-bdd7-515c75ca2f16"></a>Example - traditional class expressions</h3>
+<div class="org-src-container">
+<label class="org-src-name"><code>examples/00-10-classes_traditional_expression.cf</code></label>
+<pre  class="src src-cfengine3"><span style="color: #839496; font-weight: bold;">bundle</span> <span style="color: #268bd2; font-weight: bold;">agent</span> <span style="color: #268bd2;">main</span>
+<span style="color: #2aa198;">{</span>
+  <span style="color: #839496; font-weight: bold;">reports</span>:
+    <span style="color: #859900; font-weight: bold;">linux.!</span><span style="color: #b58900; font-weight: bold;">(</span><span style="color: #859900; font-weight: bold;">Saturday|Sunday</span><span style="color: #b58900; font-weight: bold;">)</span>::
+      <span style="color: #2aa198;">"This is a linux host"</span>;
+      <span style="color: #2aa198;">"Today is not Saturday or Sunday"</span>;
+<span style="color: #2aa198;">}</span>
+</pre>
+</div>
+
+<p>
+Traditional class expressions apply until the next class expression, promise
+type, or end of bundle. If unspecified promises are in the <code>any</code> context.
+</p>
+
+<aside class="notes">
+<p>
+Variables are not allowed in traditional class expressions.
+</p>
+
+</aside>
+
+</section>
+<section id="slide-org52a5e20">
+<h3 id="org52a5e20"><a id="ID-db36a183-b9b0-4bd1-9cde-c28aa7dafcfd"></a>Example - ifvarclass</h3>
+<div class="org-src-container">
+<label class="org-src-name"><code>examples/00-10-classes_example_ifvarclass.cf</code></label>
+<pre  class="src src-cfengine3"><span style="color: #839496; font-weight: bold;">bundle</span> <span style="color: #268bd2; font-weight: bold;">agent</span> <span style="color: #268bd2;">main</span>
+<span style="color: #2aa198;">{</span>
+  <span style="color: #839496; font-weight: bold;">vars</span>:
+    <span style="color: #2aa198;">"platforms"</span> <span style="color: #b58900;">slist</span> =&gt; <span style="color: #b58900;">{</span> <span style="color: #2aa198;">"linux"</span>, <span style="color: #2aa198;">"windows"</span> <span style="color: #b58900;">}</span>;
+
+  <span style="color: #839496; font-weight: bold;">reports</span>:
+    <span style="color: #2aa198;">"I am a $(platforms) host"</span>
+      ifvarclass =&gt; <span style="color: #2aa198;">"$(platforms)"</span>;
+<span style="color: #2aa198;">}</span>
+</pre>
+</div>
+
+<ul>
+<li>Restrict individual promises</li>
+
+</ul>
+
+<aside class="notes">
+<p>
+It's also useful to further restrict a promise in combination with a
+traditional class expression as it acts as an <b><b>AND</b></b> with a traditional class
+expression.
+</p>
+
+</aside>
+
+</section>
+<section id="slide-org17bc004">
+<h3 id="org17bc004"><a id="ID-fb1f6643-9313-4053-8b09-fa190448ef0a"></a>Example - if and unless</h3>
+<p>
+<b>Better readability with if/unless</b>
+</p>
+
+<div class="org-src-container">
+<label class="org-src-name"><code>examples/00-10-classes_example_if_and_unless.cf</code></label>
+<pre  class="src src-cfengine3"><span style="color: #839496; font-weight: bold;">bundle</span> <span style="color: #268bd2; font-weight: bold;">agent</span> <span style="color: #268bd2;">main</span>
+<span style="color: #2aa198;">{</span>
+  <span style="color: #839496; font-weight: bold;">vars</span>:
+    <span style="color: #2aa198;">"platforms"</span> <span style="color: #b58900;">slist</span> =&gt; <span style="color: #b58900;">{</span> <span style="color: #2aa198;">"linux"</span>, <span style="color: #2aa198;">"windows"</span> <span style="color: #b58900;">}</span>;
+
+  <span style="color: #839496; font-weight: bold;">reports</span>:
+    <span style="color: #2aa198;">"I am a $(platforms) host"</span>
+      if =&gt; <span style="color: #2aa198;">"$(platforms)"</span>;
+
+    <span style="color: #2aa198;">"I was made by Microsoft"</span>
+      unless =&gt; <span style="color: #2aa198;">"!windows"</span>;
+<span style="color: #2aa198;">}</span>
+</pre>
+</div>
+
+<aside class="notes">
+<ul>
+<li>Added in 3.7</li>
+
+</ul>
+
+</aside>
+
+</section>
+<section id="slide-orgb2618b0">
+<h3 id="orgb2618b0"><a id="ID-ca2bd83a-79ec-4b13-a637-8ccd547e1660"></a>Example - variable class expressions</h3>
+<p>
+<b>More flexibility with variable class expressions</b>
+</p>
+
+<div class="org-src-container">
+<label class="org-src-name"><code>examples/00-10-classes_example_variable_class_expressions.cf</code></label>
+<pre  class="src src-cfengine3"><span style="color: #839496; font-weight: bold;">bundle</span> <span style="color: #268bd2; font-weight: bold;">agent</span> <span style="color: #268bd2;">main</span>
+<span style="color: #2aa198;">{</span>
+  <span style="color: #839496; font-weight: bold;">vars</span>:
+    <span style="color: #2aa198;">"platforms"</span> <span style="color: #b58900;">slist</span> =&gt; <span style="color: #b58900;">{</span> <span style="color: #2aa198;">"linux"</span>, <span style="color: #2aa198;">"windows"</span> <span style="color: #b58900;">}</span>;
+
+  <span style="color: #839496; font-weight: bold;">reports</span>:
+    <span style="color: #2aa198;">"$(platforms)"</span>::
+      <span style="color: #2aa198;">"I am a $(platforms) host"</span>;
+<span style="color: #2aa198;">}</span>
+</pre>
+</div>
+
+<aside class="notes">
+<p>
+Like traditional class expressions variable class expressions apply until the
+next class expression, promise type, or end of bundle.
+</p>
+
+<p>
+In 3.7 traditional class expressions gained the ability to de-reference
+variables when quoted.
+</p>
+
+</aside>
+
+</section>
+<section id="slide-org599765b">
+<h3 id="org599765b"><a id="ID-8aec7270-5f1d-4e29-80b5-e1c635bedf19"></a>Pop Quiz</h3>
+<ul class="fragment roll-in">
+<li>What types of classes are there?</li>
+
+</ul>
+
+<ul class="fragment roll-in">
+<li>What is the difference?</li>
+
+</ul>
+
+<ul class="fragment roll-in">
+<li>What are valid class characters?</li>
+
+</ul>
+
+<ul class="fragment roll-in">
+<li>What is the default scope for classes defined as the result of a promise
+outcome using a classes body?</li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-orgd01c014">
+<h2 id="orgd01c014"><a id="ID-90852a3c-ff79-4bee-a71b-df6d9e13cc34"></a>Data Types</h2>
+</section>
+<section id="slide-org2be292e">
+<h3 id="org2be292e"><a id="ID-6e7ca748-f46a-4914-b512-cd626ee34165"></a>Variable Scoping</h3>
+<ul>
+<li><code>$(variable)</code>, <code>@(list)</code></li>
+<li>Use fully qualified variable names when accessing variables in other bundles.
+<ul>
+<li><code>$(bundle.variable)</code>, <code>@(bundle.list)</code></li>
+<li><code>$(namespace:bundle.variable)</code>, <code>@(namespace:bundle.list)</code></li>
+
+</ul></li>
+
+</ul>
+
+</section>
+<section id="slide-org0de56d7">
+<h3 id="org0de56d7"><a id="ID-33870a0a-4fbd-4d3c-878c-e88bd9b47188"></a>Example - strings</h3>
+<div class="org-src-container">
+<label class="org-src-name"><code>examples/00-01-strings.cf</code></label>
+<pre  class="src src-cfengine3" id="=examples/00-01-strings.cf="><span style="color: #839496; font-weight: bold;">bundle</span> <span style="color: #268bd2; font-weight: bold;">agent</span> <span style="color: #268bd2;">main</span>
+<span style="color: #2aa198;">{</span>
+  <span style="color: #839496; font-weight: bold;">vars</span>:
+   <span style="color: #2aa198;">"string1"</span> <span style="color: #b58900;">string</span> =&gt; <span style="color: #2aa198;">"one"</span>;
+    <span style="color: #2aa198;">"string2"</span> <span style="color: #b58900;">string</span> =&gt; <span style="color: #2aa198;">"strings</span>
+<span style="color: #2aa198;">can be multi-line"</span>;
+    <span style="color: #2aa198;">"string3"</span> <span style="color: #b58900;">string</span> =&gt; <span style="color: #2aa198;">"with \"quotes\""</span>;
+    <span style="color: #2aa198;">"string4"</span> <span style="color: #b58900;">string</span> =&gt; <span style="color: #2aa198;">'or "quotes"'</span>;
+
+  <span style="color: #839496; font-weight: bold;">reports</span>:
+    <span style="color: #2aa198;">"string1 = '$(string1)'"</span>;
+    <span style="color: #2aa198;">"string2 = '$(string2)'"</span>;
+    <span style="color: #2aa198;">"string3 = '$(string3)'"</span>;
+    <span style="color: #2aa198;">"string4 = '$(string4)'"</span>;
+<span style="color: #2aa198;">}</span>
+</pre>
+</div>
+
+</section>
+<section>
+
+<pre class="example">
+R: string1 = 'one'
+R: string2 = 'strings
+can be multi-line'
+R: string3 = 'with "quotes"'
+R: string4 = 'or "quotes"'
+</pre>
+
+</section>
+<section id="slide-org22803ed">
+<h3 id="org22803ed"><a id="ID-01d51493-c97f-4804-b3e7-3c448222d8f5"></a>Example - numbers</h3>
+<div class="org-src-container">
+<label class="org-src-name"><code>examples/00-02-numbers.cf</code></label>
+<pre  class="src src-cfengine3" id="=examples/00-02-numbers.cf="><span style="color: #839496; font-weight: bold;">bundle</span> <span style="color: #268bd2; font-weight: bold;">agent</span> <span style="color: #268bd2;">main</span>
+<span style="color: #2aa198;">{</span>
+  <span style="color: #839496; font-weight: bold;">vars</span>:
+    <span style="color: #2aa198;">"var1"</span> <span style="color: #b58900;">int</span> =&gt; <span style="color: #2aa198;">"1"</span>;
+    <span style="color: #2aa198;">"var2"</span> <span style="color: #b58900;">int</span> =&gt; <span style="color: #2aa198;">"10K"</span>;
+    <span style="color: #2aa198;">"var3"</span> <span style="color: #b58900;">real</span> =&gt; <span style="color: #2aa198;">"1.2"</span>;
+    <span style="color: #2aa198;">"var4"</span> <span style="color: #b58900;">real</span> =&gt; <span style="color: #2aa198;">"10e-5"</span>;
+    <span style="color: #2aa198;">"var5"</span> <span style="color: #b58900;">int</span> =&gt; <span style="color: #2aa198;">"inf"</span>;
+
+  <span style="color: #839496; font-weight: bold;">reports</span>:
+    <span style="color: #2aa198;">"var1 = '$(var1)'"</span>;
+    <span style="color: #2aa198;">"var2 = '$(var2)'"</span>;
+    <span style="color: #2aa198;">"var3 = '$(var3)'"</span>;
+    <span style="color: #2aa198;">"var4 = '$(var4)'"</span>;
+    <span style="color: #2aa198;">"inf = '$(var5)'"</span>;
+<span style="color: #2aa198;">}</span>
+</pre>
+</div>
+
+</section>
+<section>
+
+<pre class="example">
+R: var1 = '1'
+R: var2 = '10240'
+R: var3 = '1.200000'
+R: var4 = '0.000100'
+R: inf = '999999999'
+</pre>
+
+<aside class="notes">
+<p>
+Integers may use suffixes to represent large numbers. The following suffixes can
+be used to create integer values for common powers of 1000.
+</p>
+
+<dl>
+<dt><code>k</code></dt><dd>value times 1000</dd>
+<dt><code>m</code></dt><dd>value times 1000<sup>2</sup></dd>
+<dt><code>g</code></dt><dd>value times 1000<sup>3</sup></dd>
+
+</dl>
+
+<p>
+Since computing systems such as storage and memory are based on binary values,
+CFEngine also provide the following uppercase suffixes to create integer
+values for common powers of 1024.
+</p>
+
+<dl>
+<dt><code>K</code></dt><dd>value times 1024</dd>
+<dt><code>M</code></dt><dd>value times 1024<sup>2</sup></dd>
+<dt><code>G</code></dt><dd>value times 1024<sup>3</sup></dd>
+
+</dl>
+
+<p>
+However, the values must have an integer numeric part (e.g. 1.5M is not
+allowed).
+</p>
+
+<p>
+In some contexts, <code>%</code> can be used a special suffix to denote percentages.
+</p>
+
+<p>
+Lastly, there is a reserved value which can be used to specific a parameter as
+having no limit at all.
+</p>
+
+<dl>
+<dt><code>inf</code></dt><dd>a constant representing an unlimited value.</dd>
+
+</dl>
+
+</aside>
+
+</section>
+<section id="slide-org3ffdb04">
+<h3 id="org3ffdb04"><a id="ID-476782d9-3e3f-415b-bbc1-b0a010f31663"></a>Example - lists</h3>
+<div class="org-src-container">
+<label class="org-src-name"><code>examples/00-04-lists.cf</code></label>
+<pre  class="src src-cfengine3" id="=examples/00-04-lists.cf="><span style="color: #839496; font-weight: bold;">bundle</span> <span style="color: #268bd2; font-weight: bold;">agent</span> <span style="color: #268bd2;">main</span>
+<span style="color: #2aa198;">{</span>
+  <span style="color: #839496; font-weight: bold;">vars</span>:
+    <span style="color: #2aa198;">"var1"</span> <span style="color: #b58900;">ilist</span> =&gt; <span style="color: #b58900;">{</span> <span style="color: #6c71c4;">1</span>, <span style="color: #6c71c4;">2</span>, <span style="color: #2aa198;">"3"</span>, <span style="color: #2aa198;">"4"</span> <span style="color: #b58900;">}</span>;
+    <span style="color: #2aa198;">"var2"</span> <span style="color: #b58900;">rlist</span> =&gt; <span style="color: #b58900;">{</span> <span style="color: #2aa198;">"1.2"</span>, <span style="color: #2aa198;">"2.0"</span>, <span style="color: #2aa198;">"3.3"</span> <span style="color: #b58900;">}</span>;
+    <span style="color: #2aa198;">"var3"</span> <span style="color: #b58900;">slist</span> =&gt; <span style="color: #b58900;">{</span> <span style="color: #2aa198;">"one"</span>, <span style="color: #2aa198;">"two"</span>, three,
+                      @<span style="color: #268bd2;">(</span><span style="color: #268bd2;">var1</span><span style="color: #268bd2;">)</span>, @<span style="color: #268bd2;">(</span><span style="color: #268bd2;">var2</span><span style="color: #268bd2;">)</span>,
+                    <span style="color: #b58900;">}</span>;
+    <span style="color: #2aa198;">"var4"</span> <span style="color: #b58900;">real</span> =&gt; sum<span style="color: #b58900;">(</span> var2 <span style="color: #b58900;">)</span>;
+
+  <span style="color: #839496; font-weight: bold;">reports</span>:
+    <span style="color: #2aa198;">"var1 = '$(var1)'"</span>;
+    <span style="color: #2aa198;">"var2 = '$(var2)'"</span>;
+    <span style="color: #2aa198;">"var3 = '$(var3)'"</span>;
+    <span style="color: #2aa198;">"var4 = '$(var4)'"</span>;
+<span style="color: #2aa198;">}</span>
+</pre>
+</div>
+
+</section>
+<section>
+
+<pre class="example">
+R: var1 = '1'
+R: var1 = '2'
+R: var1 = '3'
+R: var1 = '4'
+R: var2 = '1.2'
+R: var2 = '2.0'
+R: var2 = '3.3'
+R: var3 = 'one'
+R: var3 = 'two'
+R: var3 = 'three'
+R: var3 = '1'
+R: var3 = '2'
+R: var3 = '3'
+R: var3 = '4'
+R: var3 = '1.2'
+R: var3 = '2.0'
+R: var3 = '3.3'
+R: var4 = '6.500000'
+</pre>
+
+</section>
+<section id="slide-org1052a53">
+<h3 id="org1052a53"><a id="ID-d9be1dbe-d799-4da1-8968-ee3f2b044cf5"></a>Example - list iteration</h3>
+<div class="org-src-container">
+<label class="org-src-name"><code>examples/00-03-list_iteration.cf</code></label>
+<pre  class="src src-cfengine3" id="=examples/00-03-list_iteration.cf="><span style="color: #839496; font-weight: bold;">bundle</span> <span style="color: #268bd2; font-weight: bold;">agent</span> <span style="color: #268bd2;">main</span>
+<span style="color: #2aa198;">{</span>
+  <span style="color: #839496; font-weight: bold;">vars</span>:
+    <span style="color: #2aa198;">"numbers"</span> <span style="color: #b58900;">slist</span> =&gt; <span style="color: #b58900;">{</span> <span style="color: #2aa198;">"1"</span>, <span style="color: #2aa198;">"2"</span>, <span style="color: #2aa198;">"3"</span> <span style="color: #b58900;">}</span>;
+    <span style="color: #2aa198;">"colors"</span> <span style="color: #b58900;">slist</span> =&gt; <span style="color: #b58900;">{</span> <span style="color: #2aa198;">"red"</span>, <span style="color: #2aa198;">"green"</span>, <span style="color: #2aa198;">"blue"</span> <span style="color: #b58900;">}</span>;
+
+  <span style="color: #839496; font-weight: bold;">reports</span>:
+    <span style="color: #2aa198;">"$(numbers)"</span>;
+    <span style="color: #2aa198;">"$(colors)"</span>;
+    <span style="color: #2aa198;">"$(numbers) with $(colors)"</span>;
+    <span style="color: #2aa198;">"$(colors) with $(numbers)"</span>;
+<span style="color: #2aa198;">}</span>
+</pre>
+</div>
+
+</section>
+<section>
+
+<pre class="example">
+R: 1
+R: 2
+R: 3
+R: red
+R: green
+R: blue
+R: 1 with red
+R: 2 with red
+R: 3 with red
+R: 1 with green
+R: 2 with green
+R: 3 with green
+R: 1 with blue
+R: 2 with blue
+R: 3 with blue
+R: red with 1
+R: green with 1
+R: blue with 1
+R: red with 2
+R: green with 2
+R: blue with 2
+R: red with 3
+R: green with 3
+R: blue with 3
+</pre>
+
+</section>
+<section id="slide-orge2440fc">
+<h3 id="orge2440fc">Example - "Classic" Arrays</h3>
+<div class="org-src-container">
+<label class="org-src-name"><code>examples/00-05-classic_arrays.cf</code></label>
+<pre  class="src src-cfengine3" id="=examples/00-05-classic_arrays.cf="><span style="color: #839496; font-weight: bold;">bundle</span> <span style="color: #268bd2; font-weight: bold;">agent</span> <span style="color: #268bd2;">main</span>
+<span style="color: #2aa198;">{</span>
+  <span style="color: #839496; font-weight: bold;">vars</span>:
+    <span style="color: #2aa198;">"file[motd]"</span>  <span style="color: #b58900;">string</span> =&gt; <span style="color: #2aa198;">"/etc/motd"</span>;
+    <span style="color: #2aa198;">"file[fstab]"</span> <span style="color: #b58900;">string</span> =&gt; <span style="color: #2aa198;">"/etc/fstab"</span>;
+
+    <span style="color: #2aa198;">"file_idx"</span> <span style="color: #b58900;">slist</span> =&gt; getindices<span style="color: #b58900;">(</span> file <span style="color: #b58900;">)</span>;
+    <span style="color: #2aa198;">"files"</span> <span style="color: #b58900;">slist</span> =&gt; getvalues<span style="color: #b58900;">(</span> file <span style="color: #b58900;">)</span>;
+
+  <span style="color: #839496; font-weight: bold;">reports</span>:
+   <span style="color: #2aa198;">"The key '$(file_idx)' has the value '$(file[$(file_idx)])'"</span>;
+   <span style="color: #2aa198;">"file: '$(files)'"</span>;
+<span style="color: #2aa198;">}</span>
+</pre>
+</div>
+
+</section>
+<section>
+
+<pre class="example">
+R: The key 'fstab' has the value '/etc/fstab'
+R: The key 'motd' has the value '/etc/motd'
+R: file: '/etc/fstab'
+R: file: '/etc/motd'
+</pre>
+
+</section>
+<section id="slide-orgc103b9a">
+<h3 id="orgc103b9a">Example - data containers</h3>
+<div class="org-src-container">
+<label class="org-src-name"><code>examples/00-06-data_containers.cf</code></label>
+<pre  class="src src-cfengine3" id="=examples/00-06-data_containers.cf="><span style="color: #839496; font-weight: bold;">bundle</span> <span style="color: #268bd2; font-weight: bold;">agent</span> <span style="color: #268bd2;">main</span>
+<span style="color: #2aa198;">{</span>
+  <span style="color: #839496; font-weight: bold;">vars</span>:
+    <span style="color: #2aa198;">"server"</span> <span style="color: #b58900;">string</span> =&gt; <span style="color: #2aa198;">"mirror.int.cfengine.com"</span>;
+    <span style="color: #2aa198;">"repos"</span>
+      <span style="color: #b58900;">data</span> =&gt; parsejson<span style="color: #b58900;">(</span><span style="color: #2aa198;">'{</span>
+<span style="color: #2aa198;">                "rhel6_updates": {</span>
+<span style="color: #2aa198;">                  "id": { "value":"RHEL6_UPDATES" },</span>
+<span style="color: #2aa198;">                  "name": { "value": "RHEL 6.x Updates" },</span>
+<span style="color: #2aa198;">                  "baseurl": { "value": "https://$(server)/RHEL6/updates" }</span>
+<span style="color: #2aa198;">                }</span>
+<span style="color: #2aa198;">              }'</span><span style="color: #b58900;">)</span>;
+
+    <span style="color: #2aa198;">"idx"</span> <span style="color: #b58900;">slist</span> =&gt; getindices<span style="color: #b58900;">(</span> repos <span style="color: #b58900;">)</span>;
+
+  <span style="color: #839496; font-weight: bold;">reports</span>:
+    <span style="color: #2aa198;">"URL = '$(repos[$(idx)][baseurl][value])'"</span>;
+<span style="color: #2aa198;">}</span>
+</pre>
+</div>
+
+</section>
+<section>
+
+<pre class="example">
+R: URL = 'https://mirror.int.cfengine.com/RHEL6/updates'
+</pre>
+
+</section>
+<section id="slide-org4dd5948">
+<h3 id="org4dd5948"><a id="ID-7f27eca0-1121-4c25-bfb3-b5e0cdd3de46"></a>Pop Quiz</h3>
+<ul class="fragment roll-in">
+<li>Which component makes changes to your system?</li>
+
+</ul>
+
+<ul class="fragment roll-in">
+<li>Which component schedules agent runs?</li>
+
+</ul>
+
+<ul class="fragment roll-in">
+<li>What symbol terminates a promise?</li>
+
+</ul>
+
+<ul class="fragment roll-in">
+<li>What is your quest?</li>
+
+</ul>
+
+<ul class="fragment roll-in">
+<li>What are promise comments used for?</li>
+
+</ul>
+
+<ul class="fragment roll-in">
+<li>What types of variables are available?</li>
+
+</ul>
+
+<ul class="fragment roll-in">
+<li>How are decisions made?</li>
+
+</ul>
+</section>
+</section>
+<section>
+<section id="slide-org0d65780">
+<h2 id="org0d65780"><a id="ID-8980313e-65a6-4d8b-a616-3e77b77e059e"></a>Git Primer</h2>
+</section>
+<section id="slide-org9a59122">
+<h3 id="org9a59122"><a id="ID-60e8c549-6a49-4d10-8fdc-7943b8895b0f"></a>Git</h3>
+<p>
+Git is the most popular modern version control management tool. <a href="https://github.com/">Github</a>,
+<a href="https://bitbucket.org/">Bitbucket</a>, and <a href="https://gitlab.com/">GitLab</a> all provide great hosted and on prem repository management
+solutions.
+</p>
+
+<p>
+Using a git management system is reccomended for implementing access controls
+and improved collaboration with regard to policy and systems management.
+</p>
+
+<aside class="notes">
+<p>
+CFEngine Enterprise tooling works with git out of the box. If you don't want
+to use git the tooling is easily customized to support any version control
+system.
+</p>
+
+</aside>
+
+</section>
+<section id="slide-orgc08fa33">
+<h3 id="orgc08fa33"><a id="ID-1c6d3b1e-9189-420c-a80b-4ed581eca528"></a>Getting started</h3>
+<p>
+Log into the policy server
+</p>
+
+<pre class="example">
+[user@workstation] $ vagrant ssh hub
+[vagrant@hub] $ sudo -i
+</pre>
+
+<p>
+Configure git author
+</p>
+
+<pre class="example">
+[root@hub masterfiles] # git config -–global user.name “Mr. Slate”
+[root@hub masterfiles] # git config -–global user.email “bossman@slateco.com”
+[root@hub masterfiles] # git config --global push.default simple
+</pre>
+
+</section>
+<section id="slide-org296d390">
+<h3 id="org296d390"><a id="ID-0fc590cd-54a2-4b11-91e7-dc06653d12e0"></a>Clone builtin repository</h3>
+<pre class="example">
+[root@hub masterfiles] # git clone /opt/cfengine/masterfiles.git /vagrant/masterfiles
+Cloning into '/vagrant/masterfiles'...
+</pre>
+
+<aside class="notes">
+<p>
+When an Enterprise hub is installed, a git repository is seeded with the stock
+Masterfiles Policy Framework for that release. It provides an easy place to
+play around with git and get setarted.
+</p>
+
+</aside>
+
+</section>
+<section id="slide-org9b583fe">
+<h3 id="org9b583fe"><a id="ID-dc014f99-e08c-4000-adb3-771a898428ed"></a>Add a file to the repository</h3>
+<pre class="example">
+[root@hub masterfiles] # cd /vagrant/masterfiles
+[root@hub masterfiles] # ls
+cfe_internal  Changelog  controls  def.cf  lessons  lib  libraries  promises.cf  services  sketches  update  update.cf
+[root@hub masterfiles] # echo hi &gt; file
+[root@hub masterfiles] # git status
+# On branch master
+# Untracked files:
+#   (use "git add &lt;file&gt;..." to include in what will be committed)
+#
+#	file
+nothing added to commit but untracked files present (use "git add" to track)
+</pre>
+
+</section>
+<section id="slide-org383596d">
+<h3 id="org383596d"><a id="ID-af76a43e-5f72-48d8-b41d-4651e789f6b6"></a>Stage and commit the changes</h3>
+<pre class="example">
+[root@hub masterfiles] # git add file
+[root@hub masterfiles] # git status
+# On branch master
+# Changes to be committed:
+#   (use "git reset HEAD &lt;file&gt;..." to unstage)
+#
+#	new file:   file
+#
+# git commit -m “Testing git workflow”
+[master c886caf] Testing git workflow
+ 0 files changed, 0 insertions(+), 0 deletions(-)
+ create mode 100644 file
+</pre>
+
+</section>
+<section id="slide-org0ffcdcb">
+<h3 id="org0ffcdcb"><a id="ID-40a49bb0-202c-417f-bae6-af7fcf02b63a"></a>Publish the change</h3>
+<pre class="example">
+[root@hub masterfiles] # git status
+# On branch master
+# Your branch is ahead of 'origin/master' by 1 commit.
+#
+nothing to commit (working directory clean)
+[root@hub masterfiles] # git push
+Counting objects: 4, done.
+Delta compression using up to 2 threads.
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (3/3), 280 bytes, done.
+Total 3 (delta 1), reused 0 (delta 0)
+Unpacking objects: 100% (3/3), done.
+To /opt/cfengine/masterfiles.git
+   ee31801..94b8151  master -&gt; master
+# git status
+# On branch master
+nothing to commit (working directory clean)
+</pre>
+
+</section>
+<section id="slide-org6400731">
+<h3 id="org6400731"><a id="ID-f2e1db3c-e8d3-4383-b4cd-3ca30859f203"></a>Modify a file</h3>
+<pre class="example">
+[root@hub masterfiles] # echo HI &gt;&gt; file
+[root@hub masterfiles] # git status
+# On branch master
+# Your branch is ahead of 'origin/master' by 1 commit.
+#
+# Changed but not updated:
+#   (use "git add &lt;file&gt;..." to update what will be committed)
+#   (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
+#
+#	modified:   file
+#
+no changes added to commit (use "git add" and/or "git commit -a")
+</pre>
+
+</section>
+<section id="slide-orgfbda624">
+<h3 id="orgfbda624"><a id="ID-f21892a0-120f-4afb-b682-109d60993a61"></a>Diff to validate detail of content change</h3>
+<pre class="example">
+[root@hub masterfiles] # git diff
+diff --git a/file b/file
+index 45b983b..313352b 100644
+--- a/file
++++ b/file
+@@ -1 +1,2 @@
+ hi
++HI
+</pre>
+
+</section>
+<section id="slide-org88e94a8">
+<h3 id="org88e94a8"><a id="ID-a9fa607f-a1d6-4c65-9f8d-63eff10b765d"></a>Stage and commit the changes</h3>
+<pre class="example">
+[root@hub masterfiles] # git add file
+[root@hub masterfiles] # git status
+# On branch master
+# Your branch is ahead of 'origin/master' by 1 commit.
+#
+# Changes to be committed:
+#   (use "git reset HEAD &lt;file&gt;..." to unstage)
+#
+#	modified:   file
+#
+# git commit -m "Modified file"
+[master fd94885] Modified file
+ 1 files changed, 1 insertions(+), 0 deletions(-)
+# git status
+# On branch master
+# Your branch is ahead of 'origin/master' by 1 commits.
+#
+nothing to commit (working directory clean)
+</pre>
+
+</section>
+<section id="slide-orgadfdf2f">
+<h3 id="orgadfdf2f"><a id="ID-749f73cb-553e-4356-a2ed-81d5b731ee51"></a>Publish the change</h3>
+<pre class="example">
+[root@hub masterfiles] # git push
+Counting objects: 7, done.
+Delta compression using up to 2 threads.
+Compressing objects: 100% (4/4), done.
+Writing objects: 100% (5/5), 493 bytes, done.
+Total 5 (delta 2), reused 0 (delta 0)
+Unpacking objects: 100% (5/5), done.
+To /opt/cfengine/masterfiles.git
+   c886caf..fd94885  master -&gt; master
+</pre>
+
+</section>
+<section id="slide-org9153d30">
+<h3 id="org9153d30"><a id="ID-90d60450-fbb2-4493-8b4e-d5dc7e2dc027"></a>Remove a file</h3>
+<pre class="example">
+[root@hub masterfiles] # git rm file
+# rm 'file'
+[root@hub masterfiles] # git status
+# On branch master
+# Changes to be committed:
+#   (use "git reset HEAD &lt;file&gt;..." to unstage)
+#
+#	deleted:    file
+#
+# git commit -m "Remove file"
+[master 4c9d46d] Remove file
+ 1 files changed, 0 insertions(+), 3 deletions(-)
+ delete mode 100644 file
+</pre>
+
+</section>
+<section id="slide-org5e2aac4">
+<h3 id="org5e2aac4"><a id="ID-6e18b671-4717-46df-8fd6-f83909e4b811"></a>Publish the change</h3>
+<pre class="example">
+[root@hub masterfiles] # git push
+Counting objects: 3, done.
+Delta compression using up to 2 threads.
+Compressing objects: 100% (2/2), done.
+Writing objects: 100% (2/2), 230 bytes, done.
+Total 2 (delta 1), reused 0 (delta 0)
+Unpacking objects: 100% (2/2), done.
+To /opt/cfengine/masterfiles.git
+   92660a9..4c9d46d  master -&gt; master
+</pre>
+
+</section>
+<section id="slide-orgf861ec8">
+<h3 id="orgf861ec8"><a id="ID-6734a7c7-ac82-4b99-90c2-3490bffbdd9b"></a>Place masterfiles into the repository</h3>
+<pre class="example">
+[root@hub masterfiles] # rsync -avz /var/cfengine/masterfiles/ .
+[root@hub masterfiles] # git add -A
+[root@hub masterfiles] # git commit -m "Seed repository with masterfiles"
+[root@hub masterfiles] # git push
+</pre>
+
+</section>
+<section id="slide-orgb75ce89">
+<h3 id="orgb75ce89"><a id="ID-2a44d62e-cfa3-4247-a762-9cb02431ed72"></a>Configure masterfiles for git integration</h3>
+<pre class="example">
+[root@hub masterfiles]# echo '{ "classes": { "cfengine_internal_masterfiles_update": [ "policy_server" ] } }' &gt; def.json
+[root@hub masterfiles]# git add def.json
+[root@hub masterfiles]# git commit -m "Enable automatic masterfiles update from repository"
+[master c206654] Enable automatic masterfiles update from repository
+ 1 file changed, 1 insertion(+)
+ create mode 100644 def.json
+[root@hub masterfiles]# git push
+warning: push.default is unset; its implicit value is changing in
+Git 2.0 from 'matching' to 'simple'. To squelch this message
+and maintain the current behavior after the default changes, use:
+
+  git config --global push.default matching
+
+To squelch this message and adopt the new behavior now, use:
+
+  git config --global push.default simple
+
+See 'git help config' and search for 'push.default' for further information.
+(the 'simple' mode was introduced in Git 1.7.11. Use the similar mode
+'current' instead of 'simple' if you sometimes use older versions of Git)
+
+Counting objects: 4, done.
+Delta compression using up to 2 threads.
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 370 bytes | 0 bytes/s, done.
+Total 3 (delta 1), reused 0 (delta 0)
+To /opt/cfengine/masterfiles.git
+   a181449..c206654  master -&gt; master
+</pre>
+
+</section>
+<section id="slide-org11e4874">
+<h3 id="org11e4874"><a id="ID-c4897f12-c9e8-4f6c-860d-c033258c4c9f"></a>Activate current update policy with enablement class</h3>
+<pre class="example">
+[root@hub masterfiles]# cf-agent --no-lock \
+--verbose \
+--define cfengine_internal_masterfiles_update \
+--file update.cf
+</pre>
+
+</section>
+<section id="slide-org1398c54">
+<h3 id="org1398c54"><a id="ID-458ad6fd-9f5d-4e6c-9284-d3bf1bd796f4"></a>Verify presence of def.json</h3>
+<pre class="example">
+[root@hub masterfiles]# cat /var/cfengine/masterfiles/def.json
+</pre>
+
+<aside class="notes">
+<p>
+As you recall, we put the def.json into the repository not in
+<code>/var/cfengine/masterfiles</code> directly. We want to make sure that masterfiles is
+updating from our repository.
+</p>
+
+</aside>
+
+</section>
+<section id="slide-org942abb1">
+<h3 id="org942abb1"><a id="ID-8b086174-7afd-4113-b50a-d77c60d7216d"></a>Review</h3>
+<p>
+Now when the agent runs on hosts that define <code>policy_server</code> policy will be
+activated that keeps <code>/var/cfengine/masterfiles</code> up to date with whats in the
+repository as configured in mission portal (which by default is
+<code>/opt/cfengine/masterfiles.git</code>).
+</p>
+
+<p>
+This means new policy will be distributed as you push it into the repository.
+<a href="https://en.wikipedia.org/wiki/Continuous_delivery">Continuous delivery</a> FTW!
+</p>
+
+</section>
+<section id="slide-org7e7d9f0">
+<h3 id="org7e7d9f0"><a id="ID-aa7df660-daf8-4842-af4c-4a30ce5acc0b"></a>Git command reference</h3>
+<table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
+
+
+<colgroup>
+<col  class="org-left" />
+
+<col  class="org-left" />
+</colgroup>
+<tbody>
+<tr>
+<td class="org-left"><code>git status</code></td>
+<td class="org-left"><code>git pull --rebase</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>git diff</code></td>
+<td class="org-left"><code>git grep</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>git add</code></td>
+<td class="org-left"><code>git log</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>git diff --cached</code></td>
+<td class="org-left"><code>git checkout -b new_feature</code></td>
+</tr>
+
+<tr>
+<td class="org-left"><code>git commit</code></td>
+<td class="org-left"><code>git push origin &lt;branch&gt;</code></td>
+</tr>
+</tbody>
+</table>
+
+</section>
+<section id="slide-org807a86f">
+<h3 id="org807a86f"><a id="ID-cb545ca0-bfe9-4115-a52a-f46b101cef43"></a>Pop Quiz</h3>
+<ul class="fragment roll-in">
+<li>Who was Mr. Slate?</li>
+
+</ul>
+
+<ul class="fragment roll-in">
+<li>How do you get an overview of the changes to your clone?</li>
+
+</ul>
+
+<ul class="fragment roll-in">
+<li>How can you easily search a git repository?</li>
+
+</ul>
+
+<aside class="notes">
+<ul>
+<li>Fred Flintstones Boss on The Flintstones</li>
+<li><code>git status</code></li>
+<li><code>git grep</code></li>
+
+</ul>
+
+</aside>
+
+</section>
+</section>
+<section>
+<section id="slide-org97f23e7">
+<h2 id="org97f23e7"><a id="ID-190c0079-5336-4e03-8ea4-c71a2cfa684f"></a>Examples and Exercises</h2>
+<aside class="notes">
+<p>
+For convenience in working with examples we will use the [autorun]() feature
+from the masterfiles policy framework.
+</p>
+
+<ul>
+<li>Autorun bundles are executed in lexical order. Use digit prefixes to get
+specific ordering.</li>
+
+</ul>
+
+</aside>
+
+</section>
+<section id="slide-org4fb4fb4">
+<h3 id="org4fb4fb4"><a id="ID-94b248ac-68df-4677-b03c-9149d3a548df"></a>Enable services<sub>autorun</sub></h3>
+<pre class="example">
+[root@hub masterfiles]# cat &gt; def.json &lt;&lt;EOF
+{
+    "classes": {
+        "cfengine_internal_masterfiles_update": [
+            "policy_server"
+        ],
+        "services_autorun": [ "any" ]
+    }
+}
+EOF
+</pre>
+
+</section>
+<section id="slide-org48a8780">
+<h3 id="org48a8780"><a id="ID-8ae87bb0-6245-49e2-a9e0-cb769a5a70c2"></a>Inspect</h3>
+<pre class="example">
+[root@hub masterfiles]# git status
+# On branch master
+# Changes not staged for commit:
+#   (use "git add &lt;file&gt;..." to update what will be committed)
+#   (use "git checkout -- &lt;file&gt;..." to discard changes in working directory)
+#
+#	modified:   def.json
+#
+no changes added to commit (use "git add" and/or "git commit -a")
+</pre>
+
+</section>
+<section id="slide-org36a353c">
+<h3 id="org36a353c"><a id="ID-f7b21389-1c0c-4f2f-be6d-a60d5454e047"></a>What you expect</h3>
+<pre class="example">
+[root@hub masterfiles]# git diff
+diff --git a/def.json b/def.json
+index 0b1c721..bf3b515 100644
+--- a/def.json
++++ b/def.json
+@@ -1 +1,8 @@
+-{ "classes": { "cfengine_internal_masterfiles_update": [ "policy_server" ] } }
++{
++    "classes": {
++        "cfengine_internal_masterfiles_update": [
++            "policy_server"
++        ],
++        "services_autorun": [ "any" ]
++    }
++}
+</pre>
+
+</section>
+<section id="slide-org130f7cf">
+<h3 id="org130f7cf"><a id="ID-dd25e013-80bd-4954-a446-ff0608358383"></a>Publish the change</h3>
+<pre class="example">
+[root@hub masterfiles]# git add def.json
+[root@hub masterfiles]# git commit -m "Enable autorun"
+[master 7e57301] Enable autorun
+ 1 file changed, 8 insertions(+), 1 deletion(-)
+[root@hub masterfiles]# git push origin master
+Counting objects: 5, done.
+Delta compression using up to 2 threads.
+Compressing objects: 100% (3/3), done.
+Writing objects: 100% (3/3), 364 bytes | 0 bytes/s, done.
+Total 3 (delta 1), reused 0 (delta 0)
+To /opt/cfengine/masterfiles.git
+   c206654..7e57301  master -&gt; master
+</pre>
+
+</section>
+<section id="slide-orgce5c122">
+<h3 id="orgce5c122"><a id="ID-9cb68439-c70c-4fe1-be2c-176fdf328588"></a>Example - Create a file</h3>
+<p>
+Copy this example to <code>services/autorun/nologin.cf</code>
+</p>
+
+<div class="org-src-container">
+<label class="org-src-name"><code>examples/00-20-example-create_file.cf</code></label>
+<pre  class="src src-cfengine3"><span style="color: #839496; font-weight: bold;">bundle</span> <span style="color: #268bd2; font-weight: bold;">agent</span> <span style="color: #268bd2;">no_login</span>
+<span style="color: #2aa198;">{</span>
+  <span style="color: #839496; font-weight: bold;">meta</span>:
+    <span style="color: #2aa198;">"tags"</span> <span style="color: #b58900;">slist</span> =&gt; <span style="color: #b58900;">{</span> <span style="color: #2aa198;">"autorun"</span> <span style="color: #b58900;">}</span>;
+
+  <span style="color: #839496; font-weight: bold;">files</span>:
+      <span style="color: #2aa198;">"/etc/nologin"</span>
+        create =&gt; <span style="color: #2aa198;">"true"</span>;
+<span style="color: #2aa198;">}</span>
+</pre>
+</div>
+
+</section>
+<section id="slide-org0c73109">
+<h3 id="org0c73109"><a id="ID-6c117f0e-2e5a-44e3-9119-4ea9568ab8c3"></a>Example - update file</h3>
+<div class="org-src-container">
+<label class="org-src-name"><code>examples/00-20-example-update_file.cf</code></label>
+<pre  class="src src-cfengine3"><span style="color: #839496; font-weight: bold;">bundle</span> <span style="color: #268bd2; font-weight: bold;">agent</span> <span style="color: #268bd2;">cf_agent_heartbeat</span>
+<span style="color: #2aa198;">{</span>
+  <span style="color: #839496; font-weight: bold;">meta</span>:
+    <span style="color: #2aa198;">"tags"</span> <span style="color: #b58900;">slist</span> =&gt; <span style="color: #b58900;">{</span> <span style="color: #2aa198;">"autorun"</span> <span style="color: #b58900;">}</span>;
+
+  <span style="color: #839496; font-weight: bold;">files</span>:
+    <span style="color: #2aa198;">"$(sys.statedir)/$(this.bundle)"</span> -&gt; <span style="color: #b58900;">{</span> <span style="color: #2aa198;">"Monitoring"</span> <span style="color: #b58900;">}</span>
+      create  =&gt; <span style="color: #2aa198;">"true"</span>,
+      touch   =&gt; <span style="color: #2aa198;">"true"</span>,
+      classes =&gt; scoped_classes_generic<span style="color: #b58900;">(</span><span style="color: #2aa198;">"bundle"</span>, <span style="color: #2aa198;">"heartbeat"</span><span style="color: #b58900;">)</span>,
+      handle  =&gt; <span style="color: #2aa198;">"cf_agent_heartbeat_thump"</span>,
+      comment =&gt; <span style="color: #2aa198;">"This policy simply updates the timestamp</span>
+<span style="color: #2aa198;">                  of the file so an external monitoring</span>
+<span style="color: #2aa198;">                  system can validate the system is working."</span>;
+
+  <span style="color: #839496; font-weight: bold;">reports</span>:
+    <span style="color: #859900; font-weight: bold;">DEBUG|DEBUG_cf_agent_heartbeat</span>::
+
+      <span style="color: #2aa198;">"DEBUG $(this.bundle): Heartbeat"</span>
+        if =&gt; <span style="color: #2aa198;">"heartbeat_repaired"</span>;
+
+      <span style="color: #2aa198;">"DEBUG $(this.bundle): Flatline"</span>
+        unless =&gt; <span style="color: #2aa198;">"heartbeat_repaired"</span>;
+<span style="color: #2aa198;">}</span>
+</pre>
+</div>
+
+</section>
+<section id="slide-org2666cc3">
+<h3 id="org2666cc3"><a id="ID-4cb97441-1e2f-42ed-afbf-1658e1376199"></a>Exercise - create a file</h3>
+<p>
+Write a policy that ensures <code>/etc/cron.allow</code> is present so that only users
+listed in the file are allowed to schedule jobs.
+</p>
+
+<p>
+Test with <code>crontab -e</code>
+</p>
+
+</section>
+<section id="slide-org86a787e">
+<h3 id="org86a787e"><a id="ID-aa3065ea-f167-4b8a-9fde-f07ca8677429"></a>Example - install a package and start a service</h3>
+<div class="org-src-container">
+<label class="org-src-name"><code>examples/00-20-example-package_and_service.cf</code></label>
+<pre  class="src src-cfengine3"><span style="color: #839496; font-weight: bold;">bundle</span> <span style="color: #268bd2; font-weight: bold;">agent</span> <span style="color: #268bd2;">training_simple_website</span>
+<span style="color: #2aa198;">{</span>
+  <span style="color: #839496; font-weight: bold;">meta</span>:
+    <span style="color: #859900; font-weight: bold;">host001</span>::
+      <span style="color: #2aa198;">"tags"</span> <span style="color: #b58900;">slist</span> =&gt; <span style="color: #b58900;">{</span> <span style="color: #2aa198;">"autorun"</span> <span style="color: #b58900;">}</span>;
+
+  <span style="color: #839496; font-weight: bold;">packages</span>:
+      <span style="color: #2aa198;">"httpd"</span>
+        policy =&gt; <span style="color: #2aa198;">"present"</span>,
+        package_module =&gt; yum;
+
+  <span style="color: #839496; font-weight: bold;">services</span>:
+      <span style="color: #2aa198;">"httpd"</span>
+        service_policy =&gt; <span style="color: #2aa198;">"start"</span>;
+
+  <span style="color: #839496; font-weight: bold;">reports</span>:
+    <span style="color: #859900; font-weight: bold;">DEBUG|DEBUG_training_simple_website</span>::
+      <span style="color: #2aa198;">"DEBUG $(this.bundle)"</span>;
+<span style="color: #2aa198;">}</span>
+</pre>
+</div>
+
+</section>
+<section id="slide-orge88197e">
+<h3 id="orge88197e"><a id="ID-b4f7b0a9-5839-4d1b-bbec-f12d6a68f282"></a>Example - Classify role based on hostname</h3>
+<div class="org-src-container">
+<label class="org-src-name"><code>examples/00-20-example-classes-role_by_hostname.cf</code></label>
+<pre  class="src src-cfengine3"><span style="color: #839496; font-weight: bold;">bundle</span> <span style="color: #268bd2; font-weight: bold;">common</span> <span style="color: #268bd2;">classes_role_by_hostname</span>
+<span style="color: #2aa198;">{</span>
+  <span style="color: #839496; font-weight: bold;">classes</span>:
+    <span style="color: #2aa198;">"env_prod"</span>
+      meta =&gt; <span style="color: #b58900;">{</span> <span style="color: #2aa198;">"inventory"</span>, <span style="color: #2aa198;">"attribute_name=Role Classes"</span> <span style="color: #b58900;">}</span>;
+      or =&gt; <span style="color: #b58900;">{</span>
+              regcmp<span style="color: #268bd2;">(</span> <span style="color: #2aa198;">"hub"</span>, $<span style="color: #6c71c4;">(</span><span style="color: #268bd2;">sys.fqhost</span><span style="color: #6c71c4;">)</span> <span style="color: #268bd2;">)</span>,
+              regcmp<span style="color: #268bd2;">(</span> <span style="color: #2aa198;">"^prd.*"</span>, $<span style="color: #6c71c4;">(</span><span style="color: #268bd2;">sys.fqhost</span><span style="color: #6c71c4;">)</span> <span style="color: #268bd2;">)</span>,
+            <span style="color: #b58900;">}</span>;
+
+    <span style="color: #2aa198;">"webserver"</span>
+      expression =&gt; <span style="color: #2aa198;">"host001"</span>,
+      meta =&gt; <span style="color: #b58900;">{</span> <span style="color: #2aa198;">"inventory"</span>, <span style="color: #2aa198;">"attribute_name=Role Classes"</span> <span style="color: #b58900;">}</span>;
+
+    <span style="color: #2aa198;">"webserver"</span>
+      expression =&gt; regcmp<span style="color: #b58900;">(</span> <span style="color: #2aa198;">"^www.*"</span>, $<span style="color: #268bd2;">(</span><span style="color: #268bd2;">sys.fqhost</span><span style="color: #268bd2;">)</span> <span style="color: #b58900;">)</span>,
+      meta =&gt; <span style="color: #b58900;">{</span> <span style="color: #2aa198;">"inventory"</span>, <span style="color: #2aa198;">"attribute_name=Role Classes"</span> <span style="color: #b58900;">}</span>;
+<span style="color: #2aa198;">}</span>
+</pre>
+</div>
+
+</section>
+<section id="slide-org1b7e89c">
+<h3 id="org1b7e89c"><a id="ID-fae34dc9-c6af-4bb2-9755-142af0f22d79"></a>Example - Classify geographic location by network</h3>
+<div class="org-src-container">
+<label class="org-src-name"><code>examples/00-20-example-classes-geographic_location_by_network.cf</code></label>
+<pre  class="src src-cfengine3"><span style="color: #839496; font-weight: bold;">bundle</span> <span style="color: #268bd2; font-weight: bold;">common</span> <span style="color: #268bd2;">classify_geo_location_by_network</span>
+<span style="color: #2aa198;">{</span>
+  <span style="color: #839496; font-weight: bold;">meta</span>:
+    <span style="color: #2aa198;">"tags"</span> <span style="color: #b58900;">slist</span> =&gt; <span style="color: #b58900;">{</span> <span style="color: #2aa198;">"autorun"</span> <span style="color: #b58900;">}</span>;
+
+  <span style="color: #839496; font-weight: bold;">vars</span>:
+    <span style="color: #2aa198;">"nadc01_subnets"</span>
+      <span style="color: #b58900;">slist</span> =&gt; <span style="color: #b58900;">{</span> <span style="color: #2aa198;">"172.16.25.0/25"</span>, <span style="color: #2aa198;">"172.17.0.0/16"</span>,
+                 <span style="color: #2aa198;">"192.168.33.2/32"</span>,
+               <span style="color: #b58900;">}</span>;
+
+    <span style="color: #2aa198;">"nadc02_subnets"</span>
+      <span style="color: #b58900;">slist</span> =&gt; <span style="color: #b58900;">{</span> <span style="color: #2aa198;">"172.17.5.0/25"</span>, <span style="color: #2aa198;">"172.42.0.0/16"</span>,
+                 <span style="color: #2aa198;">"192.168.33.3/32"</span>,
+               <span style="color: #b58900;">}</span>;
+
+    <span style="color: #2aa198;">"sadc01_subnets"</span>
+      <span style="color: #b58900;">slist</span> =&gt; <span style="color: #b58900;">{</span> <span style="color: #2aa198;">"172.19.4.0/23"</span>, <span style="color: #2aa198;">"192.168.33.4-5"</span> <span style="color: #b58900;">}</span>;
+
+    <span style="color: #2aa198;">"continent"</span>
+      <span style="color: #b58900;">string</span> =&gt; ifelse<span style="color: #b58900;">(</span><span style="color: #2aa198;">"north_america"</span>, <span style="color: #2aa198;">"North America"</span>,
+                       <span style="color: #2aa198;">"south_america"</span>, <span style="color: #2aa198;">"South America"</span>,
+                       <span style="color: #2aa198;">"Unknown"</span><span style="color: #b58900;">)</span>,
+      meta =&gt; <span style="color: #b58900;">{</span> <span style="color: #2aa198;">"inventory"</span>, <span style="color: #2aa198;">"attribute_name=Continent"</span> <span style="color: #b58900;">}</span>;
+</pre>
+</div>
+
+</section>
+<section>
+
+<div class="org-src-container">
+<label class="org-src-name">Continued <code>examples/00-20-example-classes-geographic_location_by_network.cf</code></label>
+<pre  class="src src-cfengine3">  <span style="color: #839496; font-weight: bold;">classes</span>:
+    <span style="color: #2aa198;">"north_america"</span>
+      or =&gt; <span style="color: #2aa198;">{</span> <span style="color: #2aa198;">"nadc01"</span>, <span style="color: #2aa198;">"nadc02"</span> <span style="color: #2aa198;">}</span>;
+
+    <span style="color: #2aa198;">"south_america"</span>
+      expression =&gt; classmatch<span style="color: #2aa198;">(</span><span style="color: #2aa198;">"^sadc\d+"</span><span style="color: #2aa198;">)</span>;
+
+    <span style="color: #2aa198;">"nadc01"</span>
+      expression =&gt; iprange<span style="color: #2aa198;">(</span> $<span style="color: #b58900;">(</span><span style="color: #268bd2;">nadc01_subnets</span><span style="color: #b58900;">)</span> <span style="color: #2aa198;">)</span>;
+
+    <span style="color: #2aa198;">"nadc02"</span>
+      expression =&gt; iprange<span style="color: #2aa198;">(</span> $<span style="color: #b58900;">(</span><span style="color: #268bd2;">nadc02_subnets</span><span style="color: #b58900;">)</span> <span style="color: #2aa198;">)</span>;
+
+    <span style="color: #2aa198;">"sadc01"</span>
+      expression =&gt; iprange<span style="color: #2aa198;">(</span> $<span style="color: #b58900;">(</span><span style="color: #268bd2;">sadc01_subnets</span><span style="color: #b58900;">)</span> <span style="color: #2aa198;">)</span>;
+
+  <span style="color: #839496; font-weight: bold;">reports</span>:
+    <span style="color: #2aa198;">"DEBUG|DEBUG_$(this.bundle)"</span>::
+      <span style="color: #2aa198;">"DEBUG $(this.bundle): Continent = '$(continent)'"</span>;
+<span style="color: #839496; background-color: #002b36;">}</span>
+</pre>
+</div>
+
+</section>
+<section id="slide-org84d5ffc">
+<h3 id="org84d5ffc"><a id="ID-61e9705e-9cec-49f1-89cb-31322c34a17c"></a>Example - Manage key value entries in a config file</h3>
+<div class="org-src-container">
+<label class="org-src-name"><code>manage_ssh</code> in <code>examples/00-20-example-key_value_config.cf</code></label>
+<pre  class="src src-cfengine3"><span style="color: #839496; font-weight: bold;">bundle</span> <span style="color: #268bd2; font-weight: bold;">agent</span> <span style="color: #268bd2;">manage_ssh</span>
+<span style="color: #2aa198;">{</span>
+  <span style="color: #839496; font-weight: bold;">meta</span>:
+    <span style="color: #2aa198;">"tags"</span> <span style="color: #b58900;">slist</span> =&gt; <span style="color: #b58900;">{</span> <span style="color: #2aa198;">"autorun"</span> <span style="color: #b58900;">}</span>;
+
+  <span style="color: #839496; font-weight: bold;">methods</span>:
+    <span style="color: #2aa198;">"SSH Config Data"</span>
+      usebundle =&gt; ssh_config;
+
+    <span style="color: #2aa198;">"Manage SSH Config"</span>
+      usebundle =&gt; ssh_config_manage_kv<span style="color: #b58900;">(</span><span style="color: #2aa198;">"ssh_config.data"</span><span style="color: #b58900;">)</span>;
+<span style="color: #2aa198;">}</span>
+</pre>
+</div>
+
+</section>
+<section>
+
+<div class="org-src-container">
+<label class="org-src-name"><code>ssh_config</code> in <code>examples/00-20-example-key_value_config.cf</code></label>
+<pre  class="src src-cfengine3"><span style="color: #839496; font-weight: bold;">bundle</span> <span style="color: #268bd2; font-weight: bold;">agent</span> <span style="color: #268bd2;">ssh_config</span>
+<span style="color: #2aa198;">{</span>
+  <span style="color: #839496; font-weight: bold;">vars</span>:
+      <span style="color: #2aa198;">"data[PermitRootLogin]"</span> <span style="color: #b58900;">string</span> =&gt; <span style="color: #2aa198;">"no"</span>;
+      <span style="color: #2aa198;">"data[Protocol]"</span> <span style="color: #b58900;">string</span> =&gt; <span style="color: #2aa198;">"2"</span>;
+      <span style="color: #2aa198;">"data[Port]"</span> <span style="color: #b58900;">string</span> =&gt; <span style="color: #2aa198;">"22"</span>;
+
+    <span style="color: #859900; font-weight: bold;">DEBUG|DEBUG_ssh_config</span>::
+      <span style="color: #2aa198;">"keys"</span> <span style="color: #b58900;">slist</span> =&gt; getindices<span style="color: #b58900;">(</span><span style="color: #b58900;">data</span><span style="color: #b58900;">)</span>;
+
+  <span style="color: #839496; font-weight: bold;">reports</span>:
+    <span style="color: #859900; font-weight: bold;">DEBUG|DEBUG_ssh_config</span>::
+      <span style="color: #2aa198;">"DEBUG $(this.bundle): $(keys) = '$(data[$(keys)])'"</span>;
+<span style="color: #2aa198;">}</span>
+</pre>
+</div>
+
+</section>
+<section>
+
+<div class="org-src-container">
+<label class="org-src-name"><code>ssh_config_manage_kv</code> in <code>examples/00-20-example-key_value_config.cf</code></label>
+<pre  class="src src-cfengine3"><span style="color: #839496; font-weight: bold;">bundle</span> <span style="color: #268bd2; font-weight: bold;">agent</span> <span style="color: #268bd2;">ssh_config_manage_kv</span><span style="color: #2aa198;">(</span><span style="color: #268bd2;">data</span><span style="color: #2aa198;">)</span>
+<span style="color: #2aa198;">{</span>
+  <span style="color: #839496; font-weight: bold;">vars</span>:
+    <span style="color: #2aa198;">"config"</span> <span style="color: #b58900;">string</span> =&gt; <span style="color: #2aa198;">"/etc/ssh/sshd_config"</span>;
+
+  <span style="color: #839496; font-weight: bold;">files</span>:
+    <span style="color: #2aa198;">"$(config)"</span>
+      handle =&gt; <span style="color: #2aa198;">"ssh_config_manage_kv_entries"</span>,
+      edit_line =&gt; set_line_based<span style="color: #b58900;">(</span><span style="color: #2aa198;">"$(data)"</span>, <span style="color: #2aa198;">" "</span>, <span style="color: #2aa198;">"\s+"</span>, <span style="color: #2aa198;">".*"</span>, <span style="color: #2aa198;">"\s*#\s*"</span><span style="color: #b58900;">)</span>,
+      classes =&gt; scoped_classes_generic<span style="color: #b58900;">(</span><span style="color: #2aa198;">"bundle"</span>, <span style="color: #2aa198;">"sshd_config"</span><span style="color: #b58900;">)</span>;
+
+  <span style="color: #839496; font-weight: bold;">classes</span>:
+    <span style="color: #859900; font-weight: bold;">sshd_config_repaired</span>::
+      <span style="color: #2aa198;">"config_valid"</span>
+        expression =&gt; returnszero<span style="color: #b58900;">(</span><span style="color: #2aa198;">"/usr/sbin/sshd -t -f $(config)"</span>, noshell<span style="color: #b58900;">)</span>,
+        comment =&gt; <span style="color: #2aa198;">"It's important that we don't restart the service with a</span>
+<span style="color: #2aa198;">                    broken config, or the service will be down."</span>;
+
+  <span style="color: #839496; font-weight: bold;">commands</span>:
+    <span style="color: #859900; font-weight: bold;">sshd_config_repaired.config_valid</span>::
+      <span style="color: #2aa198;">"$(paths.service)"</span>
+        handle =&gt; <span style="color: #2aa198;">"ssh_config_manage_kv_restart_after_config_change"</span>,
+        args =&gt; <span style="color: #2aa198;">"sshd restart"</span>,
+        comment =&gt; <span style="color: #2aa198;">"The service must be restarted in order to pick up new</span>
+<span style="color: #2aa198;">                    configuration settings."</span>;
+
+  <span style="color: #839496; font-weight: bold;">reports</span>:
+      <span style="color: #2aa198;">"DEBUG $(this.bundle): Reparied configuration"</span>
+        if =&gt; <span style="color: #2aa198;">"sshd_config_repaired"</span>;
+
+      <span style="color: #2aa198;">"DEBUG $(this.bundle): Configuration Valid"</span>
+        if =&gt; <span style="color: #2aa198;">"config_valid"</span>;
+
+      <span style="color: #2aa198;">"DEBUG $(this.bundle): Restarted sshd after config change"</span>
+        depends_on =&gt; <span style="color: #b58900;">{</span> <span style="color: #2aa198;">"ssh_config_manage_kv_restart_after_config_change"</span> <span style="color: #b58900;">}</span>;
+<span style="color: #2aa198;">}</span>
+</pre>
+</div>
+
+</section>
+<section id="slide-org7325a60">
+<h3 id="org7325a60"><a id="ID-450b2e59-fd0b-4b96-8013-1cecbf3dc0bc"></a>Example - Manage key value entries output</h3>
+<pre class="example">
+[root@hub masterfiles]# cf-agent -KID DEBUG_ssh_config,DEBUG_ssh_config_manage_kv
+    info: Installing cfe_internal_non_existing_package...
+R: DEBUG ssh_config: PermitRootLogin = 'no'
+R: DEBUG ssh_config: Protocol = '2'
+R: DEBUG ssh_config: Port = '22'
+    info: Edit file '/etc/ssh/sshd_config'
+R: DEBUG ssh_config_manage_kv: Reparied configuration
+    info: Executing 'no timeout' ... '/sbin/service sshd restart'
+  notice: Q: "...in/service sshd": Stopping sshd:          [  OK  ]
+Q: "...in/service sshd": Starting sshd:                    [  OK  ]
+    info: Last 2 quoted lines were generated by promiser '/sbin/service sshd restart'
+    info: Completed execution of '/sbin/service sshd restart'
+R: DEBUG ssh_config_manage_kv: Configuration Valid
+R: DEBUG ssh_config_manage_kv: Restarted sshd after config change
+</pre>
+</section>
+<section id="slide-org1137b6a">
+<h3 id="org1137b6a"><a id="ID-c2bc7d78-1a04-4439-9ee8-935999e0ef06"></a>Example - Templating a file</h3>
+<div class="org-src-container">
+<label class="org-src-name"><code>examples/00-20-example-mustache_template_vars.cf</code></label>
+<pre  class="src src-cfengine3"><span style="color: #839496; font-weight: bold;">bundle</span> <span style="color: #268bd2; font-weight: bold;">agent</span> <span style="color: #268bd2;">motd</span>
+<span style="color: #2aa198;">{</span>
+  <span style="color: #839496; font-weight: bold;">meta</span>:
+    <span style="color: #2aa198;">"tags"</span> <span style="color: #b58900;">slist</span> =&gt; <span style="color: #b58900;">{</span> <span style="color: #2aa198;">"autorun"</span> <span style="color: #b58900;">}</span>;
+
+  <span style="color: #839496; font-weight: bold;">vars</span>:
+    <span style="color: #2aa198;">"owner"</span> <span style="color: #b58900;">string</span> =&gt; <span style="color: #2aa198;">"Bruce Wayne"</span>;
+
+  <span style="color: #839496; font-weight: bold;">files</span>:
+    <span style="color: #2aa198;">"/etc/motd"</span>
+      template_method =&gt; <span style="color: #2aa198;">"mustache"</span>,
+      edit_template =&gt; <span style="color: #2aa198;">"$(this.promise_filename).mustache"</span>;
+<span style="color: #2aa198;">}</span>
+</pre>
+</div>
+
+</section>
+<section id="slide-org85edb25">
+<h3 id="org85edb25"><a id="ID-8e4a5617-1e35-470b-8b52-2bd82c59b6cd"></a>Example - mustache template</h3>
+<div class="org-src-container">
+<label class="org-src-name">examples/00-20-example-mustache<sub>template</sub><sub>vars.cf.mustache</sub></label>
+<pre  class="src src-txt">Welcome to {{{vars.sys.fqhost}}}!
+
+For support issues please contact {{{vars.motd.owner}}}.
+</pre>
+</div>
+
+</section>
+<section id="slide-org9476d3f">
+<h3 id="org9476d3f"><span class="todo TODO">TODO</span> Mustache Pro Tip: <code>-top-</code></h3>
+<p>
+The <code>-top-</code> key is very useful for completely generic data models and debugging.
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-txt">{{{%-top-}}}
+</pre>
+</div>
+
+</section>
+<section id="slide-org794a544">
+<h3 id="org794a544"><a id="ID-40ddd7ed-b47e-4439-9939-666c1afac57b"></a>Exercise - Edit a file</h3>
+<p>
+Write a policy that populates <code>/etc/issue</code> with legaleze.
+</p>
+
+</section>
+<section id="slide-orgfaf84ae">
+<h3 id="orgfaf84ae"><a id="ID-c920a39c-f4e3-46a2-9567-c214e4b45390"></a>Example - Enable sshd banner</h3>
+<p>
+Write a policy that enables the ssh banner and directs it to <code>/etc/issue</code>. sshd
+should be restarted after changing its configuration.
+</p>
+
+</section>
+<section id="slide-org455da85">
+<h3 id="org455da85"><a id="ID-4044c834-6662-40bf-b16e-d5ad864fdcd9"></a>Example - multiple outcomes</h3>
+<div class="org-src-container">
+<label class="org-src-name">Setup for the example</label>
+<pre  class="src src-shell">sudo touch /tmp/immutable
+sudo chatter +i /tmp/immutable
+</pre>
+</div>
+
+<div class="org-src-container">
+<label class="org-src-name"><code>examples/00-20-example-multiple_outcomes.cf</code></label>
+<pre  class="src src-cfengine3"><span style="color: #839496; font-weight: bold;">body</span> <span style="color: #268bd2; font-weight: bold;">file</span> <span style="color: #268bd2;">control</span> <span style="color: #2aa198;">{</span> inputs =&gt; <span style="color: #b58900;">{</span> <span style="color: #2aa198;">"$(sys.libdir)/stdlib.cf"</span> <span style="color: #b58900;">}</span>; <span style="color: #2aa198;">}</span>
+<span style="color: #839496; font-weight: bold;">bundle</span> <span style="color: #268bd2; font-weight: bold;">agent</span> <span style="color: #268bd2;">main</span>
+<span style="color: #2aa198;">{</span>
+  <span style="color: #839496; font-weight: bold;">files</span>:
+    <span style="color: #2aa198;">"/tmp/immutable"</span>
+      create =&gt; <span style="color: #2aa198;">"true"</span>,
+      edit_line =&gt;  example_edit_line,
+      classes =&gt; results<span style="color: #b58900;">(</span><span style="color: #2aa198;">"bundle"</span>, <span style="color: #2aa198;">"my_id"</span><span style="color: #b58900;">)</span>;
+
+  <span style="color: #839496; font-weight: bold;">vars</span>:
+    <span style="color: #2aa198;">"classes"</span> <span style="color: #b58900;">slist</span> =&gt; classesmatching<span style="color: #b58900;">(</span><span style="color: #2aa198;">".*my_id.*"</span><span style="color: #b58900;">)</span>;
+
+  <span style="color: #839496; font-weight: bold;">reports</span>:
+    <span style="color: #2aa198;">"Found Class = '$(classes)'"</span>;
+<span style="color: #2aa198;">}</span>
+
+<span style="color: #839496; font-weight: bold;">bundle</span> <span style="color: #268bd2; font-weight: bold;">edit_line</span> <span style="color: #268bd2;">example_edit_line</span>
+<span style="color: #2aa198;">{</span>
+  <span style="color: #839496; font-weight: bold;">insert_lines</span>:
+    <span style="color: #2aa198;">"I want to edit an immutable file"</span>;
+<span style="color: #2aa198;">}</span>
+</pre>
+</div>
+
+</section>
+<section>
+
+<pre class="example">
+   error: Can't copy file permissions from '/tmp/immutable' to '/tmp/immutable.cf-after-edit' - so promised edits could not be moved into place.
+   error: Unable to save file '/tmp/immutable' after editing
+R: Found Class = 'my_id_failed'
+R: Found Class = 'my_id_not_kept'
+R: Found Class = 'my_id_error'
+R: Found Class = 'my_id_kept'
+R: Found Class = 'my_id_reached'
+</pre>
+
+<p>
+Reference the <a href="https://docs.cfengine.com/docs/3.10/reference-masterfiles-policy-framework-lib-common.html#results">implementation of the <code>results</code> classes body</a> in the stdlib.
+</p>
+
+<div class="org-src-container">
+<label class="org-src-name">Cleanup immutable file</label>
+<pre  class="src src-shell">sudo chattr -i /tmp/immutable
+sudo rm /tmp/immutable
+</pre>
+</div>
+
+</section>
+<section id="slide-org93c0ee0">
+<h3 id="org93c0ee0"><a id="ID-3bfc2fab-ad7c-4092-8896-98d36d7b8aad"></a>Exercise - Report</h3>
+<p>
+Write a policy that defines a name in separate parts (at least 3). Then have
+CFEngine report the name in a random order.
+</p>
+
+<div class="org-src-container">
+<label class="org-src-name">Example Solution</label>
+<pre  class="src src-cfengine3"><span style="color: #839496; font-weight: bold;">bundle</span> <span style="color: #268bd2; font-weight: bold;">agent</span> <span style="color: #268bd2;">main</span>
+<span style="color: #2aa198;">{</span>
+  <span style="color: #839496; font-weight: bold;">vars</span>:
+    <span style="color: #2aa198;">"name_parts"</span> <span style="color: #b58900;">slist</span> =&gt; <span style="color: #b58900;">{</span> <span style="color: #2aa198;">"Ronald"</span>, <span style="color: #2aa198;">"Mck"</span>, <span style="color: #2aa198;">"Donald"</span> <span style="color: #b58900;">}</span>;
+    <span style="color: #2aa198;">"shuffled"</span> <span style="color: #b58900;">slist</span> =&gt; shuffle<span style="color: #b58900;">(</span> name_parts, randomint<span style="color: #268bd2;">(</span><span style="color: #6c71c4;">0</span>, inf<span style="color: #268bd2;">)</span> <span style="color: #b58900;">)</span>;
+    <span style="color: #2aa198;">"name"</span> <span style="color: #b58900;">string</span> =&gt; join<span style="color: #b58900;">(</span><span style="color: #2aa198;">" "</span>, shuffled <span style="color: #b58900;">)</span>;
+
+  <span style="color: #839496; font-weight: bold;">reports</span>:
+    <span style="color: #2aa198;">"$(name)"</span>;
+<span style="color: #2aa198;">}</span>
+</pre>
+</div>
+
+<pre class="example">
+R: Donald Mck Ronald
+R: Donald Ronald Mck
+R: Ronald Donald Mck
+</pre>
+
+<aside class="notes">
+<p>
+This solution will print the name multiple times, exposing normal order.
+</p>
+
+</aside>
+
+</section>
+<section id="slide-orge48997e">
+<h3 id="orge48997e"><a id="ID-e0fb3d65-e3d8-4a1a-bc57-8338cc2e70f7"></a>Excercise - Trigger an action when a file changes</h3>
+<p>
+Write policy to monitor a file for change. When a change is seen report <code>Winner
+Winner Chicken Dinner</code>. Manually edit the file, show how cfengine detects and
+reports on the change.
+</p>
+
+</section>
+<section id="slide-orgc2a5561">
+<h3 id="orgc2a5561"><a id="ID-8d8825af-14a4-418b-a5cd-4f9141c0ed22"></a>Exercise - Automatically abort based on file presence</h3>
+<p>
+Write a policy that will abort cfengine execution if the file
+<code>$(sys.statedir)/abort_agent_execution</code> exists.
+</p>
+
+<ul>
+<li>See <a href="https://docs.cfengine.com/lts/reference-components-cf-agent.html#abortclasses">abortclasses</a> in the cfengine documentation</li>
+
+</ul>
+
+</section>
+<section id="slide-orga7aa995">
+<h3 id="orga7aa995"><a id="ID-b4ba2fd4-f546-49ed-aa97-3de9be1cc771"></a>Exercise - Delete file based on age</h3>
+<p>
+Write a policy that will delete <code>$(sys.statedir)/abort_agent_execution</code> if it is
+older than 1 hour.
+</p>
+</section>
+<section id="slide-org8ac205e">
+<h3 id="org8ac205e"><a id="ID-c1ae5f7c-ff93-4833-be0f-e58a5c6798f1"></a>Exercise - Kill a process</h3>
+<p>
+Write a policy to kill irssi running on webservers. No need for our webservers
+to be connected to IRC.
+</p>
+
+<pre class="example">
+cp /bin/sleep /tmp/irssi
+/tmp/irssi 5000
+</pre>
+
+</section>
+</section>
+<section>
+<section id="slide-org44db36d">
+<h2 id="org44db36d">MPF &amp; stdlib</h2>
+<p>
+The "Default Masterfiles"
+</p>
+
+</section>
+<section id="slide-org1cd1dd8">
+<h3 id="org1cd1dd8">Overview</h3>
+<dl>
+<dt><code>promises.cf</code></dt><dd>The main entry. This is the first file the agent reads by
+default. This is the stem cell for the rest of your policy.</dd>
+<dt><code>update.cf</code></dt><dd>This is a seperate <b>standalone</b> policy to manage updating
+policy and the cfengine agent itself.</dd>
+
+</dl>
+</section>
+<section id="slide-org27e3a86">
+<h3 id="org27e3a86">User Entries</h3>
+<ul>
+<li><code>def.json</code></li>
+<li><code>services/main.cf</code></li>
+<li><code>services/autorun/*.cf</code></li>
+<li><code>promises.cf</code></li>
+<li><code>update.cf</code></li>
+
+</ul>
+
+</section>
+</section>
+<section>
+<section id="slide-orge703351">
+<h2 id="orge703351"><a id="ID-1b3901a6-ecaa-4da9-8f05-133827bb92bb"></a>Useful Tools and Tips</h2>
+</section>
+<section id="slide-org81a4de0">
+<h3 id="org81a4de0"><a id="ID-aa03c0a5-ec8b-472f-bf96-c15c1227f8aa"></a>cf-locate</h3>
+<dl>
+<dt><code>cf-locate</code></dt><dd>Command line tool to help locate and optionally display a body
+or bundle within a policy</dd>
+
+</dl>
+
+<aside class="notes">
+<p>
+Ever read a policy and see a body that you want to understand more?
+</p>
+
+<p>
+Try it with <code>cf-locate scoped_classes_generic -f /path_to_masterfiles</code>
+</p>
+
+</aside>
+
+</section>
+<section id="slide-org1910dd7">
+<h3 id="org1910dd7"><a id="ID-a5a29f9c-1a23-4249-b21c-4644fdbe6172"></a>Debug Reports</h3>
+<p>
+Use standardized <code>DEBUG</code> reports for policy development and troubleshooting.
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-cfengine3"><span style="color: #839496; font-weight: bold;">bundle</span> <span style="color: #268bd2; font-weight: bold;">agent</span> <span style="color: #268bd2;">main</span>
+<span style="color: #2aa198;">{</span>
+  <span style="color: #839496; font-weight: bold;">reports</span>:
+    <span style="color: #859900; font-weight: bold;">DEBUG|DEBUG_this_bundle_name</span>::
+      <span style="color: #2aa198;">"DEBUG $(this.bundle): ...."</span>;
+    <span style="color: #2aa198;">"DEBUG|DEBUG_$(this.bundle)"</span>::
+      <span style="color: #2aa198;">"DEBUG $(this.bundle): ...."</span>;
+ <span style="color: #2aa198;">}</span>
+</pre>
+</div>
+
+</section>
+<section id="slide-org6d28036">
+<h3 id="org6d28036"><a id="ID-d3a98695-f6a2-409f-9530-03530d6cb58c"></a>Promise comments</h3>
+<p>
+Use promise comments to document <b>WHY</b> the promise is important.
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-cfengine3"><span style="color: #839496; font-weight: bold;">bundle</span> <span style="color: #268bd2; font-weight: bold;">agent</span> <span style="color: #268bd2;">main</span>
+<span style="color: #2aa198;">{</span>
+  <span style="color: #839496; font-weight: bold;">services</span>:
+    <span style="color: #2aa198;">"firewalld"</span>
+      policy =&gt; <span style="color: #2aa198;">"start"</span>,
+      comment =&gt; <span style="color: #2aa198;">"If this service isnt running, then we have unnecessary</span>
+<span style="color: #2aa198;">                  exposure and increase our risk of a security breach."</span>;
+<span style="color: #2aa198;">}</span>
+</pre>
+</div>
+
+</section>
+<section id="slide-org8a3e03e">
+<h3 id="org8a3e03e"><a id="ID-7d8d9121-6468-4bed-b1c7-9ff1082476ee"></a>Getting the most from the documentation</h3>
+</section>
+</section>
+<section>
+<section id="slide-org2217b53">
+<h2 id="org2217b53"><a id="ID-1f6c0380-eca8-4b00-a54d-33621f881e3f"></a>Additional Resources</h2>
+<dl>
+<dt><a href="https://www.cfenginetutorial.org/">VSA Training Material</a></dt><dd>Self paced in depth tutorial based on Vertical Sysadmin training coursework</dd>
+<dt><a href="https://github.com/nickanderson/example-a10042">Example Policy Layout</a></dt><dd>An example policy layout</dd>
+<dt><a href="https://github.com/syl20bnr/spacemacs/tree/master/layers/%2Btools/cfengine">CFEngine Spacemacs Layer</a></dt><dd>The best editor is neither Emacs nor Vim, it's
+Emacs and Vim!</dd>
+<dt><a href="https://github.com/cfengine/core/tree/master/contrib/cf-locate"><code>cf-locate</code></a></dt><dd>Find and optionally display body and bundle definitions within a
+policy set</dd>
+<dt><a href="https://github.com/cfengineers-net/cf-keycrypt"><code>cf-keycrypt</code></a></dt><dd>Tool to encrypt data with CFEngine public keys
+<ul>
+<li>Allows to encrypt data for individual hosts using the public key</li>
+<li>Can be used with non host keys for "group" encryption</li>
+
+</ul></dd>
+<dt><a href="http://www.cfengineers.net/downloads/cfengine-tools-and-utilities/"><code>cf-profile</code></a></dt><dd>Displays time summaries from agent runs. Helps to find the
+bundles you spend the most time in.</dd>
+<dt><a href="https://github.com/neilhwatson/vim_cf3"><code>vim_cf3</code></a></dt><dd>CFEngine 3 vim plugin with Syntax highlighting</dd>
+<dt><a href="https://github.com/cfengine/core/blob/master/contrib/reindent.pl"><code>reindent.pl</code></a></dt><dd>Re-indent CFEngine policy using this script that leverages the excellent cfengine3 mode in Emacs</dd>
+<dt><a href="https://github.com/naksu/cfengine_beautifier">Sublime Text 3 CFEngine Beautifier</a></dt><dd>Automatically reformat CFEngine policy in Sublime Text</dd>
+<dt><a href="https://github.com/lastops/sublime-cfengine">Sublime Text 3 Syntax Highlighter &amp; Snippets</a></dt><dd>CFEngine Syntax highlighting and snippets for Sublime Text</dd>
+<dt>(no term)</dt><dd><a href="https://github.com/lpefferkorn/cfe-rsplaytime"><code>cfe-rsplaytime</code></a>  Compute splaytime for a given host</dd>
+<dt><a href="https://github.com/lpefferkorn/cfe-profiler"><code>cfe-profiler</code></a></dt><dd>Measures bundle execution time helping to uncover the most
+time consuming bundles.</dd>
+
+</dl>
+</section>
+</section>
+<section>
+<section id="slide-orgc046033">
+<h2 id="orgc046033">More</h2>
+<div class="outline-text-2" id="text-orgc046033">
+</div></section>
+<section id="slide-org6e61c21">
+<h3 id="org6e61c21">Default bodies</h3>
+<ul>
+<li><a href="https://docs.cfengine.com/docs/3.10/reference-language-concepts-bodies.html#default-bodies">Default Bodies</a> in language concepts</li>
+
+</ul>
+
+<p>
+3.9 introduced the ability to define a body that is used by all occurances of a
+given promise type unless otherwise specified.
+</p>
+
+<p>
+For example, to set all file type promises to warn you can add the
+<code>files_action</code> body in the <code>bodydefault</code> namespace.
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-cfengine3"><span style="color: #839496; font-weight: bold;">bundle</span> <span style="color: #268bd2; font-weight: bold;">agent</span> <span style="color: #268bd2;">main</span>
+<span style="color: #2aa198;">{</span>
+  <span style="color: #839496; font-weight: bold;">files</span>:
+    <span style="color: #2aa198;">"/tmp/show_default_action"</span>
+      create =&gt; <span style="color: #2aa198;">"true"</span>;
+
+    <span style="color: #2aa198;">"/tmp/show_explicit_action"</span>
+      create =&gt; <span style="color: #2aa198;">"true"</span>,
+      action =&gt; fix;
+<span style="color: #2aa198;">}</span>
+
+<span style="color: #839496; font-weight: bold;">body</span> <span style="color: #268bd2; font-weight: bold;">action</span> <span style="color: #268bd2;">fix</span>
+<span style="color: #2aa198;">{</span>
+  action_policy =&gt; <span style="color: #2aa198;">"fix"</span>;
+<span style="color: #2aa198;">}</span>
+
+<span style="color: #839496; font-weight: bold;">body</span> <span style="color: #268bd2; font-weight: bold;">file</span> <span style="color: #268bd2;">control</span>
+<span style="color: #2aa198;">{</span>
+  namespace =&gt; <span style="color: #2aa198;">"bodydefault"</span>;
+<span style="color: #2aa198;">}</span>
+<span style="color: #839496; font-weight: bold;">body</span> <span style="color: #268bd2; font-weight: bold;">action</span> <span style="color: #268bd2;">files_action</span>
+<span style="color: #2aa198;">{</span>
+  action_policy =&gt; <span style="color: #2aa198;">"warn"</span>;
+<span style="color: #2aa198;">}</span>
+</pre>
+</div>
+
+<pre class="example">
+warning: Warning promised, need to create file '/tmp/show_default_action'
+</pre>
+</section>
+<section id="slide-orgb7e70f9">
+<h3 id="orgb7e70f9">Feature Macro</h3>
+<ul>
+<li><a href="https://docs.cfengine.com/docs/3.10/reference-macros.html#features">Feature Macro</a> documentation</li>
+
+</ul>
+
+<p>
+You can conditionally parse policy based on compiled in features using this
+macro.
+</p>
+
+<div class="org-src-container">
+
+<pre  class="src src-cfengine3"><span style="color: #839496; font-weight: bold;">bundle</span> <span style="color: #268bd2; font-weight: bold;">agent</span> <span style="color: #268bd2;">main</span>
+<span style="color: #2aa198;">{</span>
+
+@if feature<span style="color: #b58900;">(</span>xml<span style="color: #b58900;">)</span>
+<span style="color: #586e75;"># </span><span style="color: #586e75;">the yaml library may not be compiled in</span>
+  <span style="color: #839496; font-weight: bold;">vars</span>: <span style="color: #2aa198;">"container"</span> <span style="color: #b58900;">data</span> =&gt; parseyaml<span style="color: #b58900;">(</span>...<span style="color: #b58900;">)</span>;
+@endif
+
+<span style="color: #2aa198;">}</span>
+</pre>
+</div>
+
+</section>
+</section>
+<section>
+<section id="slide-org58d4cac">
+<h2 id="org58d4cac">Special Topics</h2>
+<div class="outline-text-2" id="text-org58d4cac">
+</div></section>
+<section id="slide-orgab0eccc">
+<h3 id="orgab0eccc">Internal agent upgrade mechanism</h3>
+<ul>
+<li>Place agent packages in
+<code>/var/cfengine/master_software_updates/$(sys.flavour)_$(sys.arch)</code></li>
+<li><p>
+Define <code>trigger_upgrade</code> for set of hosts. Ref <code>update_def.cf</code>
+</p>
+<div class="org-src-container">
+
+<pre  class="src src-cfengine3"><span style="color: #839496; font-weight: bold;">classes</span>:
+  <span style="color: #2aa198;">"trigger_upgrade"</span> or =&gt; <span style="color: #2aa198;">{</span> <span style="color: #2aa198;">"host1"</span>, <span style="color: #2aa198;">"host2"</span>, <span style="color: #2aa198;">"redhat_5"</span> <span style="color: #2aa198;">}</span>;
+</pre>
+</div></li>
+
+</ul>
+
+<aside class="notes">
+<p>
+The MPF comes with policy that allows for clients to upgrade their own
+packages that are served from the hub.
+</p>
+
+</aside>
+</section>
+</section>
+</div>
+</div>
+<p> CFEngine </p>
+<script src="file:///home/nickanderson/src/reveal.js/lib/js/head.min.js"></script>
+<script src="file:///home/nickanderson/src/reveal.js/js/reveal.js"></script>
+
+<script>
+// Full list of configuration options available here:
+// https://github.com/hakimel/reveal.js#configuration
+Reveal.initialize({
+
+controls: true,
+progress: true,
+history: false,
+center: true,
+slideNumber: 'c',
+rollingLinks: true,
+keyboard: true,
+overview: true,
+width: 1200,
+height: 800,
+margin: 0.10,
+minScale: 0.50,
+maxScale: 2.50,
+
+theme: Reveal.getQueryHash().theme, // available themes are in /css/theme
+transition: Reveal.getQueryHash().transition || 'fade', // default/cube/page/concave/zoom/linear/fade/none
+transitionSpeed: 'default',
+multiplex: {
+    secret: '', // null if client
+    id: '', // id, obtained from socket.io server
+    url: '' // Location of socket.io server
+},
+
+// Optional libraries used to extend on reveal.js
+dependencies: [
+ { src: 'file:///home/nickanderson/src/reveal.js/plugin/markdown/marked.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'file:///home/nickanderson/src/reveal.js/plugin/markdown/markdown.js', condition: function() { return !!document.querySelector( '[data-markdown]' ); } },
+ { src: 'file:///home/nickanderson/src/reveal.js/plugin/notes/notes.js', async: true, condition: function() { return !!document.body.classList; } }]
+});
+</script>
+</body>
+</html>
