@@ -1,3 +1,9 @@
+# cf-agent -KIf ./00-20-example-key_value_config.cf -b manage_ssh -D DEBUG
+
+body file control
+{
+      inputs => { "$(sys.libdir)/stdlib.cf"};
+}
 bundle agent manage_ssh
 {
   meta:
@@ -17,6 +23,9 @@ bundle agent ssh_config
       "data[PermitRootLogin]" string => "no";
       "data[Protocol]" string => "2";
       "data[Port]" string => "22";
+      "data[Banner]" string => ifelse("SUSE", "/etc/ssh/banner.suse",
+                                      "redhat", "/etc/ssh/banner.redhat",
+                                      "/etc/ssh/banner");
 
     DEBUG|DEBUG_ssh_config::
       "keys" slist => getindices(data);
@@ -43,6 +52,10 @@ bundle agent ssh_config_manage_kv(data)
         expression => returnszero("/usr/sbin/sshd -t -f $(config)", noshell),
         comment => "It's important that we don't restart the service with a
                     broken config, or the service will be down.";
+
+  services:
+      "sshd"
+        service_policy => "start";
 
   commands:
     sshd_config_repaired.config_valid::

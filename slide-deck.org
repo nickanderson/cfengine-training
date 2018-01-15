@@ -2,11 +2,12 @@
 #+Author: Nick Anderson
 #+Email: nick.anderson@cfengine.com
 #+REVEAL_ROOT: file:///home/nickanderson/src/reveal.js/
-#+OPTIONS: reveal_center:t reveal_progress:t reveal_history:nil reveal_control:t
+#+OPTIONS: reveal_center:t reveal_progress:t reveal_history:nil reveal_control:nil
 #+OPTIONS: reveal_rolling_links:t reveal_keyboard:t reveal_overview:t num:nil
-#+OPTIONS: reveal_width:1200 reveal_height:800
+#+OPTIONS: reveal_width:1024 reveal_height:768
 #+OPTIONS: toc:nil
 #+OPTIONS: tags:nil timestamp:nil
+#+OPTIOnS: reveal_single_file:t
 #+REVEAL_MARGIN: 0.1
 #+REVEAL_MIN_SCALE: 0.5
 #+REVEAL_MAX_SCALE: 2.5
@@ -247,9 +248,9 @@ it to? (Alaskan airports, ponds, fields, etc ...)
 - [[https://cfengine.com/product/community/cfengine-linux-distros/][Linux Package Repositories]]
 
 #+Caption: Quick Install Community
-#+BEGIN_SRC sh
-  wget -O- http://cfengine.package-repos.s3.amazonaws.com/\
-    quickinstall/quick-install-cfengine-community.sh | sudo bash
+#+BEGIN_SRC shell
+wget -O- http://cfengine.package-repos.s3.amazonaws.com/\
+  quickinstall/quick-install-cfengine-community.sh | sudo bash
 #+END_SRC
 
 ** Enterprise Features
@@ -275,10 +276,10 @@ it to? (Alaskan airports, ponds, fields, etc ...)
 - [[http://cfengine.com/product/cfengine-enterprise-free-25/][Binary Packages]]
 
 #+Caption: Quick Install Enterprise
-#+BEGIN_SRC sh
-  wget http://cfengine.package-repos.s3.amazonaws.com/quickinstall/\
-  quick-install-cfengine-enterprise.sh
-  sudo bash ./quick-install-cfengine-enterprise.sh <hub|agent>
+#+BEGIN_SRC shell
+wget http://cfengine.package-repos.s3.amazonaws.com/quickinstall/\
+quick-install-cfengine-enterprise.sh
+sudo bash ./quick-install-cfengine-enterprise.sh <hub|agent>
 #+END_SRC
 
 * Client/Server Architecture                                         :ATTACH:
@@ -416,9 +417,9 @@ it to? (Alaskan airports, ponds, fields, etc ...)
 :END:
 
 #+Caption: Full Syntax Check
-#+BEGIN_SRC sh
-  cf-promises --eval-functions=yes --full-check \
-    -f ./examples/00-01-hello_world.cf
+#+BEGIN_SRC shell
+cf-promises --eval-functions=yes --full-check \
+  -f ./examples/00-01-hello_world.cf
 #+END_SRC
 
 - Full check requires =body common control= (or =bundle agent main=). Typically
@@ -427,8 +428,8 @@ it to? (Alaskan airports, ponds, fields, etc ...)
 #+REVEAL: split
 
 #+Caption: Partial Syntax Check
-#+BEGIN_SRC sh
-  cf-promises -f ./examples/00-01-hello_world.cf
+#+BEGIN_SRC shell
+cf-promises -f ./examples/00-01-hello_world.cf
 #+END_SRC
 
 Build into your workflow!
@@ -616,18 +617,18 @@ Build into your workflow!
 :END:
 
 #+BEGIN_SRC cfengine3
-  bundle type name
-  {
-    promise_type:
+bundle type name
+{
+  promise_type:
 
-      context::
+    context::
 
-        "promiser" -> { "optional", "stakeholder" }
-          attribute_1 => value_1,
-          attribute_2 => value_2,
-          attribute_3 => value_3,
-          attribute_n => value_n;
-  }
+      "promiser" -> { "optional", "stakeholder" }
+        attribute_1 => value_1,
+        attribute_2 => value_2,
+        attribute_3 => value_3,
+        attribute_n => value_n;
+}
 #+END_SRC
 
 
@@ -650,7 +651,8 @@ Build into your workflow!
 :END:
 
 - Collection of promises grouped logically
-- Can take parameters
+- Can take parameters (but not validate them directly)
+- Can return values
 - Maintain variable state
 - Are *not functions*
 
@@ -668,27 +670,27 @@ Build into your workflow!
 #+END_NOTES
 
 ** Example bundles hold state
-#+BEGIN_SRC cfengine3 :exports both :wrap EXAMPLE
-  bundle agent main
-  {
-    methods:
-        "" usebundle => set_item_in_bag( "hammer", "slightly damaged");
-        "" usebundle => set_item_in_bag( "pickaxe", "perfect");
-        "" usebundle => set_item_in_bag( "flask", "half full");
-        "" usebundle => report_bag_contents;
+#+BEGIN_SRC cfengine3
+bundle agent main
+{
+  methods:
+      "" usebundle => set_item_in_bag( "hammer", "slightly damaged");
+      "" usebundle => set_item_in_bag( "pickaxe", "perfect");
+      "" usebundle => set_item_in_bag( "flask", "half full");
+      "" usebundle => report_bag_contents;
 
-  }
-  bundle agent set_item_in_bag(item, value)
-  {
-    vars: "$(item)" string => "$(value)";
-  }
-  bundle agent report_bag_contents
-  {
-    vars:
-      "l" slist => variablesmatching("default:set_item_in_bag\..*");
-      "a[$(l)]" string => nth( string_split( "$(l)", "\.", 2 ), 1);
-    reports: "You look in the bag and see ...."; "A $($(l)) $(a[$(l)])";
-  }
+}
+bundle agent set_item_in_bag(item, value)
+{
+  vars: "$(item)" string => "$(value)";
+}
+bundle agent report_bag_contents
+{
+  vars:
+    "l" slist => variablesmatching("default:set_item_in_bag\..*");
+    "a[$(l)]" string => nth( string_split( "$(l)", "\.", 2 ), 1);
+  reports: "You look in the bag and see ...."; "A $($(l)) $(a[$(l)])";
+}
 #+END_SRC
 
 #+REVEAL: split
@@ -807,8 +809,8 @@ There are [[https://docs.cfengine.com/latest/reference-all-types.html*all-body-t
 :ID:       d314d4d2-4ca9-4636-9562-203df412b474
 :END:
 
-#+BEGIN_SRC sh :exports both :wrap EXAMPLE
-  cf-promises --show-classes
+#+BEGIN_SRC shell
+cf-promises --show-classes
 #+END_SRC
 
 #+RESULTS:
@@ -922,22 +924,22 @@ There are [[https://docs.cfengine.com/latest/reference-all-types.html*all-body-t
 :END:
 
 #+BEGIN_SRC cfengine3
-  bundle agent main
-  {
-    files:
-      linux.(Sunday|Saturday)::
-        "/etc/nologin" -> { "Human Resources" }
-          create => "true",
-          comment => "Disallow non-root logins on the weekend.
-                      We believe in work-life balance, and
-                      encourage it.";
+bundle agent main
+{
+  files:
+    linux.(Sunday|Saturday)::
+      "/etc/nologin" -> { "Human Resources" }
+        create => "true",
+        comment => "Disallow non-root logins on the weekend.
+                    We believe in work-life balance, and
+                    encourage it.";
 
-      linux.!(Sunday|Saturday)::
-        "/etc/nologin" -> { "Business Operations" }
-          delete => tidy,
-          comment => "People need to be able to log in for them
-                    to do their work during the week";
-  }
+    linux.!(Sunday|Saturday)::
+      "/etc/nologin" -> { "Business Operations" }
+        delete => tidy,
+        comment => "People need to be able to log in for them
+                  to do their work during the week";
+}
 #+END_SRC
 
 #+BEGIN_NOTES
@@ -999,24 +1001,24 @@ There are [[https://docs.cfengine.com/latest/reference-all-types.html*all-body-t
 :END:
 
 #+Caption: =examples/00-01-classes_canonification.cf=
-#+BEGIN_SRC cfengine3 :exports both :wrap EXAMPLE :tangle ./examples/00-01-classes_canonification.cf
-  bundle agent main
-  {
-    vars:
-      "my_class_name" string => "Invalid-Class/Name!";
-      "c_my_class_name" string => canonify( "$(my_class_name)" );
+#+BEGIN_SRC cfengine3
+bundle agent main
+{
+  vars:
+    "my_class_name" string => "Invalid-Class/Name!";
+    "c_my_class_name" string => canonify( "$(my_class_name)" );
 
-    classes:
-      "$(my_class_name)" expression => "any";
+  classes:
+    "$(my_class_name)" expression => "any";
 
-    reports:
+  reports:
 
-      "'$(my_class_name)' is **NOT** a class that is defined"
-        unless => "$(my_class_name)";
+    "'$(my_class_name)' is **NOT** a class that is defined"
+      unless => "$(my_class_name)";
 
-      "'$(c_my_class_name)' **IS** a defined class"
-        if => canonify( $(my_class_name) );
-  }
+    "'$(c_my_class_name)' **IS** a defined class"
+      if => canonify( $(my_class_name) );
+}
 #+END_SRC
 
 #+REVEAL: split
@@ -1079,24 +1081,24 @@ R: 'Invalid_Class_Name_' **IS** a defined class
 :ID:       59e5f34c-ef7d-41ff-a24e-6f07e7cba410
 :END:
 #+Caption: =examples/00-10-classes_by_expression.cf=
-#+BEGIN_SRC cfengine3 :tangle examples/00-10-classes_by_expression.cf
-  bundle agent main
-  {
-    classes:
-      "weekend" or => { "Saturday", "Sunday" };
-      "weekday" not => { "weekend" };
+#+BEGIN_SRC cfengine3
+bundle agent main
+{
+  classes:
+    "weekend" or => { "Saturday", "Sunday" };
+    "weekday" not => "weekend";
 
-      "business_hours"
-        expression => "weekday.(Hr9|Hr10|Hr11|Hr13|Hr14|Hr15|Hr16|Hr17)",
-        comment => "Weekdays from 9-5 excluding the lunch hour.";
+    "business_hours"
+      expression => "weekday.(Hr9|Hr10|Hr11|Hr13|Hr14|Hr15|Hr16|Hr17)",
+      comment => "Weekdays from 9-5 excluding the lunch hour.";
 
-      "webserver"
-        expression => regcmp( "www.*", $(sys.fqhost) ),
-        comment => "Identify webservers based on their name";
+    "webserver"
+      expression => regcmp( "www.*", $(sys.fqhost) ),
+      comment => "Identify webservers based on their name";
 
-      "north_america"
-        expression => iprange( "10.1.0.0/16" );
-  }
+    "north_america"
+      expression => iprange( "10.1.0.0/16" );
+}
 #+END_SRC
 
 ** Define custom classes by promise outcome
@@ -1105,23 +1107,23 @@ R: 'Invalid_Class_Name_' **IS** a defined class
 :END:
 
 #+Caption: =examples/00-10-classes_define_based_on_promise_outcome.cf=
-#+BEGIN_SRC cfengine3 :tangle examples/00-10-classes_define_based_on_promise_outcome.cf
-  bundle agent main
-  {
-    vars:
-      "config[PermitRootLogin]" string => "no";
+#+BEGIN_SRC cfengine3
+bundle agent main
+{
+  vars:
+    "config[PermitRootLogin]" string => "no";
 
-    files:
-      "/etc/ssh/sshd_config"
-        edit_line => set_line_based("$(this.bundle).config", " ", "\s+", ".*", "\s*#\s*"),
-        classes => scoped_classes_generic("bundle", "sshd_config");
+  files:
+    "/etc/ssh/sshd_config"
+      edit_line => set_line_based("$(this.bundle).config", " ", "\s+", ".*", "\s*#\s*"),
+      classes => scoped_classes_generic("bundle", "sshd_config");
 
-    services:
-      sshd_config_repaired::
-        "sshd"
-          service_policy => "restart",
-          comment => "For sshd to pick up changed config it must be restarted."
-  }
+  services:
+    sshd_config_repaired::
+      "sshd"
+        service_policy => "restart",
+        comment => "For sshd to pick up changed config it must be restarted."
+}
 #+END_SRC
 
 ** Example - traditional class expressions
@@ -1130,14 +1132,14 @@ R: 'Invalid_Class_Name_' **IS** a defined class
 :END:
 
 #+Caption: =examples/00-10-classes_traditional_expression.cf=
-#+BEGIN_SRC cfengine3 :tangle examples/00-10-classes_traditional_expression.cf
-  bundle agent main
-  {
-    reports:
-      linux.!(Saturday|Sunday)::
-        "This is a linux host";
-        "Today is not Saturday or Sunday";
-  }
+#+BEGIN_SRC cfengine3
+bundle agent main
+{
+  reports:
+    linux.!(Saturday|Sunday)::
+      "This is a linux host";
+      "Today is not Saturday or Sunday";
+}
 #+END_SRC
 
 Traditional class expressions apply until the next class expression, promise
@@ -1154,15 +1156,15 @@ type, or end of bundle. If unspecified promises are in the =any= context.
 
 #+Caption: =examples/00-10-classes_example_ifvarclass.cf=
 #+BEGIN_SRC cfengine3
-    bundle agent main
-    {
-      vars:
-        "platforms" slist => { "linux", "windows" };
+bundle agent main
+{
+  vars:
+    "platforms" slist => { "linux", "windows" };
 
-      reports:
-        "I am a $(platforms) host"
-          ifvarclass => "$(platforms)";
-    }
+  reports:
+    "I am a $(platforms) host"
+      ifvarclass => "$(platforms)";
+}
 #+END_SRC
 
 - Restrict individual promises
@@ -1182,18 +1184,18 @@ type, or end of bundle. If unspecified promises are in the =any= context.
 
 #+Caption: =examples/00-10-classes_example_if_and_unless.cf=
 #+BEGIN_SRC cfengine3
-    bundle agent main
-    {
-      vars:
-        "platforms" slist => { "linux", "windows" };
+bundle agent main
+{
+  vars:
+    "platforms" slist => { "linux", "windows" };
 
-      reports:
-        "I am a $(platforms) host"
-          if => "$(platforms)";
+  reports:
+    "I am a $(platforms) host"
+      if => "$(platforms)";
 
-        "I was made by Microsoft"
-          unless => "!windows";
-    }
+    "I was made by Microsoft"
+      unless => "!windows";
+}
 #+END_SRC
 
 #+BEGIN_NOTES
@@ -1209,15 +1211,17 @@ type, or end of bundle. If unspecified promises are in the =any= context.
 
 #+Caption: =examples/00-10-classes_example_variable_class_expressions.cf=
 #+BEGIN_SRC cfengine3
-    bundle agent main
-    {
-      vars:
-        "platforms" slist => { "linux", "windows" };
+bundle agent main
+{
+  vars:
+    "platforms" slist => { "linux", "windows" };
 
-      reports:
-        "$(platforms)"::
-          "I am a $(platforms) host";
-    }
+      "string" string => export()
+  reports:
+    "$(platforms)"::
+      "I am a $(platforms) host";
+        if => "$(platforms)";
+}
 #+END_SRC
 
 #+BEGIN_NOTES
@@ -1267,22 +1271,22 @@ type, or end of bundle. If unspecified promises are in the =any= context.
 :END:
 #+Caption: =examples/00-01-strings.cf=
 #+Name: =examples/00-01-strings.cf=
-#+BEGIN_SRC cfengine3 :exports both :wrap EXAMPLE :tanlge examples/00-01-strings.cf
-  bundle agent main
-  {
-    vars:
-     "string1" string => "one";
-      "string2" string => "strings
-  can be multi-line";
-      "string3" string => "with \"quotes\"";
-      "string4" string => 'or "quotes"';
+#+BEGIN_SRC cfengine3
+bundle agent main
+{
+  vars:
+   "string1" string => "one";
+    "string2" string => "strings
+can be multi-line";
+    "string3" string => "with \"quotes\"";
+    "string4" string => 'or "quotes"';
 
-    reports:
-      "string1 = '$(string1)'";
-      "string2 = '$(string2)'";
-      "string3 = '$(string3)'";
-      "string4 = '$(string4)'";
-  }
+  reports:
+    "string1 = '$(string1)'";
+    "string2 = '$(string2)'";
+    "string3 = '$(string3)'";
+    "string4 = '$(string4)'";
+}
 #+END_SRC
 
 #+REVEAL: split
@@ -1302,23 +1306,23 @@ R: string4 = 'or "quotes"'
 :END:
 #+Caption: =examples/00-02-numbers.cf=
 #+Name: =examples/00-02-numbers.cf=
-#+BEGIN_SRC cfengine3 :exports both :wrap EXAMPLE :tangle examples/00-02-numbers.cf
-  bundle agent main
-  {
-    vars:
-      "var1" int => "1";
-      "var2" int => "10K";
-      "var3" real => "1.2";
-      "var4" real => "10e-5";
-      "var5" int => "inf";
+#+BEGIN_SRC cfengine3
+bundle agent main
+{
+  vars:
+    "var1" int => "1";
+    "var2" int => "10K";
+    "var3" real => "1.2";
+    "var4" real => "10e-5";
+    "var5" int => "inf";
 
-    reports:
-      "var1 = '$(var1)'";
-      "var2 = '$(var2)'";
-      "var3 = '$(var3)'";
-      "var4 = '$(var4)'";
-      "inf = '$(var5)'";
-  }
+  reports:
+    "var1 = '$(var1)'";
+    "var2 = '$(var2)'";
+    "var3 = '$(var3)'";
+    "var4 = '$(var4)'";
+    "inf = '$(var5)'";
+}
 #+END_SRC
 
 #+REVEAL: split
@@ -1365,23 +1369,23 @@ having no limit at all.
 :END:
 #+Caption: =examples/00-04-lists.cf=
 #+Name: =examples/00-04-lists.cf=
-#+BEGIN_SRC cfengine3 :exports both :wrap EXAMPLE :tanlge examples/00-04-lists.cf
-  bundle agent main
-  {
-    vars:
-      "var1" ilist => { 1, 2, "3", "4" };
-      "var2" rlist => { "1.2", "2.0", "3.3" };
-      "var3" slist => { "one", "two", three,
-                        @(var1), @(var2),
-                      };
-      "var4" real => sum( var2 );
+#+BEGIN_SRC cfengine3
+bundle agent main
+{
+  vars:
+    "var1" ilist => { 1, 2, "3", "4" };
+    "var2" rlist => { "1.2", "2.0", "3.3" };
+    "var3" slist => { "one", "two", three,
+                      @(var1), @(var2),
+                    };
+    "var4" real => sum( var2 );
 
-    reports:
-      "var1 = '$(var1)'";
-      "var2 = '$(var2)'";
-      "var3 = '$(var3)'";
-      "var4 = '$(var4)'";
-  }
+  reports:
+    "var1 = '$(var1)'";
+    "var2 = '$(var2)'";
+    "var3 = '$(var3)'";
+    "var4 = '$(var4)'";
+}
 #+END_SRC
 
 #+REVEAL: split
@@ -1414,19 +1418,19 @@ R: var4 = '6.500000'
 :END:
 #+Caption: =examples/00-03-list_iteration.cf=
 #+Name: =examples/00-03-list_iteration.cf=
-#+BEGIN_SRC cfengine3 :exports both :wrap EXAMPLE :tangle  examples/00-03-list_iteration.cf
-  bundle agent main
-  {
-    vars:
-      "numbers" slist => { "1", "2", "3" };
-      "colors" slist => { "red", "green", "blue" };
+#+BEGIN_SRC cfengine3
+bundle agent main
+{
+  vars:
+    "numbers" slist => { "1", "2", "3" };
+    "colors" slist => { "red", "green", "blue" };
 
-    reports:
-      "$(numbers)";
-      "$(colors)";
-      "$(numbers) with $(colors)";
-      "$(colors) with $(numbers)";
-  }
+  reports:
+    "$(numbers)";
+    "$(colors)";
+    "$(numbers) with $(colors)";
+    "$(colors) with $(numbers)";
+}
 #+END_SRC
 
 #+REVEAL: split
@@ -1463,20 +1467,20 @@ R: blue with 3
 
 #+Caption: =examples/00-05-classic_arrays.cf=
 #+Name: =examples/00-05-classic_arrays.cf=
-#+BEGIN_SRC cfengine3 :exports both :wrap EXAMPLE :tangle examples/00-05-classic_arrays.cf
-  bundle agent main
-  {
-    vars:
-      "file[motd]"  string => "/etc/motd";
-      "file[fstab]" string => "/etc/fstab";
+#+BEGIN_SRC cfengine3
+bundle agent main
+{
+  vars:
+    "file[motd]"  string => "/etc/motd";
+    "file[fstab]" string => "/etc/fstab";
 
-      "file_idx" slist => getindices( file );
-      "files" slist => getvalues( file );
+    "file_idx" slist => getindices( file );
+    "files" slist => getvalues( file );
 
-    reports:
-     "The key '$(file_idx)' has the value '$(file[$(file_idx)])'";
-     "file: '$(files)'";
-  }
+  reports:
+   "The key '$(file_idx)' has the value '$(file[$(file_idx)])'";
+   "file: '$(files)'";
+}
 #+END_SRC
 
 #+REVEAL: split
@@ -1492,25 +1496,25 @@ R: file: '/etc/motd'
 ** Example - data containers
 #+Caption: =examples/00-06-data_containers.cf=
 #+Name: =examples/00-06-data_containers.cf=
-#+BEGIN_SRC cfengine3 :exports both :wrap EXAMPLE :tangle examples/00-06-data_containers.cf
-  bundle agent main
-  {
-    vars:
-      "server" string => "mirror.int.cfengine.com";
-      "repos"
-        data => parsejson('{
-                  "rhel6_updates": {
-                    "id": { "value":"RHEL6_UPDATES" },
-                    "name": { "value": "RHEL 6.x Updates" },
-                    "baseurl": { "value": "https://$(server)/RHEL6/updates" }
-                  }
-                }');
+#+BEGIN_SRC cfengine3
+bundle agent main
+{
+  vars:
+    "server" string => "mirror.int.cfengine.com";
+    "repos"
+      data => parsejson('{
+                "rhel6_updates": {
+                  "id": { "value":"RHEL6_UPDATES" },
+                  "name": { "value": "RHEL 6.x Updates" },
+                  "baseurl": { "value": "https://$(server)/RHEL6/updates" }
+                }
+              }');
 
-      "idx" slist => getindices( repos );
+    "idx" slist => getindices( repos );
 
-    reports:
-      "URL = '$(repos[$(idx)][baseurl][value])'";
-  }
+  reports:
+    "URL = '$(repos[$(idx)][baseurl][value])'";
+}
 #+END_SRC
 
 #+REVEAL: split
@@ -1999,17 +2003,34 @@ This means new policy will be distributed as you push it into the repository.
 
 Copy this example to =services/autorun/nologin.cf=
 
+cf-agent -KIf ./example.cf
 #+Caption: =examples/00-20-example-create_file.cf=
-#+BEGIN_SRC cfengine3 :tangle examples/00-20-example-create_file.cf
-  bundle agent no_login
-  {
-    meta:
-      "tags" slist => { "autorun" };
+#+BEGIN_SRC cfengine3
+bundle agent main
+{
+  files:
+     "/tmp/nologin"
+        create => "true",
+        classes => results("bundle", "my_file");
 
-    files:
-        "/etc/nologin"
-          create => "true";
-  }
+   reports:
+    my_file_repaired::
+     "File repaired";
+
+     any:: 
+      "File Exists"
+        if => fileexists("/tmp/nologin");
+}
+#+END_SRC
+
+#+RESULTS:
+#+BEGIN_EXAMPLE
+R: File Exists
+#+END_EXAMPLE
+
+
+#+BEGIN_SRC shell
+rm /tmp/nologin
 #+END_SRC
 
 ** Example - update file
@@ -2018,31 +2039,45 @@ Copy this example to =services/autorun/nologin.cf=
 :END:
 
 #+Caption: =examples/00-20-example-update_file.cf=
-#+BEGIN_SRC cfengine3 :tangle examples/00-20-example-update_file.cf
-  bundle agent cf_agent_heartbeat
-  {
-    meta:
-      "tags" slist => { "autorun" };
+#+BEGIN_SRC cfengine3
+body file control
+{
+  inputs => { "$(sys.libdir)/stdlib.cf" };
+}
+bundle agent main
+{
+  meta:
+    "tags" slist => { "autorun" };
 
-    files:
-      "$(sys.statedir)/$(this.bundle)" -> { "Monitoring" }
-        create  => "true",
-        touch   => "true",
-        classes => scoped_classes_generic("bundle", "heartbeat"),
-        handle  => "cf_agent_heartbeat_thump",
-        comment => "This policy simply updates the timestamp
-                    of the file so an external monitoring
-                    system can validate the system is working.";
+  files:
+    "$(sys.statedir)/$(this.bundle)" -> { "Monitoring" }
+      create  => "true",
+      touch   => "true",
+      classes => scoped_classes_generic("bundle", "heartbeat"),
+      handle  => "cf_agent_heartbeat_thump",
+      comment => "This policy simply updates the timestamp
+                  of the file so an external monitoring
+                  system can validate the system is working.";
 
-    reports:
-      DEBUG|DEBUG_cf_agent_heartbeat::
+  reports:
+    DEBUG|DEBUG_cf_agent_heartbeat::
 
-        "DEBUG $(this.bundle): Heartbeat"
-          if => "heartbeat_repaired";
+      "DEBUG $(this.bundle): Heartbeat"
+        if => "heartbeat_repaired";
 
-        "DEBUG $(this.bundle): Flatline"
-          unless => "heartbeat_repaired";
-  }
+      "DEBUG $(this.bundle): Flatline"
+        unless => "heartbeat_repaired";
+}
+#+END_SRC
+
+
+#+BEGIN_SRC cfengine3
+bundle agent main
+{
+  reports:
+     "$(stdlib_common.input[common])";
+}
+
 #+END_SRC
 
 ** Exercise - create a file
@@ -2050,37 +2085,55 @@ Copy this example to =services/autorun/nologin.cf=
 :ID:       4cb97441-1e2f-42ed-afbf-1658e1376199
 :END:
 
-Write a policy that ensures =/etc/cron.allow= is present so that only users
+Write a policy that ensures =/etc/cron.allow= is present so
+ that only users
 listed in the file are allowed to schedule jobs.
 
 Test with ~crontab -e~
 
+#+BEGIN_SRC cfengine3
+bundle agent main
+{
+  vars:
+      "file" string => "/etc/cron.allow";
+  files:
+      "$(file)"
+        create => "true";
+      "$(file)"
+        edit_line => insert_file("/tmp/users.txt");
+}
+#+END_SRC
 ** Example - install a package and start a service
 :PROPERTIES:
 :ID:       aa3065ea-f167-4b8a-9fde-f07ca8677429
 :END:
 
 #+Caption: =examples/00-20-example-package_and_service.cf=
-#+BEGIN_SRC cfengine3 :tangle examples/00-20-example-package_and_service.cf
-  bundle agent training_simple_website
-  {
-    meta:
-      host001::
-        "tags" slist => { "autorun" };
+#+BEGIN_SRC cfengine3
+bundle agent main
+{
+  packages:
+      "httpd"
+        policy => "present",
+        package_module => yum;
 
-    packages:
-        "httpd"
-          policy => "present",
-          package_module => yum;
+  services:
+      "httpd"
+        service_policy => "start";
 
-    services:
-        "httpd"
-          service_policy => "start";
+       "httpd"
+        service_policy => "restart",
+        if => "httpd_conf_repaired";
+  files:
+      "/etc/httpd.conf"
+        edit_template => "/tmp/httpd.conf.mustache",
+        template_method => "mustache",
+        classes => results("bundle", "httpd_conf");
 
-    reports:
-      DEBUG|DEBUG_training_simple_website::
-        "DEBUG $(this.bundle)";
-  }
+  reports:
+    DEBUG|DEBUG_training_simple_website::
+      "DEBUG $(this.bundle)";
+}
 #+END_SRC
 
 ** Example - Classify role based on hostname
@@ -2089,25 +2142,25 @@ Test with ~crontab -e~
 :END:
 
 #+Caption: =examples/00-20-example-classes-role_by_hostname.cf=
-#+BEGIN_SRC cfengine3 :tangle examples/00-20-example-classes-role_by_hostname.cf
-  bundle common classes_role_by_hostname
-  {
-    classes:
-      "env_prod"
-        meta => { "inventory", "attribute_name=Role Classes" };
-        or => {
-                regcmp( "hub", $(sys.fqhost) ),
-                regcmp( "^prd.*", $(sys.fqhost) ),
-              };
+#+BEGIN_SRC cfengine3
+bundle common classes_role_by_hostname
+{
+  classes:
+    "env_prod"
+      meta => { "inventory", "attribute_name=Role Classes" };
+      or => {
+              regcmp( "hub", $(sys.fqhost) ),
+              regcmp( "^prd.*", $(sys.fqhost) ),
+            };
 
-      "webserver"
-        expression => "host001",
-        meta => { "inventory", "attribute_name=Role Classes" };
+    "webserver"
+      expression => "host001",
+      meta => { "inventory", "attribute_name=Role Classes" };
 
-      "webserver"
-        expression => regcmp( "^www.*", $(sys.fqhost) ),
-        meta => { "inventory", "attribute_name=Role Classes" };
-  }
+    "webserver"
+      expression => regcmp( "^www.*", $(sys.fqhost) ),
+      meta => { "inventory", "attribute_name=Role Classes" };
+}
 #+END_SRC
 
 ** Example - Classify geographic location by network
@@ -2116,59 +2169,59 @@ Test with ~crontab -e~
 :END:
 
 #+Caption: =examples/00-20-example-classes-geographic_location_by_network.cf=
-#+BEGIN_SRC cfengine3 :tangle examples/00-20-example-classes-geographic_location_by_network.cf
-  bundle common classify_geo_location_by_network
-  {
-    meta:
-      "tags" slist => { "autorun" };
+#+BEGIN_SRC cfengine3
+bundle common classify_geo_location_by_network
+{
+  meta:
+    "tags" slist => { "autorun" };
 
-    vars:
-      "nadc01_subnets"
-        slist => { "172.16.25.0/25", "172.17.0.0/16",
-                   "192.168.33.2/32",
-                 };
+  vars:
+    "nadc01_subnets"
+      slist => { "172.16.25.0/25", "172.17.0.0/16",
+                 "192.168.33.2/32",
+               };
 
-      "nadc02_subnets"
-        slist => { "172.17.5.0/25", "172.42.0.0/16",
-                   "192.168.33.3/32",
-                 };
+    "nadc02_subnets"
+      slist => { "172.17.5.0/25", "172.42.0.0/16",
+                 "192.168.33.3/32",
+               };
 
-      "sadc01_subnets"
-        slist => { "172.19.4.0/23", "192.168.33.4-5" };
+    "sadc01_subnets"
+      slist => { "172.19.4.0/23", "192.168.33.4-5" };
 
-      "continent"
-        string => ifelse("north_america", "North America",
-                         "south_america", "South America",
-                         "Unknown"),
-        meta => { "inventory", "attribute_name=Continent" };
+    "continent"
+      string => ifelse("north_america", "North America",
+                       "south_america", "South America",
+                       "Unknown"),
+      meta => { "inventory", "attribute_name=Continent" };
 
 #+END_SRC
 
 #+REVEAL: split
 
 #+Caption: Continued =examples/00-20-example-classes-geographic_location_by_network.cf=
-#+BEGIN_SRC cfengine3 :tangle examples/00-20-example-classes-geographic_location_by_network.cf
+#+BEGIN_SRC cfengine3
 
-    classes:
-      "north_america"
-        or => { "nadc01", "nadc02" };
+  classes:
+    "north_america"
+      or => { "nadc01", "nadc02" };
 
-      "south_america"
-        expression => classmatch("^sadc\d+");
+    "south_america"
+      expression => classmatch("^sadc\d+");
 
-      "nadc01"
-        expression => iprange( $(nadc01_subnets) );
+    "nadc01"
+      expression => iprange( $(nadc01_subnets) );
 
-      "nadc02"
-        expression => iprange( $(nadc02_subnets) );
+    "nadc02"
+      expression => iprange( $(nadc02_subnets) );
 
-      "sadc01"
-        expression => iprange( $(sadc01_subnets) );
+    "sadc01"
+      expression => iprange( $(sadc01_subnets) );
 
-    reports:
-      "DEBUG|DEBUG_$(this.bundle)"::
-        "DEBUG $(this.bundle): Continent = '$(continent)'";
-  }
+  reports:
+    "DEBUG|DEBUG_$(this.bundle)"::
+      "DEBUG $(this.bundle): Continent = '$(continent)'";
+}
 #+END_SRC
 
 ** Example - Manage key value entries in a config file
@@ -2177,81 +2230,81 @@ Test with ~crontab -e~
 :END:
 
 #+Caption: =manage_ssh= in =examples/00-20-example-key_value_config.cf=
-#+BEGIN_SRC cfengine3 :tangle examples/00-20-example-key_value_config.cf
-  bundle agent manage_ssh
-  {
-    meta:
-      "tags" slist => { "autorun" };
+#+BEGIN_SRC cfengine3
+bundle agent manage_ssh
+{
+  meta:
+    "tags" slist => { "autorun" };
 
-    methods:
-      "SSH Config Data"
-        usebundle => ssh_config;
+  methods:
+    "SSH Config Data"
+      usebundle => ssh_config;
 
-      "Manage SSH Config"
-        usebundle => ssh_config_manage_kv("ssh_config.data");
-  }
+    "Manage SSH Config"
+      usebundle => ssh_config_manage_kv("ssh_config.data");
+}
 #+END_SRC
 
 #+REVEAL: split
 
 #+Caption: =ssh_config= in =examples/00-20-example-key_value_config.cf=
-#+BEGIN_SRC cfengine3 :tangle examples/00-20-example-key_value_config.cf
-  bundle agent ssh_config
-  {
-    vars:
-        "data[PermitRootLogin]" string => "no";
-        "data[Protocol]" string => "2";
-        "data[Port]" string => "22";
+#+BEGIN_SRC cfengine3
+bundle agent ssh_config
+{
+  vars:
+      "data[PermitRootLogin]" string => "no";
+      "data[Protocol]" string => "2";
+      "data[Port]" string => "22";
 
-      DEBUG|DEBUG_ssh_config::
-        "keys" slist => getindices(data);
+    DEBUG|DEBUG_ssh_config::
+      "keys" slist => getindices(data);
 
-    reports:
-      DEBUG|DEBUG_ssh_config::
-        "DEBUG $(this.bundle): $(keys) = '$(data[$(keys)])'";
-  }
+  reports:
+    DEBUG|DEBUG_ssh_config::
+      "DEBUG $(this.bundle): $(keys) = '$(data[$(keys)])'";
+}
 #+END_SRC
 
 #+REVEAL: split
 
 #+Caption: =ssh_config_manage_kv= in =examples/00-20-example-key_value_config.cf=
-#+BEGIN_SRC cfengine3 :tangle examples/00-20-example-key_value_config.cf
-  bundle agent ssh_config_manage_kv(data)
-  {
-    vars:
-      "config" string => "/etc/ssh/sshd_config";
+#+BEGIN_SRC cfengine3
+bundle agent ssh_config_manage_kv(data)
+{
+  vars:
+    "config" string => "/etc/ssh/sshd_config";
 
-    files:
-      "$(config)"
-        handle => "ssh_config_manage_kv_entries",
-        edit_line => set_line_based("$(data)", " ", "\s+", ".*", "\s*#\s*"),
-        classes => scoped_classes_generic("bundle", "sshd_config");
+  files:
+    "$(config)"
+      handle => "ssh_config_manage_kv_entries",
+      edit_line => set_line_based("$(data)", " ", "\s+", ".*", "\s*#\s*"),
+      classes => scoped_classes_generic("bundle", "sshd_config");
 
-    classes:
-      sshd_config_repaired::
-        "config_valid"
-          expression => returnszero("/usr/sbin/sshd -t -f $(config)", noshell),
-          comment => "It's important that we don't restart the service with a
-                      broken config, or the service will be down.";
+  classes:
+    sshd_config_repaired::
+      "config_valid"
+        expression => returnszero("/usr/sbin/sshd -t -f $(config)", noshell),
+        comment => "It's important that we don't restart the service with a
+                    broken config, or the service will be down.";
 
-    commands:
-      sshd_config_repaired.config_valid::
-        "$(paths.service)"
-          handle => "ssh_config_manage_kv_restart_after_config_change",
-          args => "sshd restart",
-          comment => "The service must be restarted in order to pick up new
-                      configuration settings.";
+  commands:
+    sshd_config_repaired.config_valid::
+      "$(paths.service)"
+        handle => "ssh_config_manage_kv_restart_after_config_change",
+        args => "sshd restart",
+        comment => "The service must be restarted in order to pick up new
+                    configuration settings.";
 
-    reports:
-        "DEBUG $(this.bundle): Reparied configuration"
-          if => "sshd_config_repaired";
+  reports:
+      "DEBUG $(this.bundle): Reparied configuration"
+        if => "sshd_config_repaired";
 
-        "DEBUG $(this.bundle): Configuration Valid"
-          if => "config_valid";
+      "DEBUG $(this.bundle): Configuration Valid"
+        if => "config_valid";
 
-        "DEBUG $(this.bundle): Restarted sshd after config change"
-          depends_on => { "ssh_config_manage_kv_restart_after_config_change" };
-  }
+      "DEBUG $(this.bundle): Restarted sshd after config change"
+        depends_on => { "ssh_config_manage_kv_restart_after_config_change" };
+}
 #+END_SRC
 
 ** Example - Manage key value entries output
@@ -2281,20 +2334,20 @@ Test with ~crontab -e~
 :END:
 
 #+Caption: =examples/00-20-example-mustache_template_vars.cf=
-#+BEGIN_SRC cfengine3 :tangle examples/00-20-example-mustache_template_vars.cf
-  bundle agent motd
-  {
-    meta:
-      "tags" slist => { "autorun" };
+#+BEGIN_SRC cfengine3
+bundle agent motd
+{
+  meta:
+    "tags" slist => { "autorun" };
 
-    vars:
-      "owner" string => "Bruce Wayne";
+  vars:
+    "owner" string => "Bruce Wayne";
 
-    files:
-      "/etc/motd"
-        template_method => "mustache",
-        edit_template => "$(this.promise_filename).mustache";
-  }
+  files:
+    "/etc/motd"
+      template_method => "mustache",
+      edit_template => "$(this.promise_filename).mustache";
+}
 #+END_SRC
 
 ** Example - mustache template
@@ -2303,10 +2356,10 @@ Test with ~crontab -e~
 :END:
 
 #+Caption: examples/00-20-example-mustache_template_vars.cf.mustache
-#+BEGIN_SRC txt :tangle examples/00-20-example-mustache_template_vars.cf.mustache
-  Welcome to {{{vars.sys.fqhost}}}!
+#+BEGIN_SRC txt
+Welcome to {{{vars.sys.fqhost}}}!
 
-  For support issues please contact {{{vars.motd.owner}}}.
+For support issues please contact {{{vars.motd.owner}}}.
 #+END_SRC
 
 ** TODO Mustache Pro Tip: =-top-=
@@ -2314,7 +2367,7 @@ Test with ~crontab -e~
 The =-top-= key is very useful for completely generic data models and debugging.
 
 #+BEGIN_SRC txt
-  {{{%-top-}}}
+{{{%-top-}}}
 #+END_SRC
 
 ** Exercise - Edit a file
@@ -2338,34 +2391,34 @@ should be restarted after changing its configuration.
 :END:
 
 #+Caption: Setup for the example
-#+BEGIN_SRC shell :dir /sudo::
-  sudo touch /tmp/immutable
-  sudo chatter +i /tmp/immutable
+#+BEGIN_SRC shell
+sudo touch /tmp/immutable
+sudo chatter +i /tmp/immutable
 #+END_SRC
 
 #+Caption: =examples/00-20-example-multiple_outcomes.cf=
-#+BEGIN_SRC cfengine3 :tangle examples/00-20-example-multiple_outcomes.cf
-  body file control { inputs => { "$(sys.libdir)/stdlib.cf" }; }
-  bundle agent main
-  {
-    files:
-      "/tmp/immutable"
-        create => "true",
-        edit_line =>  example_edit_line,
-        classes => results("bundle", "my_id");
+#+BEGIN_SRC cfengine3
+body file control { inputs => { "$(sys.libdir)/stdlib.cf" }; }
+bundle agent main
+{
+  files:
+    "/tmp/immutable"
+      create => "true",
+      edit_line =>  example_edit_line,
+      classes => results("bundle", "my_id");
 
-    vars:
-      "classes" slist => classesmatching(".*my_id.*");
+  vars:
+    "classes" slist => classesmatching(".*my_id.*");
 
-    reports:
-      "Found Class = '$(classes)'";
-  }
+  reports:
+    "Found Class = '$(classes)'";
+}
 
-  bundle edit_line example_edit_line
-  {
-    insert_lines:
-      "I want to edit an immutable file";
-  }
+bundle edit_line example_edit_line
+{
+  insert_lines:
+    "I want to edit an immutable file";
+}
 #+END_SRC
 
 #+REVEAL: split
@@ -2382,9 +2435,9 @@ should be restarted after changing its configuration.
 Reference the [[https://docs.cfengine.com/docs/3.10/reference-masterfiles-policy-framework-lib-common.html#results][implementation of the =results= classes body]] in the stdlib.
 
 #+Caption: Cleanup immutable file
-#+BEGIN_SRC shell :dir /sudo::
-  sudo chattr -i /tmp/immutable
-  sudo rm /tmp/immutable
+#+BEGIN_SRC shellell
+sudo chattr -i /tmp/immutable
+sudo rm /tmp/immutable
 #+END_SRC
 
 ** Exercise - Report
@@ -2396,17 +2449,17 @@ Write a policy that defines a name in separate parts (at least 3). Then have
 CFEngine report the name in a random order.
 
 #+Caption: Example Solution
-#+BEGIN_SRC cfengine3 :exports both :wrap EXAMPLE
-  bundle agent main
-  {
-    vars:
-      "name_parts" slist => { "Ronald", "Mck", "Donald" };
-      "shuffled" slist => shuffle( name_parts, randomint(0, inf) );
-      "name" string => join(" ", shuffled );
+#+BEGIN_SRC cfengine3
+bundle agent main
+{
+  vars:
+    "name_parts" slist => { "Ronald", "Mck", "Donald" };
+    "shuffled" slist => shuffle( name_parts, randomint(0, inf) );
+    "name" string => join(" ", shuffled );
 
-    reports:
-      "$(name)";
-  }
+  reports:
+    "$(name)";
+}
 #+END_SRC
 
 #+RESULTS:
@@ -2480,6 +2533,82 @@ The "Default Masterfiles"
 :PROPERTIES:
 :ID:       1b3901a6-ecaa-4da9-8f05-133827bb92bb
 :END:
+** =noshell= vs =useshell= for =commands= type promises, =execresult()=, and =returnszero()=
+
+As a general rule of thumb I prefer to use =noshell=. I try to only =useshell=
+if it's required. Running a command with a shell requires more resources.
+However using a shell does provide some additional functionality.
+
+Additionally as a general rule you should not be making changes to the system
+using =execresult()= or =returnszero()=. The functions are intended to be used
+for discovery. As with most rules, there are times when it would make sense to
+run a script that changes the system from one of these functions, but I can't
+think of any off the top of my head.
+
+- =useshell= allows you to use pipelines
+ 
+#+BEGIN_SRC cfengine3
+bundle agent main
+{
+
+  vars:
+      "result_with_shell"
+        string => execresult( "/bin/echo 'Hello$(const.n) World' | grep Hello", useshell);
+
+    reports:
+      "$(result_with_shell)";
+}
+#+END_SRC
+
+#+RESULTS:
+: R: Hello
+
+- =useshell= allows you to use redirections
+
+#+BEGIN_SRC cfengine3
+bundle agent main
+{
+
+  classes:
+
+      "successfully_executed"
+        expression => returnszero( "/bin/echo 'Hello$(const.n) World' | grep -i world > $(this.promise_filename).out ", useshell);
+
+    reports:
+      successfully_executed::
+      "Successfully Executed";
+      "Grep found: "
+        printfile => cat( "$(this.promise_filename).out" );
+}
+#+END_SRC
+
+#+RESULTS:
+: R: Successfully Executed
+: R: Grep found: 
+: R:  World
+
+- =useshell= allows you to use unqualified commands
+
+#+BEGIN_SRC cfengine3
+bundle agent main
+{
+
+    vars:
+
+      # Note that echo is not fully qualified. That's because it picked it up
+      # from the shells PATH
+
+      "result"
+        string => execresult( "echo 'Hello World'", useshell);
+
+    reports:
+      "Result: $(result)";
+}
+#+END_SRC
+
+#+RESULTS:
+: R: Result: Hello World
+
 ** cf-locate
 :PROPERTIES:
 :ID:       aa03c0a5-ec8b-472f-bf96-c15c1227f8aa
@@ -2502,14 +2631,14 @@ The "Default Masterfiles"
 Use standardized =DEBUG= reports for policy development and troubleshooting.
 
 #+BEGIN_SRC cfengine3
-  bundle agent main
-  {
-    reports:
-      DEBUG|DEBUG_this_bundle_name::
-        "DEBUG $(this.bundle): ....";
-      "DEBUG|DEBUG_$(this.bundle)"::
-        "DEBUG $(this.bundle): ....";
-   }
+bundle agent main
+{
+  reports:
+    DEBUG|DEBUG_this_bundle_name::
+      "DEBUG $(this.bundle): ....";
+    "DEBUG|DEBUG_$(this.bundle)"::
+      "DEBUG $(this.bundle): ....";
+ }
 #+END_SRC
 
 ** Promise comments
@@ -2520,14 +2649,14 @@ Use standardized =DEBUG= reports for policy development and troubleshooting.
 Use promise comments to document *WHY* the promise is important.
 
 #+BEGIN_SRC cfengine3
-  bundle agent main
-  {
-    services:
-      "firewalld"
-        policy => "start",
-        comment => "If this service isnt running, then we have unnecessary
-                    exposure and increase our risk of a security breach.";
-  }
+bundle agent main
+{
+  services:
+    "firewalld"
+      policy => "start",
+      comment => "If this service isnt running, then we have unnecessary
+                  exposure and increase our risk of a security breach.";
+}
 #+END_SRC
 
 ** Getting the most from the documentation
@@ -2547,6 +2676,9 @@ Use promise comments to document *WHY* the promise is important.
 - [[https://github.com/cfengineers-net/cf-keycrypt][=cf-keycrypt=]] :: Tool to encrypt data with CFEngine public keys
   - Allows to encrypt data for individual hosts using the public key
   - Can be used with non host keys for "group" encryption
+ 
+* Additional Resource continued
+
 - [[http://www.cfengineers.net/downloads/cfengine-tools-and-utilities/][=cf-profile=]] :: Displays time summaries from agent runs. Helps to find the
      bundles you spend the most time in.
 - [[https://github.com/neilhwatson/vim_cf3][=vim_cf3=]] :: CFEngine 3 vim plugin with Syntax highlighting
@@ -2567,7 +2699,7 @@ given promise type unless otherwise specified.
 For example, to set all file type promises to warn you can add the
 =files_action= body in the =bodydefault= namespace.
 
-#+BEGIN_SRC cfengine3 :exports both :wrap EXAMPLE
+#+BEGIN_SRC cfengine3
 bundle agent main
 {
   files:
@@ -2598,7 +2730,7 @@ body action files_action
 #+BEGIN_EXAMPLE
  warning: Warning promised, need to create file '/tmp/show_default_action'
 #+END_EXAMPLE
-** Feature Macro
+** Feature Macro :noexport:
 - [[https://docs.cfengine.com/docs/3.10/reference-macros.html#features][Feature Macro]] documentation
 
 You can conditionally parse policy based on compiled in features using this
@@ -2608,13 +2740,34 @@ macro.
   bundle agent main
   {
 
-  @if feature(xml)
+  @if feature(yaml)
   # the yaml library may not be compiled in
-    vars: "container" data => parseyaml(...);
+    vars: "container" data => parseyaml('
+  - array1
+  - array2
+  - key: 1
+  - key: 2');
   @endif
-
+      
+    reports:
+      "$(with)" with => string_mustache('{{%-top-}}', container );
   }
 #+END_SRC
+
+#+RESULTS:
+#+begin_example
+R: [
+  "array1",
+  "array2",
+  {
+    "key": 1
+  },
+  {
+    "key": 2
+  }
+]
+#+end_example
+
 
 * Special Topics
 ** Internal agent upgrade mechanism
@@ -2623,8 +2776,8 @@ macro.
   =/var/cfengine/master_software_updates/$(sys.flavour)_$(sys.arch)=
 - Define =trigger_upgrade= for set of hosts. Ref =update_def.cf=
   #+BEGIN_SRC cfengine3
-    classes:
-      "trigger_upgrade" or => { "host1", "host2", "redhat_5" }; 
+  classes:
+    "trigger_upgrade" or => { "host1", "host2", "redhat_5" }; 
   #+END_SRC
 
 #+BEGIN_NOTES
@@ -2632,5 +2785,49 @@ macro.
   packages that are served from the hub.
 #+END_NOTES
 
+* Additional Examples
+** Inventory SSH Host Keys
+
+#+BEGIN_SRC cfengine3
+  bundle agent main
+  {
+    vars:
+      "keys" slist => lsdir("/etc/ssh", "ssh_host_\w+_key", "false");
+      "$(keys)" data => data_regextract("ssh_host_(?<type>\w+)_key", $(keys) ); 
+
+      "type[$(keys)]"
+        string => "$($(keys)[type])",
+        meta => { "inventory", "attribute_name=SSH HostKey Type" };
+
+      # Warning ssh-keygen output may vary across versions
+      "fingerprint[$(keys)]"
+        string => nth(
+string_split(
+ execresult("/usr/bin/ssh-keygen -l -f /etc/ssh/$(keys).pub", noshell),
+"\s+", 5), 1),
+         meta => { "inventory", "attribute_name=SSH HostKey Fingerprint" };
+
+    reports:
+      "/etc/ssh/$(keys).pub
+        type: $($(keys)[type])
+        fingerprint: $(fingerprint[$(keys)])";
+  }
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+R: /etc/ssh/ssh_host_ed25519_key.pub
+      type: ed25519
+      fingerprint: SHA256:NA04HcvSPZ/wAp/vJUIcOV799ImTWnbFEX0R9R2SXUI
+R: /etc/ssh/ssh_host_ecdsa_key.pub
+      type: ecdsa
+      fingerprint: SHA256:gN37F6qt7vkYvVzxgOii5hNzu7EPJw/yTvEnRtr+rLk
+R: /etc/ssh/ssh_host_dsa_key.pub
+      type: dsa
+      fingerprint: SHA256:/5b5NncWQL43gi9AQarZvVoQW5M+LJxk8KqFYGvZpqI
+R: /etc/ssh/ssh_host_rsa_key.pub
+      type: rsa
+      fingerprint: SHA256:tSRcjuKPF6W/jcyhqYG7tHlVkcrUZGh0RmwFEEpMPzc
+#+end_example
 
 
