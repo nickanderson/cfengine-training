@@ -177,7 +177,7 @@ Known to run on many platforms, and interesting places.
 
 - Policy cached locally
 - Decisions made locally
-- Convergence :: Repair what you can and re-vist soon
+- Convergence :: Repair what you can and re-visit soon
 
 ** Declarative                                                      :ATTACH:
 :PROPERTIES:
@@ -228,7 +228,7 @@ it to? (Alaskan airports, ponds, fields, etc ...)
   - Integrating CFEngine with other services
     - Classes and variables from data provided by other services (JSON)
     - Set environment
-  - Extrememly dynamic policies
+  - Extremely dynamic policies
     - When production host has deviated from "normal" amount of outbound ssh
       connections kill ssh sessions, firewall host, ticket.
 #+END_NOTES
@@ -261,7 +261,7 @@ wget -O- http://cfengine.package-repos.s3.amazonaws.com/\
 - Inventory Reporting
 - Change Reporting
 - Audit and Compliance
-- Anomoly Detection
+- Anomaly Detection
 - Monitoring
 - REST API
 - SQL Reporting
@@ -423,7 +423,7 @@ cf-promises --eval-functions=yes --full-check \
 #+END_SRC
 
 - Full check requires =body common control= (or =bundle agent main=). Typically
-  this is only used when you run cf-promsies against promises.cf or update.cf
+  this is only used when you run cf-promises against promises.cf or update.cf
 
 #+REVEAL: split
 
@@ -562,8 +562,8 @@ Build into your workflow!
   autonomous actors.
 - The fundamental underlying philosophy that CFEngine is based on.
 
-#+Caption: Promise Theory Primcipals and Applications
-#+ATTR_HTML: :alt Promise Theory Principles and Appications :style border:none;
+#+Caption: Promise Theory Principles and Applications
+#+ATTR_HTML: :alt Promise Theory Principles and Applications :style border:none;
 [[file:images/promise_theory_cover.jpg]]
 
 ** Promises
@@ -662,7 +662,7 @@ bundle type name
   parameters. Check out the documentation on [[https://docs.cfengine.com/latest/guide-writing-and-serving-policy-bundles-best-practices.html][best practices with bundles]].
 
   - Bundles can be used /like/ functions. However, please note they maintain
-    some state from thier last actuation.
+    some state from their last actuation.
     - Strings, lists, and data containers contain last value and may be
       re-defined.
     - Classic arrays are cleared at the beginning of each bundle actuation.
@@ -1562,7 +1562,7 @@ Git is the most popular modern version control management tool. [[https://github
 [[https://bitbucket.org][Bitbucket]], and [[https://gitlab.com][GitLab]] all provide great hosted and on prem repository management
 solutions.
 
-Using a git management system is reccomended for implementing access controls
+Using a git management system is recommended for implementing access controls
 and improved collaboration with regard to policy and systems management.
 
 #+BEGIN_NOTES
@@ -1603,7 +1603,7 @@ Configure git author
 #+BEGIN_NOTES
   When an Enterprise hub is installed, a git repository is seeded with the stock
   Masterfiles Policy Framework for that release. It provides an easy place to
-  play around with git and get setarted.
+  play around with git and get started.
 #+END_NOTES
 
 ** Add a file to the repository
@@ -2296,7 +2296,7 @@ bundle agent ssh_config_manage_kv(data)
                     configuration settings.";
 
   reports:
-      "DEBUG $(this.bundle): Reparied configuration"
+      "DEBUG $(this.bundle): Repaired configuration"
         if => "sshd_config_repaired";
 
       "DEBUG $(this.bundle): Configuration Valid"
@@ -2319,7 +2319,7 @@ bundle agent ssh_config_manage_kv(data)
   R: DEBUG ssh_config: Protocol = '2'
   R: DEBUG ssh_config: Port = '22'
       info: Edit file '/etc/ssh/sshd_config'
-  R: DEBUG ssh_config_manage_kv: Reparied configuration
+  R: DEBUG ssh_config_manage_kv: Repaired configuration
       info: Executing 'no timeout' ... '/sbin/service sshd restart'
     notice: Q: "...in/service sshd": Stopping sshd:          [  OK  ]
   Q: "...in/service sshd": Starting sshd:                    [  OK  ]
@@ -2435,7 +2435,7 @@ bundle edit_line example_edit_line
 Reference the [[https://docs.cfengine.com/docs/3.10/reference-masterfiles-policy-framework-lib-common.html#results][implementation of the =results= classes body]] in the stdlib.
 
 #+Caption: Cleanup immutable file
-#+BEGIN_SRC shellell
+#+BEGIN_SRC shell
 sudo chattr -i /tmp/immutable
 sudo rm /tmp/immutable
 #+END_SRC
@@ -2473,7 +2473,7 @@ R: Ronald Donald Mck
   This solution will print the name multiple times, exposing normal order.
 #+END_NOTES
 
-** Excercise - Trigger an action when a file changes
+** Exercise - Trigger an action when a file changes
 :PROPERTIES:
 :ID:       e0fb3d65-e3d8-4a1a-bc57-8338cc2e70f7
 :END:
@@ -2519,7 +2519,7 @@ The "Default Masterfiles"
 ** Overview 
 - =promises.cf= :: The main entry. This is the first file the agent reads by
      default. This is the stem cell for the rest of your policy.
-- =update.cf= :: This is a seperate *standalone* policy to manage updating
+- =update.cf= :: This is a separate *standalone* policy to manage updating
      policy and the cfengine agent itself.
 ** User Entries
 
@@ -2654,7 +2654,7 @@ bundle agent main
   services:
     "firewalld"
       policy => "start",
-      comment => "If this service isnt running, then we have unnecessary
+      comment => "If this service isn't running, then we have unnecessary
                   exposure and increase our risk of a security breach.";
 }
 #+END_SRC
@@ -2693,7 +2693,7 @@ bundle agent main
 
 - [[https://docs.cfengine.com/docs/3.10/reference-language-concepts-bodies.html#default-bodies][Default Bodies]] in language concepts
 
-3.9 introduced the ability to define a body that is used by all occurances of a
+3.9 introduced the ability to define a body that is used by all occurrences of a
 given promise type unless otherwise specified.
 
 For example, to set all file type promises to warn you can add the
