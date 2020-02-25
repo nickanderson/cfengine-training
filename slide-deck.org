@@ -1075,7 +1075,7 @@ Bundles have a type which specify how they can be used.
 - Have a type ( e.g. =classes=, =perms=, =copy_from= )
 - Can take parameters
 - Can be inherited (3.8+)
-- Cab be /defaulted/ for a given promise /type/ (3.9+)
+- Can be /defaulted/ for a given promise /type/ (3.9+)
 
 #+BEGIN_SRC sh :exports none
   cf-promises --syntax-description json | jq '.bodyTypes | keys | length'
@@ -1490,7 +1490,7 @@ readfile, readintarray, readintlist, readjson, readrealarray, readreallist, read
 #+ATTR_REVEAL: :frag roll-in
 - In what order are promises within a bundle processed?
 #+ATTR_REVEAL: :frag roll-in
-- How can you use a new language features when you still have some old agents?
+- How can you use new language features when you still have some old agents?
 
 #+CAPTION: Speaker Notes
 #+begin_notes
