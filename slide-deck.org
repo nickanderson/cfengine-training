@@ -257,7 +257,7 @@ Known to run on many platforms, and interesting places.
 - Policy cached locally
 - Decisions made locally
 - Actions taken locally
-- Convergence, repair what you can and re-vist soon
+- Convergence, repair what you can and revisit soon
 
 #+CAPTION: Speaker Notes
 #+begin_notes
