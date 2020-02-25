@@ -164,7 +164,7 @@ See a *mistake*? Please consider submitting a Pull Request.
 
 - Modern
 - Secure
-- Scale-able
+- Scalable
 - Agile *infrastructure automation tool*
 
 #+CAPTION: Speaker Notes
