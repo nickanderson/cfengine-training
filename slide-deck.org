@@ -2803,17 +2803,12 @@ Inventory the users listed in =/etc/cron.allow=
 Write a policy that enables the ssh banner and directs it to =/etc/issue=. sshd
 should be restarted after changing its configuration.
 
-** multiple outcomes
-:PR
-:ID4c834-6662-40bf-b16e-d5ad864fdcd9
-:EN
-
-(the following comments show up in the text and seem unrelated?)
-#+Cup for the example
-#+Bell
-sudp/immutable
-sudi /tmp/immutable
-#+E
+** Multiple outcomes
+#+Create immutable file
+#+BEGIN_SRC sh
+  touch /tmp/immutable
+  sudo chattr +i /tmp/immutable
+#+END_SRC
 
 #+BEGIN_SRC cfengine3 :include-stdlib t :log-level info :exports both :tangle examples/00-20-example-multiple_outcomes.cf
 bundle agent main
