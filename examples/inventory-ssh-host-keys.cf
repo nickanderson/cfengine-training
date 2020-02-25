@@ -1,0 +1,31 @@
+#!/var/cfengine/bin/cf-agent -f-
+body file control
+{
+      inputs => { '$(sys.libdir)/stdlib.cf' };
+}
+
+bundle agent main
+{
+  vars:
+      "keys" slist => lsdir("/etc/ssh", "ssh_host_\w+_key", "false");
+      "$(keys)"
+        data => data_regextract("ssh_host_(?<type>\w+)_key", $(keys) );
+
+      "type[$(keys)]"
+        string => "$($(keys)[type])",
+        meta => { "inventory", "attribute_name=SSH HostKey Type" };
+
+      # Warning ssh-keygen output may vary across versions
+      "fingerprint[$(keys)]"
+        string => nth(
+                       string_split(
+                                     execresult("/usr/bin/ssh-keygen -l -f /etc/ssh/$(keys).pub",
+                                                noshell),
+                                     "\s+", 5), 1),
+        meta => { "inventory", "attribute_name=SSH HostKey Fingerprint" };
+
+  reports:
+      "/etc/ssh/$(keys).pub
+        type: $($(keys)[type])
+        fingerprint: $(fingerprint[$(keys)])";
+}

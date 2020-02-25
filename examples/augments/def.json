@@ -1,0 +1,10 @@
+{
+  "classes": {
+      "by_regular_expression": [ "ubuntu_\\d+" ],
+      "by_class_expression": [ "(Afternoon|Evening).(Monday|Wednesday|Friday)::" ],
+  },
+  "vars": {
+      "myvar1": "defined from augments",
+      "myvar2": "defined from augments"
+    }
+}

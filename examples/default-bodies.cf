@@ -1,0 +1,30 @@
+#!/var/cfengine/bin/cf-agent -f-
+body file control
+{
+      inputs => { '$(sys.libdir)/stdlib.cf' };
+}
+
+bundle agent main
+{
+  files:
+    "/tmp/show_default_action"
+      create => "true";
+
+    "/tmp/show_explicit_action"
+      create => "true",
+      action => fix;
+}
+
+body action fix
+{
+  action_policy => "fix";
+}
+
+body file control
+{
+  namespace => "bodydefault";
+}
+body action files_action
+{
+  action_policy => "warn";
+}

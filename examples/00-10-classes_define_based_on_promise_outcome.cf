@@ -1,3 +1,9 @@
+#!/var/cfengine/bin/cf-agent -f-
+body file control
+{
+      inputs => { '$(sys.libdir)/stdlib.cf' };
+}
+
 bundle agent main
 {
   vars:
@@ -5,7 +11,11 @@ bundle agent main
 
   files:
     "/etc/ssh/sshd_config"
-      edit_line => set_line_based("$(this.bundle).config", " ", "\s+", ".*", "\s*#\s*"),
+      edit_line => set_line_based("$(this.bundle).config", # Config MAP
+                                  " ",        # Separator
+                                  "\s+",      # Separator regex
+                                  ".*",       # Keys to consider
+                                  "\s*#\s*"), # Lines to ignore
       classes => scoped_classes_generic("bundle", "sshd_config");
 
   services:

@@ -1,0 +1,26 @@
+#!/var/cfengine/bin/cf-agent -f-
+body file control
+{
+      inputs => { '$(sys.libdir)/stdlib.cf' };
+}
+
+bundle common def
+{
+  vars:
+    "myvar1" string => "Defined in policy";
+    "myvar2"
+      string => "Defined in policy",
+      if => not( isvariable( myvar2 ) );
+} 
+bundle agent main
+{
+  reports:
+    "I defined '$(const.dollar)(def.myvar1)' as '$(def.myvar1)'";
+    "I defined '$(const.dollar)(def.myvar2)' as '$(def.myvar2)'";
+
+    by_regular_expression::
+      "Define classes from augments based on a regular expression";
+
+    by_class_expression::
+      "Define classes from augments based on CFEngine class expressions";
+}

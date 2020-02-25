@@ -1,3 +1,9 @@
+#!/var/cfengine/bin/cf-agent -f-
+body file control
+{
+      inputs => { '$(sys.libdir)/stdlib.cf' };
+}
+
 bundle agent motd
 {
   meta:
@@ -8,6 +14,8 @@ bundle agent motd
 
   files:
     "/etc/motd"
-      template_method => "mustache",
-      edit_template => "$(this.promise_filename).mustache";
+      template_method => "inline_mustache",
+      edit_template_string => 'Welcome to {{{vars.sys.fqhost}}}!
+
+For support issues please contact {{{vars.motd.owner}}}.';
 }

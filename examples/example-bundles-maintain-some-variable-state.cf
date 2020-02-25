@@ -1,0 +1,29 @@
+#!/var/cfengine/bin/cf-agent -f-
+body file control
+{
+      inputs => { '$(sys.libdir)/stdlib.cf' };
+}
+
+bundle agent main
+{
+  methods:
+      "" usebundle => set_item_in_bag( "hammer", "slightly damaged");
+      "" usebundle => set_item_in_bag( "pickaxe", "perfect");
+      "" usebundle => set_item_in_bag( "flask", "half full");
+      "" usebundle => report_bag_contents;
+  reports:
+    "$(with)" with => join( ", ", getindices( "set_item_in_bag.array" ) );
+}
+bundle agent set_item_in_bag(item, value)
+{
+  vars:
+    "$(item)" string => "$(value)";
+    "array[$(item)]" string => "$(value)";
+}
+bundle agent report_bag_contents
+{
+  vars:
+    "l" slist => variablesmatching("default:set_item_in_bag\..*");
+    "a[$(l)]" string => nth( string_split( "$(l)", "\.", 2 ), 1);
+  reports:"You look in the bag and see ...."; "A $($(l)) $(a[$(l)])";
+}

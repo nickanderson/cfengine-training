@@ -1,15 +1,23 @@
+#!/var/cfengine/bin/cf-agent -f-
+body file control
+{
+      inputs => { '$(sys.libdir)/stdlib.cf' };
+}
+
 bundle agent main
 {
   vars:
-    "string1" string => "one";
+   "string1" string => "one";
     "string2" string => "strings
 can be multi-line";
     "string3" string => "with \"quotes\"";
     "string4" string => 'or "quotes"';
+    "string5" string => `with 'single' and "double" quotes`;
 
   reports:
     "string1 = '$(string1)'";
     "string2 = '$(string2)'";
     "string3 = '$(string3)'";
     "string4 = '$(string4)'";
+    "string5 = '$(string5)'";
 }

@@ -1,0 +1,15 @@
+#!/var/cfengine/bin/cf-agent -f-
+body file control
+{
+      inputs => { '$(sys.libdir)/stdlib.cf' };
+}
+
+bundle agent illustrating_normal_order
+{
+   vars:
+     "color1" string => "red";
+     "color2" string => "blue";
+
+   reports:
+     "$(color1)+$(color2) = Purple";
+}

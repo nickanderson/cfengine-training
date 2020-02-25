@@ -1,10 +1,20 @@
-# examples/00-10-classes_example_variable_class_expressions.cf
+#!/var/cfengine/bin/cf-agent -f-
+body file control
+{
+      inputs => { '$(sys.libdir)/stdlib.cf' };
+}
+
 bundle agent main
 {
   vars:
     "platforms" slist => { "linux", "windows" };
 
   reports:
+    !(Saturday|Sunday)::
+      "It's a weekday and I am a $(platforms) host!"
+        if => "$(platforms)";
+
     "$(platforms)"::
-      "I am a $(platforms) host";
+      "I am a $(platforms) host and it's a weekday!"
+        if => "!(Saturday|Sunday)";
 }

@@ -1,0 +1,18 @@
+#!/var/cfengine/bin/cf-agent -f-
+body file control
+{
+      inputs => { '$(sys.libdir)/stdlib.cf' };
+}
+
+bundle agent main
+{
+  reports:
+    "I defined '$(const.dollar)(def.myvar1)' as '$(def.myvar1)'";
+
+    by_regular_expression::
+      "Define classes from augments based on a regular expression";
+
+    by_class_expression::
+      "Define classes from augments based on CFEngine class expressions";
+
+}

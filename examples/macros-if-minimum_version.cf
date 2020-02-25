@@ -1,0 +1,21 @@
+#!/var/cfengine/bin/cf-agent -f-
+body file control
+{
+      inputs => { '$(sys.libdir)/stdlib.cf' };
+}
+
+bundle agent example_macro_minimum_version 
+{
+@if minimum_version(4.0.0)
+  This contains completely invalid syntax, but it's OK.
+  Only versions 4 and greater will evaluate this section.
+@endif
+@if minimum_version(3.14.0)
+      # the function `classfiltercsv()` was introduced in 3.14.0
+  vars:
+      "container"  data => classfiltercsv( $(file), # File
+                                           true, # Has header
+                                           0, # Class column
+                                           2); # Optional sort column
+@endif
+}

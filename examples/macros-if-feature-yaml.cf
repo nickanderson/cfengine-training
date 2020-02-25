@@ -1,0 +1,20 @@
+#!/var/cfengine/bin/cf-agent -f-
+body file control
+{
+      inputs => { '$(sys.libdir)/stdlib.cf' };
+}
+
+bundle agent main
+{
+@if feature(yaml)
+# the yaml library may not be compiled in
+  vars: "container" data => parseyaml('
+- array1
+- array2
+- key: 1
+- key: 2');
+@endif
+
+  reports:
+    "$(with)" with => string_mustache('{{%-top-}}', container );
+}

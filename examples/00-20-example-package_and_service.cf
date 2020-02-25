@@ -1,19 +1,29 @@
-bundle agent training_simple_website
+#!/var/cfengine/bin/cf-agent -f-
+body file control
 {
-  meta:
-    host001::
-      "tags" slist => { "autorun" };
+      inputs => { '$(sys.libdir)/stdlib.cf' };
+}
 
+bundle agent main
+{
   packages:
-      "httpd"
+      "ntp"
         policy => "present",
         package_module => yum;
 
   services:
-      "httpd"
+      "ntpd"
         service_policy => "start";
 
-  reports:
-    DEBUG|DEBUG_training_simple_website::
-      "DEBUG $(this.bundle)";
+       "ntpd"
+        service_policy => "restart",
+        if => "ntpd_conf_repaired";
+
+  vars:
+      "conf[driftfile]" string => "/var/lib/ntp/drift";
+
+  files:
+      "/etc/ntpd.conf"
+        edit_line => set_line_based("$(this.bundle).config", " ", "\s+", ".*", "\s*#\s*");
+        classes => results("bundle", "ntpd_conf");
 }

@@ -1,9 +1,21 @@
-bundle agent no_login
+#!/var/cfengine/bin/cf-agent -f-
+body file control
 {
-  meta:
-    "tags" slist => { "autorun" };
+      inputs => { '$(sys.libdir)/stdlib.cf' };
+}
 
+bundle agent nologin
+{
   files:
-      "/etc/nologin"
-        create => "true";
+     "/tmp/nologin"
+        create => "true",
+        classes => results("bundle", "my_file");
+
+   reports:
+    my_file_repaired::
+     "File repaired";
+
+     any:: 
+      "File Exists"
+        if => fileexists("/tmp/nologin");
 }

@@ -1,4 +1,10 @@
-bundle agent cf_agent_heartbeat
+#!/var/cfengine/bin/cf-agent -f-
+body file control
+{
+      inputs => { '$(sys.libdir)/stdlib.cf' };
+}
+
+bundle agent main
 {
   meta:
     "tags" slist => { "autorun" };
