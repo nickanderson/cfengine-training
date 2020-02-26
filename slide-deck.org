@@ -1514,7 +1514,7 @@ readfile, readintarray, readintlist, readjson, readrealarray, readreallist, read
 :ID:       bb4ef74b-6c71-419c-8db1-ad212c192eb0
 :END:
 
-- Restrict promises based on context.
+- Restrict promises based on context
 - Usable in bundles and bodies
 - Used for making decisions
 - Can be combined with expressions
@@ -2761,13 +2761,13 @@ Tag the variable(s) that contain the usernames you promised for /inventory/.
 #+END_SRC
 
 ** Create a file
-:PR
+:PR (these PR/ID/EN show up in the preso, you really want that?)
 :ID97441-1e2f-42ed-afbf-1658e1376199
 :EN
 
-Wri that ensures =/etc/cron.allow= is populated with one of the previously created users allowed to have cron jobs.
+Write a policy that ensures =/etc/cron.allow= is populated with one of the previously created users allowed to have cron jobs.
 
-Swier and try to ~crontab -e~.
+Swier[SIC??? can't figure out what word you are looking for here] and try to ~crontab -e~.
 
 *** Possibility 0                                                :noexport:
 
@@ -2808,6 +2808,7 @@ should be restarted after changing its configuration.
 :ID4c834-6662-40bf-b16e-d5ad864fdcd9
 :EN
 
+(the following comments show up in the text and seem unrelated?)
 #+Cup for the example
 #+Bell
 sudp/immutable
@@ -2993,6 +2994,7 @@ to be connected to IRC.
 ** Inventory API
 *** Inventory API attributes
 
+(the following example doesn't fit on the page in the PDF)
 #+BEGIN_SRC sh :results output :exports code
   curl -q -k --user $AUTHUSER:$PASSWORD \
     -X GET \
@@ -3078,6 +3080,7 @@ to be connected to IRC.
 - An alternative to "Saved Reports"
 #+END_NOTES
 
+(the following example doesn't fit on the page in the PDF)
 #+BEGIN_SRC sh
   HUB_URL="https://hub"
   API="/index.php/advancedreports/#/report/run?sql="
@@ -3090,6 +3093,7 @@ to be connected to IRC.
 * Special Topics
 ** Internal agent upgrade mechanism
 
+(the following doesn't fit on the page in the PDF)
 - Place agent packages in
   =/var/cfengine/master_software_updates/$(sys.flavour)_$(sys.arch)=
 - Define =trigger_upgrade= for set of hosts. Ref =update_def.cf=
@@ -3206,7 +3210,8 @@ think of any off the top of my head.
 #+end_notes
 
 - =useshell= allows you to use pipelines
- 
+
+(the following example doesn't fit on the page in the PDF)
 #+BEGIN_SRC cfengine3
 bundle agent main
 {
@@ -3227,6 +3232,7 @@ bundle agent main
 
 - =useshell= allows you to redirect output
 
+(the following example doesn't fit on the page in the PDF)
 #+BEGIN_SRC cfengine3
 bundle agent main
 {
@@ -3253,6 +3259,7 @@ bundle agent main
 
 - =useshell= allows you to use unqualified commands
 
+(the following example doesn't fit on the page in the PDF)
 #+BEGIN_SRC cfengine3
 bundle agent main
 {
@@ -3494,6 +3501,7 @@ Log into the policy server
 
 Configure git author
 
+(the following example doesn't fit on the page in the PDF)
 #+BEGIN_EXAMPLE
   [root@hub masterfiles] # git config -–global user.name “Mr. Slate”
   [root@hub masterfiles] # git config -–global user.email “bossman@slateco.com”
@@ -3505,6 +3513,7 @@ Configure git author
 :ID:       0fc590cd-54a2-4b11-91e7-dc06653d12e0
 :END:
 
+(the following example doesn't fit on the page in the PDF)
 #+BEGIN_EXAMPLE
   [root@hub masterfiles] # git clone /opt/cfengine/masterfiles.git /vagrant/masterfiles
   Cloning into '/vagrant/masterfiles'...
@@ -3522,6 +3531,7 @@ Configure git author
 :ID:       dc014f99-e08c-4000-adb3-771a898428ed
 :END:
 
+(the following example doesn't fit on the page in the PDF)
 #+BEGIN_EXAMPLE
   [root@hub masterfiles] # cd /vagrant/masterfiles
   [root@hub masterfiles] # ls
