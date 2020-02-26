@@ -2804,12 +2804,16 @@ Write a policy that enables the ssh banner and directs it to =/etc/issue=. sshd
 should be restarted after changing its configuration.
 
 ** Multiple outcomes
+:PROPERTIES:
+:ID:       7d3b755b-1313-430f-8e46-9c6d6ad8e281
+:END:
 #+Create immutable file
 #+BEGIN_SRC sh
   touch /tmp/immutable
   sudo chattr +i /tmp/immutable
 #+END_SRC
 
+#+CAPTION: =examples/00-20-example-multiple_outcomes.cf=
 #+BEGIN_SRC cfengine3 :include-stdlib t :log-level info :exports both :tangle examples/00-20-example-multiple_outcomes.cf
 bundle agent main
 {
