@@ -2761,13 +2761,10 @@ Tag the variable(s) that contain the usernames you promised for /inventory/.
 #+END_SRC
 
 ** Create a file
-:PR (these PR/ID/EN show up in the preso, you really want that?)
-:ID97441-1e2f-42ed-afbf-1658e1376199
-:EN
 
 Write a policy that ensures =/etc/cron.allow= is populated with one of the previously created users allowed to have cron jobs.
 
-Swier[SIC??? can't figure out what word you are looking for here] and try to ~crontab -e~.
+Switch to a user and try to ~crontab -e~.
 
 *** Possibility 0                                                :noexport:
 
