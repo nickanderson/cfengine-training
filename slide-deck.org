@@ -2990,11 +2990,11 @@ to be connected to IRC.
 ** Inventory API
 *** Inventory API attributes
 
-(the following example doesn't fit on the page in the PDF)
 #+BEGIN_SRC sh :results output :exports code
   curl -q -k --user $AUTHUSER:$PASSWORD \
     -X GET \
-    https://$HUB/api/inventory/attributes-dictionary | jq 'map(.attribute_name)[]'
+    https://$HUB/api/inventory/attributes-dictionary | \
+    jq 'map(.attribute_name)[]'
 #+END_SRC
 
 *** Inventory API Query
