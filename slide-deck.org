@@ -3086,10 +3086,14 @@ to be connected to IRC.
   echo "${LINK}"
 #+END_SRC
 
-* Special Topics
+* Special Topics :noexport:
 ** Internal agent upgrade mechanism
 
+#+BEGIN_COMMENT
+TODO
 (the following doesn't fit on the page in the PDF)
+#+END_COMMENT
+
 - Place agent packages in
   =/var/cfengine/master_software_updates/$(sys.flavour)_$(sys.arch)=
 - Define =trigger_upgrade= for set of hosts. Ref =update_def.cf=
@@ -3150,6 +3154,112 @@ R: {
   ]
 }
 #+end_example
+
+*** Merging a result from ~variablesmatching_as_data()~
+I see. So, we need to merge the variable values together.
+
+#+BEGIN_SRC cfengine3 :include-stdlib t :log-level info :exports both
+  bundle agent main
+  {
+    vars:
+        "va_active_opsview_scripts_new"
+          data => variablesmatching_as_data(".*", "opsview_rules_scripts");
+
+        "va_active_opsview_scripts_new_index"
+          slist => sort( getindices(va_active_opsview_scripts_new), lex);
+
+        # Make a new data container to hold the picked and merged content
+        "merged" data => '[]';
+        # Merge the existing merged data container with each one of the indices
+        "merged" data => mergedata( merged, "va_active_opsview_scripts_new[$(va_active_opsview_scripts_new_index)]" );
+
+
+    reports:
+        "merged: $(with)"
+          with => string_mustache( "{{%-top-}}", merged );
+        "Rendered to desired format$(const.n)$(with)"
+          with => string_mustache( "{{#-top-}}{{name}}={{rule}}$(const.n){{/-top-}}", merged);
+  }
+
+
+  bundle agent app_opsview_agent
+  {
+    vars:
+        "va_opsview_rules_scripts_array_app_opsview_agent_windows"
+          meta => { "opsview_rules_scripts" },
+          data => '[
+      {
+        "name": "check_ntp_time",
+        "rule": "scripts\\check_windows_time.bat $ARG1$ $ARG2$ $ARG3$",
+        "type": "scripts"
+      },
+      {
+        "name": "check_disk",
+        "rule": "scripts\\diskspace_nrpe_nt.exe $ARG1$",
+        "type": "scripts"
+      },
+      {
+        "name": "check_shadowcopy_status",
+        "rule": "cmd /c echo scripts\\check_cdphp_shadowcopy_status.ps1 $ARG1$; exit($LastExitCode) | powershell.exe -command -",
+        "type": "scripts"
+      }
+    ]';
+
+        "va_opsview_rules_scripts_array_app_vars_windows"
+          meta => { "opsview_rules_scripts" },
+          data => '[
+      {
+        "name": "check_cory_test",
+        "rule": "scripts\\check_cory_test.bat $ARG1$ $ARG2$ $ARG3$",
+        "type": "scripts"
+      },
+      {
+        "name": "check_theo_test",
+        "rule": "scripts\\check_theo.exe $ARG1$",
+        "type": "scripts"
+      }
+    ]';
+  }
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+R: merged: [
+  {
+    "name": "check_ntp_time",
+    "rule": "scripts\\check_windows_time.bat $ARG1$ $ARG2$ $ARG3$",
+    "type": "scripts"
+  },
+  {
+    "name": "check_disk",
+    "rule": "scripts\\diskspace_nrpe_nt.exe $ARG1$",
+    "type": "scripts"
+  },
+  {
+    "name": "check_shadowcopy_status",
+    "rule": "cmd /c echo scripts\\check_cdphp_shadowcopy_status.ps1 $ARG1$; exit($LastExitCode) | powershell.exe -command -",
+    "type": "scripts"
+  },
+  {
+    "name": "check_cory_test",
+    "rule": "scripts\\check_cory_test.bat $ARG1$ $ARG2$ $ARG3$",
+    "type": "scripts"
+  },
+  {
+    "name": "check_theo_test",
+    "rule": "scripts\\check_theo.exe $ARG1$",
+    "type": "scripts"
+  }
+]
+R: Rendered to desired format
+check_ntp_time=scripts\check_windows_time.bat $ARG1$ $ARG2$ $ARG3$
+check_disk=scripts\diskspace_nrpe_nt.exe $ARG1$
+check_shadowcopy_status=cmd /c echo scripts\check_cdphp_shadowcopy_status.ps1 $ARG1$; exit($LastExitCode) | powershell.exe -command -
+check_cory_test=scripts\check_cory_test.bat $ARG1$ $ARG2$ $ARG3$
+check_theo_test=scripts\check_theo.exe $ARG1$
+
+#+end_example
+
 * Useful Tools and Tips
 :PROPERTIES:
 :ID:       1b3901a6-ecaa-4da9-8f05-133827bb92bb
@@ -3207,7 +3317,11 @@ think of any off the top of my head.
 
 - =useshell= allows you to use pipelines
 
+#+BEGIN_COMMENT
+TODO
 (the following example doesn't fit on the page in the PDF)
+#+END_COMMENT
+
 #+BEGIN_SRC cfengine3
 bundle agent main
 {
@@ -3228,7 +3342,11 @@ bundle agent main
 
 - =useshell= allows you to redirect output
 
+#+BEGIN_COMMENT
+TODO
 (the following example doesn't fit on the page in the PDF)
+#+END_COMMENT
+
 #+BEGIN_SRC cfengine3
 bundle agent main
 {
@@ -3255,7 +3373,11 @@ bundle agent main
 
 - =useshell= allows you to use unqualified commands
 
+#+BEGIN_COMMENT
+TODO
 (the following example doesn't fit on the page in the PDF)
+#+END_COMMENT
+
 #+BEGIN_SRC cfengine3
 bundle agent main
 {
@@ -3497,7 +3619,11 @@ Log into the policy server
 
 Configure git author
 
+#+BEGIN_COMMENT
+TODO
 (the following example doesn't fit on the page in the PDF)
+#+END_COMMENT
+
 #+BEGIN_EXAMPLE
   [root@hub masterfiles] # git config -–global user.name “Mr. Slate”
   [root@hub masterfiles] # git config -–global user.email “bossman@slateco.com”
@@ -3509,7 +3635,11 @@ Configure git author
 :ID:       0fc590cd-54a2-4b11-91e7-dc06653d12e0
 :END:
 
+#+BEGIN_COMMENT
+TODO
 (the following example doesn't fit on the page in the PDF)
+#+END_COMMENT
+
 #+BEGIN_EXAMPLE
   [root@hub masterfiles] # git clone /opt/cfengine/masterfiles.git /vagrant/masterfiles
   Cloning into '/vagrant/masterfiles'...
@@ -3527,7 +3657,11 @@ Configure git author
 :ID:       dc014f99-e08c-4000-adb3-771a898428ed
 :END:
 
+#+BEGIN_COMMENT
+TODO
 (the following example doesn't fit on the page in the PDF)
+#+END_COMMENT
+
 #+BEGIN_EXAMPLE
   [root@hub masterfiles] # cd /vagrant/masterfiles
   [root@hub masterfiles] # ls
