@@ -22,39 +22,45 @@
 #+PROPERTY: header-args :eval never-export
 #+LINK: cfe-promiseType    https://docs.cfengine.com/master/reference-promise-types-%s.html
 * Instructions :noexport:
-** To get a PDF
-- Export as HTML, view with Chromium or Chrome and add =?print-pdf= to the end of the url.
-- Print to PDF
-- Manually convert to landscape with qpdf
-  - ~qpdf ~/PDF/CFEngine_in_a_day__DF.pdf --rotate=+90 slide_deck-dark.pdf~
 ** Light vs Dark
 Dark is best in dimly lit rooms, but light is best for /most/ events. So , always make a light and dark version. Don't forget to set the emacs theme! Since it's used for code highlighting, it matters.
 
 - Light Theme ::
-  - =#+REVEAL_THEME: black=
+  - =#+REVEAL_THEME: solarized=
 
 - Dark Themes
   - =#+REVEAL_THEME: black=
 
 #+BEGIN_SRC sh
-  ls reveal.js-3.9.2/css/theme
+  find reveal.js-3.9.2/css/theme -name "*.css" -printf "%f\n" | sed 's/.css//'
 #+END_SRC
 
 #+RESULTS:
-| beige.css     |
-| black.css     |
-| blood.css     |
-| league.css    |
-| moon.css      |
-| night.css     |
-| README.md     |
-| serif.css     |
-| simple.css    |
-| sky.css       |
-| solarized.css |
-| source        |
-| template      |
-| white.css     |
+| black     |
+| moon      |
+| night     |
+| white     |
+| simple    |
+| solarized |
+| beige     |
+| league    |
+| blood     |
+| serif     |
+| sky       |
+
+** To get a PDF
+- Export as HTML, view with Chromium or Chrome and add =?print-pdf= to the end of the url.
+- Print to PDF
+- Manually convert to landscape with ~qpdf~
+
+#+NAME: rotate-pdf
+#+BEGIN_SRC sh :var THEME="dark"
+  qpdf ~/PDF/CFEngine_in_a_day__DF.pdf --rotate=+90 slide_deck-$THEME.pdf
+#+END_SRC
+
+#+CALL: rotate-pdf(THEME="black")
+
+#+RESULTS:
 
 ** Hackarounds
 CFEngine src blocks that use macros error when exporting.
