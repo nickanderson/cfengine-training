@@ -2,6 +2,7 @@
 #+Author: Nick Anderson
 #+Email: nick.anderson@northern.tech
 #+REVEAL_ROOT: reveal.js-3.9.2
+#+REVEAL_TITLE_SLIDE: <h1>%t</h1>
 #+OPTIONS: reveal_center:t reveal_progress:t reveal_history:nil reveal_control:nil
 #+OPTIONS: reveal_rolling_links:t reveal_keyboard:t reveal_overview:t num:nil
 #+OPTIONS: reveal_width:1024 reveal_height:768
@@ -2954,8 +2955,18 @@ Write a policy that defines a name in separate parts (at least 3). Then have
 CFEngine report the name in a random order.
 
 *** Example solution
-#+Caption: Example Solution
-#+BEGIN_SRC cfengine3
+:PROPERTIES:
+:ID:       cd5b8f69-5b33-45cb-9bd7-950d028efdc8
+:END:
+
+#+CAPTION: Speaker Notes
+#+BEGIN_NOTES
+  This solution will print the name multiple times, exposing normal order. Can you make it print just once?
+#+END_NOTES
+
+#+Name: examples/example-report-randomized-strings-v0.cf
+#+Caption: examples/example-report-randomized-strings-v0.cf
+#+BEGIN_SRC cfengine3 :tangle examples/example-report-randomized-strings-v0.cf
 bundle agent main
 {
   vars:
@@ -2968,17 +2979,11 @@ bundle agent main
 }
 #+END_SRC
 
-#+RESULTS:
-#+BEGIN_EXAMPLE
-R: Donald Mck Ronald
-R: Donald Ronald Mck
-R: Ronald Donald Mck
-#+END_EXAMPLE
+#+RESULTS: examples/example-report-randomized-strings-v0.cf
+: R: Donald Ronald Mck
+: R: Ronald Mck Donald
+: R: Donald Mck Ronald
 
-#+CAPTION: Speaker Notes
-#+BEGIN_NOTES
-  This solution will print the name multiple times, exposing normal order. Can you make it print just once?
-#+END_NOTES
 ** Trigger an action when a file changes
 :PROPERTIES:
 :ID:       e0fb3d65-e3d8-4a1a-bc57-8338cc2e70f7
@@ -3630,6 +3635,7 @@ R: Classes starting with file_content: file_content_failed, file_content_not_kep
 
 #+END_SRC
 
+#+REVEAL: split
 
 #+RESULTS: hostlist
 #+begin_src json
@@ -3669,6 +3675,111 @@ R: Classes starting with file_content: file_content_failed, file_content_not_kep
     jq 'map(.attribute_name)[]'
 #+END_SRC
 
+#+BEGIN_SRC sh :results output :exports code
+  curl -q -k --user $AUTHUSER:$PASSWORD \
+    -X GET \
+    https://$HUB/api/inventory/attributes-dictionary | \
+    jq 'map(.attribute_name)[]'
+#+END_SRC
+
+#+REVEAL split
+
+#+RESULTS:
+#+begin_example
+"Policy Release Id"
+"EC2 Image ID"
+"CPU sockets"
+"Uptime minutes"
+"System product name"
+"System manufacturer"
+"SSH Host Key /etc/ssh/ssh_host_rsa_key.pub SHA256 Fingerprint"
+"CISOfy Lynis finding count"
+"Number linux kernel modules loaded"
+"CISOfy Lynis datetime scan completed"
+"Unexpected Local Users"
+"SSH Host Key /etc/ssh/ssh_host_ecdsa_key.pub SHA256 Fingerprint"
+"Last logged in ubuntu"
+"Windows roles"
+"IPv4 addresses"
+"SSH Host Key Type /etc/ssh/ssh_host_ecdsa_key.pub"
+"CMDB Business Unit"
+"DigitalOcean Droplet ID"
+"SSH Host Key Type /etc/ssh/ssh_host_dsa_key.pub"
+"BIOS version"
+"Memory size (MB)"
+"MAC addresses"
+"Last logged in cfapache"
+"CISOfy Lynis Suggestion SSH-7408 details"
+"OS kernel"
+"Last logged in root"
+"NAT Public IPv4"
+"EC2 Instance ID"
+"CFEngine ID"
+"CISOfy Lynis Version"
+"CISOcy Lynis Remediaitons implicitly enabled"
+"Volume / Percent Disk Used"
+"SSH Host Key Type /etc/ssh/ssh_host_ed25519_key.pub"
+"EventLog MaxSize"
+"Architecture"
+"OS"
+"CISOfy Lynis Suggestions"
+"Virtual host"
+"SSH Host Key Types"
+"SSH Host Keys"
+"ARRAY CISOcy Lynis Remediaitons implicitly enabled"
+"Number linux kernel moduels unused"
+"SSH Host Key /etc/ssh/ssh_host_dsa_key.pub SHA256 Fingerprint"
+"EventLog Retention"
+"CFEngine roles"
+"Local Users"
+"CMDB Owner"
+"CISOfy Lynis Control ID findings"
+"SSH Host Key /etc/ssh/ssh_host_ed25519_key.pub SHA256 Fingerprint"
+"legal notice caption"
+"DigitalOcean Region"
+"legal notice"
+"Local User"
+"Unused linux kernel modules"
+"Data Container"
+"Last logged in centos"
+"CISOfy Lynis Hardening Index"
+"CFEngine version"
+"CISOfy Lynis Remediations explicitly disabled"
+"Host name"
+"SSH Host Key Fingerprint (ssh-keygen)"
+"System UUID"
+"System version"
+"Registered Orginization"
+"BIOS vendor"
+"OS type"
+"Disk free (%)"
+"CISOfy Lynis Suggestion KRNL-6000 details"
+"Ports listening"
+"Users who have logged in"
+"Last logged in nickanderson"
+"EC2 Region"
+"Interfaces"
+"CISOfy Lynis Warnings"
+"EC2 Availability Zone"
+"Physical memory (MB)"
+"Last logged in cfpostgres"
+"Show Last Logged in Username"
+"CPU physical cores"
+"Volume /tmp Percent Disk Used"
+"CPU logical cores"
+"Volume /var Percent Disk Used"
+"System serial number"
+"Systemd services running"
+"EC2 Instance Type"
+"TestArray"
+"Unexpected local user count"
+"Used linux kernel modules"
+"Registered Owner"
+"SSH Host Key Type /etc/ssh/ssh_host_rsa_key.pub"
+"CPU model"
+"Cloud Provider"
+#+end_example
+
 *** Inventory API Query
 #+NAME: inventory
 #+BEGIN_SRC sh :results output :exports both
@@ -3687,6 +3798,9 @@ R: Classes starting with file_content: file_content_failed, file_content_not_kep
              "Ports listening"
           ],
           "hostContextInclude":[
+             "cfengine"
+          ],
+          "hostContextExclude":[
              "coreos"
           ]
         }
