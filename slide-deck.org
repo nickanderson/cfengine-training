@@ -13,7 +13,7 @@
 #+REVEAL_MIN_SCALE: 0.5
 #+REVEAL_MAX_SCALE: 2.5
 #+REVEAL_TRANS: fade
-#+REVEAL_THEME: black
+#+REVEAL_THEME: solarized
 #+REVEAL_TALK_URL: https://htmlpreview.github.io/?https://github.com/nickanderson/cfengine-training/blob/master/slide-deck.html
 #+REVEAL_TALK_QR_CODE: does not exist
 #+REVEAL_HLEVEL: 1
@@ -55,13 +55,36 @@ Dark is best in dimly lit rooms, but light is best for /most/ events. So , alway
 - Manually convert to landscape with ~qpdf~
 
 #+NAME: rotate-pdf
-#+BEGIN_SRC sh :var THEME="dark"
+#+BEGIN_SRC sh :var THEME="dark" :results output
   qpdf ~/PDF/CFEngine_in_a_day__DF.pdf --rotate=+90 slide_deck-$THEME.pdf
+  stat slide_deck-$THEME.pdf 
 #+END_SRC
 
+#+NAME: export-black
 #+CALL: rotate-pdf(THEME="black")
 
-#+RESULTS:
+#+RESULTS: export-black
+:   File: slide_deck-black.pdf
+:   Size: 27211584  	Blocks: 53160      IO Block: 4096   regular file
+: Device: fd01h/64769d	Inode: 41162887    Links: 1
+: Access: (0664/-rw-rw-r--)  Uid: ( 1000/nickanderson)   Gid: ( 1000/nickanderson)
+: Access: 2020-02-28 09:44:47.204523679 -0600
+: Modify: 2020-02-28 09:47:11.110181166 -0600
+: Change: 2020-02-28 09:47:11.110181166 -0600
+:  Birth: -
+
+#+NAME: export-solarized
+#+CALL: rotate-pdf(THEME="solarized")
+
+#+RESULTS: export-solarized
+:   File: slide_deck-solarized.pdf
+:   Size: 27383812  	Blocks: 53496      IO Block: 4096   regular file
+: Device: fd01h/64769d	Inode: 41202833    Links: 1
+: Access: (0664/-rw-rw-r--)  Uid: ( 1000/nickanderson)   Gid: ( 1000/nickanderson)
+: Access: 2020-02-27 08:06:14.783898075 -0600
+: Modify: 2020-02-28 09:52:00.205736095 -0600
+: Change: 2020-02-28 09:52:00.205736095 -0600
+:  Birth: -
 
 ** Hackarounds
 CFEngine src blocks that use macros error when exporting.

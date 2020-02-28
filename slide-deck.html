@@ -9,7 +9,7 @@
 </style>
 <link rel="stylesheet" href="reveal.js-3.9.2/css/reveal.css"/>
 
-<link rel="stylesheet" href="reveal.js-3.9.2/css/theme/black.css" id="theme"/>
+<link rel="stylesheet" href="reveal.js-3.9.2/css/theme/solarized.css" id="theme"/>
 
 <!-- If the query includes 'print-pdf', include the PDF print sheet -->
 <script>
@@ -27,14 +27,14 @@
 <div class="reveal">
 <div class="slides">
 <section id="sec-title-slide">
-<h1 class="title">CFEngine in a day</h1><h2 class="author">Nick Anderson</h2>
+<h1>CFEngine in a day</h1>
 </section>
 <section>
-<section id="slide-orgee9712e" data-timing="120">
-<h2 id="orgee9712e">Before we start</h2>
+<section id="slide-orga414044" data-timing="120">
+<h2 id="orga414044">Before we start</h2>
 </section>
-<section id="slide-org631f0e1">
-<h3 id="org631f0e1">Schedule</h3>
+<section id="slide-org805d04b">
+<h3 id="org805d04b">Schedule</h3>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <caption class="t-above"><span class="table-number">Table 1:</span> A rough schedule (this varies greatly).</caption>
 
@@ -96,8 +96,8 @@
 </aside>
 
 </section>
-<section id="slide-org79e9fcf">
-<h3 id="org79e9fcf">Use the source</h3>
+<section id="slide-org9be1341">
+<h3 id="org9be1341">Use the source</h3>
 <p>
 <a href="https://github.com/nickanderson/cfengine-training">github.com/nickanderson/cfengine-training</a>
 </p>
@@ -110,8 +110,8 @@ See a <b>mistake</b>? Please consider submitting a Pull Request.
 </aside>
 
 </section>
-<section id="slide-orgdbb7e17">
-<h3 id="orgdbb7e17">Hi, I'm Nick</h3>
+<section id="slide-org1837897">
+<h3 id="org1837897">Hi, I'm Nick</h3>
 <ul>
 <li>Wife, 2 kids and a dog</li>
 <li>Sysadmin/Infrastructure Engineer/Doer of things</li>
@@ -142,8 +142,8 @@ I have worked in a wide variety of environments:
 
 </aside>
 </section>
-<section id="slide-org9e926e9">
-<h3 id="org9e926e9">Who are you?</h3>
+<section id="slide-org195b04e">
+<h3 id="org195b04e">Who are you?</h3>
 <ul>
 <li>Name</li>
 <li>Role</li>
@@ -154,8 +154,8 @@ I have worked in a wide variety of environments:
 </section>
 </section>
 <section>
-<section id="slide-org9f37954">
-<h2 id="org9f37954">What this training covers</h2>
+<section id="slide-orgb59361f">
+<h2 id="orgb59361f">What this training covers</h2>
 <ul>
 <li>What is CFEngine</li>
 <li>High level architecture overview</li>
@@ -167,8 +167,8 @@ I have worked in a wide variety of environments:
 </section>
 </section>
 <section>
-<section id="slide-orgdd54490">
-<h2 id="orgdd54490">Why Automation?</h2>
+<section id="slide-org3565dce">
+<h2 id="org3565dce">Why Automation?</h2>
 <blockquote>
 <p>
 Every time someone logs onto a system by hand, they jeopardize everyone's
@@ -178,12 +178,12 @@ understanding of the system. &#x2013; Mark Burgess
 </section>
 </section>
 <section>
-<section id="slide-org7a2da72">
-<h2 id="org7a2da72">What is CFEngine?</h2>
+<section id="slide-org6611e77">
+<h2 id="org6611e77">What is CFEngine?</h2>
 <ul>
 <li>Modern</li>
 <li>Secure</li>
-<li>Scale-able</li>
+<li>Scalable</li>
 <li>Agile <b>infrastructure automation tool</b></li>
 
 </ul>
@@ -201,8 +201,8 @@ Designed to enable continuous operations using a distributed model based approac
 </aside>
 
 </section>
-<section id="slide-orgfe4bc60">
-<h3 id="orgfe4bc60">History</h3>
+<section id="slide-org503c4f7">
+<h3 id="org503c4f7">History</h3>
 <ul>
 <li>Written by <a href="https://en.wikipedia.org/wiki/Mark_Burgess_(computer_scientist)">Mark Burgess</a></li>
 <li>Originally released in 1993.</li>
@@ -223,8 +223,8 @@ Designed to enable continuous operations using a distributed model based approac
 
 </aside>
 </section>
-<section id="slide-orgc9dc7b6">
-<h3 id="orgc9dc7b6">Small</h3>
+<section id="slide-org74ef22b">
+<h3 id="org74ef22b">Small</h3>
 <p>
 As of Feb 2020:
 </p>
@@ -244,8 +244,8 @@ As of Feb 2020:
 </ul>
 
 </section>
-<section id="slide-org4dac0bd">
-<h3 id="org4dac0bd">Secure</h3>
+<section id="slide-org60459a1">
+<h3 id="org60459a1">Secure</h3>
 <p>
 A good track record.
 </p>
@@ -256,8 +256,8 @@ A good track record.
 </ul>
 
 </section>
-<section id="slide-orge5b6ce2">
-<h3 id="orge5b6ce2">Portable</h3>
+<section id="slide-org23628cc">
+<h3 id="org23628cc">Portable</h3>
 <p>
 Known to run on many platforms, and interesting places.
 </p>
@@ -307,8 +307,8 @@ Known to run on many platforms, and interesting places.
 </aside>
 
 </section>
-<section id="slide-org6e96d0d">
-<h3 id="org6e96d0d">Resilient &amp; Autonomous</h3>
+<section id="slide-org3a7fdec">
+<h3 id="org3a7fdec">Resilient &amp; Autonomous</h3>
 
 <div class="figure">
 <p><img src="data/29/81a0e7-5430-44bd-84b3-32928fbdeea1/2020-02-18_11-16-51_JAN15_05_179787493.jpg" alt="2020-02-18_11-16-51_JAN15_05_179787493.jpg" width="800" />
@@ -319,7 +319,7 @@ Known to run on many platforms, and interesting places.
 <li>Policy cached locally</li>
 <li>Decisions made locally</li>
 <li>Actions taken locally</li>
-<li>Convergence, repair what you can and re-vist soon</li>
+<li>Convergence, repair what you can and revisit soon</li>
 
 </ul>
 
@@ -338,8 +338,8 @@ Known to run on many platforms, and interesting places.
 
 </aside>
 </section>
-<section id="slide-org6f88eb3">
-<h3 id="org6f88eb3">Declarative</h3>
+<section id="slide-orgac5efe3">
+<h3 id="orgac5efe3">Declarative</h3>
 <p>
 Focus on the <b>desired end state</b>
 </p>
@@ -363,8 +363,8 @@ Focus on the <b>desired end state</b>
 </div>
 
 </section>
-<section id="slide-org27858dd">
-<h3 id="org27858dd">Declarative vs Imperative</h3>
+<section id="slide-org9669632">
+<h3 id="org9669632">Declarative vs Imperative</h3>
 <pre class="example">
 bundle agent main             | #!/bin/env/bash
 {                             | PKG="openssh-server"
@@ -395,8 +395,8 @@ it to? (Alaskan airports, ponds, fields, etc &#x2026;)
 </aside>
 
 </section>
-<section id="slide-orgf52a3ce">
-<h3 id="orgf52a3ce">Typical use cases</h3>
+<section id="slide-org8f68c82">
+<h3 id="org8f68c82">Typical use cases</h3>
 <ul>
 <li>Any <b>local</b> resource/state
 <ul>
@@ -441,11 +441,11 @@ connections kill ssh sessions, firewall host, ticket.</li>
 </section>
 </section>
 <section>
-<section id="slide-org008823a">
-<h2 id="org008823a">Editions</h2>
+<section id="slide-orgfb5401e">
+<h2 id="orgfb5401e">Editions</h2>
 </section>
-<section id="slide-org4fdc5e5">
-<h3 id="org4fdc5e5">Community (core)</h3>
+<section id="slide-org70aa00a">
+<h3 id="org70aa00a">Community (core)</h3>
 <ul>
 <li><a href="https://github.com/cfengine/core">Github</a></li>
 <li><a href="https://cfengine.com/product/community/source-code/">Tarballs</a></li>
@@ -462,8 +462,8 @@ connections kill ssh sessions, firewall host, ticket.</li>
 </div>
 
 </section>
-<section id="slide-org44c09c6">
-<h3 id="org44c09c6">Enterprise Features</h3>
+<section id="slide-org786e336">
+<h3 id="org786e336">Enterprise Features</h3>
 <ul>
 <li>Dashboard</li>
 <li>Alerts and Triggered Actions</li>
@@ -478,8 +478,8 @@ connections kill ssh sessions, firewall host, ticket.</li>
 </ul>
 
 </section>
-<section id="slide-orgb016b49">
-<h3 id="orgb016b49">Enterprise</h3>
+<section id="slide-org8afde3d">
+<h3 id="org8afde3d">Enterprise</h3>
 <ul>
 <li><a href="https://docs.cfengine.com/latest/guide-installation-and-configuration-general-installation-installation-enterprise-vagrant.html">Vagrant Environment</a></li>
 <li><a href="http://cfengine.com/product/cfengine-enterprise-free-25/">Binary Packages</a></li>
@@ -497,8 +497,8 @@ sudo bash ./quick-install-cfengine-enterprise.sh &lt;hub|agent&gt;
 </section>
 </section>
 <section>
-<section id="slide-org4433589">
-<h2 id="org4433589">Client/Server Architecture</h2>
+<section id="slide-org7873ae2">
+<h2 id="org7873ae2">Client/Server Architecture</h2>
 
 <div class="figure">
 <p><img src="data/66/fd45c5-3f73-49e4-a938-ec3ecbdcd8ef/2020-02-18_11-34-56_ClientServerArchitecture.png" alt="2020-02-18_11-34-56_ClientServerArchitecture.png" width="800" />
@@ -506,8 +506,8 @@ sudo bash ./quick-install-cfengine-enterprise.sh &lt;hub|agent&gt;
 </div>
 
 </section>
-<section id="slide-orgd455670">
-<h3 id="orgd455670">Client Server Communications</h3>
+<section id="slide-org9939797">
+<h3 id="org9939797">Client Server Communications</h3>
 <ul>
 <li>Utilizes port 5308</li>
 <li>Encrypted (TLS)</li>
@@ -530,11 +530,11 @@ sudo bash ./quick-install-cfengine-enterprise.sh &lt;hub|agent&gt;
 </section>
 </section>
 <section>
-<section id="slide-org35604bc">
-<h2 id="org35604bc">Agent Components</h2>
+<section id="slide-org493203c">
+<h2 id="org493203c">Agent Components</h2>
 </section>
-<section id="slide-org24bdf6b">
-<h3 id="org24bdf6b">Agent Components</h3>
+<section id="slide-orgb52cbf6">
+<h3 id="orgb52cbf6">Agent Components</h3>
 
 <div class="figure">
 <p><img src="data/21/633eaf-2b0a-4fef-a25f-7760276b0a5d/cfengine_agent_components_diagram_2016-10-15_16-01-34.png" alt="cfengine_agent_components_diagram_2016-10-15_16-01-34.png" />
@@ -542,8 +542,8 @@ sudo bash ./quick-install-cfengine-enterprise.sh &lt;hub|agent&gt;
 </div>
 
 </section>
-<section id="slide-orgad75c24">
-<h3 id="orgad75c24"><code>cf-hub</code></h3>
+<section id="slide-org8811a37">
+<h3 id="org8811a37"><code>cf-hub</code></h3>
 
 <div class="figure">
 <p><img src="data/98/b666a6-d302-47e4-b164-b6653bcca1a8/cfengine_agent_components_diagram_cf-hub_2016-10-15_16-03-31.png" alt="cfengine_agent_components_diagram_cf-hub_2016-10-15_16-03-31.png" />
@@ -569,8 +569,8 @@ sudo bash ./quick-install-cfengine-enterprise.sh &lt;hub|agent&gt;
 
 </aside>
 </section>
-<section id="slide-org8cd02e1">
-<h3 id="org8cd02e1"><code>cf-runagent</code></h3>
+<section id="slide-orgddac739">
+<h3 id="orgddac739"><code>cf-runagent</code></h3>
 
 <div class="figure">
 <p><img src="data/9c/2d7c2f-c5e3-47b2-b7df-fdf875f38643/cfengine_agent_components_diagram_cf-runagent_2016-10-15_21-11-14.png" alt="cfengine_agent_components_diagram_cf-runagent_2016-10-15_21-11-14.png" />
@@ -606,8 +606,8 @@ sudo bash ./quick-install-cfengine-enterprise.sh &lt;hub|agent&gt;
 </aside>
 
 </section>
-<section id="slide-org4f69910">
-<h3 id="org4f69910"><code>cf-serverd</code></h3>
+<section id="slide-orgcd81437">
+<h3 id="orgcd81437"><code>cf-serverd</code></h3>
 
 <div class="figure">
 <p><img src="data/9f/5cf6c5-5e00-49f9-8392-5cec4c2bb9ea/cfengine_agent_components_diagram_cf-serverd_2016-10-15_21-16-21.png" alt="cfengine_agent_components_diagram_cf-serverd_2016-10-15_21-16-21.png" />
@@ -645,8 +645,8 @@ sudo bash ./quick-install-cfengine-enterprise.sh &lt;hub|agent&gt;
 </aside>
 
 </section>
-<section id="slide-org3ebbb53">
-<h3 id="org3ebbb53"><code>cf-key</code></h3>
+<section id="slide-org7e668b3">
+<h3 id="org7e668b3"><code>cf-key</code></h3>
 
 <div class="figure">
 <p><img src="data/57/b0a68d-ece6-4ffc-81e3-cc84b6009b35/cfengine_agent_components_diagram_cf-key_2016-10-15_21-18-51.png" alt="cfengine_agent_components_diagram_cf-key_2016-10-15_21-18-51.png" />
@@ -676,8 +676,8 @@ sudo bash ./quick-install-cfengine-enterprise.sh &lt;hub|agent&gt;
 </aside>
 
 </section>
-<section id="slide-org01142bb">
-<h3 id="org01142bb"><code>cf-promises</code></h3>
+<section id="slide-orgc0f093a">
+<h3 id="orgc0f093a"><code>cf-promises</code></h3>
 
 <div class="figure">
 <p><img src="data/52/bb3c22-18bf-4c80-82ba-0aad82ea1393/cfengine_agent_components_diagram_cf-promises_2016-10-15_21-21-02.png" alt="cfengine_agent_components_diagram_cf-promises_2016-10-15_21-21-02.png" />
@@ -707,8 +707,8 @@ sudo bash ./quick-install-cfengine-enterprise.sh &lt;hub|agent&gt;
 </aside>
 
 </section>
-<section id="slide-org4bcafc4">
-<h3 id="org4bcafc4"><code>cf-monitord</code></h3>
+<section id="slide-org2dfe1a9">
+<h3 id="org2dfe1a9"><code>cf-monitord</code></h3>
 
 <div class="figure">
 <p><img src="data/bc/d33f08-1c02-4d78-b118-a98bf6986040/cfengine_agent_components_diagram_cf-monitord_2016-10-15_21-22-23.png" alt="cfengine_agent_components_diagram_cf-monitord_2016-10-15_21-22-23.png" />
@@ -738,8 +738,8 @@ sudo bash ./quick-install-cfengine-enterprise.sh &lt;hub|agent&gt;
 </aside>
 
 </section>
-<section id="slide-org508b5ca">
-<h3 id="org508b5ca"><code>cf-execd</code></h3>
+<section id="slide-org84cab76">
+<h3 id="org84cab76"><code>cf-execd</code></h3>
 
 <div class="figure">
 <p><img src="data/3c/3c8cee-7086-4250-9152-21ca5879c2b2/cfengine_agent_components_diagram_cf-execd_2016-10-15_21-24-05.png" alt="cfengine_agent_components_diagram_cf-execd_2016-10-15_21-24-05.png" />
@@ -769,8 +769,8 @@ sudo bash ./quick-install-cfengine-enterprise.sh &lt;hub|agent&gt;
 </aside>
 
 </section>
-<section id="slide-org2785952">
-<h3 id="org2785952"><code>cf-agent</code></h3>
+<section id="slide-orgbdf2a8a">
+<h3 id="orgbdf2a8a"><code>cf-agent</code></h3>
 
 <div class="figure">
 <p><img src="data/b4/9a887f-6963-4b7c-a131-fcd2c0794be0/cfengine_agent_components_diagram_cf-agent_2016-10-15_21-25-11.png" alt="cfengine_agent_components_diagram_cf-agent_2016-10-15_21-25-11.png" />
@@ -806,8 +806,8 @@ sudo bash ./quick-install-cfengine-enterprise.sh &lt;hub|agent&gt;
 </aside>
 
 </section>
-<section id="slide-orgb302d8a">
-<h3 id="orgb302d8a">Pop Quiz</h3>
+<section id="slide-org5786c21">
+<h3 id="org5786c21">Pop Quiz</h3>
 <ul class="fragment roll-in">
 <li>What needs to happen before remote agents can get policy from the hub?</li>
 
@@ -848,8 +848,8 @@ sudo bash ./quick-install-cfengine-enterprise.sh &lt;hub|agent&gt;
 </section>
 </section>
 <section>
-<section id="slide-org810fff4">
-<h2 id="org810fff4">MPF &amp; stdlib</h2>
+<section id="slide-orgfd9a6b4">
+<h2 id="orgfd9a6b4">MPF &amp; stdlib</h2>
 <p>
 The default "Masterfiles"
 </p>
@@ -866,8 +866,8 @@ The backbone of your policy, it's the scaffolding from which you can build on.
 </aside>
 
 </section>
-<section id="slide-org94f0958">
-<h3 id="org94f0958">Overview</h3>
+<section id="slide-org7162b23">
+<h3 id="org7162b23">Overview</h3>
 <ul>
 <li><code>promises.cf</code></li>
 <li><code>update.cf</code></li>
@@ -900,8 +900,8 @@ While you can and on occasion may need to modify vendored policy, it's generally
 </aside>
 
 </section>
-<section id="slide-org5a6cd45">
-<h3 id="org5a6cd45">User Entries</h3>
+<section id="slide-orgb4bce11">
+<h3 id="orgb4bce11">User Entries</h3>
 <ul>
 <li><code>def.json</code> (<i><b>Augments</b></i>)</li>
 <li><code>services/*.cf</code></li>
@@ -928,17 +928,17 @@ While you can and on occasion may need to modify vendored policy, it's generally
 </aside>
 
 </section>
-<section id="slide-orga91890c">
-<h3 id="orga91890c">Unattended Policy Execution Overview</h3>
+<section id="slide-org3424ef9">
+<h3 id="org3424ef9">Unattended Policy Execution Overview</h3>
 
 <div class="figure">
-<p><img src="MPF-policy-execution-high-level.png" alt="MPF-policy-execution-high-level.png" />
+<p><img src="images/MPF-policy-execution-high-level.png" alt="MPF-policy-execution-high-level.png" />
 </p>
 </div>
 
 </section>
-<section id="slide-orge25fc8c">
-<h3 id="orge25fc8c">Pop Quiz</h3>
+<section id="slide-org9d6dce5">
+<h3 id="org9d6dce5">Pop Quiz</h3>
 <ul class="fragment roll-in">
 <li>What is the <i><b>MPF</b></i>?</li>
 
@@ -967,8 +967,8 @@ While you can and on occasion may need to modify vendored policy, it's generally
 </section>
 </section>
 <section>
-<section id="slide-org97e6711">
-<h2 id="org97e6711">Promise Theory</h2>
+<section id="slide-orge861551">
+<h2 id="orge861551">Promise Theory</h2>
 
 <div class="figure">
 <p><img src="images/promise_theory_cover.jpg" alt="Promise Theory Principles and Appications" style="border:none;" />
@@ -987,8 +987,8 @@ The fundamental underlying philosophy that CFEngine is based on.
 </aside>
 
 </section>
-<section id="slide-org953b54d">
-<h3 id="org953b54d">Promises</h3>
+<section id="slide-org942edf3">
+<h3 id="org942edf3">Promises</h3>
 <ul>
 <li>A promise is a <b>statement of intent</b></li>
 <li>Agents can only make promises about themselves</li>
@@ -1011,18 +1011,18 @@ The fundamental underlying philosophy that CFEngine is based on.
 </aside>
 
 </section>
-<section id="slide-org466501a">
-<h3 id="org466501a">Basic Concepts</h3>
+<section id="slide-org2f379d6">
+<h3 id="org2f379d6">Basic Concepts</h3>
 <video controls width="800" data-src="./images/Promise-Theory-Basic-Concepts-part-1.mp4"></video>
 
 </section>
 </section>
 <section>
-<section id="slide-org60ee92a">
-<h2 id="org60ee92a">Language</h2>
+<section id="slide-orge7782e4">
+<h2 id="orge7782e4">Language</h2>
 </section>
-<section id="slide-orgbda5857">
-<h3 id="orgbda5857">Promise outcomes/results</h3>
+<section id="slide-orge1ad3a7">
+<h3 id="orge1ad3a7">Promise outcomes/results</h3>
 <ul>
 <li><code>kept</code></li>
 <li><code>repaired</code></li>
@@ -1065,8 +1065,8 @@ The fundamental underlying philosophy that CFEngine is based on.
 </aside>
 
 </section>
-<section id="slide-orgb81daff">
-<h3 id="orgb81daff">Promise types</h3>
+<section id="slide-orgea7e352">
+<h3 id="orgea7e352">Promise types</h3>
 <p>
 access, build_xpath, classes, <b>commands</b>, databases, defaults, delete_attribute, delete_lines, delete_text, delete_tree, field_edits, <b>files</b>, guest_environments, insert_lines, insert_text, insert_tree, measurements, meta, methods, <b>packages</b>, processes, replace_patterns, reports, roles, <b>services</b>, set_attribute, set_text, storage, users, vars
 </p>
@@ -1079,8 +1079,8 @@ As of 3.15.0, there are 30 different promise types. The promise type available d
 </aside>
 
 </section>
-<section id="slide-orge76fd11">
-<h3 id="orge76fd11">Syntax Structure</h3>
+<section id="slide-org61e3fd8">
+<h3 id="org61e3fd8">Syntax Structure</h3>
 <div class="org-src-container">
 
 <pre  class="src src-cfengine3"><span style="color: #4f97d7;">bundle</span> <span style="color: #a45bad;">type</span> <span style="color: #bc6ec5; font-weight: bold;">name</span>
@@ -1123,8 +1123,8 @@ Visible in verbose logs.</li>
 
 </aside>
 </section>
-<section id="slide-orgb4d61bc">
-<h3 id="orgb4d61bc">Bundles</h3>
+<section id="slide-org32d3ad6">
+<h3 id="org32d3ad6">Bundles</h3>
 <ul>
 <li>Collection of logically related promises</li>
 <li>Can take parameters</li>
@@ -1157,8 +1157,8 @@ re-defined.</li>
 </aside>
 
 </section>
-<section id="slide-org5db419d">
-<h4 id="org5db419d">Example bundles hold <i>some</i> state</h4>
+<section id="slide-org4946358">
+<h4 id="org4946358">Example bundles hold <i>some</i> state</h4>
 <div class="org-src-container">
 <label class="org-src-name"><code>examples/example-bundles-maintain-some-variable-state.cf</code></label>
 <pre  class="src src-cfengine3" id="example-bundles-maintain-some-variable-state.cf"><span style="color: #4f97d7;">bundle</span> <span style="color: #a45bad;">agent</span> <span style="color: #bc6ec5; font-weight: bold;">main</span>
@@ -1200,8 +1200,8 @@ R: flask
 </pre>
 
 </section>
-<section id="slide-org73bb87b">
-<h4 id="org73bb87b">Bundles for logical abstraction</h4>
+<section id="slide-org123b0cf">
+<h4 id="org123b0cf">Bundles for logical abstraction</h4>
 <p>
 For example, a bundle to configure Apache might:
 </p>
@@ -1217,8 +1217,8 @@ For example, a bundle to configure Apache might:
 </ul>
 
 </section>
-<section id="slide-org72a0272">
-<h4 id="org72a0272">Bundle types</h4>
+<section id="slide-org3ca380f">
+<h4 id="org3ca380f">Bundle types</h4>
 <div class="org-src-container">
 
 <pre  class="src src-sh">cf-promises --syntax-description json | jq <span style="color: #2d9574;">'.bundleTypes | keys[]'</span>
@@ -1243,8 +1243,8 @@ Bundles have a type which specify how they can be used.
 </aside>
 
 </section>
-<section id="slide-org923ad69">
-<h4 id="org923ad69">Bundlesequence</h4>
+<section id="slide-org876ebf0">
+<h4 id="org876ebf0">Bundlesequence</h4>
 <ul>
 <li><code>main</code> is the default</li>
 <li><code>__main__</code> is treated as <i>main</i> if in <code>$(sys.policy_entry_filename)</code></li>
@@ -1289,14 +1289,14 @@ re-defined.</li>
 
 
 </section>
-<section id="slide-orgcb59a65">
-<h3 id="orgcb59a65">Bodies</h3>
+<section id="slide-org92611b9">
+<h3 id="org92611b9">Bodies</h3>
 <ul>
 <li>Collection of attributes</li>
 <li>Have a type ( e.g. <code>classes</code>, <code>perms</code>, <code>copy_from</code> )</li>
 <li>Can take parameters</li>
 <li>Can be inherited (3.8+)</li>
-<li>Cab be <i>defaulted</i> for a given promise <i>type</i> (3.9+)</li>
+<li>Can be <i>defaulted</i> for a given promise <i>type</i> (3.9+)</li>
 
 </ul>
 
@@ -1326,8 +1326,8 @@ acl, action, agent, changes, classes, common, contain, copy_from, database_serve
 </p>
 
 </section>
-<section id="slide-orgee28161">
-<h4 id="orgee28161">Special bodies that control agent behavior</h4>
+<section id="slide-org88b2b80">
+<h4 id="org88b2b80">Special bodies that control agent behavior</h4>
 <ul>
 <li>body common control</li>
 <li>body file control</li>
@@ -1353,8 +1353,8 @@ acl, action, agent, changes, classes, common, contain, copy_from, database_serve
 </aside>
 
 </section>
-<section id="slide-org9231ece">
-<h4 id="org9231ece">Default bodies</h4>
+<section id="slide-org42a2ba6">
+<h4 id="org42a2ba6">Default bodies</h4>
 <aside class="notes">
 <p>
 3.9 introduced the ability to define a body that is used by all occurances of a
@@ -1403,8 +1403,8 @@ warning: Warning promised, need to create file '/tmp/show_default_action'
 </pre>
 
 </section>
-<section id="slide-org3e631a1">
-<h3 id="org3e631a1">Normal Order</h3>
+<section id="slide-orgc305dfa">
+<h3 id="orgc305dfa">Normal Order</h3>
 <ul>
 <li>The order in which CFEngine executes <b>promise types</b>
 
@@ -1418,8 +1418,8 @@ warning: Warning promised, need to create file '/tmp/show_default_action'
 </ul>
 
 </section>
-<section id="slide-org2f71204">
-<h4 id="org2f71204">Example:</h4>
+<section id="slide-org6be43c8">
+<h4 id="org6be43c8">Example:</h4>
 <div class="org-src-container">
 
 <pre  class="src src-cfengine3"><span style="color: #4f97d7;">bundle</span> <span style="color: #a45bad;">agent</span> <span style="color: #bc6ec5; font-weight: bold;">illustrating_normal_order</span>
@@ -1467,8 +1467,8 @@ R: red+blue = Purple
 </pre>
 
 </section>
-<section id="slide-org6f99698">
-<h3 id="org6f99698">Augments (<code>def.json</code>)</h3>
+<section id="slide-orge82593e">
+<h3 id="orge82593e">Augments (<code>def.json</code>)</h3>
 <ul>
 <li>Very early definition</li>
 <li>Loaded if <code>def.json</code> is found next to <code>$(sys.policy_entry_filename)</code></li>
@@ -1478,8 +1478,8 @@ R: red+blue = Purple
 </ul>
 
 </section>
-<section id="slide-org8affa02">
-<h4 id="org8affa02">Example augments</h4>
+<section id="slide-org35bce1d">
+<h4 id="org35bce1d">Example augments</h4>
 <aside class="notes">
 <ul>
 <li>Define <code>by_regular_expression</code> if the class <code>ubuntu_X</code> is defined, where <code>X</code> one or more is an integers.</li>
@@ -1505,8 +1505,8 @@ R: red+blue = Purple
 </div>
 
 </section>
-<section id="slide-orga555a1e">
-<h4 id="orga555a1e">Example policy using augments</h4>
+<section id="slide-orgad19c00">
+<h4 id="orgad19c00">Example policy using augments</h4>
 <div class="org-src-container">
 <label class="org-src-name"><code>examples/augments/augments.cf</code></label>
 <pre  class="src src-cfengine3" id="examples/augments/augments.cf"><span style="color: #4f97d7;">bundle</span> <span style="color: #a45bad;">agent</span> <span style="color: #bc6ec5; font-weight: bold;">main</span>
@@ -1525,8 +1525,8 @@ R: red+blue = Purple
 </div>
 
 </section>
-<section id="slide-org3ba16c7">
-<h4 id="org3ba16c7">Example output</h4>
+<section id="slide-org202a3cd">
+<h4 id="org202a3cd">Example output</h4>
 <div class="org-src-container">
 
 <pre  class="src src-sh">cf-agent --no-lock --file ./examples/augments/augments.cf
@@ -1540,8 +1540,8 @@ R: Define classes from augments based on CFEngine class expressions
 </pre>
 
 </section>
-<section id="slide-orgd162e9f">
-<h4 id="orgd162e9f">Policy always wins!</h4>
+<section id="slide-org112b719">
+<h4 id="org112b719">Policy always wins!</h4>
 <div class="org-src-container">
 <label class="org-src-name"><code>examples/augments/augments-policy-wins.cf</code></label>
 <pre  class="src src-cfengine3" id="examples/augments/augments-policy-wins.cf"><span style="color: #4f97d7;">bundle</span> <span style="color: #a45bad;">common</span> <span style="color: #bc6ec5; font-weight: bold;">def</span>
@@ -1575,8 +1575,8 @@ Here, we define <code>def.myvar1</code> directly in policy, and we define <code>
 </aside>
 
 </section>
-<section id="slide-orgfe086ff">
-<h4 id="orgfe086ff">Example output</h4>
+<section id="slide-orgba27607">
+<h4 id="orgba27607">Example output</h4>
 <div class="org-src-container">
 
 <pre  class="src src-sh">cf-agent --no-lock --file ./examples/augments/augments-policy-wins.cf
@@ -1591,8 +1591,8 @@ R: Define classes from augments based on CFEngine class expressions
 </pre>
 
 </section>
-<section id="slide-org521709f">
-<h4 id="org521709f">Multiple augments</h4>
+<section id="slide-orgbc43f8f">
+<h4 id="orgbc43f8f">Multiple augments</h4>
 <p>
 Merge more augments on top.
 </p>
@@ -1627,8 +1627,8 @@ Here we merge a more specific augments for linux (the value derived from sys.os 
 </div>
 
 </section>
-<section id="slide-org536868f">
-<h4 id="org536868f">Multiple augments: Example policy</h4>
+<section id="slide-org52d2d76">
+<h4 id="org52d2d76">Multiple augments: Example policy</h4>
 <aside class="notes">
 <p>
 Here we simply report the variable values to illustrate how the value of myvar2 was overridden
@@ -1659,8 +1659,8 @@ R: '$(def.myvar2)' is 'override for linux hosts'
 </pre>
 
 </section>
-<section id="slide-orgfae4c87">
-<h3 id="orgfae4c87">Macros</h3>
+<section id="slide-orgbd5b277">
+<h3 id="orgbd5b277">Macros</h3>
 <ul>
 <li>Prevent parsing</li>
 <li>Use for supporting future syntax, speed optimizations</li>
@@ -1668,8 +1668,8 @@ R: '$(def.myvar2)' is 'override for linux hosts'
 </ul>
 
 </section>
-<section id="slide-orge65583b">
-<h4 id="orge65583b">minimum_version</h4>
+<section id="slide-orga3e3490">
+<h4 id="orga3e3490">minimum_version</h4>
 <div class="org-src-container">
 <label class="org-src-name"><code>examples/macros-if-minimum_version.cf</code></label>
 <pre  class="src src-cfengine3" id="=examples/macros-if-minimum_version.cf="><span style="color: #4f97d7;">bundle</span> <span style="color: #a45bad;">agent</span> <span style="color: #bc6ec5; font-weight: bold;">example_macro_minimum_version</span> 
@@ -1691,8 +1691,8 @@ R: '$(def.myvar2)' is 'override for linux hosts'
 </div>
 
 </section>
-<section id="slide-org2ba5d6a">
-<h4 id="org2ba5d6a">feature</h4>
+<section id="slide-org3bd7d33">
+<h4 id="org3bd7d33">feature</h4>
 <ul>
 <li><a href="https://docs.cfengine.com/docs/3.10/reference-macros.html#features">Feature Macro</a> documentation</li>
 
@@ -1723,8 +1723,8 @@ macro.
 </div>
 
 </section>
-<section id="slide-orgf5d7452">
-<h3 id="orgf5d7452">Functions</h3>
+<section id="slide-org0f4a969">
+<h3 id="org0f4a969">Functions</h3>
 <p>
 There are 171 functions as of 3.15.0
 </p>
@@ -1755,8 +1755,8 @@ readfile, readintarray, readintlist, readjson, readrealarray, readreallist, read
 </p>
 
 </section>
-<section id="slide-org3c7d245">
-<h3 id="org3c7d245">Pop Quiz</h3>
+<section id="slide-org4378f66">
+<h3 id="org4378f66">Pop Quiz</h3>
 <ul class="fragment roll-in">
 <li>What is a bundle?</li>
 
@@ -1782,7 +1782,7 @@ readfile, readintarray, readintlist, readjson, readrealarray, readreallist, read
 
 </ul>
 <ul class="fragment roll-in">
-<li>How can you use a new language features when you still have some old agents?</li>
+<li>How can you use new language features when you still have some old agents?</li>
 
 </ul>
 
@@ -1805,13 +1805,13 @@ readfile, readintarray, readintlist, readjson, readrealarray, readreallist, read
 </section>
 </section>
 <section>
-<section id="slide-org3f6130f">
-<h2 id="org3f6130f">Making Decisions: Context Classes and Expressions</h2>
+<section id="slide-org86ce19c">
+<h2 id="org86ce19c">Making Decisions: Context Classes and Expressions</h2>
 </section>
-<section id="slide-orgcd127a2">
-<h3 id="orgcd127a2">Classes</h3>
+<section id="slide-org4cdda3f">
+<h3 id="org4cdda3f">Classes</h3>
 <ul>
-<li>Restrict promises based on context.</li>
+<li>Restrict promises based on context</li>
 <li>Usable in bundles and bodies</li>
 <li>Used for making decisions</li>
 <li>Can be combined with expressions</li>
@@ -1837,8 +1837,8 @@ conditions.
 </aside>
 
 </section>
-<section id="slide-org093979b">
-<h3 id="org093979b">What classes are defined?</h3>
+<section id="slide-org9d23147">
+<h3 id="org9d23147">What classes are defined?</h3>
 <div class="org-src-container">
 <label class="org-src-name">Before 3 pass evaluation</label>
 <pre  class="src src-shell">cf-promises --show-classes
@@ -1867,8 +1867,8 @@ pre-eval so it is only showing the classes that are defined after pre-eval.
 </aside>
 
 </section>
-<section id="slide-org30514b8">
-<h4 id="org30514b8">Example</h4>
+<section id="slide-org7f3a0b0">
+<h4 id="org7f3a0b0">Example</h4>
 <div class="org-src-container">
 
 <pre  class="src src-shell">cf-promises --show-classes | tail -n+2 | awk -vORS=<span style="color: #2d9574;">", "</span> <span style="color: #2d9574;">'{print $1}'</span>
@@ -1894,8 +1894,8 @@ mac_02_42_fb_b7_c0_59, mac_52_54_00_6b_62_06, mac_5c_e0_c5_9f_f3_8f, my_other_ex
 </p>
 
 </section>
-<section id="slide-org68c0231">
-<h3 id="org68c0231">Class expressions</h3>
+<section id="slide-org2b4bde4">
+<h3 id="org2b4bde4">Class expressions</h3>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <caption class="t-above"><span class="table-number">Table 2:</span> Class Expressions</caption>
 
@@ -1945,8 +1945,8 @@ Classes can be combined into expressions to make complex decisions.
 </aside>
 
 </section>
-<section id="slide-org777c69c">
-<h4 id="org777c69c">Example illustrating class expressions</h4>
+<section id="slide-org57194a8">
+<h4 id="org57194a8">Example illustrating class expressions</h4>
 <div class="org-src-container">
 <label class="org-src-name"><code>examples/00-01-using_class_expressions.cf</code></label>
 <pre  class="src src-cfengine3" id="examples/00-01-using_class_expressions.cf"><span style="color: #4f97d7;">bundle</span> <span style="color: #a45bad;">agent</span> <span style="color: #bc6ec5; font-weight: bold;">main</span>
@@ -1978,8 +1978,8 @@ during the week.
 </aside>
 
 </section>
-<section id="slide-org83d1c28">
-<h3 id="org83d1c28">Class types</h3>
+<section id="slide-orgc173488">
+<h3 id="orgc173488">Class types</h3>
 <ul>
 <li>Hard Classes</li>
 <li>Soft Classes</li>
@@ -1987,8 +1987,8 @@ during the week.
 </ul>
 
 </section>
-<section id="slide-org195e944">
-<h3 id="org195e944">Hard classes</h3>
+<section id="slide-orgbaaa16d">
+<h3 id="orgbaaa16d">Hard classes</h3>
 <ul>
 <li>Defined by agent</li>
 <li>Not configurable</li>
@@ -2003,8 +2003,8 @@ during the week.
 </p>
 
 </section>
-<section id="slide-org3f01d97">
-<h3 id="org3f01d97">Soft classes</h3>
+<section id="slide-org29dba36">
+<h3 id="org29dba36">Soft classes</h3>
 <ul>
 <li>Defined by policy</li>
 <li>Based on anything</li>
@@ -2016,8 +2016,8 @@ during the week.
 </ul>
 
 </section>
-<section id="slide-orga912ed9">
-<h3 id="orga912ed9">Valid Class names</h3>
+<section id="slide-orga6de673">
+<h3 id="orga6de673">Valid Class names</h3>
 <ul>
 <li>Allowed characters include <code>[a-zA-Z0-9_]</code></li>
 <li><b>Canonify</b> a string to produce a valid class name
@@ -2034,8 +2034,8 @@ during the week.
 </p>
 
 </section>
-<section id="slide-orgc6c5926">
-<h4 id="orgc6c5926">Example of automatic canonification</h4>
+<section id="slide-org59be0be">
+<h4 id="org59be0be">Example of automatic canonification</h4>
 <div class="org-src-container">
 <label class="org-src-name"><code>examples/00-01-classes_canonification.cf</code></label>
 <pre  class="src src-cfengine3" id="examples/00-01-classes_canonification.cf"><span style="color: #4f97d7;">bundle</span> <span style="color: #a45bad;">agent</span> <span style="color: #bc6ec5; font-weight: bold;">main</span>
@@ -2067,8 +2067,8 @@ R: 'Invalid_Class_Name_' **IS** a defined class
 </pre>
 
 </section>
-<section id="slide-orgc2b3b96">
-<h3 id="orgc2b3b96">Class scope</h3>
+<section id="slide-org591b745">
+<h3 id="org591b745">Class scope</h3>
 <ul>
 <li>Namespace scoped classes are accessible from any bundle.</li>
 <li>Persist until end of agent run or explicitly undefined.</li>
@@ -2093,8 +2093,8 @@ of policy writers.
 </aside>
 
 </section>
-<section id="slide-org3e2c9db">
-<h3 id="org3e2c9db">Class scope rules</h3>
+<section id="slide-orgfa2c3f7">
+<h3 id="orgfa2c3f7">Class scope rules</h3>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 <caption class="t-above"><span class="table-number">Table 3:</span> Default scope for <code>classes</code> <b>type</b> promises</caption>
 
@@ -2145,8 +2145,8 @@ Namespace scope classes if not maintained well can cause other conditions to be 
 </aside>
 
 </section>
-<section id="slide-orgdb16bd6">
-<h3 id="orgdb16bd6">Define custom classes by expression</h3>
+<section id="slide-orgc464bf8">
+<h3 id="orgc464bf8">Define custom classes by expression</h3>
 <div class="org-src-container">
 <label class="org-src-name"><code>examples/00-10-classes_by_expression.cf</code></label>
 <pre  class="src src-cfengine3" id="examples/00-10-classes_by_expression.cf"><span style="color: #4f97d7;">bundle</span> <span style="color: #a45bad;">agent</span> <span style="color: #bc6ec5; font-weight: bold;">main</span>
@@ -2170,8 +2170,8 @@ Namespace scope classes if not maintained well can cause other conditions to be 
 </div>
 
 </section>
-<section id="slide-orge1c02c8">
-<h3 id="orge1c02c8">Define custom classes by promise outcome</h3>
+<section id="slide-org025f11d">
+<h3 id="org025f11d">Define custom classes by promise outcome</h3>
 <div class="org-src-container">
 <label class="org-src-name"><code>examples/00-10-classes_define_based_on_promise_outcome.cf</code></label>
 <pre  class="src src-cfengine3" id="examples/00-10-classes_define_based_on_promise_outcome.cf"><span style="color: #4f97d7;">bundle</span> <span style="color: #a45bad;">agent</span> <span style="color: #bc6ec5; font-weight: bold;">main</span>
@@ -2198,8 +2198,8 @@ Namespace scope classes if not maintained well can cause other conditions to be 
 </div>
 
 </section>
-<section id="slide-org63ef8b3">
-<h3 id="org63ef8b3">Example - traditional class expressions</h3>
+<section id="slide-org0a813e8">
+<h3 id="org0a813e8">Example - traditional class expressions</h3>
 <div class="org-src-container">
 <label class="org-src-name"><code>examples/00-10-classes_traditional_expression.cf</code></label>
 <pre  class="src src-cfengine3" id="=examples/00-10-classes_traditional_expression.cf="><span style="color: #4f97d7;">bundle</span> <span style="color: #a45bad;">agent</span> <span style="color: #bc6ec5; font-weight: bold;">main</span>
@@ -2231,8 +2231,8 @@ R: Today is not Saturday or Sunday.
 </aside>
 
 </section>
-<section id="slide-orgc76e457">
-<h3 id="orgc76e457">Example - restrict individual promises with if and unless</h3>
+<section id="slide-org07e6e10">
+<h3 id="org07e6e10">Example - restrict individual promises with if and unless</h3>
 <div class="org-src-container">
 <label class="org-src-name"><code>examples/00-10-classes_example_if_and_unless.cf</code></label>
 <pre  class="src src-cfengine3" id="=examples/00-10-classes_example_if_and_unless.cf="><span style="color: #4f97d7;">bundle</span> <span style="color: #a45bad;">agent</span> <span style="color: #bc6ec5; font-weight: bold;">main</span>
@@ -2266,8 +2266,8 @@ R: I am a linux host
 </aside>
 
 </section>
-<section id="slide-org987b6bc">
-<h3 id="org987b6bc">Example - variable class expressions</h3>
+<section id="slide-org31b580f">
+<h3 id="org31b580f">Example - variable class expressions</h3>
 <div class="org-src-container">
 <label class="org-src-name"><code>examples/00-10-classes_example_variable_class_expressions.cf</code></label>
 <pre  class="src src-cfengine3" id="examples/00-10-classes_example_variable_class_expressions.cf"><span style="color: #4f97d7;">bundle</span> <span style="color: #a45bad;">agent</span> <span style="color: #bc6ec5; font-weight: bold;">main</span>
@@ -2310,8 +2310,8 @@ variables when quoted.
 </aside>
 
 </section>
-<section id="slide-orgeff9a5e">
-<h3 id="orgeff9a5e">Functions that return "context"</h3>
+<section id="slide-orgfb67b95">
+<h3 id="orgfb67b95">Functions that return "context"</h3>
 <div class="org-src-container">
 
 <pre  class="src src-sh">cf-promises --syntax-description json | jq <span style="color: #2d9574;">'.functions | \</span>
@@ -2325,8 +2325,8 @@ accessedbefore, changedbefore, classify, classmatch, every, fileexists, filesexi
 </p>
 
 </section>
-<section id="slide-org40eeef2">
-<h3 id="org40eeef2">Pop Quiz</h3>
+<section id="slide-org0726e46">
+<h3 id="org0726e46">Pop Quiz</h3>
 <ul class="fragment roll-in">
 <li>What types of classes are there?</li>
 
@@ -2366,11 +2366,11 @@ accessedbefore, changedbefore, classify, classmatch, every, fileexists, filesexi
 </section>
 </section>
 <section>
-<section id="slide-org835398f">
-<h2 id="org835398f">Variables &amp; Data Types</h2>
+<section id="slide-orgf13b94a">
+<h2 id="orgf13b94a">Variables &amp; Data Types</h2>
 </section>
-<section id="slide-orgbce92c5">
-<h3 id="orgbce92c5">Variable Scoping</h3>
+<section id="slide-org6f136f2">
+<h3 id="org6f136f2">Variable Scoping</h3>
 <ul>
 <li>All variables are globally accessible</li>
 <li><code>$(variable)</code>, <code>@(list or data container)</code></li>
@@ -2384,8 +2384,8 @@ accessedbefore, changedbefore, classify, classmatch, every, fileexists, filesexi
 </ul>
 
 </section>
-<section id="slide-orgab29604">
-<h3 id="orgab29604">Datatypes</h3>
+<section id="slide-org730da15">
+<h3 id="org730da15">Datatypes</h3>
 <ul>
 <li>string</li>
 <li>slist, ilist, rlist</li>
@@ -2394,8 +2394,8 @@ accessedbefore, changedbefore, classify, classmatch, every, fileexists, filesexi
 
 </ul>
 </section>
-<section id="slide-org30742bb">
-<h4 id="org30742bb">Example - strings</h4>
+<section id="slide-org73a51be">
+<h4 id="org73a51be">Example - strings</h4>
 <div class="org-src-container">
 <label class="org-src-name"><code>examples/00-01-strings.cf</code></label>
 <pre  class="src src-cfengine3" id="=examples/00-01-strings.cf="><span style="color: #4f97d7;">bundle</span> <span style="color: #a45bad;">agent</span> <span style="color: #bc6ec5; font-weight: bold;">main</span>
@@ -2438,8 +2438,8 @@ R: string5 = 'with 'single' and "double" quotes'
 </pre>
 
 </section>
-<section id="slide-org445e072">
-<h4 id="org445e072">Example - numbers</h4>
+<section id="slide-org37ac971">
+<h4 id="org37ac971">Example - numbers</h4>
 <div class="org-src-container">
 <label class="org-src-name"><code>examples/00-02-numbers.cf</code></label>
 <pre  class="src src-cfengine3" id="=examples/00-02-numbers.cf="><span style="color: #4f97d7;">bundle</span> <span style="color: #a45bad;">agent</span> <span style="color: #bc6ec5; font-weight: bold;">main</span>
@@ -2520,8 +2520,8 @@ R: inf = '999999999'
 </pre>
 
 </section>
-<section id="slide-org4760368">
-<h4 id="org4760368">Example - lists</h4>
+<section id="slide-orge148344">
+<h4 id="orge148344">Example - lists</h4>
 <div class="org-src-container">
 <label class="org-src-name"><code>examples/00-04-lists.cf</code></label>
 <pre  class="src src-cfengine3" id="=examples/00-04-lists.cf="><span style="color: #4f97d7;">bundle</span> <span style="color: #a45bad;">agent</span> <span style="color: #bc6ec5; font-weight: bold;">main</span>
@@ -2575,8 +2575,8 @@ R: var4 = '6.500000'
 </pre>
 
 </section>
-<section id="slide-orgd03c064">
-<h4 id="orgd03c064">Example - list iteration (loops)</h4>
+<section id="slide-orgb37b337">
+<h4 id="orgb37b337">Example - list iteration (loops)</h4>
 <div class="org-src-container">
 <label class="org-src-name"><code>examples/00-03-list_iteration.cf</code></label>
 <pre  class="src src-cfengine3" id="=examples/00-03-list_iteration.cf="><span style="color: #4f97d7;">bundle</span> <span style="color: #a45bad;">agent</span> <span style="color: #bc6ec5; font-weight: bold;">main</span>
@@ -2625,8 +2625,8 @@ R: blue with 3
 </pre>
 
 </section>
-<section id="slide-org92cb8a9">
-<h4 id="org92cb8a9">Example - "Classic" Arrays</h4>
+<section id="slide-org43b097a">
+<h4 id="org43b097a">Example - "Classic" Arrays</h4>
 <div class="org-src-container">
 <label class="org-src-name"><code>examples/00-05-classic_arrays.cf</code></label>
 <pre  class="src src-cfengine3" id="=examples/00-05-classic_arrays.cf="><span style="color: #4f97d7;">bundle</span> <span style="color: #a45bad;">agent</span> <span style="color: #bc6ec5; font-weight: bold;">main</span>
@@ -2656,8 +2656,8 @@ R: file: '/etc/fstab'
 </pre>
 
 </section>
-<section id="slide-org8ebfdfb">
-<h4 id="org8ebfdfb">Example - data containers</h4>
+<section id="slide-org11a650c">
+<h4 id="org11a650c">Example - data containers</h4>
 <div class="org-src-container">
 <label class="org-src-name"><code>examples/00-06-data_containers.cf</code></label>
 <pre  class="src src-cfengine3" id="=examples/00-06-data_containers.cf="><span style="color: #4f97d7;">bundle</span> <span style="color: #a45bad;">agent</span> <span style="color: #bc6ec5; font-weight: bold;">main</span>
@@ -2689,8 +2689,8 @@ R: URL = 'https://mirror.int.cfengine.com/RHEL6/updates'
 </pre>
 
 </section>
-<section id="slide-org16afa4f">
-<h4 id="org16afa4f">Differences between "Classic Arrays" and "Data containers"</h4>
+<section id="slide-org8daf1ec">
+<h4 id="org8daf1ec">Differences between "Classic Arrays" and "Data containers"</h4>
 <aside class="notes">
 <ul>
 <li>Data containers are defined as a single entity</li>
@@ -2742,8 +2742,8 @@ R: DataContainer:{
 </pre>
 
 </section>
-<section id="slide-orgcf91317">
-<h3 id="orgcf91317">Pop Quiz</h3>
+<section id="slide-org8002760">
+<h3 id="org8002760">Pop Quiz</h3>
 <ul class="fragment roll-in">
 <li>Which component makes changes to your system?</li>
 
@@ -2795,8 +2795,8 @@ R: DataContainer:{
 </section>
 </section>
 <section>
-<section id="slide-org9e4ca27">
-<h2 id="org9e4ca27">Policy Examples</h2>
+<section id="slide-org25ca6ce">
+<h2 id="org25ca6ce">Policy Examples</h2>
 <aside class="notes">
 <p>
 For convenience in working with examples we will use the [autorun]() feature
@@ -2812,8 +2812,8 @@ specific ordering.</li>
 </aside>
 
 </section>
-<section id="slide-org2f0e47f">
-<h3 id="org2f0e47f">Enable services_autorun</h3>
+<section id="slide-orgc202e64">
+<h3 id="orgc202e64">Enable services_autorun</h3>
 <pre class="example">
 [root@hub masterfiles]# cat &gt; def.json &lt;&lt;EOF
 {
@@ -2828,8 +2828,8 @@ EOF
 </pre>
 
 </section>
-<section id="slide-orgc7fb72c">
-<h3 id="orgc7fb72c">Create a file</h3>
+<section id="slide-orgca07139">
+<h3 id="orgca07139">Create a file</h3>
 <p>
 Copy this example to <code>services/autorun/nologin.cf</code>
 </p>
@@ -2860,8 +2860,8 @@ R: File Exists
 </pre>
 
 </section>
-<section id="slide-orgd704f0c">
-<h3 id="orgd704f0c">Update file</h3>
+<section id="slide-orgff2948a">
+<h3 id="orgff2948a">Update file</h3>
 <div class="org-src-container">
 <label class="org-src-name"><code>examples/00-20-example-update_file.cf</code></label>
 <pre  class="src src-cfengine3" id="=examples/00-20-example-update_file.cf="><span style="color: #4f97d7;">bundle</span> <span style="color: #a45bad;">agent</span> <span style="color: #bc6ec5; font-weight: bold;">main</span>
@@ -2897,28 +2897,24 @@ R: DEBUG main: Heartbeat
 
 
 </section>
-<section id="slide-org294fe74">
-<h3 id="org294fe74">Install a package and start a service</h3>
+<section id="slide-org5368cb3">
+<h3 id="org5368cb3">Install a package and start a service</h3>
 <div class="org-src-container">
 <label class="org-src-name"><code>examples/00-20-example-package_and_service.cf</code></label>
 <pre  class="src src-cfengine3"><span style="color: #4f97d7;">bundle</span> <span style="color: #a45bad;">agent</span> <span style="color: #bc6ec5; font-weight: bold;">main</span>
 <span style="color: #4f97d7;">{</span>
   <span style="color: #4f97d7;">vars</span>:
       <span style="color: #2d9574;">"config[driftfile]"</span> <span style="color: #ce537a; font-weight: bold;">string</span> =&gt; <span style="color: #2d9574;">"/var/lib/ntp/drift"</span>;
-
   <span style="color: #4f97d7;">packages</span>:
       <span style="color: #2d9574;">"ntp"</span> policy =&gt; <span style="color: #2d9574;">"present"</span>;
-
   <span style="color: #4f97d7;">services</span>:
       <span style="color: #2d9574;">"ntpd"</span> service_policy =&gt; <span style="color: #2d9574;">"start"</span>;
-
-       <span style="color: #2d9574;">"ntpd"</span>
+      <span style="color: #2d9574;">"ntpd"</span>
         service_policy =&gt; <span style="color: #2d9574;">"restart"</span>,
         if =&gt; <span style="color: #2d9574;">"ntpd_conf_repaired"</span>;
-
   <span style="color: #4f97d7;">files</span>:
       <span style="color: #2d9574;">"/etc/ntp.conf"</span>
-        edit_line =&gt; set_line_based<span style="color: #bc6ec5;">(</span><span style="color: #2d9574;">"$(this.bundle).config"</span>, <span style="color: #2aa1ae; background-color: #292e34;"># Key Values </span>
+        edit_line =&gt; set_line_based<span style="color: #bc6ec5;">(</span><span style="color: #2d9574;">"$(this.bundle).config"</span>, <span style="color: #2aa1ae; background-color: #292e34;"># Key Values</span>
                                     <span style="color: #2d9574;">" "</span>,        <span style="color: #2aa1ae; background-color: #292e34;"># Separator</span>
                                     <span style="color: #2d9574;">"\s+"</span>,      <span style="color: #2aa1ae; background-color: #292e34;"># Separator regex</span>
                                     <span style="color: #2d9574;">".*"</span>,       <span style="color: #2aa1ae; background-color: #292e34;"># Keys to use</span>
@@ -2927,9 +2923,10 @@ R: DEBUG main: Heartbeat
 <span style="color: #4f97d7;">}</span>
 </pre>
 </div>
+
 </section>
-<section id="slide-org72c5e0c">
-<h3 id="org72c5e0c">Classify role based on hostname</h3>
+<section id="slide-orgc7418e3">
+<h3 id="orgc7418e3">Classify role based on hostname</h3>
 <div class="org-src-container">
 <label class="org-src-name"><code>examples/00-20-example-classes-role_by_hostname.cf</code></label>
 <pre  class="src src-cfengine3"><span style="color: #4f97d7;">bundle</span> <span style="color: #a45bad;">common</span> <span style="color: #bc6ec5; font-weight: bold;">classes_role_by_hostname</span>
@@ -2953,8 +2950,8 @@ R: DEBUG main: Heartbeat
 </pre>
 </div>
 </section>
-<section id="slide-orgcf62e41">
-<h3 id="orgcf62e41">Classify geographic location by network</h3>
+<section id="slide-org95febe5">
+<h3 id="org95febe5">Classify geographic location by network</h3>
 <div class="org-src-container">
 <label class="org-src-name"><code>examples/00-20-example-classes-geographic_location_by_network.cf</code></label>
 <pre  class="src src-cfengine3"><span style="color: #4f97d7;">bundle</span> <span style="color: #a45bad;">common</span> <span style="color: #bc6ec5; font-weight: bold;">classify_geo_location_by_network</span>
@@ -2981,7 +2978,6 @@ R: DEBUG main: Heartbeat
                        <span style="color: #2d9574;">"south_america"</span>, <span style="color: #2d9574;">"South America"</span>,
                        <span style="color: #2d9574;">"Unknown"</span><span style="color: #bc6ec5;">)</span>,
       meta =&gt; <span style="color: #bc6ec5;">{</span> <span style="color: #2d9574;">"inventory"</span>, <span style="color: #2d9574;">"attribute_name=Continent"</span> <span style="color: #bc6ec5;">}</span>;
-
 </pre>
 </div>
 
@@ -3014,8 +3010,8 @@ R: DEBUG main: Heartbeat
 </pre>
 </div>
 </section>
-<section id="slide-orgb2ac3f7">
-<h3 id="orgb2ac3f7">Manage key value entries in a config file</h3>
+<section id="slide-orge02980a">
+<h3 id="orge02980a">Manage key value entries in a config file</h3>
 <div class="org-src-container">
 <label class="org-src-name"><code>manage_ssh</code> in <code>examples/00-20-example-key_value_config.cf</code></label>
 <pre  class="src src-cfengine3"><span style="color: #4f97d7;">bundle</span> <span style="color: #a45bad;">agent</span> <span style="color: #bc6ec5; font-weight: bold;">manage_ssh</span>
@@ -3120,8 +3116,8 @@ R: DEBUG ssh_config_manage_kv: Restarted sshd after config change
 </pre>
 
 </section>
-<section id="slide-org5ba610c">
-<h3 id="org5ba610c">Templating a file with mustache</h3>
+<section id="slide-orga644d57">
+<h3 id="orga644d57">Templating a file with mustache</h3>
 <div class="org-src-container">
 <label class="org-src-name"><code>examples/00-20-example-mustache_template_vars.cf</code></label>
 <pre  class="src src-cfengine3"><span style="color: #4f97d7;">bundle</span> <span style="color: #a45bad;">agent</span> <span style="color: #bc6ec5; font-weight: bold;">motd</span>
@@ -3143,8 +3139,8 @@ R: DEBUG ssh_config_manage_kv: Restarted sshd after config change
 </div>
 
 </section>
-<section id="slide-org292e266">
-<h3 id="org292e266">Mustache extensions</h3>
+<section id="slide-orgbae4735">
+<h3 id="orgbae4735">Mustache extensions</h3>
 <ul>
 <li><code>-top-</code> data handed to the templating engine</li>
 <li><code>@</code> Currently iterated <i>key</i></li>
@@ -3166,6 +3162,9 @@ R: DEBUG ssh_config_manage_kv: Restarted sshd after config change
 </pre>
 </div>
 
+</section>
+<section>
+
 <pre class="example">
 R: Multiline: {
   "key": "value",
@@ -3179,8 +3178,8 @@ R: Keys: key, list,
 </pre>
 
 </section>
-<section id="slide-orgf93e29b">
-<h3 id="orgf93e29b">Inventory SSH Host Keys</h3>
+<section id="slide-orgb84798d">
+<h3 id="orgb84798d">Inventory SSH Host Keys</h3>
 <div class="org-src-container">
 
 <pre  class="src src-cfengine3" id="examples/inventory-ssh-host-keys.cf"><span style="color: #4f97d7;">bundle</span> <span style="color: #a45bad;">agent</span> <span style="color: #bc6ec5; font-weight: bold;">main</span>
@@ -3230,29 +3229,140 @@ R: /etc/ssh/ssh_host_rsa_key.pub
 </pre>
 
 </section>
+<section id="slide-orgd273417">
+<h3 id="orgd273417">Interacting with APIs from within CFEngine Policy</h3>
+<aside class="notes">
+<p>
+If it's a simple http(s) call you can use the <a href="https://docs.cfengine.com/docs/3.15/reference-functions-url_get.html"><code>url_get()</code> function</a>. It's fairly limited, but we can extend it if we have good real world use cases. For some cases, like POST currently you would need to leverage something like <code>curl</code> directly.
+</p>
+<ul>
+<li>Not usually a huge limitation
+<ul>
+<li>Do you really <i>want</i> thousands of hosts hitting some api directly?</li>
+<li>Authorization for each host/device</li>
+<li>Network availability</li>
+
+</ul></li>
+
+</ul>
+<p>
+Here is a very simple, contrived example working with the JSON returned by wtfismyip.com.
+</p>
+
+</aside>
+
+<div class="org-src-container">
+<label class="org-src-name">examples/example-url_get-wtfismyip-v0.cf</label>
+<pre  class="src src-cfengine3" id="example-url_get-wtfismyip-v0.cf"><span style="color: #4f97d7;">bundle</span> <span style="color: #a45bad;">agent</span> <span style="color: #bc6ec5; font-weight: bold;">main</span>
+<span style="color: #4f97d7;">{</span>
+  <span style="color: #4f97d7;">vars</span>:
+      <span style="color: #2aa1ae; background-color: #292e34;"># This is the URL that we will query.</span>
+      <span style="color: #2d9574;">"url"</span> <span style="color: #ce537a; font-weight: bold;">string</span> =&gt; <span style="color: #2d9574;">"https://wtfismyip.com/json"</span>;
+
+      <span style="color: #2aa1ae; background-color: #292e34;"># We don't need to supply any specific options in this case.</span>
+      <span style="color: #2aa1ae; background-color: #292e34;"># url.max_content is a typical setting to change. 4K isn't enough for</span>
+      <span style="color: #2aa1ae; background-color: #292e34;"># some, (many?) API responses.</span>
+      <span style="color: #2d9574;">"options"</span> <span style="color: #ce537a; font-weight: bold;">data</span> =&gt; <span style="color: #2d9574;">'{}'</span>;
+
+      <span style="color: #2aa1ae; background-color: #292e34;"># Here we make our http(s) call, storing the response in `d`</span>
+      <span style="color: #2d9574;">"d"</span> <span style="color: #ce537a; font-weight: bold;">data</span> =&gt; url_get<span style="color: #bc6ec5;">(</span> $<span style="color: #2d9574;">(</span><span style="color: #7590db;">url</span><span style="color: #2d9574;">)</span>, @<span style="color: #2d9574;">(</span><span style="color: #7590db;">options</span><span style="color: #2d9574;">)</span><span style="color: #bc6ec5;">)</span>;
+
+      <span style="color: #2aa1ae; background-color: #292e34;"># The response content is returned as a *string* inside the `content`. In</span>
+      <span style="color: #2aa1ae; background-color: #292e34;"># order to work with it, we need to pull it into a proper data container.</span>
+      <span style="color: #2d9574;">"content"</span> <span style="color: #ce537a; font-weight: bold;">data</span> =&gt; <span style="color: #2d9574;">"$(d[content])"</span>;
+
+  <span style="color: #4f97d7;">reports</span>:
+
+      <span style="color: #2aa1ae; background-color: #292e34;"># Let's view the multi-line JSON representation of the `url_get()` response.</span>
+      <span style="color: #2d9574;">"$(with)"</span> with =&gt; string_mustache<span style="color: #bc6ec5;">(</span> <span style="color: #2d9574;">"{{%-top-}}"</span>, d<span style="color: #bc6ec5;">)</span>;
+
+      <span style="color: #2aa1ae; background-color: #292e34;"># Let's view the multi-line JSON representation of our extracted `content`</span>
+      <span style="color: #2aa1ae; background-color: #292e34;"># datacontainer.</span>
+      <span style="color: #2d9574;">"$(with)"</span> with =&gt; string_mustache<span style="color: #bc6ec5;">(</span> <span style="color: #2d9574;">"{{%-top-}}"</span>, content<span style="color: #bc6ec5;">)</span>;
+<span style="color: #4f97d7;">}</span>
+</pre>
+</div>
+
 </section>
 <section>
-<section id="slide-org108c9a8">
-<h2 id="org108c9a8">Policy Exercises</h2>
-<div class="outline-text-2" id="text-org108c9a8">
+
+<pre class="example">
+# cf-agent --no-lock --log-level info --file examples/example-url_get-wtfismyip-v0.cf
+R: {
+  "content": "{\n    \"YourFuckingIPAddress\": \"24.143.34.87\",\n    \"YourFuckingLocation\": \"Tonganoxie, KS, United States\",\n    \"YourFuckingHostname\": \"24-143-34-87-dynamic.midco.net\",\n    \"YourFuckingISP\": \"Midco\",\n    \"YourFuckingTorExit\": false,\n    \"YourFuckingCountryCode\": \"US\"\n}\n",
+  "headers": "HTTP/1.1 200 OK\r\nAccess-Control-Allow-Methods: GET\r\nAccess-Control-Allow-Origin: *\r\nContent-Type: application/json\r\nDate: Fri, 28 Feb 2020 14:23:28 GMT\r\nContent-Length: 268\r\n\r\n",
+  "rc": 0,
+  "returncode": 200,
+  "success": true
+}
+R: {
+  "YourFuckingCountryCode": "US",
+  "YourFuckingHostname": "24-143-34-87-dynamic.midco.net",
+  "YourFuckingIPAddress": "24.143.34.87",
+  "YourFuckingISP": "Midco",
+  "YourFuckingLocation": "Tonganoxie, KS, United States",
+  "YourFuckingTorExit": false
+}
+</pre>
+
+<aside class="notes">
+<p>
+What was the real real use case behind this?
+</p>
+<ul>
+<li>Have Kubernetes running components</li>
+<li>Components register them selves Consul</li>
+<li>Loadbalancer (running in a container) needs to refresh it's config based on the current Consul data</li>
+
+</ul>
+
+<p>
+How is this being accomplished today?
+</p>
+<ul>
+<li>Using <a href="https://github.com/hashicorp/consul-template">Consul template</a>
+<ul>
+<li>But, it's quite limited
+<ul>
+<li>Can subscribe to events from consul</li>
+<li>Can run a command or render a template when something changes</li>
+
+</ul></li>
+
+</ul></li>
+
+</ul>
+
+<p>
+The idea is to run CFEngine (<code>cf-agent</code>) when something changes.
+</p>
+
+</aside>
+
+</section>
+</section>
+<section>
+<section id="slide-orgf6a7843">
+<h2 id="orgf6a7843">Policy Exercises</h2>
+<div class="outline-text-2" id="text-orgf6a7843">
 </div>
 </section>
-<section id="slide-org89d29d9">
-<h3 id="org89d29d9">Edit a file</h3>
+<section id="slide-org18d2d21">
+<h3 id="org18d2d21">Edit a file</h3>
 <p>
 Write a policy that populates <code>/etc/issue</code> with legaleze.
 </p>
 
 </section>
-<section id="slide-org0445cb9">
-<h3 id="org0445cb9">Create local users</h3>
+<section id="slide-orgac1b9cb">
+<h3 id="orgac1b9cb">Create local users</h3>
 <p>
 Write a policy that creates at least 2 users.
 </p>
 
 </section>
-<section id="slide-orgaca08d9">
-<h3 id="orgaca08d9">Inventory the local users</h3>
+<section id="slide-orgb5db90d">
+<h3 id="orgb5db90d">Inventory the local users</h3>
 <p>
 Tag the variable(s) that contain the usernames you promised for <i>inventory</i>.
 </p>
@@ -3264,55 +3374,45 @@ Tag the variable(s) that contain the usernames you promised for <i>inventory</i>
 </div>
 
 </section>
-<section id="slide-orgc9ebbef">
-<h3 id="orgc9ebbef">Create a file</h3>
+<section id="slide-orgd6b04af">
+<h3 id="orgd6b04af">Create a file</h3>
 <p>
-:PR
-:ID97441-1e2f-42ed-afbf-1658e1376199
-:EN
+Write a policy that ensures <code>/etc/cron.allow</code> is populated with one of the previously created users allowed to have cron jobs.
 </p>
 
 <p>
-Wri that ensures <code>/etc/cron.allow</code> is populated with one of the previously created users allowed to have cron jobs.
-</p>
-
-<p>
-Swier and try to <code>crontab -e</code>.
+Switch to a user and try to <code>crontab -e</code>.
 </p>
 
 </section>
-<section id="slide-org1e6d494">
-<h3 id="org1e6d494">Inventory users in /etc/cron.allow</h3>
+<section id="slide-org9e76f6c">
+<h3 id="org9e76f6c">Inventory users in /etc/cron.allow</h3>
 <p>
 Inventory the users listed in <code>/etc/cron.allow</code>
 </p>
 </section>
-<section id="slide-orgd23ad88">
-<h3 id="orgd23ad88">Enable sshd banner</h3>
+<section id="slide-orgcc4c5a0">
+<h3 id="orgcc4c5a0">Enable sshd banner</h3>
 <p>
 Write a policy that enables the ssh banner and directs it to <code>/etc/issue</code>. sshd
 should be restarted after changing its configuration.
 </p>
 
 </section>
-<section id="slide-org000580e">
-<h3 id="org000580e">multiple outcomes</h3>
-<p>
-:PR
-:ID4c834-6662-40bf-b16e-d5ad864fdcd9
-:EN
-</p>
+<section id="slide-orge7cd788">
+<h3 id="orge7cd788">Multiple outcomes</h3>
+<div class="org-src-container">
+<label class="org-src-name">Create immutable file</label>
+<pre  class="src src-sh">touch /tmp/immutable
+sudo chattr +i /tmp/immutable
+</pre>
+</div>
 
-<p>
-#+Cup for the example
-#+Bell
-sudp/immutable
-sudi /tmp/immutable
-#+E
-</p>
+</section>
+<section>
 
 <div class="org-src-container">
-
+<label class="org-src-name"><code>examples/00-20-example-multiple_outcomes.cf</code></label>
 <pre  class="src src-cfengine3"><span style="color: #4f97d7;">bundle</span> <span style="color: #a45bad;">agent</span> <span style="color: #bc6ec5; font-weight: bold;">main</span>
 <span style="color: #4f97d7;">{</span>
   <span style="color: #4f97d7;">files</span>:
@@ -3336,6 +3436,8 @@ sudi /tmp/immutable
 </pre>
 </div>
 
+</section>
+<section>
 
 <pre class="example">
    error: Can't copy file permissions from '/tmp/immutable' to '/tmp/immutable.cf-after-edit' - so promised edits could not be moved into place.
@@ -3352,30 +3454,34 @@ R: Found Class = 'my_id_reached'
 Refer to <a href="https://docs.cfengine.com/docs/3.10/reference-masterfiles-policy-framework-lib-common.html#results">implementation of the <code>results</code> classes body</a> in the stdlib.
 </p>
 
-<p>
-#+Canup immutable file
-</p>
 <div class="org-src-container">
-
+<label class="org-src-name">Cleanup immutable file</label>
 <pre  class="src src-sh">sudo chattr -i /tmp/immutable
 sudo rm /tmp/immutable
 </pre>
 </div>
 
 </section>
-<section id="slide-orgc40a73a">
-<h3 id="orgc40a73a">Report</h3>
+<section id="slide-org9e3881f">
+<h3 id="org9e3881f">Report</h3>
 <p>
 Write a policy that defines a name in separate parts (at least 3). Then have
 CFEngine report the name in a random order.
 </p>
 
 </section>
-<section id="slide-org2ec0429">
-<h4 id="org2ec0429">Example solution</h4>
+<section id="slide-org4016316">
+<h4 id="org4016316">Example solution</h4>
+<aside class="notes">
+<p>
+This solution will print the name multiple times, exposing normal order. Can you make it print just once?
+</p>
+
+</aside>
+
 <div class="org-src-container">
-<label class="org-src-name">Example Solution</label>
-<pre  class="src src-cfengine3"><span style="color: #4f97d7;">bundle</span> <span style="color: #a45bad;">agent</span> <span style="color: #bc6ec5; font-weight: bold;">main</span>
+<label class="org-src-name">examples/example-report-randomized-strings-v0.cf</label>
+<pre  class="src src-cfengine3" id="examples/example-report-randomized-strings-v0.cf"><span style="color: #4f97d7;">bundle</span> <span style="color: #a45bad;">agent</span> <span style="color: #bc6ec5; font-weight: bold;">main</span>
 <span style="color: #4f97d7;">{</span>
   <span style="color: #4f97d7;">vars</span>:
     <span style="color: #2d9574;">"name_parts"</span> <span style="color: #ce537a; font-weight: bold;">slist</span> =&gt; <span style="color: #bc6ec5;">{</span> <span style="color: #2d9574;">"Ronald"</span>, <span style="color: #2d9574;">"Mck"</span>, <span style="color: #2d9574;">"Donald"</span> <span style="color: #bc6ec5;">}</span>;
@@ -3389,20 +3495,14 @@ CFEngine report the name in a random order.
 </div>
 
 <pre class="example">
-R: Donald Mck Ronald
 R: Donald Ronald Mck
-R: Ronald Donald Mck
+R: Ronald Mck Donald
+R: Donald Mck Ronald
 </pre>
 
-<aside class="notes">
-<p>
-This solution will print the name multiple times, exposing normal order. Can you make it print just once?
-</p>
-
-</aside>
 </section>
-<section id="slide-org159101d">
-<h3 id="org159101d">Trigger an action when a file changes</h3>
+<section id="slide-org85835d6">
+<h3 id="org85835d6">Trigger an action when a file changes</h3>
 <p>
 Write policy to monitor a file for change. When a change is seen report <code>Winner
 Winner Chicken Dinner</code>. Manually edit the file, show how cfengine detects and
@@ -3410,8 +3510,8 @@ reports on the change.
 </p>
 
 </section>
-<section id="slide-orgdd3d677">
-<h3 id="orgdd3d677">Automatically abort based on file presence</h3>
+<section id="slide-orge4dbf0d">
+<h3 id="orge4dbf0d">Automatically abort based on file presence</h3>
 <p>
 Write a policy that will abort cfengine execution if the file
 <code>$(sys.statedir)/abort_agent_execution</code> exists.
@@ -3422,15 +3522,15 @@ Write a policy that will abort cfengine execution if the file
 
 </ul>
 </section>
-<section id="slide-org3662e8f">
-<h3 id="org3662e8f">Delete file based on age</h3>
+<section id="slide-orgfc2ca78">
+<h3 id="orgfc2ca78">Delete file based on age</h3>
 <p>
 Write a policy that will delete <code>$(sys.statedir)/abort_agent_execution</code> if it is
 older than 1 hour.
 </p>
 </section>
-<section id="slide-orgb12e939">
-<h3 id="orgb12e939">Kill a process</h3>
+<section id="slide-orge6d4006">
+<h3 id="orge6d4006">Kill a process</h3>
 <p>
 Write a policy to kill irssi running on webservers. No need for our webservers
 to be connected to IRC.
@@ -3442,15 +3542,142 @@ cp /bin/sleep /tmp/irssi
 </pre>
 
 </section>
+<section id="slide-org8366116">
+<h3 id="org8366116">Building on example-url_get-wtfismyip-v0.cf</h3>
+<ul>
+<li>Let's use the response <i>content</i> from the previous example in a template to manage a file.</li>
+
+</ul>
+
 </section>
 <section>
-<section id="slide-orgbe7c4db">
-<h2 id="orgbe7c4db">Enterprise Reporting</h2>
-<div class="outline-text-2" id="text-orgbe7c4db">
+
+<ul>
+<li>Now, let's extend it further.</li>
+<li>After updating the file, let's do something, like run a command or restart a service.</li>
+<li><b>hint</b>, define a class as the result of the promise</li>
+
+</ul>
+
+<aside class="notes">
+<p>
+Here we add the <code>results</code> <i>classes</i> body. It will define bundle (local) scoped classes for the outcomes (kept, notkept, repaired) produced by the promise.
+</p>
+
+</aside>
+
+</section>
+<section>
+
+<ul>
+<li>Was your subsequent promise actuated?</li>
+
+</ul>
+
+<aside class="notes">
+<p>
+Rightfully, no commands were executed and no extra report emitted because the file already existed with the desired content. Let's modify the target file so that the files promise will be <i>repaired</i> and subsequently, we will execute commands and emit the extra report.
+Modify the promised file so that we have something to repair
+</p>
+
+</aside>
+
+</section>
+<section>
+
+<ul>
+<li>Find the classes like that <i>were</i> defined</li>
+
+</ul>
+
+<aside class="notes">
+<ul>
+<li>Verbose mode</li>
+<li><code>--show-evaluated-classes</code></li>
+<li><code>classesmatching()</code> <b>winner winner chicken dinner</b></li>
+
+</ul>
+
+</aside>
+
+</section>
+<section>
+
+<div class="org-src-container">
+<label class="org-src-name">Modify the promised file so that we have something to repair</label>
+<pre  class="src src-sh"><span style="color: #4f97d7;">echo</span> HELLO WORLD &gt; /tmp/file.txt
+cat /tmp/file.txt
+</pre>
+</div>
+
+<aside class="notes">
+<p>
+Now that it differs from what we desire next time we run the policy, it should get repaired.
+</p>
+
+</aside>
+
+</section>
+<section>
+
+<ul>
+<li>File updated?</li>
+<li>Classes expected defined?</li>
+
+</ul>
+
+<aside class="notes">
+<p>
+The file was updated with the desired content as expected.
+</p>
+
+<p>
+Wait, why was <code>file_content_kept</code> defined? The promise was repaired, why does it also claim to be kept? This is because the promise specified multiple things, both that the file should exist ( <code>create =&gt; "true"</code> ) and the content ( <code>edit_template =&gt; "inline_mustache"</code> ) itself. Let's separate them into discrete promises. Note, in practice this usually does not matter, but it's an important detail to know about.
+</p>
+
+</aside>
+
+</section>
+<section>
+
+<ul>
+<li>Separate the files promise into discrete parts</li>
+<li>Again, mess with the file so that it will be repaired</li>
+
+</ul>
+
+<aside class="notes">
+<p>
+Note the <code>file_content_kept</code> is no longer defined. 
+</p>
+
+</aside>
+
+</section>
+<section>
+
+<ul>
+<li>Adjust <code>url.max_content</code> size in options for <code>url_get()</code></li>
+
+</ul>
+
+<aside class="notes">
+<p>
+To increase the max content size, set <code>url.max_content</code> in the options data container. Here I set it to 266, which is 1 byte shy of the size I need to get a valid json response in content (yours will likely be slightly different). That truncates the response and makes for invalid json. Try playing with the size.
+</p>
+
+</aside>
+
+</section>
+</section>
+<section>
+<section id="slide-org8c7331c">
+<h2 id="org8c7331c">Enterprise Reporting</h2>
+<div class="outline-text-2" id="text-org8c7331c">
 </div>
 </section>
-<section id="slide-org9824774">
-<h3 id="org9824774">APIs</h3>
+<section id="slide-org594ae17">
+<h3 id="org594ae17">APIs</h3>
 <ul>
 <li>Host</li>
 <li>Inventory</li>
@@ -3484,8 +3711,8 @@ cp /bin/sleep /tmp/irssi
 </aside>
 
 </section>
-<section id="slide-orge589734">
-<h3 id="orge589734">Host API</h3>
+<section id="slide-org500192c">
+<h3 id="org500192c">Host API</h3>
 <div class="org-src-container">
 
 <pre  class="src src-sh" id="hostlist">curl -s -k --user $<span style="color: #7590db;">AUTHUSER</span>:$<span style="color: #7590db;">PASSWORD</span> <span style="color: #2d9574;">\</span>
@@ -3494,6 +3721,8 @@ cp /bin/sleep /tmp/irssi
 </pre>
 </div>
 
+</section>
+<section>
 
 <div class="org-src-container">
 
@@ -3525,24 +3754,133 @@ cp /bin/sleep /tmp/irssi
 </div>
 
 </section>
-<section id="slide-org90c6355">
-<h3 id="org90c6355">Inventory API</h3>
-<div class="outline-text-3" id="text-org90c6355">
+<section id="slide-orgcc6290d">
+<h3 id="orgcc6290d">Inventory API</h3>
+<div class="outline-text-3" id="text-orgcc6290d">
 </div>
 </section>
-<section id="slide-org6cd2e9f">
-<h4 id="org6cd2e9f">Inventory API attributes</h4>
+<section id="slide-org62ceead">
+<h4 id="org62ceead">Inventory API attributes</h4>
 <div class="org-src-container">
 
 <pre  class="src src-sh">curl -q -k --user $<span style="color: #7590db;">AUTHUSER</span>:$<span style="color: #7590db;">PASSWORD</span> <span style="color: #2d9574;">\</span>
   -X GET <span style="color: #2d9574;">\</span>
-  https://$<span style="color: #7590db;">HUB</span>/api/inventory/attributes-dictionary | jq <span style="color: #2d9574;">'map(.attribute_name)[]'</span>
+  https://$<span style="color: #7590db;">HUB</span>/api/inventory/attributes-dictionary | <span style="color: #2d9574;">\</span>
+  jq <span style="color: #2d9574;">'map(.attribute_name)[]'</span>
 </pre>
 </div>
 
+<div class="org-src-container">
+
+<pre  class="src src-sh">curl -q -k --user $<span style="color: #7590db;">AUTHUSER</span>:$<span style="color: #7590db;">PASSWORD</span> <span style="color: #2d9574;">\</span>
+  -X GET <span style="color: #2d9574;">\</span>
+  https://$<span style="color: #7590db;">HUB</span>/api/inventory/attributes-dictionary | <span style="color: #2d9574;">\</span>
+  jq <span style="color: #2d9574;">'map(.attribute_name)[]'</span>
+</pre>
+</div>
+
+<p>
+#+REVEAL split
+</p>
+
+<pre class="example">
+"Policy Release Id"
+"EC2 Image ID"
+"CPU sockets"
+"Uptime minutes"
+"System product name"
+"System manufacturer"
+"SSH Host Key /etc/ssh/ssh_host_rsa_key.pub SHA256 Fingerprint"
+"CISOfy Lynis finding count"
+"Number linux kernel modules loaded"
+"CISOfy Lynis datetime scan completed"
+"Unexpected Local Users"
+"SSH Host Key /etc/ssh/ssh_host_ecdsa_key.pub SHA256 Fingerprint"
+"Last logged in ubuntu"
+"Windows roles"
+"IPv4 addresses"
+"SSH Host Key Type /etc/ssh/ssh_host_ecdsa_key.pub"
+"CMDB Business Unit"
+"DigitalOcean Droplet ID"
+"SSH Host Key Type /etc/ssh/ssh_host_dsa_key.pub"
+"BIOS version"
+"Memory size (MB)"
+"MAC addresses"
+"Last logged in cfapache"
+"CISOfy Lynis Suggestion SSH-7408 details"
+"OS kernel"
+"Last logged in root"
+"NAT Public IPv4"
+"EC2 Instance ID"
+"CFEngine ID"
+"CISOfy Lynis Version"
+"CISOcy Lynis Remediaitons implicitly enabled"
+"Volume / Percent Disk Used"
+"SSH Host Key Type /etc/ssh/ssh_host_ed25519_key.pub"
+"EventLog MaxSize"
+"Architecture"
+"OS"
+"CISOfy Lynis Suggestions"
+"Virtual host"
+"SSH Host Key Types"
+"SSH Host Keys"
+"ARRAY CISOcy Lynis Remediaitons implicitly enabled"
+"Number linux kernel moduels unused"
+"SSH Host Key /etc/ssh/ssh_host_dsa_key.pub SHA256 Fingerprint"
+"EventLog Retention"
+"CFEngine roles"
+"Local Users"
+"CMDB Owner"
+"CISOfy Lynis Control ID findings"
+"SSH Host Key /etc/ssh/ssh_host_ed25519_key.pub SHA256 Fingerprint"
+"legal notice caption"
+"DigitalOcean Region"
+"legal notice"
+"Local User"
+"Unused linux kernel modules"
+"Data Container"
+"Last logged in centos"
+"CISOfy Lynis Hardening Index"
+"CFEngine version"
+"CISOfy Lynis Remediations explicitly disabled"
+"Host name"
+"SSH Host Key Fingerprint (ssh-keygen)"
+"System UUID"
+"System version"
+"Registered Orginization"
+"BIOS vendor"
+"OS type"
+"Disk free (%)"
+"CISOfy Lynis Suggestion KRNL-6000 details"
+"Ports listening"
+"Users who have logged in"
+"Last logged in nickanderson"
+"EC2 Region"
+"Interfaces"
+"CISOfy Lynis Warnings"
+"EC2 Availability Zone"
+"Physical memory (MB)"
+"Last logged in cfpostgres"
+"Show Last Logged in Username"
+"CPU physical cores"
+"Volume /tmp Percent Disk Used"
+"CPU logical cores"
+"Volume /var Percent Disk Used"
+"System serial number"
+"Systemd services running"
+"EC2 Instance Type"
+"TestArray"
+"Unexpected local user count"
+"Used linux kernel modules"
+"Registered Owner"
+"SSH Host Key Type /etc/ssh/ssh_host_rsa_key.pub"
+"CPU model"
+"Cloud Provider"
+</pre>
+
 </section>
-<section id="slide-org891fd62">
-<h4 id="org891fd62">Inventory API Query</h4>
+<section id="slide-org8fc5b7d">
+<h4 id="org8fc5b7d">Inventory API Query</h4>
 <div class="org-src-container">
 
 <pre  class="src src-sh" id="inventory">curl -q -k --user $<span style="color: #7590db;">AUTHUSER</span>:$<span style="color: #7590db;">PASSWORD</span> <span style="color: #2d9574;">\</span>
@@ -3560,6 +3898,9 @@ cp /bin/sleep /tmp/irssi
 <span style="color: #2d9574;">           "Ports listening"</span>
 <span style="color: #2d9574;">        ],</span>
 <span style="color: #2d9574;">        "hostContextInclude":[</span>
+<span style="color: #2d9574;">           "cfengine"</span>
+<span style="color: #2d9574;">        ],</span>
+<span style="color: #2d9574;">        "hostContextExclude":[</span>
 <span style="color: #2d9574;">           "coreos"</span>
 <span style="color: #2d9574;">        ]</span>
 <span style="color: #2d9574;">      }</span>
@@ -3568,8 +3909,8 @@ cp /bin/sleep /tmp/irssi
 </div>
 
 </section>
-<section id="slide-orgd6aa08b">
-<h3 id="orgd6aa08b">Health API</h3>
+<section id="slide-org946d131">
+<h3 id="org946d131">Health API</h3>
 <div class="org-src-container">
 <label class="org-src-name">Get an overview of the health status</label>
 <pre  class="src src-sh">curl -s -k --user $<span style="color: #7590db;">AUTHUSER</span>:$<span style="color: #7590db;">PASSWORD</span> <span style="color: #2d9574;">\</span>
@@ -3603,8 +3944,8 @@ cp /bin/sleep /tmp/irssi
 </aside>
 
 </section>
-<section id="slide-orgbab2743">
-<h3 id="orgbab2743">Query API</h3>
+<section id="slide-org137d1a5">
+<h3 id="org137d1a5">Query API</h3>
 <aside class="notes">
 <ul>
 <li>Make complex SQL queries</li>
@@ -3630,8 +3971,8 @@ cp /bin/sleep /tmp/irssi
 </div>
 
 </section>
-<section id="slide-org8a8cbe8">
-<h4 id="org8a8cbe8">Base64 encoded query links</h4>
+<section id="slide-org94c4e13">
+<h4 id="org94c4e13">Base64 encoded query links</h4>
 <aside class="notes">
 <ul>
 <li>An alternative to "Saved Reports"</li>
@@ -3646,7 +3987,8 @@ cp /bin/sleep /tmp/irssi
 <span style="color: #7590db;">API</span>=<span style="color: #2d9574;">"/index.php/advancedreports/#/report/run?sql="</span>
 <span style="color: #7590db;">SQL_QUERY</span>=<span style="color: #2d9574;">"SELECT Hosts.HostName AS 'Host Name' FROM Hosts"</span>
 <span style="color: #7590db;">REPORT_TITLE</span>=<span style="color: #2d9574;">"Example Report"</span>
-<span style="color: #7590db;">LINK</span>=<span style="color: #2d9574;">"${HUB_URL}${API}$(echo ${SQL_QUERY} | base64)&amp;title=$(/usr/bin/urlencode ${REPORT_TITLE})"</span>
+<span style="color: #7590db;">LINK</span>=<span style="color: #2d9574;">"${HUB_URL}${API}$(echo ${SQL_QUERY} | \</span>
+<span style="color: #2d9574;">       base64)&amp;title=$(/usr/bin/urlencode ${REPORT_TITLE})"</span>
 <span style="color: #4f97d7;">echo</span> <span style="color: #2d9574;">"${LINK}"</span>
 </pre>
 </div>
@@ -3654,99 +3996,11 @@ cp /bin/sleep /tmp/irssi
 </section>
 </section>
 <section>
-<section id="slide-org04b67dc">
-<h2 id="org04b67dc">Special Topics</h2>
-<div class="outline-text-2" id="text-org04b67dc">
-</div>
+<section id="slide-org7fedb10">
+<h2 id="org7fedb10">Useful Tools and Tips</h2>
 </section>
-<section id="slide-org683d9e2">
-<h3 id="org683d9e2">Internal agent upgrade mechanism</h3>
-<ul>
-<li>Place agent packages in
-<code>/var/cfengine/master_software_updates/$(sys.flavour)_$(sys.arch)</code></li>
-<li><p>
-Define <code>trigger_upgrade</code> for set of hosts. Ref <code>update_def.cf</code>
-</p>
-<div class="org-src-container">
-
-<pre  class="src src-cfengine3"><span style="color: #4f97d7;">classes</span>:
-  <span style="color: #2d9574;">"trigger_upgrade"</span> or =&gt; <span style="color: #4f97d7;">{</span> <span style="color: #2d9574;">"host1"</span>, <span style="color: #2d9574;">"host2"</span>, <span style="color: #2d9574;">"redhat_5"</span> <span style="color: #4f97d7;">}</span>; 
-</pre>
-</div></li>
-
-</ul>
-
-<aside class="notes">
-<p>
-The MPF comes with policy that allows for clients to upgrade their own
-packages that are served from the hub.
-</p>
-
-</aside>
-</section>
-<section id="slide-org8c21e42">
-<h3 id="org8c21e42">Data transformations</h3>
-<div class="outline-text-3" id="text-org8c21e42">
-</div>
-</section>
-<section id="slide-orgbb8540d">
-<h4 id="orgbb8540d">Re-parent a data structure</h4>
-<p>
-With <code>mergedata()</code> it is possible to wrap data containers inside of a new JSON
-data structure in the current namespace.
-</p>
-
-<p>
-For example, here we take an array of objects describing content for pghba.conf
-file and re-parent it under the pghba key in a new data-structure.
-</p>
-
-<div class="org-src-container">
-
-<pre  class="src src-cfengine3"><span style="color: #4f97d7;">bundle</span> <span style="color: #a45bad;">agent</span> <span style="color: #bc6ec5; font-weight: bold;">main</span>
-<span style="color: #4f97d7;">{</span>
-    <span style="color: #4f97d7;">vars</span>:
-      <span style="color: #2d9574;">"pghba_directives"</span> <span style="color: #ce537a; font-weight: bold;">data</span> =&gt; <span style="color: #2d9574;">'[</span>
-<span style="color: #2d9574;">  {</span>
-<span style="color: #2d9574;">    "type": "host",</span>
-<span style="color: #2d9574;">    "database": "replication",</span>
-<span style="color: #2d9574;">    "user": "all",</span>
-<span style="color: #2d9574;">    "address": "secondary-replication",</span>
-<span style="color: #2d9574;">    "method": "trust"</span>
-<span style="color: #2d9574;">  }</span>
-<span style="color: #2d9574;">]'</span>;
-
-      <span style="color: #2d9574;">"data"</span> <span style="color: #ce537a; font-weight: bold;">data</span> =&gt; mergedata<span style="color: #bc6ec5;">(</span> <span style="color: #2d9574;">'{ "pghba": pghba_directives }'</span><span style="color: #bc6ec5;">)</span>;
-
-
-  <span style="color: #4f97d7;">reports</span>:
-      <span style="color: #2d9574;">"$(with)"</span> with =&gt; string_mustache<span style="color: #bc6ec5;">(</span> <span style="color: #2d9574;">"{{%-top-}}"</span>, <span style="color: #ce537a; font-weight: bold;">data</span><span style="color: #bc6ec5;">)</span>;
-
-<span style="color: #4f97d7;">}</span>
-</pre>
-</div>
-
-<pre class="example">
-R: {
-  "pghba": [
-    {
-      "address": "secondary-replication",
-      "database": "replication",
-      "method": "trust",
-      "type": "host",
-      "user": "all"
-    }
-  ]
-}
-</pre>
-</section>
-</section>
-<section>
-<section id="slide-org1221f06">
-<h2 id="org1221f06">Useful Tools and Tips</h2>
-</section>
-<section id="slide-orgc03917d">
-<h3 id="orgc03917d">Syntax Checking</h3>
+<section id="slide-org31c94f9">
+<h3 id="org31c94f9">Syntax Checking</h3>
 <div class="org-src-container">
 <label class="org-src-name">Full Syntax Check</label>
 <pre  class="src src-shell">cf-promises --eval-functions=yes --full-check <span style="color: #2d9574;">\</span>
@@ -3792,8 +4046,8 @@ editor, you may be able to do this as a save hook.
 </aside>
 
 </section>
-<section id="slide-orgc7325a6">
-<h3 id="orgc7325a6"><code>noshell</code> vs <code>useshell</code> for <code>commands</code> type promises, <code>execresult()</code>, and <code>returnszero()</code></h3>
+<section id="slide-org2c9e8ee">
+<h3 id="org2c9e8ee"><code>noshell</code> vs <code>useshell</code> for <code>commands</code> type promises, <code>execresult()</code>, and <code>returnszero()</code></h3>
 <aside class="notes">
 <p>
 As a general rule of thumb I prefer to use <code>noshell</code>. I try to only <code>useshell</code>
@@ -3901,8 +4155,8 @@ R:  World
 R: Result: Hello World
 </pre>
 </section>
-<section id="slide-orgb48b669">
-<h3 id="orgb48b669"><code>cf-remote</code></h3>
+<section id="slide-org93cd33d">
+<h3 id="org93cd33d"><code>cf-remote</code></h3>
 <ul>
 <li><a href="https://github.com/cfengine/core/tree/master/contrib/cf-remote">https://github.com/cfengine/core/tree/master/contrib/cf-remote</a></li>
 
@@ -3914,8 +4168,8 @@ R: Result: Hello World
 </pre>
 </div>
 </section>
-<section id="slide-org3402a81">
-<h3 id="org3402a81"><code>cf-locate</code></h3>
+<section id="slide-org9f054b0">
+<h3 id="org9f054b0"><code>cf-locate</code></h3>
 <dl>
 <dt><code>cf-locate</code></dt><dd>Command line tool to help locate and optionally display a body
 or bundle within a policy</dd>
@@ -3934,8 +4188,8 @@ Try it with <code>cf-locate scoped_classes_generic -f /path_to_masterfiles</code
 </aside>
 
 </section>
-<section id="slide-orgb963785">
-<h3 id="orgb963785">Debug Reports</h3>
+<section id="slide-orgfdbc81e">
+<h3 id="orgfdbc81e">Debug Reports</h3>
 <p>
 Use standardized <code>DEBUG</code> reports for policy development and troubleshooting.
 </p>
@@ -3954,8 +4208,8 @@ Use standardized <code>DEBUG</code> reports for policy development and troublesh
 </div>
 
 </section>
-<section id="slide-org1b81b09">
-<h3 id="org1b81b09">Promise comments</h3>
+<section id="slide-org7c8c213">
+<h3 id="org7c8c213">Promise comments</h3>
 <p>
 Use promise comments to document <b>WHY</b> the promise is important.
 </p>
@@ -3974,11 +4228,11 @@ Use promise comments to document <b>WHY</b> the promise is important.
 </div>
 
 </section>
-<section id="slide-org68f179a">
-<h3 id="org68f179a">Getting the most from the documentation</h3>
+<section id="slide-orgfff3cd8">
+<h3 id="orgfff3cd8">Getting the most from the documentation</h3>
 </section>
-<section id="slide-orgd32b37e">
-<h3 id="orgd32b37e"><code>jq</code></h3>
+<section id="slide-org9cac591">
+<h3 id="org9cac591"><code>jq</code></h3>
 <aside class="notes">
 <ul>
 <li>sed and awk for JSON</li>
@@ -4061,8 +4315,8 @@ Use promise comments to document <b>WHY</b> the promise is important.
 </div>
 
 </section>
-<section id="slide-org3e4c876">
-<h3 id="org3e4c876"><code>cf-runagent</code></h3>
+<section id="slide-org26c7b68">
+<h3 id="org26c7b68"><code>cf-runagent</code></h3>
 <div class="org-src-container">
 <label class="org-src-name">Run policy on all hosts reporting <code>not_rh_satellite_registered</code></label>
 <pre  class="src src-sh">cf-runagent --background=<span style="color: #a45bad;">3</span> --remote-bundles satellite_registration <span style="color: #2d9574;">\</span>
@@ -4082,8 +4336,8 @@ Note: The host where cf-runagent is executed from <b>must</b> already have trust
 </section>
 </section>
 <section>
-<section id="slide-orgc70abc8">
-<h2 id="orgc70abc8">Additional Resources</h2>
+<section id="slide-orgd8586f6">
+<h2 id="orgd8586f6">Additional Resources</h2>
 <dl>
 <dt><a href="https://cf-learn.info/">Learning CFEngine</a></dt><dd>Widely considered best book to get a good grounding in CFEngine.</dd>
 <dt><a href="http://www.cfenginetutorial.org/">CFEngine Tutorial</a></dt><dd>Training material published by Aleksey Tsalolikhin from Vertical Sysadmin, one of our partners.</dd>
@@ -4130,11 +4384,11 @@ Note: The host where cf-runagent is executed from <b>must</b> already have trust
 </section>
 </section>
 <section>
-<section id="slide-org0800f7b">
-<h2 id="org0800f7b">Git Primer</h2>
+<section id="slide-org14cef2a">
+<h2 id="org14cef2a">Git Primer</h2>
 </section>
-<section id="slide-org1c5095e">
-<h3 id="org1c5095e">Git</h3>
+<section id="slide-org55a3c47">
+<h3 id="org55a3c47">Git</h3>
 <p>
 Git is the most popular modern version control management tool. <a href="https://github.com">Github</a>,
 <a href="https://bitbucket.org">Bitbucket</a>, and <a href="https://gitlab.com">GitLab</a> all provide great hosted and on prem repository management
@@ -4156,8 +4410,8 @@ system.
 </aside>
 
 </section>
-<section id="slide-orgace0cef">
-<h3 id="orgace0cef">Getting started</h3>
+<section id="slide-org6aeda6f">
+<h3 id="org6aeda6f">Getting started</h3>
 <p>
 Log into the policy server
 </p>
@@ -4178,8 +4432,8 @@ Configure git author
 </pre>
 
 </section>
-<section id="slide-org812673d">
-<h3 id="org812673d">Clone builtin repository</h3>
+<section id="slide-orga0d2dba">
+<h3 id="orga0d2dba">Clone builtin repository</h3>
 <pre class="example">
 [root@hub masterfiles] # git clone /opt/cfengine/masterfiles.git /vagrant/masterfiles
 Cloning into '/vagrant/masterfiles'...
@@ -4195,8 +4449,8 @@ play around with git and get setarted.
 </aside>
 
 </section>
-<section id="slide-orge554aa9">
-<h3 id="orge554aa9">Add a file to the repository</h3>
+<section id="slide-orga417fef">
+<h3 id="orga417fef">Add a file to the repository</h3>
 <pre class="example">
 [root@hub masterfiles] # cd /vagrant/masterfiles
 [root@hub masterfiles] # ls
@@ -4212,8 +4466,8 @@ nothing added to commit but untracked files present (use "git add" to track)
 </pre>
 
 </section>
-<section id="slide-org09bc23f">
-<h3 id="org09bc23f">Stage and commit the changes</h3>
+<section id="slide-org06f109c">
+<h3 id="org06f109c">Stage and commit the changes</h3>
 <pre class="example">
 [root@hub masterfiles] # git add file
 [root@hub masterfiles] # git status
@@ -4230,8 +4484,8 @@ nothing added to commit but untracked files present (use "git add" to track)
 </pre>
 
 </section>
-<section id="slide-orgc7246e8">
-<h3 id="orgc7246e8">Publish the change</h3>
+<section id="slide-org0046826">
+<h3 id="org0046826">Publish the change</h3>
 <pre class="example">
 [root@hub masterfiles] # git status
 # On branch master
@@ -4253,8 +4507,8 @@ nothing to commit (working directory clean)
 </pre>
 
 </section>
-<section id="slide-org7953e9e">
-<h3 id="org7953e9e">Modify a file</h3>
+<section id="slide-org9cf02bb">
+<h3 id="org9cf02bb">Modify a file</h3>
 <pre class="example">
 [root@hub masterfiles] # echo HI &gt;&gt; file
 [root@hub masterfiles] # git status
@@ -4271,8 +4525,8 @@ no changes added to commit (use "git add" and/or "git commit -a")
 </pre>
 
 </section>
-<section id="slide-org5822142">
-<h3 id="org5822142">Diff to validate detail of content change</h3>
+<section id="slide-orgedb3443">
+<h3 id="orgedb3443">Diff to validate detail of content change</h3>
 <pre class="example">
 [root@hub masterfiles] # git diff
 diff --git a/file b/file
@@ -4285,8 +4539,8 @@ index 45b983b..313352b 100644
 </pre>
 
 </section>
-<section id="slide-org13d10f9">
-<h3 id="org13d10f9">Stage and commit the changes</h3>
+<section id="slide-orgb38d205">
+<h3 id="orgb38d205">Stage and commit the changes</h3>
 <pre class="example">
 [root@hub masterfiles] # git add file
 [root@hub masterfiles] # git status
@@ -4309,8 +4563,8 @@ nothing to commit (working directory clean)
 </pre>
 
 </section>
-<section id="slide-org0dcfad7">
-<h3 id="org0dcfad7">Publish the change</h3>
+<section id="slide-org2087709">
+<h3 id="org2087709">Publish the change</h3>
 <pre class="example">
 [root@hub masterfiles] # git push
 Counting objects: 7, done.
@@ -4324,8 +4578,8 @@ To /opt/cfengine/masterfiles.git
 </pre>
 
 </section>
-<section id="slide-orgc5ca767">
-<h3 id="orgc5ca767">Remove a file</h3>
+<section id="slide-org8149155">
+<h3 id="org8149155">Remove a file</h3>
 <pre class="example">
 [root@hub masterfiles] # git rm file
 # rm 'file'
@@ -4343,8 +4597,8 @@ To /opt/cfengine/masterfiles.git
 </pre>
 
 </section>
-<section id="slide-orgfd8c8d1">
-<h3 id="orgfd8c8d1">Publish the change</h3>
+<section id="slide-org10f30f4">
+<h3 id="org10f30f4">Publish the change</h3>
 <pre class="example">
 [root@hub masterfiles] # git push
 Counting objects: 3, done.
@@ -4358,8 +4612,8 @@ To /opt/cfengine/masterfiles.git
 </pre>
 
 </section>
-<section id="slide-org02f6a25">
-<h3 id="org02f6a25">Place masterfiles into the repository</h3>
+<section id="slide-org5f6ef27">
+<h3 id="org5f6ef27">Place masterfiles into the repository</h3>
 <pre class="example">
 [root@hub masterfiles] # rsync -avz /var/cfengine/masterfiles/ .
 [root@hub masterfiles] # git add -A
@@ -4368,8 +4622,8 @@ To /opt/cfengine/masterfiles.git
 </pre>
 
 </section>
-<section id="slide-orgfd49ba2">
-<h3 id="orgfd49ba2">Configure masterfiles for git integration</h3>
+<section id="slide-orgf804421">
+<h3 id="orgf804421">Configure masterfiles for git integration</h3>
 <pre class="example">
 [root@hub masterfiles]# echo '{ "classes": { "cfengine_internal_masterfiles_update": [ "policy_server" ] } }' &gt; def.json
 [root@hub masterfiles]# git add def.json
@@ -4402,8 +4656,8 @@ To /opt/cfengine/masterfiles.git
 </pre>
 
 </section>
-<section id="slide-org447554a">
-<h3 id="org447554a">Activate current update policy with enablement class</h3>
+<section id="slide-org7e7889e">
+<h3 id="org7e7889e">Activate current update policy with enablement class</h3>
 <pre class="example">
 [root@hub masterfiles]# cf-agent --no-lock \
 --verbose \
@@ -4412,8 +4666,8 @@ To /opt/cfengine/masterfiles.git
 </pre>
 
 </section>
-<section id="slide-orge1526d9">
-<h3 id="orge1526d9">Verify presence of def.json</h3>
+<section id="slide-org66c19dd">
+<h3 id="org66c19dd">Verify presence of def.json</h3>
 <pre class="example">
 [root@hub masterfiles]# cat /var/cfengine/masterfiles/def.json
 </pre>
@@ -4428,8 +4682,8 @@ updating from our repository.
 </aside>
 
 </section>
-<section id="slide-org6368334">
-<h3 id="org6368334">Review</h3>
+<section id="slide-org9bda26f">
+<h3 id="org9bda26f">Review</h3>
 <p>
 Now when the agent runs on hosts that define <code>policy_server</code> policy will be
 activated that keeps <code>/var/cfengine/masterfiles</code> up to date with whats in the
@@ -4443,8 +4697,8 @@ This means new policy will be distributed as you push it into the repository.
 </p>
 
 </section>
-<section id="slide-orgbcab508">
-<h3 id="orgbcab508">Git command reference</h3>
+<section id="slide-org0c271c3">
+<h3 id="org0c271c3">Git command reference</h3>
 <table border="2" cellspacing="0" cellpadding="6" rules="groups" frame="hsides">
 
 
@@ -4482,8 +4736,8 @@ This means new policy will be distributed as you push it into the repository.
 </table>
 
 </section>
-<section id="slide-org1d64249">
-<h3 id="org1d64249">Pop Quiz</h3>
+<section id="slide-org2aa22f2">
+<h3 id="org2aa22f2">Pop Quiz</h3>
 <ul class="fragment roll-in">
 <li>Who was Mr. Slate?</li>
 
