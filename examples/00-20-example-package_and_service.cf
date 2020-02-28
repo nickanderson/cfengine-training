@@ -6,24 +6,21 @@ body file control
 
 bundle agent main
 {
+  vars:
+      "config[driftfile]" string => "/var/lib/ntp/drift";
   packages:
-      "ntp"
-        policy => "present",
-        package_module => yum;
-
+      "ntp" policy => "present";
   services:
+      "ntpd" service_policy => "start";
       "ntpd"
-        service_policy => "start";
-
-       "ntpd"
         service_policy => "restart",
         if => "ntpd_conf_repaired";
-
-  vars:
-      "conf[driftfile]" string => "/var/lib/ntp/drift";
-
   files:
-      "/etc/ntpd.conf"
-        edit_line => set_line_based("$(this.bundle).config", " ", "\s+", ".*", "\s*#\s*");
-        classes => results("bundle", "ntpd_conf");
+      "/etc/ntp.conf"
+        edit_line => set_line_based("$(this.bundle).config", # Key Values
+                                    " ",        # Separator
+                                    "\s+",      # Separator regex
+                                    ".*",       # Keys to use
+                                    "\s*#\s*"), # Ignore lines
+        classes => results("bundle", "httpd_conf");
 }

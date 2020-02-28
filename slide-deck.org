@@ -2443,7 +2443,7 @@ bundle agent main
           if => "ntpd_conf_repaired";
     files:
         "/etc/ntp.conf"
-          edit_line => set_line_based("$(this.bundle).config", # Key Values 
+          edit_line => set_line_based("$(this.bundle).config", # Key Values
                                       " ",        # Separator
                                       "\s+",      # Separator regex
                                       ".*",       # Keys to use
@@ -2509,7 +2509,6 @@ bundle common classify_geo_location_by_network
                        "south_america", "South America",
                        "Unknown"),
       meta => { "inventory", "attribute_name=Continent" };
-
 #+END_SRC
 
 #+REVEAL: split
@@ -2682,6 +2681,8 @@ bundle agent main
     "Keys: $(with)" with => string_mustache( "{{#-top-}}{{{@}}}, {{/top}}", d);
 }
 #+END_SRC
+
+#+REVEAL: split
 
 #+RESULTS: =examples/02-01-mustache-extensions.cf=
 : R: Multiline: {
@@ -2892,11 +2893,14 @@ should be restarted after changing its configuration.
 :PROPERTIES:
 :ID:       7d3b755b-1313-430f-8e46-9c6d6ad8e281
 :END:
-#+Create immutable file
+
+#+CAPTION: Create immutable file
 #+BEGIN_SRC sh
   touch /tmp/immutable
   sudo chattr +i /tmp/immutable
 #+END_SRC
+
+#+REVEAL: split
 
 #+CAPTION: =examples/00-20-example-multiple_outcomes.cf=
 #+BEGIN_SRC cfengine3 :include-stdlib t :log-level info :exports both :tangle examples/00-20-example-multiple_outcomes.cf
@@ -2922,6 +2926,7 @@ bundle edit_line example_edit_line
 }
 #+END_SRC
 
+#+REVEAL: split
 
 #+RESULTS:
 :    error: Can't copy file permissions from '/tmp/immutable' to '/tmp/immutable.cf-after-edit' - so promised edits could not be moved into place.
@@ -2934,7 +2939,7 @@ bundle edit_line example_edit_line
 
 Refer to [[https://docs.cfengine.com/docs/3.10/reference-masterfiles-policy-framework-lib-common.html#results][implementation of the =results= classes body]] in the stdlib.
 
-#+Canup immutable file
+#+CAPTION: Cleanup immutable file
 #+BEGIN_SRC sh
 sudo chattr -i /tmp/immutable
 sudo rm /tmp/immutable
