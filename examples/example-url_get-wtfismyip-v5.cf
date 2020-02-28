@@ -1,0 +1,75 @@
+#!/var/cfengine/bin/cf-agent -f-
+body file control
+{
+      inputs => { '$(sys.libdir)/stdlib.cf' };
+}
+
+bundle agent main
+{
+  vars:
+      # This is the URL that we will query.
+      "url" string => "https://wtfismyip.com/json";
+
+      # We don't need to supply any specific options in this case.
+      # url.max_content is a typical setting to change. 4K isn't enough for
+      # some, (many?) API responses.
+      "options" data => '{"url.max_content": "266"}';
+
+      # Here we make our http(s) call, storing the response in `d`
+      "d" data => url_get( $(url), @(options));
+
+      # The response content is returned as a *string* inside the `content`. In
+      # order to work with it, we need to pull it into a proper data container.
+      "content" data => "$(d[content])";
+
+      # The file we are going to manage which will contain content from the `url_get()` response.
+      "file" string => "/tmp/file.txt";
+
+  files:
+      # Here we promise that a file exists
+      "$(file)"
+        create => "true";
+
+      # Here we promise that the file's content matches a
+      # mustache template which is supplied our `content` datacontainer.
+      "$(file)"
+        template_method => "inline_mustache",
+        edit_template_string => "You seem to be from the {{{YourFuckingCountryCode}}}.
+Specifically {{{YourFuckingLocation}}}.
+And your ISP is {{{YourFuckingISP}}}.",
+        template_data => @(content),
+        classes => results( "bundle", "file_content"); # Here we attach the `results`
+                   # *classes* body to the promise. This will define bundle (local) scoped
+                   # classes starting with `file_content` and ending with the various
+                   # outcomes produced by the promise (kept, notkept, repaired).
+
+
+  # Typically:
+  # services:
+  #   file_content_repaired::
+  #     "myservice" service_policy => "restart";
+
+  commands:
+    # This context applies until the next context or until the next promise type.
+    file_content_repaired::
+      "/bin/echo $(file) changed, so I ran a command";
+      "/bin/echo I can do more than one thing using a class expression";
+
+  reports:
+      # Let's view the multi-line JSON representation of the `url_get()` response.
+      "$(with)" with => string_mustache( "{{%-top-}}", d);
+
+      # Let's view the multi-line JSON representation of our extracted `content` datacontainer.
+      "$(with)" with => string_mustache( "{{%-top-}}", content);
+
+      # Let's view the content of the file we rendered
+      "$(file)" printfile => cat( $(this.promiser) );
+
+      # Here we emit a report when we have repaired the file
+      "My $(file) changed, so I ran a command"
+        if => "file_content_repaired";
+
+      # Here for debugging we emit a list of the classes starting with `file_content`;
+      "Classes starting with file_content: $(with)"
+        with => join( ", ", classesmatching( "file_content.*" ));
+}

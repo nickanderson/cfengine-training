@@ -1,0 +1,47 @@
+#!/var/cfengine/bin/cf-agent -f-
+body file control
+{
+      inputs => { '$(sys.libdir)/stdlib.cf' };
+}
+
+bundle agent main
+{
+  vars:
+      # This is the URL that we will query.
+      "url" string => "https://wtfismyip.com/json";
+
+      # We don't need to supply any specific options in this case.
+      # url.max_content is a typical setting to change. 4K isn't enough for
+      # some, (many?) API responses.
+      "options" data => '{}';
+
+      # Here we make our http(s) call, storing the response in `d`
+      "d" data => url_get( $(url), @(options));
+
+      # The response content is returned as a *string* inside the `content`. In
+      # order to work with it, we need to pull it into a proper data container.
+      "content" data => "$(d[content])";
+
+  files:
+
+      # Here we promise that a file exists, and that it's content matches a
+      # mustache template which is supplied our `content` datacontainer.
+      "/tmp/file.txt"
+        create => "true",
+        template_method => "inline_mustache",
+        edit_template_string => "You seem to be from the {{{YourFuckingCountryCode}}}.
+Specifically {{{YourFuckingLocation}}}.
+And your ISP is {{{YourFuckingISP}}}.",
+        template_data => @(content);
+
+  reports:
+
+      # Let's view the multi-line JSON representation of the `url_get()` response.
+      "$(with)" with => string_mustache( "{{%-top-}}", d);
+
+      # Let's view the multi-line JSON representation of our extracted `content` datacontainer.
+      "$(with)" with => string_mustache( "{{%-top-}}", content);
+
+      # Let's view the content of the file we rendered
+      "/tmp/file.txt" printfile => cat( $(this.promiser) );
+}
