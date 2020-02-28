@@ -2429,32 +2429,29 @@ bundle agent main
 :END:
 
 #+Caption: =examples/00-20-example-package_and_service.cf=
-#+BEGIN_SRC cfengine3
-bundle agent main
-{
-  vars:
-      "config[driftfile]" string => "/var/lib/ntp/drift";
-
-  packages:
-      "ntp" policy => "present";
-
-  services:
-      "ntpd" service_policy => "start";
-
-       "ntpd"
-        service_policy => "restart",
-        if => "ntpd_conf_repaired";
-
-  files:
-      "/etc/ntp.conf"
-        edit_line => set_line_based("$(this.bundle).config", # Key Values 
-                                    " ",        # Separator
-                                    "\s+",      # Separator regex
-                                    ".*",       # Keys to use
-                                    "\s*#\s*"), # Ignore lines
-        classes => results("bundle", "httpd_conf");
-}
+#+BEGIN_SRC cfengine3 :tangle examples/00-20-example-package_and_service.cf
+  bundle agent main
+  {
+    vars:
+        "config[driftfile]" string => "/var/lib/ntp/drift";
+    packages:
+        "ntp" policy => "present";
+    services:
+        "ntpd" service_policy => "start";
+        "ntpd"
+          service_policy => "restart",
+          if => "ntpd_conf_repaired";
+    files:
+        "/etc/ntp.conf"
+          edit_line => set_line_based("$(this.bundle).config", # Key Values 
+                                      " ",        # Separator
+                                      "\s+",      # Separator regex
+                                      ".*",       # Keys to use
+                                      "\s*#\s*"), # Ignore lines
+          classes => results("bundle", "httpd_conf");
+  }
 #+END_SRC
+
 ** Classify role based on hostname
 :PROPERTIES:
 :ID:       b4f7b0a9-5839-4d1b-bbec-f12d6a68f282
