@@ -4149,6 +4149,9 @@ Data validation:
 - Compliance Reports
 ** In 3.15
 *** Functions
+:PROPERTIES:
+:ID:       d5ef3c04-bd2a-4aa9-9a06-9b889cb4d485
+:END:
 - =basename()=
 - =read_module_protocol()=
 
@@ -4179,14 +4182,8 @@ bundle agent example_basename
 
 #+REVEAL: split
 
-- New in 3.12.0
-- Useful for distributed grouping and orchestration (re-implement select_class)
-
-- New in 3.15.0
-- Useful for leveraging cached output from module protocol
-- More light weight and less noisy than using ~cat~
-*** ~read_module_protocol()~ Example usage
-#+BEGIN_SRC cfengine3 :include-stdlib t :log-level info :exports both
+#+CAPTION: examples/read_module_protocol.cf
+#+BEGIN_SRC cfengine3 :include-stdlib t :log-level info :exports both :tangle ./examples/read_module_protocol.cf
   bundle agent cache_maintenance
   # Creates a module protocol cache, refreshes it if minute is 30-35
   {
@@ -4209,9 +4206,9 @@ bundle agent example_basename
   }
 #+END_SRC
 
-*** ~read_module_protocol()~ Example usage continued ...
+#+REVEAL: split
 
-#+BEGIN_SRC cfengine3 :include-stdlib t :log-level info :exports both
+#+BEGIN_SRC cfengine3 :include-stdlib t :log-level info :exports both :tangle ./examples/read_module_protocol.cf
   bundle agent demo
   # Demonstrates read_module_protocol function, prints a variable from it
   {
@@ -4233,6 +4230,8 @@ bundle agent example_basename
           depends_on => { "cache_maintenance_done" };
   }
 #+END_SRC
+
+#+REVEAL: split
 
 #+RESULTS:
 : R: Module cache was read!
