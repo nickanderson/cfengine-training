@@ -1,0 +1,16 @@
+#!/var/cfengine/bin/cf-agent -f-
+body file control
+{
+      inputs => { '$(sys.libdir)/stdlib.cf' };
+}
+
+bundle agent main
+{
+  vars:
+    "name_parts" slist => { "Ronald", "Mck", "Donald" };
+    "shuffled" slist => shuffle( name_parts, randomint(0, inf) );
+    "name" string => join(" ", shuffled );
+
+  reports:
+    "$(name)";
+}

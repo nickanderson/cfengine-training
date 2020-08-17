@@ -1,0 +1,19 @@
+#!/var/cfengine/bin/cf-agent -f-
+body file control
+{
+      inputs => { '$(sys.libdir)/stdlib.cf' };
+}
+
+bundle agent example_regex_replace
+{
+  vars:
+      "my_string"
+        string => "Perl is the best config management tool";
+  reports:
+      "$(with)" with => regex_replace( $(my_string),
+                                        "^\w+", "CFEngine", "" );
+}
+bundle agent __main__
+{
+  methods: "example_regex_replace";
+}

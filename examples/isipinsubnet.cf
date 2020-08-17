@@ -1,0 +1,24 @@
+#!/var/cfengine/bin/cf-agent -f-
+body file control
+{
+      inputs => { '$(sys.libdir)/stdlib.cf' };
+}
+
+bundle agent example_isipinsubnet
+{
+  classes:
+      "192_168_0_1_in_192_168_0_0_24"
+        expression => isipinsubnet( "192.168.0.0/24", "192.168.0.1" );
+      "192_168_99_1_in_192_168_0_0_24"
+        expression => isipinsubnet( "192.168.0.0/24", "192.168.99.1" );
+
+  reports:
+    192_168_0_1_in_192_168_0_0_24::
+      "192.168.0.1 is in 192.168.0.0/24";
+    !192_168_99_1_in_192_168_0_0_24::
+      "192.168.99.1 not in 192.168.0.0/24";
+}
+bundle agent __main__
+{
+  methods: "example_isipinsubnet";
+}

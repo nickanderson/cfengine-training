@@ -1,0 +1,19 @@
+#!/var/cfengine/bin/cf-agent -f-
+body file control
+{
+      inputs => { '$(sys.libdir)/stdlib.cf' };
+}
+
+bundle agent example_sysctlvalue
+{
+  vars:
+      "kernel_keys_gc_delay"
+        string => sysctlvalue("kernel.keys.gc_delay");
+
+  reports:
+      "kernel.keys.gc_delay: $(kernel_keys_gc_delay)";
+}
+bundle agent __main__
+{
+  methods: "example_sysctlvalue";
+}

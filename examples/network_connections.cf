@@ -1,0 +1,21 @@
+#!/var/cfengine/bin/cf-agent -f-
+body file control
+{
+      inputs => { '$(sys.libdir)/stdlib.cf' };
+}
+
+bundle agent example_network_connections
+{
+  vars:
+    "_network_connections"
+      data => network_connections();
+    "_network_connections_str"
+      string => format( "%S", _network_connections ); 
+  reports:
+    "$(_network_connections[tcp][0][local][address]):$(_network_connections[tcp][0][local][port]) is connected to $(_network_connections[tcp][0][remote][address]):$(_network_connections[tcp][0][remote][port])";
+}
+
+bundle agent __main__
+{
+  methods: "example_network_connections";
+}

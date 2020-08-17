@@ -1,0 +1,16 @@
+#!/var/cfengine/bin/cf-agent -f-
+body file control
+{
+      inputs => { '$(sys.libdir)/stdlib.cf' };
+}
+
+bundle agent example_processexists
+{
+  reports:
+      "Emacs is running" if => processexists( ".*emacs.*");
+      "Emacs is NOT running" unless => processexists( ".*emacs.*");
+}
+bundle agent __main__
+{
+  methods: "example_processexists";
+}

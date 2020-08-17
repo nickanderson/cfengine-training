@@ -1,0 +1,27 @@
+#!/var/cfengine/bin/cf-agent -f-
+body file control
+{
+      inputs => { '$(sys.libdir)/stdlib.cf' };
+}
+
+bundle agent example_callstack_promisers
+{
+  methods:
+    "Second promiser"
+      usebundle => my_bundle;
+}
+bundle agent my_bundle
+{
+  vars:
+    "Callers"
+      slist => callstack_promisers();
+
+  reports:
+    "$(Callers)";
+}
+bundle agent __main__
+{
+  methods:
+    "First promiser"
+      usebundle => example_callstack_promisers;
+}

@@ -1,0 +1,28 @@
+#!/var/cfengine/bin/cf-agent -f-
+body file control
+{
+      inputs => { '$(sys.libdir)/stdlib.cf' };
+}
+
+bundle agent example_variablesmatching_as_data
+{
+  vars:
+     "ports" data => variablesmatching_as_data(".*", "port" );
+     "ports_str" string => format( "%S", ports );
+  reports:
+    "$(ports_str)";
+}
+bundle agent one 
+{
+  vars:
+    "the_port" string => "443", meta => { "port" };
+}
+bundle agent two
+{
+  vars:
+    "my_port" string => "80", meta => { "port" };
+}
+bundle agent __main__
+{
+  methods: "example_variablesmatching_as_data";
+}

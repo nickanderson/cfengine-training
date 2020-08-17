@@ -1,0 +1,21 @@
+#!/var/cfengine/bin/cf-agent -f-
+body file control
+{
+      inputs => { '$(sys.libdir)/stdlib.cf' };
+}
+
+bundle agent example_classfiltercsv
+{
+  classes:
+      "example_class1";
+      "example_class2";
+      "example_class3";
+
+  vars:
+      "data_file"
+        string => "$(this.promise_dirname)/examples/classfiltercsv.csv";
+      "d" data => classfiltercsv($(data_file), "true", 0, 1);
+
+  reports:
+      "Filtered data: $(with)" with => string_mustache("{{%-top-}}", d);
+}

@@ -1,0 +1,18 @@
+#!/var/cfengine/bin/cf-agent -f-
+body file control
+{
+      inputs => { '$(sys.libdir)/stdlib.cf' };
+}
+
+bundle agent example_getuserinfo
+{
+  vars:
+      "_user_info" data => getuserinfo("root");
+      "_user_info_str" string => format( "%S", _user_info);
+  reports:
+      "$(_user_info_str)";
+}
+bundle agent __main__
+{
+  methods: "example_getuserinfo";
+}

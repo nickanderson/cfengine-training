@@ -1,0 +1,25 @@
+#!/var/cfengine/bin/cf-agent -f-
+body file control
+{
+      inputs => { '$(sys.libdir)/stdlib.cf' };
+}
+
+bundle agent example_hash_to_int
+{
+  vars:
+      "hello"  int => hash_to_int(0, 1000, "hello");
+      "world"  int => hash_to_int(0, 1000, "world");
+
+      # Hash can vary on hostkey or policy hub:
+      "hour"   int => hash_to_int(0, 24, "$(sys.key_digest)");
+      "minute" int => hash_to_int(0, 60, "$(sys.policy_hub)");
+
+  reports:
+      "'hello' hashed to: $(hello)";
+      "'world' hashed to: $(world)";
+
+}
+bundle agent main
+{
+  methods: "example_hash_to_int";
+}

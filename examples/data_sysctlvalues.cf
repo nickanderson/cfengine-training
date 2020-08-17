@@ -1,0 +1,18 @@
+#!/var/cfengine/bin/cf-agent -f-
+body file control
+{
+      inputs => { '$(sys.libdir)/stdlib.cf' };
+}
+
+bundle agent example_data_sysctlvalues
+{
+  vars:
+      "_d" data => data_sysctlvalues();
+  reports:
+      "$(with)"
+        with => string_mustache( "{{%-top-}}", _d );
+}
+bundle agent __main__
+{
+      methods: "example_data_sysctlvalues";
+}

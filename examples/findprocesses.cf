@@ -1,0 +1,18 @@
+#!/var/cfengine/bin/cf-agent -f-
+body file control
+{
+      inputs => { '$(sys.libdir)/stdlib.cf' };
+}
+
+bundle agent example_findprocesses
+{
+  vars:
+    "_emacs_procs" data => findprocesses( ".*emacs.*" );
+    "_i" slist => getindices( _emacs_procs ); 
+  reports:
+      "Emacs process: $(_emacs_procs[$(_i)][line])";
+}
+bundle agent __main__
+{
+  methods: "example_findprocesses";
+}

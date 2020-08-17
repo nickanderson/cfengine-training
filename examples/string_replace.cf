@@ -1,0 +1,19 @@
+#!/var/cfengine/bin/cf-agent -f-
+body file control
+{
+      inputs => { '$(sys.libdir)/stdlib.cf' };
+}
+
+bundle agent example_string_replace
+{
+  vars:
+      "my_string"
+        string => "Bash is the best config management tool";
+  reports:
+      "$(with)" with => string_replace( $(my_string),
+                                        "Bash", "CFEngine" );
+}
+bundle agent __main__
+{
+  methods: "example_string_replace";
+}

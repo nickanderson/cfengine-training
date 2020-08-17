@@ -1,0 +1,8 @@
+ClassExpr,Sort,Token,Value
+# This is a comment
+any,A,net.ipv4.ip_forward,ANYVALUE
+example_class1,z,net.ipv4.ip_forward,ANYVALUE
+example_class2,a,net.ipv4.ip_forward,127.0.0.3
+not_defined,Z,net.ipv4.ip_forward,NOT_DEFINED
+example_class3.example_class2.example_class1,1,net.ipv4.ip_forward,127.0.0.4
+also_undefined,0,net.ipv4.ip_forward,NOT_DEFINED
