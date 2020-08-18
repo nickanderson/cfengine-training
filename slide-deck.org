@@ -3291,7 +3291,7 @@ Modify the promised file so that we have something to repair
 
 #+REVEAL: split
 
-- Find the classes like that /were/ defined
+- Find the classes that /were/ defined
 
 #+CAPTION: Speaker Notes
 #+BEGIN_NOTES
