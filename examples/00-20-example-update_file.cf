@@ -6,9 +6,6 @@ body file control
 
 bundle agent main
 {
-  meta:
-    "tags" slist => { "autorun" };
-
   files:
     "$(sys.statedir)/$(this.bundle)" -> { "Monitoring" }
       create  => "true",

@@ -101,7 +101,6 @@ This seemed to fix it:
 #+RESULTS:
 : font-lock-warning-face
 
-
 * Before we start
 :PROPERTIES:
 :ID:       27318943-487d-4805-a592-26281f4f5bb2
@@ -399,15 +398,26 @@ wget -O- http://cfengine.package-repos.s3.amazonaws.com/\
 :ID:       6214cee3-03c7-48c9-840a-6c87fb05a236
 :END:
 
+#+REVEAL_HTML: <div class="column" style="float:left; width:50%">
 - Dashboard
 - Alerts and Triggered Actions
 - Inventory Reporting
 - Change Reporting
+- Compliance Reporting
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div class="column" style="float:right; width:50%">
 - File Integrity Monitoring
 - Measurements
 - REST APIs
 - SQL Reporting
 - Single Pane of Glass Reporting
+#+REVEAL_HTML: </div>
+
+#+CAPTION: How to do two columns in org-reveal
+#+BEGIN_COMMENT
+https://emacs.stackexchange.com/a/39154
+#+END_COMMENT
 
 ** Enterprise
 :PROPERTIES:
@@ -441,7 +451,7 @@ sudo bash ./quick-install-cfengine-enterprise.sh <hub|agent>
 
 - Utilizes port 5308
 - Encrypted (TLS)
-- Public key authentication
+- Public key authentication (*key exchange required*)
 - Agents download policy from hub
 - Hub downloads reports from remote agents
 
@@ -650,6 +660,7 @@ sudo bash ./quick-install-cfengine-enterprise.sh <hub|agent>
 - By default runs =$(sys.default_policy_path)= 
   - Privileged : =/var/cfengine/inputs/promises.cf=
   - Unprivileged: =~/.cfagent/inputs/promises.cf=
+- Actuates =body common control= /bundlesequence/ if defined, or bundle /__main__/ or bundle /main/
 
 #+CAPTION: Speaker notes
 #+begin_notes
@@ -824,10 +835,14 @@ The backbone of your policy, it's the scaffolding from which you can build on.
 :ID:       5edd13bb-9803-4597-8021-26c2bd7fe6ab
 :END:
 
+#+REVEAL_HTML: <div class="column" style="float:left; width:70%">
 #+ATTR_HTML: :alt Promise Theory Principles and Appications :style border:none;
 [[file:images/promise_theory_cover.jpg]]
+#+REVEAL_HTML: </div>
 
+#+REVEAL_HTML: <div class="column" style="float:right; width:30%">
 A model of *voluntary cooperation* between individual autonomous actors.
+#+REVEAL_HTML: </div>
 
 #+CAPTION: Speaker Notes
 #+begin_notes
@@ -839,11 +854,15 @@ The fundamental underlying philosophy that CFEngine is based on.
 :ID:       6cd785ef-1412-495b-a790-c9d09db48669
 :END:
 
-- A promise is a *statement of intent*
-- Agents can only make promises about themselves
-
+#+REVEAL_HTML: <div class="column" style="float:left; width:30%">
 #+ATTR_HTML: :alt Thinking in Promises :style border:none;
 [[file:images/thinking_in_promises_book_cover.jpg]]
+#+REVEAL_HTML: </div>
+
+#+REVEAL_HTML: <div class="column" style="float:right; width:70%">
+- A promise is a *statement of intent*
+- Agents can only make promises about themselves
+#+REVEAL_HTML: </div>
 
 #+CAPTION: Speaker Notes
 #+begin_notes
@@ -872,6 +891,8 @@ The fundamental underlying philosophy that CFEngine is based on.
   - =failed=
   - =denied=
   - =timeout=
+
+#+REVEAL: split
 
 *Note:* Compound promises *can* have *multiple outcomes* at the same time
 (/not_kept/ & /kept/ & /repaired/).
@@ -1003,6 +1024,11 @@ bundle agent main
   reports:
     "$(with)" with => join( ", ", getindices( "set_item_in_bag.array" ) );
 }
+#+END_SRC
+
+#+REVEAL: split
+
+#+BEGIN_SRC cfengine3 :tangle ./examples/example-bundles-maintain-some-variable-state.cf
 bundle agent set_item_in_bag(item, value)
 {
   vars:
@@ -1027,6 +1053,14 @@ bundle agent report_bag_contents
 : R: A half full array[flask]
 : R: A half full flask
 : R: flask
+
+#+CAPTION: Speaker Notes
+#+begin_notes
+- Strings, lists, and data containers contain last value and may be re-defined.
+- Classic arrays are cleared at the *beginning* of each bundle actuation, =set_item_in_bag=.
+  - /flask/ was the last $(item) used to define a classic array.
+  - Since it has not yet been actuated again, it persists.
+#+end_notes
 
 *** Bundles for logical abstraction
 :PROPERTIES:
@@ -1075,32 +1109,23 @@ Bundles have a type which specify how they can be used.
 - =main= is the default
 - =__main__= is treated as /main/ if in =$(sys.policy_entry_filename)=
 
-#+BEGIN_SRC cfengine3 :include-stdlib t :log-level info :exports both
-  bundle agent inventory_things
+#+CAPTION: examples/bundle__main__.cf
+#+BEGIN_SRC cfengine3 :include-stdlib t :log-level info :exports both :tangle ./examples/bundle__main__.cf
+  bundle agent hello_world 
   {
-    vars:
-      "thing"
-        string => readfile( "/tmp/thing", inf ),
-        meta => { "inventory", "attribute_name=Inventoried Thing" };
+    reports: "Hello from $(this.bundle)";
   }
   bundle agent __main__
   {
-    methods: "inventory_things";
+    methods: "hello_world";
   }
 #+END_SRC
+
 
 #+CAPTION: Speaker Notes
 #+begin_notes
 - main is great for example snippets
 - =__main__= is great for polices that are standalone, but can be integrated
-#+end_notes
-
-
-#+CAPTION: Speaker Notes
-#+begin_notes
-    - Strings, lists, and data containers contain last value and may be
-      re-defined.
-    - Classic arrays are cleared at the *beginning* of each bundle actuation, =set_item_in_bag=. /flask/ was the last $(item) used to define a classic array. Since it has not yet been actuated again, it persists.
 #+end_notes
 
 
@@ -1171,7 +1196,7 @@ For example, to set all file type promises to warn you can add the
 
 #+Name: =examples/default-bodies.cf=
 #+CAPTION: =examples/default-bodies.cf=
-#+BEGIN_SRC cfengine3 :tangle ./examples/default-bodies.cf :log-level inform
+#+BEGIN_SRC cfengine3 :tangle ./examples/default-bodies.cf :log-level inform :exports both
 bundle agent main
 {
   files:
@@ -1197,6 +1222,8 @@ body action files_action
   action_policy => "warn";
 }
 #+END_SRC
+
+#+REVEAL: split
 
 #+RESULTS: =examples/default-bodies.cf=
 :  warning: Warning promised, need to create file '/tmp/show_default_action'
@@ -1423,7 +1450,7 @@ Here we simply report the variable values to illustrate how the value of myvar2 
 
 ** Macros
 
-- Prevent parsing
+- [[https://docs.cfengine.com/docs/master/reference-macros.html][Conditional parsing]] based on version and features
 - Use for supporting future syntax, speed optimizations
 
 *** minimum_version
@@ -1487,28 +1514,33 @@ macro.
 #+END_SRC
 
 #+RESULTS:
-: 171
+: 181
 
-There are 171 functions as of 3.15.0
+There are 181 functions as of 3.17.0
 
 #+Caption: Count functions
 #+BEGIN_SRC sh :exports none
    cf-promises --syntax-description json | jq '.functions | keys | join( ", ")'
 #+END_SRC
 
-accessedbefore, accumulated, ago, and, basename, bundlesmatching, bundlestate, callstack_callers, callstack_promisers, canonify, canonifyuniquely, changedbefore, classesmatching, classfiltercsv, classify, classmatch, concat, countclassesmatching, countlinesmatching, data_expand, data_readstringarray, data_readstringarrayidx, data_regextract, data_sysctlvalues, datastate, difference, dirname, diskfree, escape, eval, every, execresult, expandrange,
+#+RESULTS:
+accessedbefore, accumulated, ago, and, basename, bundlesmatching, bundlestate, callstack_callers, callstack_promisers, canonify, canonifyuniquely, cf_version_after, cf_version_at, cf_version_before, cf_version_between, cf_version_maximum, cf_version_minimum, changedbefore, classesmatching, classfiltercsv, classify, classmatch, concat, countclassesmatching, countlinesmatching, data_expand, data_readstringarray, data_readstringarrayidx
 
 #+REVEAL: split
 
-file_hash, fileexists, filesexist, filesize, filestat, filter, findfiles, findprocesses, format, getclassmetatags, getenv, getfields, getgid, getindices, getuid, getuserinfo, getusers, getvalues, getvariablemetatags, grep, groupexists, hash, hash_to_int, hashmatch, host2ip, hostinnetgroup, hostrange, hostsseen, hostswithclass, hubknowledge, ifelse, intersection, ip2host, iprange, irange, isdir, isexecutable, isgreaterthan, isipinsubnet, islessthan, islink, isnewerthan, isplain, isvariable,
+data_regextract, data_sysctlvalues, datastate, difference, dirname, diskfree, escape, eval, every, execresult, execresult_as_data, expandrange, file_hash, fileexists, filesexist, filesize, filestat, filter, findfiles, findprocesses, format, getclassmetatags, getenv, getfields, getgid, getindices, getuid, getuserinfo, getusers, getvalues, getvariablemetatags, grep, groupexists, hash, hash_to_int, hashmatch, host2ip, hostinnetgroup, hostrange
 
 #+REVEAL: split
 
-join, lastnode, laterthan, ldaparray, ldaplist, ldapvalue, length, lsdir, makerule, maparray, mapdata, maplist, max, mean, mergedata, min, network_connections, none, not, now, nth, on, or, packagesmatching, packageupdatesmatching, parseintarray, parsejson, parserealarray, parsestringarray, parsestringarrayidx, parseyaml, peerleader, peerleaders, peers, processexists, product, randomint, read_module_protocol, readcsv, readdata, readenvfile,
+hostsseen, hostswithclass, hubknowledge, ifelse, intersection, ip2host, iprange, irange, isdir, isexecutable, isgreaterthan, isipinsubnet, islessthan, islink, isnewerthan, isplain, isvariable join, lastnode, laterthan, ldaparray, ldaplist, ldapvalue, length, lsdir, makerule, maparray, mapdata, maplist, max, mean, mergedata, min, network_connections, none, not, now, nth, on, or, packagesmatching, packageupdatesmatching, parseintarray, parsejson
 
 #+REVEAL: split
 
-readfile, readintarray, readintlist, readjson, readrealarray, readreallist, readstringarray, readstringarrayidx, readstringlist, readtcp, readyaml, regarray, regcmp, regex_replace, regextract, registryvalue, regldap, regline, reglist, remoteclassesmatching, remotescalar, returnszero, reverse, rrange, selectservers, shuffle, some, sort, splayclass, splitstring, storejson, strcmp, strftime, string_downcase, string_head, string_length, string_mustache, string_replace, string_reverse, string_split, string_tail, string_upcase, sublist, sum, sysctlvalue, translatepath, unique, url_get, usemodule, userexists, variablesmatching, variablesmatching_as_data, variance
+parserealarray, parsestringarray, parsestringarrayidx, parseyaml, peerleader, peerleaders, peers, processexists, product, randomint, read_module_protocol, readcsv, readdata, readenvfile, readfile, readintarray, readintlist, readjson, readrealarray, readreallist, readstringarray, readstringarrayidx, readstringlist, readtcp, readyaml, regarray, regcmp, regex_replace, regextract, registryvalue, regldap, regline, reglist, remoteclassesmatching
+
+#+REVEAL: split
+
+remotescalar, returnszero, reverse, rrange, selectservers, shuffle, some, sort, splayclass, splitstring, storejson, strcmp, strftime, string_downcase, string_head, string_length, string_mustache, string_replace, string_reverse, string_split, string_tail, string_trim, string_upcase, sublist, sum, sysctlvalue, translatepath, unique, url_get, usemodule, userexists, validdata, validjson, variablesmatching, variablesmatching_as_data, variance
 
 ** Pop Quiz
 :PROPERTIES:
@@ -1750,7 +1782,7 @@ bundle agent main
 
 - Namespace scoped classes are accessible from any bundle.
 - Persist until end of agent run or explicitly undefined.
-- Bundle scoped classes are only accessible from within the bundle the class was defined.
+- Bundle scoped classes are only accessible from within the bundle the class was defined, or bundles actuated via methods where inheritance is specified
 - All hard classes are namespace scoped
 
 #+CAPTION: Speaker Notes
@@ -2391,31 +2423,38 @@ R: DataContainer:{
 :ID:       9cb68439-c70c-4fe1-be2c-176fdf328588
 :END:
 
-Copy this example to =services/autorun/nologin.cf=
-
 #+Name: =examples/00-20-example-create_file.cf=
 #+Caption: =examples/00-20-example-create_file.cf=
 #+begin_src cfengine3 :tangle examples/00-20-example-create_file.cf :bundlesequence nologin
-bundle agent nologin
-{
-  files:
-     "/tmp/nologin"
-        create => "true",
-        classes => results("bundle", "my_file");
+  bundle agent nologin
+  {
 
-   reports:
-    my_file_repaired::
-     "File repaired";
+    meta:
+        "tags" slist => { "autorun" };
+    files:
+        "/tmp/nologin"
+          create => "true",
+          classes => results("bundle", "my_file");
 
-     any:: 
-      "File Exists"
-        if => fileexists("/tmp/nologin");
-}
+    reports:
+      my_file_repaired::
+        "File repaired";
+
+      any:: 
+        "File Exists"
+          if => fileexists("/tmp/nologin");
+  }
 #+END_SRC
 
 #+RESULTS: =examples/00-20-example-create_file.cf=
 : R: File repaired
 : R: File Exists
+
+#+CAPTION: Speaker notes
+#+begin_notes
+Copy this example to =services/autorun/nologin.cf= and run the policy.
+What happens when you restrict the context of the =tags= meta variable?
+#+end_notes
 
 ** Update file
 :PROPERTIES:
@@ -2427,9 +2466,6 @@ bundle agent nologin
 #+BEGIN_SRC cfengine3 :define DEBUG :command-in-result-t :tangle examples/00-20-example-update_file.cf
 bundle agent main
 {
-  meta:
-    "tags" slist => { "autorun" };
-
   files:
     "$(sys.statedir)/$(this.bundle)" -> { "Monitoring" }
       create  => "true",
@@ -2451,9 +2487,17 @@ bundle agent main
 }
 #+END_SRC
 
+#+CAPTION: Speaker notes
+#+begin_notes
+- What happens when you run the policy?
+  - Nothing
+- Why?
+  - Because the bundle is not /tagged/ with =autorun=
+- Adjust the policy so that it gets run automatically
+#+end_notes
+
 #+RESULTS: =examples/00-20-example-update_file.cf=
 : R: DEBUG main: Heartbeat
-
 
 ** Install a package and start a service
 :PROPERTIES:
@@ -14401,6 +14445,40 @@ check_cory_test=scripts\check_cory_test.bat $ARG1$ $ARG2$ $ARG3$
 check_theo_test=scripts\check_theo.exe $ARG1$
 
 #+end_example
+** Inheriting calling bundles classes
+
+#+NAME: examples/usebundle_inherit_context.cf
+#+CAPTION: examples/usebundle_inherit_context.cf
+#+BEGIN_SRC cfengine3 :include-stdlib t :log-level info :exports both :tangle ./examples/usebundle_inherit_context.cf
+  bundle agent parent
+  {
+    classes:
+        "parent_1" scope => "bundle";
+
+    methods:
+        "Inherit context"
+          usebundle => child( "First"),
+          inherit => "true";
+
+        "No context inheritance"
+          usebundle => child( "Second");
+  }
+  bundle agent child( id_string )
+  {
+    reports:
+      parent_1::
+        "$(id_string) see class parent_1 defined";
+      !parent_1::
+        "$(id_string) see class parent_1 NOT defined";
+  }
+  bundle agent __main__ { methods: "parent"; }
+#+END_SRC
+
+#+REVEAL: split
+
+#+RESULTS: examples/usebundle_inherit_context.cf
+: R: First see class parent_1 defined
+: R: Second see class parent_1 NOT defined
 
 * Useful Tools and Tips
 :PROPERTIES:
@@ -14540,13 +14618,14 @@ bundle agent main
 #+RESULTS:
 : R: Result: Hello World
 ** ~cf-remote~
-
+- https://cfengine.com/company/blog-detail/cf-remote/
 - https://github.com/cfengine/core/tree/master/contrib/cf-remote
 
 #+Caption: Install and bootstrap remote hosts
 #+BEGIN_SRC shell
   cf-remote install --hub 34.252.28.73 --bootstrap 172.31.30.237
 #+END_SRC
+
 ** ~cf-locate~
 :PROPERTIES:
 :ID:       aa03c0a5-ec8b-472f-bf96-c15c1227f8aa

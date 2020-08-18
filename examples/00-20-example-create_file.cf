@@ -6,16 +6,19 @@ body file control
 
 bundle agent nologin
 {
+
+  meta:
+      "tags" slist => { "autorun" };
   files:
-     "/tmp/nologin"
+      "/tmp/nologin"
         create => "true",
         classes => results("bundle", "my_file");
 
-   reports:
+  reports:
     my_file_repaired::
-     "File repaired";
+      "File repaired";
 
-     any:: 
+    any:: 
       "File Exists"
         if => fileexists("/tmp/nologin");
 }
