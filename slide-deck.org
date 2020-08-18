@@ -287,14 +287,18 @@ Known to run on many platforms, and interesting places.
 :Attachments: flesh_wound_2016-10-15_15-24-06.jpg
 :END:
 
+#+REVEAL_HTML: <div class="column" style="float:left; width:50%">
 #+DOWNLOADED: https://hbr.org/resources/images/article_assets/2015/01/JAN15_05_179787493.jpg @ 2020-02-18 11:16:51
 #+ATTR_HTML: :width 800
 [[file:data/29/81a0e7-5430-44bd-84b3-32928fbdeea1/2020-02-18_11-16-51_JAN15_05_179787493.jpg]]
+#+REVEAL_HTML: </div>
 
+#+REVEAL_HTML: <div class="column" style="float:right; width:50%">
 - Policy cached locally
 - Decisions made locally
 - Actions taken locally
 - Convergence, repair what you can and revisit soon
+#+REVEAL_HTML: </div>
 
 #+CAPTION: Speaker Notes
 #+begin_notes
