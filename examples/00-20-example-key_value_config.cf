@@ -1,9 +1,4 @@
 #!/var/cfengine/bin/cf-agent -f-
-body file control
-{
-      inputs => { '$(sys.libdir)/stdlib.cf' };
-}
-
 bundle agent manage_ssh
 {
   meta:
@@ -15,11 +10,6 @@ bundle agent manage_ssh
 
     "Manage SSH Config"
       usebundle => ssh_config_manage_kv("ssh_config.data");
-}
-
-body file control
-{
-      inputs => { '$(sys.libdir)/stdlib.cf' };
 }
 
 bundle agent ssh_config
@@ -36,3 +26,41 @@ bundle agent ssh_config
     DEBUG|DEBUG_ssh_config::
       "DEBUG $(this.bundle): $(keys) = '$(data[$(keys)])'";
 }
+
+bundle agent ssh_config_manage_kv(data)
+{
+  vars:
+    "config" string => "/etc/ssh/sshd_config";
+
+  files:
+    "$(config)"
+      handle => "ssh_config_manage_kv_entries",
+      edit_line => set_line_based("$(data)", " ", "\s+", ".*", "\s*#\s*"),
+      classes => scoped_classes_generic("bundle", "sshd_config");
+
+  classes:
+    sshd_config_repaired::
+      "config_valid"
+        expression => returnszero("/usr/sbin/sshd -t -f $(config)", noshell),
+        comment => "It's important that we don't restart the service with a
+                    broken config, or the service will be down.";
+
+  commands:
+    sshd_config_repaired.config_valid::
+      "$(paths.service)"
+        handle => "ssh_config_manage_kv_restart_after_config_change",
+        args => "sshd restart",
+        comment => "The service must be restarted in order to pick up new
+                    configuration settings.";
+
+  reports:
+      "DEBUG $(this.bundle): Reparied configuration"
+        if => "sshd_config_repaired";
+
+      "DEBUG $(this.bundle): Configuration Valid"
+        if => "config_valid";
+
+      "DEBUG $(this.bundle): Restarted sshd after config change"
+        depends_on => { "ssh_config_manage_kv_restart_after_config_change" };
+}
+bundle agent __main__{methods:"manage_ssh";}

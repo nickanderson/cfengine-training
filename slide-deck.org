@@ -2673,7 +2673,7 @@ bundle agent __main__{methods:"classify_geo_location_by_network";}
 :END:
 
 #+Caption: =manage_ssh= in =examples/00-20-example-key_value_config.cf=
-#+BEGIN_SRC cfengine3 :tangle examples/00-20-example-key_value_config.cf 
+#+BEGIN_SRC cfengine3 :tangle examples/00-20-example-key_value_config.cf :prologue ""
 bundle agent manage_ssh
 {
   meta:
@@ -2691,7 +2691,7 @@ bundle agent manage_ssh
 #+REVEAL: split
 
 #+Caption: =ssh_config= in =examples/00-20-example-key_value_config.cf=
-#+BEGIN_SRC cfengine3 :tangle examples/00-20-example-key_value_config.cf  :include-stdlib nil
+#+BEGIN_SRC cfengine3 :tangle examples/00-20-example-key_value_config.cf  :include-stdlib nil :prologue ""
 bundle agent ssh_config
 {
   vars:
@@ -2711,7 +2711,7 @@ bundle agent ssh_config
 #+REVEAL: split
 
 #+Caption: =ssh_config_manage_kv= in =examples/00-20-example-key_value_config.cf=
-#+BEGIN_SRC cfengine3 :tangle examples/00-20-example-key_value_config.cf  :include-stdlib nil
+#+BEGIN_SRC cfengine3 :tangle examples/00-20-example-key_value_config.cf  :include-stdlib nil :prologue ""
 bundle agent ssh_config_manage_kv(data)
 {
   vars:
@@ -2748,6 +2748,7 @@ bundle agent ssh_config_manage_kv(data)
       "DEBUG $(this.bundle): Restarted sshd after config change"
         depends_on => { "ssh_config_manage_kv_restart_after_config_change" };
 }
+bundle agent __main__{methods:"manage_ssh";}
 #+END_SRC
 
 #+REVEAL: split
