@@ -4013,8 +4013,8 @@ R: Classes starting with file_content: file_content_failed, file_content_not_kep
 - Make Asynchronous SQL Queries (for long running queries)
 #+END_NOTES
 
-
-#+BEGIN_SRC sh :results output :exports both
+#+NAME: query-api
+#+BEGIN_SRC sh :results output :exports both :wrap "src json"
   curl -q -k --user $AUTHUSER:$PASSWORD \
     -X POST \
     https://$HUB/api/query \
@@ -4025,6 +4025,115 @@ R: Classes starting with file_content: file_content_failed, file_content_not_kep
           "hostContextExclude": ["policy_server"]
        }'
 #+END_SRC
+
+#+REVEAL: split
+
+#+RESULTS: query-api
+#+begin_src json
+{
+  "data": [
+    {
+      "header": [
+        {
+          "columnName": "hostname",
+          "columnType": "STRING"
+        },
+        {
+          "columnName": "ipaddress",
+          "columnType": "STRING"
+        }
+      ],
+      "query": "select hostname, ipaddress from hosts",
+      "queryTimeMs": 21,
+      "rowCount": 6,
+      "rows": [
+        [
+          "lex-win7-to-10",
+          "84.212.143.13"
+        ],
+        [
+          "desktop-aj2m57e",
+          "24.143.37.227"
+        ]
+      ]
+    }
+  ],
+  "meta": {
+    "count": 1,
+    "page": 1,
+    "timestamp": 1597765127,
+    "total": 1
+  }
+}
+#+end_src
+
+#+REVEAL: split
+
+#+NAME: async-query
+#+CAPTION: Asynchronous query
+#+BEGIN_SRC sh :results output :exports both :wrap "src json"
+  curl -q -k --user $AUTHUSER:$PASSWORD \
+    -X POST \
+    https://$HUB/api/query/async \
+    -H 'content-type: application/json' \
+    -d '{
+          "query": "select hostname, ipaddress from hosts",
+          "outputType": "csv",
+          "limit": 2,
+          "hostContextExclude": ["policy_server"]
+       }'
+#+END_SRC
+
+#+REVEAL: split
+
+#+RESULTS: async-query
+#+begin_src json
+{
+  "data": [
+    {
+      "id": "0eb39e8f20ed978a8f4b3167730b76fd",
+      "query": "select hostname, ipaddress from hosts"
+    }
+  ],
+  "meta": {
+    "count": 1,
+    "page": 1,
+    "timestamp": 1597765332,
+    "total": 1
+  }
+}
+#+end_src
+
+#+REVEAL: split
+
+#+NAME: check-async-query
+#+BEGIN_SRC sh :results output :exports both :wrap "src json"
+  curl -q -k --user $AUTHUSER:$PASSWORD \
+    -X GET \
+    https://$HUB/api/query/async/0eb39e8f20ed978a8f4b3167730b76fd \
+    -H 'content-type: application/json'
+#+END_SRC
+
+#+REVEAL: split
+
+#+RESULTS: check-async-query
+#+begin_src json
+{
+  "data": [
+    {
+      "href": "https://demohub.a10042.cfengine.com/tmp/0eb39e8f20ed978a8f4b3167730b76fd.csv",
+      "id": "0eb39e8f20ed978a8f4b3167730b76fd",
+      "percentageComplete": 100
+    }
+  ],
+  "meta": {
+    "count": 1,
+    "page": 1,
+    "timestamp": 1597765595,
+    "total": 1
+  }
+}
+#+end_src
 
 *** Base64 encoded query links
 #+CAPTION: Speaker Notes
