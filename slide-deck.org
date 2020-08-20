@@ -4157,6 +4157,9 @@ R: Classes starting with file_content: file_content_failed, file_content_not_kep
 - =execresult_as_data()=
 ** In 3.16
 *** Components 
+:PROPERTIES:
+:ID:       c0204aa1-6b70-48b1-aa87-8cc17bff2054
+:END:
 
 #+begin_src sh :results output :exports results
   cf-secret --help
