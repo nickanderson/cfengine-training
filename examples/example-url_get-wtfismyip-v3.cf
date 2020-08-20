@@ -4,7 +4,7 @@ body file control
       inputs => { '$(sys.libdir)/stdlib.cf' };
 }
 
-bundle agent main
+bundle agent example_url_get_wtfismyip_v3
 {
   vars:
       # This is the URL that we will query.
@@ -70,3 +70,4 @@ And your ISP is {{{YourFuckingISP}}}.",
       "Classes starting with file_content: $(with)"
         with => join( ", ", classesmatching( "file_content.*" ));
 }
+bundle agent __main__{methods:"example_url_get_wtfismyip_v3";}

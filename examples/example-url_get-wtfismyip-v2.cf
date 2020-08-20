@@ -4,7 +4,7 @@ body file control
       inputs => { '$(sys.libdir)/stdlib.cf' };
 }
 
-bundle agent main
+bundle agent example_url_get_wtfismyip_v2
 {
   vars:
       # This is the URL that we will query.
@@ -67,3 +67,4 @@ And your ISP is {{{YourFuckingISP}}}.",
       "My $(file) changed, so I ran a command"
         if => "file_content_repaired";
 }
+bundle agent __main__{methods:"example_url_get_wtfismyip_v2";}
