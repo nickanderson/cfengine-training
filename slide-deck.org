@@ -4633,8 +4633,291 @@ R: Filtered data: [
 #+RESULTS: =examples/hash_to_int.cf=
 : R: 'hello' hashed to: 172
 : R: 'world' hashed to: 760
+*** Library __main__ bundles
+:PROPERTIES:
+:ID:       2560344f-c33f-4c87-923c-574f82d69ab3
+:END:
+
+- Default bundle per policy file
+- Useful for testing
+
+#+REVEAL: split
+
+#+NAME: =examples/library__main__/example_library__main__1.cf=
+#+CAPTION: =examples/library__main__/example_library__main__1.cf=
+#+BEGIN_SRC cfengine3 :include-stdlib t :log-level info :exports both :tangle ./examples/library__main__/example_library__main__1.cf :prologue ""
+  bundle agent example_library__main__1
+  {
+    reports: "Hello from $(this.bundle)";
+  }
+  bundle agent __main__
+  {
+    methods:
+        "example_library__main__1";
+  }
+#+END_SRC
+
+#+REVEAL: split
+
+What output do you get when you run the policy file ?
+
+#+Name: Executing =examples/library__main__/example_library__main__1.cf=
+#+CAPTION: Executing =examples/library__main__/example_library__main__1.cf=
+#+begin_src sh :results output :exports both :dir ./examples/library__main__/
+  cf-agent -KIf ./example_library__main__1.cf
+#+end_src
+
+#+REVEAL: split
+
+#+RESULTS: Executing =examples/library__main__/example_library__main__1.cf=
+: R: Hello from example_library__main__1
+
+#+REVEAL: split
+
+#+NAME: =examples/library__main__/example_library__main__2.cf=
+#+CAPTION: =examples/library__main__/example_library__main__2.cf=
+#+BEGIN_SRC cfengine3 :include-stdlib t :log-level info :exports both :tangle ./examples/library__main__/example_library__main__2.cf :prologue ""
+  bundle agent example_library__main__2
+  {
+    reports: "Hello from $(this.bundle)";
+  }
+  bundle agent __main__
+  {
+    methods:
+        "example_library__main__2";
+  }
+#+END_SRC
+
+#+Name: Executing =examples/library__main__/example_library__main__2.cf=
+#+CAPTION: Executing =examples/library__main__/example_library__main__2.cf=
+#+begin_src sh :results output :exports both :dir ./examples/library__main__/
+  cf-agent -KIf ./example_library__main__2.cf
+#+end_src
+
+#+RESULTS: Executing =examples/library__main__/example_library__main__2.cf=
+: R: Hello from example_library__main__2
+
+#+REVEAL: split
+
+#+NAME: =examples/library__main__/example_library__main__.cf=
+#+CAPTION: =examples/library__main__/example_library__main__.cf=
+#+BEGIN_SRC cfengine3 :include-stdlib t :log-level info :exports both :tangle ./examples/library__main__/example_library__main__.cf :prologue ""
+  body file control
+  {
+    inputs => {
+                "example_library__main__1.cf",
+                "example_library__main__2.cf",
+              };
+  }
+  bundle agent example_library__main__
+  {
+    reports: "Hello from $(this.bundle)";
+  }
+  bundle agent __main__
+  {
+    vars: "b" slist => bundlesmatching( "example_.*" );
+    methods:
+        "example_library__main__";
+        "example_library__main__1";
+        "example_library__main__2";
+    reports: "$(b)";
+  }
+#+END_SRC
+
+#+REVEAL: split
+
+What output do you get when you run the policy file ?
+
+#+Name: Executing =examples/library__main__/example_library__main__.cf=
+#+CAPTION: Executing =examples/library__main__/example_library__main__.cf=
+#+begin_src sh :results output :exports both :dir ./examples/library__main__/
+  cf-agent -KIf ./example_library__main__.cf
+#+end_src
+
+#+REVEAL: split
+
+#+RESULTS: Executing =examples/library__main__/example_library__main__.cf=
+#+begin_example
+example_library__main__1.cf
+example_library__main__2.cf
+example_library__main__.cf
+#!/var/cfengine/bin/cf-agent -f-
+body file control
+{
+      inputs => { '$(sys.libdir)/stdlib.cf' };
+}
+
+bundle agent example_library__main__1
+{
+  reports: "Hello from $(this.bundle)";
+}
+bundle agent __main__
+{
+  methods:
+      "example_library__main__1";
+}
+#!/var/cfengine/bin/cf-agent -f-
+body file control
+{
+      inputs => { '$(sys.libdir)/stdlib.cf' };
+}
+
+bundle agent example_library__main__2
+{
+  reports: "Hello from $(this.bundle)";
+}
+bundle agent __main__
+{
+  methods:
+      "example_library__main__2";
+}
+#!/var/cfengine/bin/cf-agent -f-
+body file control
+{
+      inputs => { '$(sys.libdir)/stdlib.cf' };
+}
+
+body file control
+{
+  inputs => {
+              "example_library__main__1.cf",
+              "example_library__main__2.cf",
+            };
+}
+bundle agent example_library__main__
+{
+  reports: "Hello from $(this.bundle)";
+}
+bundle agent __main__
+{
+  vars: "b" slist => bundlesmatching( "example_.*" );
+  methods:
+      "example_library__main__";
+      "example_library__main__1";
+      "example_library__main__2";
+  reports: "$(b)";
+}
+R: Hello from example_library__main__
+   error: A method attempted to use a bundle 'example_library__main__1' that was apparently not defined
+   error: A method attempted to use a bundle 'example_library__main__2' that was apparently not defined
+#+end_example
 
 
+
+*** --log-level option
+:PROPERTIES:
+:ID:       cb03262c-fb55-4d2a-a3b7-c365ea2b0de0
+:END:
+
+#+NAME: =examples/example_log_level_inform.cf=
+#+CAPTION: =examples/example_log_level_inform.cf=
+#+BEGIN_SRC cfengine3 :include-stdlib t :exports both :command-in-result t :tangle ./examples/example_log_level_inform.cf
+  bundle agent main
+  {
+    reports:
+      inform_mode:: "Running with info level logging";
+  }
+#+END_SRC
+
+#+NAME: Executing with --inform
+#+CALL: =examples/example_log_level_inform.cf=() :extra-opts --inform
+
+#+RESULTS: Executing with --inform
+: # cf-agent --no-lock --inform --file ./examples/example_log_level_inform.cf
+: R: Running with info level logging
+
+#+NAME: Executing with --log-level inform
+#+CALL: =examples/example_log_level_inform.cf=() :extra-opts --log-level inform
+
+#+RESULTS: Executing with --log-level inform
+: # cf-agent --no-lock --log-level inform --file ./examples/example_log_level_inform.cf
+: R: Running with info level logging
+
+*** Promise attributes
+- =copy_from= body attribute =missing_ok= allows missing upstream files to be considered promise kept
+- files promise =template_method= accepts /inline_mustache/
+- files promise =edit_template_string=  defines inline mustache
+
+#+CAPTION: Speaker notes
+#+begin_notes
+- missing_ok useful for things like downloading host specific data that may or may not exist
+- inline_mustache easier usage for small templates
+#+end_notes
+
+#+REVEAL: split
+
+#+NAME: =./examples/whats_new_3_12_missing_ok.cf=
+#+CAPTION: =./examples/whats_new_3_12_missing_ok.cf=
+#+BEGIN_SRC cfengine3 :include-stdlib t :log-level info :exports both :tangle ./examples/whats_new_3_12_missing_ok.cf
+  bundle agent example_missing_ok
+  {
+    vars:
+      copy_from_missing_ok_reached::
+        "_c"
+          string => string_mustache( "{{%-top-}}",
+                                     sort( classesmatching( "copy_from_.*" ), lex));
+    files:
+        "/tmp/copied_from_missing_ok"
+          copy_from => missing_ok( "/var/cfengine/masterfiles/missing" ),
+          classes => results("bundle", "copy_from_missing_ok");
+
+    reports:
+        "$(_c)" if => isvariable( _c );
+  }
+  body copy_from missing_ok( file_path )
+  {
+          source => "$(file_path)";
+          missing_ok => "true";
+  }
+  bundle agent __main__{methods:"example_missing_ok";}
+#+END_SRC
+
+#+REVEAL: split
+
+#+RESULTS: =./examples/whats_new_3_12_missing_ok.cf=
+: R: [
+:   "copy_from_missing_ok_kept",
+:   "copy_from_missing_ok_reached"
+: ]
+
+#+REVEAL: split
+
+#+NAME: =examples/whats_new_3_12_inline_mustache.cf=
+#+Caption: =examples/whats_new_3_12_inline_mustache.cf=
+#+BEGIN_SRC cfengine3 :tangle examples/whats_new_3_12_inline_mustache.cf :command-in-result t
+  bundle agent example_inline_mustache
+  {
+    vars:
+      "d" data => '{
+    "Name": "Bruce Wayne",
+    "Secret Identity": "Batman"
+  }';
+
+    files:
+      "/tmp/$(this.bundle)"
+          create => "true",
+          template_method => "inline_mustache",
+          template_data => @(d),
+          edit_template_string => 'Did you know that {{{Name}}}
+  ... is really {{{Secret Identity}}}!?';
+  
+    reports:
+      "/tmp/$(this.bundle)" printfile => cat( $(this.promiser) );
+  }
+  bundle agent __main__{methods:"example_inline_mustache";}
+#+END_SRC
+
+#+REVEAL: split
+
+#+RESULTS: =examples/whats_new_3_12_inline_mustache.cf=
+: # cf-agent --no-lock --file examples/whats_new_3_12_inline_mustache.cf
+: R: /tmp/example_inline_mustache
+: R: Did you know that Bruce Wayne
+: R: ... is really Batman!?
+
+*** sys vars
+- sys.policy_entry*
+- 
 ** In 3.11
 *** Promise attributes
 - =with=
