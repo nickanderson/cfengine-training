@@ -2505,34 +2505,79 @@ bundle agent heartbeat
 #+RESULTS: =examples/00-20-example-update_file.cf=
 : R: DEBUG main: Heartbeat
 
-** Install a package and start a service
+** Make sure a package is installed and service running
 :PROPERTIES:
 :ID:       aa3065ea-f167-4b8a-9fde-f07ca8677429
 :END:
 
 #+Caption: =examples/00-20-example-package_and_service.cf=
 #+BEGIN_SRC cfengine3 :tangle examples/00-20-example-package_and_service.cf
-  bundle agent main
+  bundle agent example_package_and_service
   {
+    meta:
+      !policy_server::
+        "tags" slist => { "autorun" };
+
     vars:
-        "config[driftfile]" string => "/var/lib/ntp/drift";
+      centos|redhat::
+        "_package" string => "httpd";
+        "_service" string => "httpd";
+
+      ubuntu|debian::
+        "_package" string => "apache2";
+        "_service" string => "apache2";
+
+      any::
+        "_default_page"
+          string => ifelse( "debian|ubuntu", "/var/www/html/index.html",
+                            "centos|redhat", "/var/www/error/noindex.html",
+                            "UNKNOWN" ),
+          meta => { "inventory", "attribute_name=Apache Default Page"};
+
     packages:
-        "ntp" policy => "present";
+        "$(_package)"
+          policy => "present";
+
     services:
-        "ntpd" service_policy => "start";
-        "ntpd"
-          service_policy => "restart",
-          if => "ntpd_conf_repaired";
-    files:
-        "/etc/ntp.conf"
-          edit_line => set_line_based("$(this.bundle).config", # Key Values
-                                      " ",        # Separator
-                                      "\s+",      # Separator regex
-                                      ".*",       # Keys to use
-                                      "\s*#\s*"), # Ignore lines
-          classes => results("bundle", "ntpd_conf");
+        "$(_service)"
+          service_policy => "start";
+
+    reports:
+      inform_mode|verbose_mode::
+        "My default page is from $(_default_page)";
   }
+  bundle agent __main{methods:"example_package_and_service";}
 #+END_SRC
+
+#+CAPTION: Speaker notes
+#+begin_notes
+- Note, there are two implementations of /packages/ promises.
+#+end_notes
+
+*** Competing implementations of packages promises
+
+- /methods/ (legacy) vs /modules/ (modern)
+
+#+BEGIN_SRC cfengine3 :include-stdlib t :log-level info :exports both
+  packages:
+    "apache2"
+      package_policy => "add",
+      comment => "I use the method based implementation";
+
+    "apache2"
+      policy => "present",
+      comment => "I use the module based implementation";
+#+END_SRC
+
+#+CAPTION: Speaker notes
+#+begin_notes
+- package methods allow for more flexible version specification
+- package modules allow for more simple expression of state
+- Developing package methods only allow specification of regex and commands
+- Developing package modules allows much freedom and they interface with cf-agent via the module protocol
+- More package methods available than package modules
+- Recommend using package modules
+#+end_notes
 
 ** Classify role based on hostname
 :PROPERTIES:

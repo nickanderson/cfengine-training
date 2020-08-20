@@ -4,23 +4,38 @@ body file control
       inputs => { '$(sys.libdir)/stdlib.cf' };
 }
 
-bundle agent main
+bundle agent example_package_and_service
 {
+  meta:
+    !policy_server::
+      "tags" slist => { "autorun" };
+
   vars:
-      "config[driftfile]" string => "/var/lib/ntp/drift";
+    centos|redhat::
+      "_package" string => "httpd";
+      "_service" string => "httpd";
+
+    ubuntu|debian::
+      "_package" string => "apache2";
+      "_service" string => "apache2";
+
+    any::
+      "_default_page"
+        string => ifelse( "debian|ubuntu", "/var/www/html/index.html",
+                          "centos|redhat", "/var/www/error/noindex.html",
+                          "UNKNOWN" ),
+        meta => { "inventory", "attribute_name=Apache Default Page"};
+
   packages:
-      "ntp" policy => "present";
+      "$(_package)"
+        policy => "present";
+
   services:
-      "ntpd" service_policy => "start";
-      "ntpd"
-        service_policy => "restart",
-        if => "ntpd_conf_repaired";
-  files:
-      "/etc/ntp.conf"
-        edit_line => set_line_based("$(this.bundle).config", # Key Values
-                                    " ",        # Separator
-                                    "\s+",      # Separator regex
-                                    ".*",       # Keys to use
-                                    "\s*#\s*"), # Ignore lines
-        classes => results("bundle", "httpd_conf");
+      "$(_service)"
+        service_policy => "start";
+
+  reports:
+    inform_mode|verbose_mode::
+      "My default page is from $(_default_page)";
 }
+bundle agent __main{methods:"example_package_and_service";}
