@@ -3122,7 +3122,7 @@ to be connected to IRC.
 #+Name: examples/example-url_get-wtfismyip-v1.cf
 #+CAPTION: examples/example-url_get-wtfismyip-v1.cf
 #+BEGIN_SRC cfengine3 :include-stdlib t :log-level info :exports none :tangle examples/example-url_get-wtfismyip-v1.cf :command-in-result t
-  bundle agent main
+  bundle agent example_url_get_wtfismyip_v1
   {
     vars:
         # This is the URL that we will query.
@@ -3163,32 +3163,36 @@ to be connected to IRC.
         # Let's view the content of the file we rendered
         "/tmp/file.txt" printfile => cat( $(this.promiser) );
   }
+  bundle agent __main__{methods:"example_url_get_wtfismyip_v1";}
 #+END_SRC
+
+#+REVEAL: split
 
 #+RESULTS: examples/example-url_get-wtfismyip-v1.cf
 #+begin_example
 # cf-agent --no-lock --log-level info --file examples/example-url_get-wtfismyip-v1.cf
     info: Created file '/tmp/file.txt', mode 0600
     info: Updated rendering of '/tmp/file.txt' from mustache template 'inline'
-    info: Edit file '/tmp/file.txt'
+    info: Edited file '/tmp/file.txt'
+    info: files promise '/tmp/file.txt' repaired
 R: {
-  "content": "{\n    \"YourFuckingIPAddress\": \"24.143.34.87\",\n    \"YourFuckingLocation\": \"Tonganoxie, KS, United States\",\n    \"YourFuckingHostname\": \"24-143-34-87-dynamic.midco.net\",\n    \"YourFuckingISP\": \"Midco\",\n    \"YourFuckingTorExit\": false,\n    \"YourFuckingCountryCode\": \"US\"\n}\n",
-  "headers": "HTTP/1.1 200 OK\r\nAccess-Control-Allow-Methods: GET\r\nAccess-Control-Allow-Origin: *\r\nContent-Type: application/json\r\nDate: Wed, 26 Feb 2020 16:49:25 GMT\r\nContent-Length: 268\r\n\r\n",
+  "content": "{\n    \"YourFuckingIPAddress\": \"24.143.37.227\",\n    \"YourFuckingLocation\": \"Lawrence, KS, United States\",\n    \"YourFuckingHostname\": \"24-143-37-227-dynamic.midco.net\",\n    \"YourFuckingISP\": \"Midco\",\n    \"YourFuckingTorExit\": false,\n    \"YourFuckingCountryCode\": \"US\"\n}\n",
+  "headers": "HTTP/1.1 200 OK\r\nAccess-Control-Allow-Methods: GET\r\nAccess-Control-Allow-Origin: *\r\nContent-Type: application/json\r\nDate: Thu, 20 Aug 2020 15:19:03 GMT\r\nContent-Length: 268\r\n\r\n",
   "rc": 0,
   "returncode": 200,
   "success": true
 }
 R: {
   "YourFuckingCountryCode": "US",
-  "YourFuckingHostname": "24-143-34-87-dynamic.midco.net",
-  "YourFuckingIPAddress": "24.143.34.87",
+  "YourFuckingHostname": "24-143-37-227-dynamic.midco.net",
+  "YourFuckingIPAddress": "24.143.37.227",
   "YourFuckingISP": "Midco",
-  "YourFuckingLocation": "Tonganoxie, KS, United States",
+  "YourFuckingLocation": "Lawrence, KS, United States",
   "YourFuckingTorExit": false
 }
 R: /tmp/file.txt
 R: You seem to be from the US.
-R: Specifically Tonganoxie, KS, United States.
+R: Specifically Lawrence, KS, United States.
 R: And your ISP is Midco.
 #+end_example
 
