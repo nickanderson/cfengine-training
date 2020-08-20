@@ -4,7 +4,7 @@ body file control
       inputs => { '$(sys.libdir)/stdlib.cf' };
 }
 
-bundle agent main
+bundle agent example_inventory_ssh_host_keys
 {
   vars:
       "keys" slist => lsdir("/etc/ssh", "ssh_host_\w+_key", "false");
@@ -29,3 +29,4 @@ bundle agent main
         type: $($(keys)[type])
         fingerprint: $(fingerprint[$(keys)])";
 }
+bundle agent __main__{methods:"example_inventory_ssh_host_keys";}

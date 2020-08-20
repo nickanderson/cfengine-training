@@ -2783,7 +2783,7 @@ bundle agent __main__{methods:"example_mustache_extensions";}
 
 #+NAME: examples/inventory-ssh-host-keys.cf
 #+BEGIN_SRC cfengine3 :tangle examples/inventory-ssh-host-keys.cf
-  bundle agent main
+  bundle agent example_inventory_ssh_host_keys
   {
     vars:
         "keys" slist => lsdir("/etc/ssh", "ssh_host_\w+_key", "false");
@@ -2808,6 +2808,7 @@ bundle agent __main__{methods:"example_mustache_extensions";}
           type: $($(keys)[type])
           fingerprint: $(fingerprint[$(keys)])";
   }
+  bundle agent __main__{methods:"example_inventory_ssh_host_keys";}
 #+END_SRC
 
 #+REVEAL: split
