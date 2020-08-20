@@ -2752,7 +2752,7 @@ For support issues please contact {{{vars.motd.owner}}}.';
 #+NAME: =examples/02-01-mustache-extensions.cf=
 #+CAPTION: =examples/02-01-mustache-extensions.cf=
 #+BEGIN_SRC cfengine3 :exports both :tangle examples/02-01-mustache-extensions.cf
-bundle agent main
+bundle agent example_mustache_extensions
 {
   vars: "d" data => '{ "key": "value", "list": ["one", "two"]}';
   reports:
@@ -2760,6 +2760,7 @@ bundle agent main
     "Serial: $(with)" with => string_mustache( "{{$-top-}}", d);
     "Keys: $(with)" with => string_mustache( "{{#-top-}}{{{@}}}, {{/top}}", d);
 }
+bundle agent __main__{methods:"example_mustache_extensions";}
 #+END_SRC
 
 #+REVEAL: split

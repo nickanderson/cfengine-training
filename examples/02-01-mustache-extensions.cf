@@ -4,7 +4,7 @@ body file control
       inputs => { '$(sys.libdir)/stdlib.cf' };
 }
 
-bundle agent main
+bundle agent example_mustache_extensions
 {
   vars: "d" data => '{ "key": "value", "list": ["one", "two"]}';
   reports:
@@ -12,3 +12,4 @@ bundle agent main
     "Serial: $(with)" with => string_mustache( "{{$-top-}}", d);
     "Keys: $(with)" with => string_mustache( "{{#-top-}}{{{@}}}, {{/top}}", d);
 }
+bundle agent __main__{methods:"example_mustache_extensions";}
