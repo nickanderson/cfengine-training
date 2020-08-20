@@ -8,7 +8,7 @@ bundle common classes_role_by_hostname
 {
   classes:
     "env_prod"
-      meta => { "inventory", "attribute_name=Role Classes" };
+      meta => { "inventory", "attribute_name=Role Classes" },
       or => {
               regcmp( "hub", $(sys.fqhost) ),
               regcmp( "^prd.*", $(sys.fqhost) ),
