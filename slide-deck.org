@@ -3056,7 +3056,7 @@ CFEngine report the name in a random order.
 #+Name: examples/example-report-randomized-strings-v0.cf
 #+Caption: examples/example-report-randomized-strings-v0.cf
 #+BEGIN_SRC cfengine3 :tangle examples/example-report-randomized-strings-v0.cf
-bundle agent main
+bundle agent example_report_randomized_strings_v0
 {
   vars:
     "name_parts" slist => { "Ronald", "Mck", "Donald" };
@@ -3066,12 +3066,13 @@ bundle agent main
   reports:
     "$(name)";
 }
+bundle agent __main__{methods:"example_report_randomized_strings_v0";}
 #+END_SRC
 
 #+RESULTS: examples/example-report-randomized-strings-v0.cf
+: R: Ronald Donald Mck
+: R: Mck Ronald Donald
 : R: Donald Ronald Mck
-: R: Ronald Mck Donald
-: R: Donald Mck Ronald
 
 ** Trigger an action when a file changes
 :PROPERTIES:

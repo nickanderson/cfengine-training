@@ -4,7 +4,7 @@ body file control
       inputs => { '$(sys.libdir)/stdlib.cf' };
 }
 
-bundle agent main
+bundle agent example_report_randomized_strings_v0
 {
   vars:
     "name_parts" slist => { "Ronald", "Mck", "Donald" };
@@ -14,3 +14,4 @@ bundle agent main
   reports:
     "$(name)";
 }
+bundle agent __main__{methods:"example_report_randomized_strings_v0";}
