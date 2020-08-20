@@ -2902,7 +2902,7 @@ R: /etc/ssh/ssh_host_rsa_key.pub
 #+Name: example-url_get-wtfismyip-v0.cf
 #+CAPTION: examples/example-url_get-wtfismyip-v0.cf
 #+BEGIN_SRC cfengine3 :include-stdlib t :log-level info :exports both :tangle examples/example-url_get-wtfismyip-v0.cf :command-in-result t
-  bundle agent main
+  bundle agent example_url_get_wtfismyip_v0
   {
     vars:
         # This is the URL that we will query.
@@ -2929,6 +2929,7 @@ R: /etc/ssh/ssh_host_rsa_key.pub
         # datacontainer.
         "$(with)" with => string_mustache( "{{%-top-}}", content);
   }
+  bundle agent __main__{methods:"example_url_get_wtfismyip_v0";}
 #+END_SRC
 
 #+REVEAL: split

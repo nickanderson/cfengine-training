@@ -4,7 +4,7 @@ body file control
       inputs => { '$(sys.libdir)/stdlib.cf' };
 }
 
-bundle agent main
+bundle agent example_url_get_wtfismyip_v0
 {
   vars:
       # This is the URL that we will query.
@@ -31,3 +31,4 @@ bundle agent main
       # datacontainer.
       "$(with)" with => string_mustache( "{{%-top-}}", content);
 }
+bundle agent __main__{methods:"example_url_get_wtfismyip_v0";}
