@@ -2469,13 +2469,13 @@ What happens when you restrict the context of the =tags= meta variable?
 #+Name: =examples/00-20-example-update_file.cf=
 #+Caption: =examples/00-20-example-update_file.cf=
 #+BEGIN_SRC cfengine3 :define DEBUG :command-in-result-t :tangle examples/00-20-example-update_file.cf
-bundle agent main
+bundle agent heartbeat
 {
   files:
     "$(sys.statedir)/$(this.bundle)" -> { "Monitoring" }
       create  => "true",
       touch   => "true",
-      classes => scoped_classes_generic("bundle", "heartbeat"),
+      classes => results("bundle", "heartbeat"),
       handle  => "cf_agent_heartbeat_thump",
       comment => "This policy simply updates the timestamp
                   of the file so an external monitoring
@@ -2490,6 +2490,7 @@ bundle agent main
       "DEBUG $(this.bundle): Flatline"
         unless => "heartbeat_repaired";
 }
+  bundle agent __main__{methods:"heartbeat";}
 #+END_SRC
 
 #+CAPTION: Speaker notes

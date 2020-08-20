@@ -4,13 +4,13 @@ body file control
       inputs => { '$(sys.libdir)/stdlib.cf' };
 }
 
-bundle agent main
+bundle agent heartbeat
 {
   files:
     "$(sys.statedir)/$(this.bundle)" -> { "Monitoring" }
       create  => "true",
       touch   => "true",
-      classes => scoped_classes_generic("bundle", "heartbeat"),
+      classes => results("bundle", "heartbeat"),
       handle  => "cf_agent_heartbeat_thump",
       comment => "This policy simply updates the timestamp
                   of the file so an external monitoring
@@ -25,3 +25,4 @@ bundle agent main
       "DEBUG $(this.bundle): Flatline"
         unless => "heartbeat_repaired";
 }
+  bundle agent __main__{methods:"heartbeat";}
