@@ -2984,9 +2984,10 @@ should be restarted after changing its configuration.
 
 #+REVEAL: split
 
+#+NAME: =examples/00-20-example-multiple_outcomes.cf=
 #+CAPTION: =examples/00-20-example-multiple_outcomes.cf=
 #+BEGIN_SRC cfengine3 :include-stdlib t :log-level info :exports both :tangle examples/00-20-example-multiple_outcomes.cf
-bundle agent main
+bundle agent example_multiple_outcomes
 {
   files:
     "/tmp/immutable"
@@ -3006,18 +3007,25 @@ bundle edit_line example_edit_line
   insert_lines:
     "I want to edit an immutable file";
 }
+bundle agent __main__{methods:"example_multiple_outcomes";}
 #+END_SRC
 
 #+REVEAL: split
 
-#+RESULTS:
-:    error: Can't copy file permissions from '/tmp/immutable' to '/tmp/immutable.cf-after-edit' - so promised edits could not be moved into place.
-:    error: Unable to save file '/tmp/immutable' after editing
-: R: Found Class = 'my_id_failed'
-: R: Found Class = 'my_id_not_kept'
-: R: Found Class = 'my_id_error'
-: R: Found Class = 'my_id_kept'
-: R: Found Class = 'my_id_reached'
+#+RESULTS: =examples/00-20-example-multiple_outcomes.cf=
+#+begin_example
+    info: Inserted the promised line 'I want to edit an immutable file' into '/tmp/immutable' after locator
+    info: insert_lines promise 'I want to edit an immutable file' repaired
+   error: Can't rename '/tmp/immutable.cf-after-edit' to '/tmp/immutable' - so promised edits could not be moved into place. (rename: Operation not permitted)
+   error: Unable to save file '/tmp/immutable' after editing
+   error: Errors encountered when actuating files promise '/tmp/immutable'
+R: Found Class = 'my_id_failed'
+R: Found Class = 'my_id_not_kept'
+R: Found Class = 'my_id_error'
+R: Found Class = 'my_id_kept'
+R: Found Class = 'my_id_reached'
+   error: Method 'example_multiple_outcomes' failed in some repairs
+#+end_example
 
 Refer to [[https://docs.cfengine.com/docs/3.10/reference-masterfiles-policy-framework-lib-common.html#results][implementation of the =results= classes body]] in the stdlib.
 

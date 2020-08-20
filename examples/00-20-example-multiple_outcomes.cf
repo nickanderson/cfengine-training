@@ -4,7 +4,7 @@ body file control
       inputs => { '$(sys.libdir)/stdlib.cf' };
 }
 
-bundle agent main
+bundle agent example_multiple_outcomes
 {
   files:
     "/tmp/immutable"
@@ -24,3 +24,4 @@ bundle edit_line example_edit_line
   insert_lines:
     "I want to edit an immutable file";
 }
+bundle agent __main__{methods:"example_multiple_outcomes";}
