@@ -2448,6 +2448,7 @@ R: DataContainer:{
         "File Exists"
           if => fileexists("/tmp/nologin");
   }
+  bundle agent __main__{methods:"nologin";}
 #+END_SRC
 
 #+RESULTS: =examples/00-20-example-create_file.cf=
