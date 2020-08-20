@@ -2604,7 +2604,9 @@ bundle common classes_role_by_hostname
       expression => regcmp( "^www.*", $(sys.fqhost) ),
       meta => { "inventory", "attribute_name=Role Classes" };
 }
+bundle agent __main__{methods:"classes_role_by_hostname";}
 #+END_SRC
+
 ** Classify geographic location by network
 :PROPERTIES:
 :ID:       fae34dc9-c6af-4bb2-9755-142af0f22d79

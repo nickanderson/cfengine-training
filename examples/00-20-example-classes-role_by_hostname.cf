@@ -22,3 +22,4 @@ bundle common classes_role_by_hostname
       expression => regcmp( "^www.*", $(sys.fqhost) ),
       meta => { "inventory", "attribute_name=Role Classes" };
 }
+bundle agent __main__{methods:"classes_role_by_hostname";}
