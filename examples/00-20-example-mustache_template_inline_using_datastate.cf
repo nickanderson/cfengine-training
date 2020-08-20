@@ -1,0 +1,22 @@
+#!/var/cfengine/bin/cf-agent -f-
+body file control
+{
+      inputs => { '$(sys.libdir)/stdlib.cf' };
+}
+
+bundle agent motd
+{
+  meta:
+    "tags" slist => { "autorun" };
+
+  vars:
+    "owner" string => "Bruce Wayne";
+
+  files:
+    "/etc/motd"
+      template_method => "inline_mustache",
+      edit_template_string => 'Welcome to {{{vars.sys.fqhost}}}!
+
+For support issues please contact {{{vars.motd.owner}}}.';
+}
+bundle agent __main__{methods:"motd";}

@@ -2775,8 +2775,8 @@ bundle agent __main__{methods:"manage_ssh";}
 :ID:       c2bc7d78-1a04-4439-9ee8-935999e0ef06
 :END:
 
-#+Caption: =examples/00-20-example-mustache_template_vars.cf=
-#+BEGIN_SRC cfengine3 :tangle examples/00-20-example-mustache_template_vars.cf
+#+Caption: =examples/00-20-example-mustache_template_inline_using_datastate.cf=
+#+BEGIN_SRC cfengine3 :tangle examples/00-20-example-mustache_template_inline_using_datastate.cf
 bundle agent motd
 {
   meta:
@@ -2792,9 +2792,13 @@ bundle agent motd
 
 For support issues please contact {{{vars.motd.owner}}}.';
 }
+bundle agent __main__{methods:"motd";}
 #+END_SRC
 
 ** Mustache extensions
+:PROPERTIES:
+:ID:       924c6942-3d39-48b5-abc9-cf822100a81f
+:END:
 - =-top-= data handed to the templating engine
 - =@= Currently iterated /key/
 - =%= Multi-line JSON representation of data
