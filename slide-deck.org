@@ -4413,7 +4413,8 @@ R: Filtered data: [
 
 #+REVEAL: split
 
-#+CAPTION: examples/hash_to_int.cf
+#+Name: =examples/hash_to_int.cf=
+#+CAPTION: =examples/hash_to_int.cf=
 #+BEGIN_SRC cfengine3 :include-stdlib nil :log-level info :exports both :tangle ./examples/hash_to_int.cf 
   bundle agent example_hash_to_int
   {
@@ -4430,15 +4431,13 @@ R: Filtered data: [
         "'world' hashed to: $(world)";
 
   }
-  bundle agent main
-  {
-    methods: "example_hash_to_int";
-  }
+  bundle agent __main__{methods: "example_hash_to_int";}
 #+END_SRC
 
-#+RESULTS:
+#+RESULTS: =examples/hash_to_int.cf=
 : R: 'hello' hashed to: 172
 : R: 'world' hashed to: 760
+
 
 ** In 3.11
 *** Promise attributes

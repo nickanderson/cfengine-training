@@ -19,7 +19,4 @@ bundle agent example_hash_to_int
       "'world' hashed to: $(world)";
 
 }
-bundle agent main
-{
-  methods: "example_hash_to_int";
-}
+bundle agent __main__{methods: "example_hash_to_int";}
