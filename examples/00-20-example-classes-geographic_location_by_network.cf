@@ -1,3 +1,4 @@
+#!/var/cfengine/bin/cf-agent -f-
 bundle common classify_geo_location_by_network
 {
   meta:
@@ -43,3 +44,4 @@ classes:
     "DEBUG|DEBUG_$(this.bundle)"::
       "DEBUG $(this.bundle): Continent = '$(continent)'";
 }
+bundle agent __main__{methods:"classify_geo_location_by_network";}

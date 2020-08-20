@@ -2613,7 +2613,7 @@ bundle agent __main__{methods:"classes_role_by_hostname";}
 :END:
 
 #+Caption: =examples/00-20-example-classes-geographic_location_by_network.cf=
-#+BEGIN_SRC cfengine3
+#+BEGIN_SRC cfengine3 :tangle examples/00-20-example-classes-geographic_location_by_network.cf :prologue ""
 bundle common classify_geo_location_by_network
 {
   meta:
@@ -2643,7 +2643,7 @@ bundle common classify_geo_location_by_network
 #+REVEAL: split
 
 #+Caption: Continued =examples/00-20-example-classes-geographic_location_by_network.cf=
-#+BEGIN_SRC cfengine3
+#+BEGIN_SRC cfengine3 :tangle examples/00-20-example-classes-geographic_location_by_network.cf :prologue ""
 
   classes:
     "north_america"
@@ -2665,6 +2665,7 @@ bundle common classify_geo_location_by_network
     "DEBUG|DEBUG_$(this.bundle)"::
       "DEBUG $(this.bundle): Continent = '$(continent)'";
 }
+bundle agent __main__{methods:"classify_geo_location_by_network";}
 #+END_SRC
 ** Manage key value entries in a config file
 :PROPERTIES:
