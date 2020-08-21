@@ -2841,6 +2841,13 @@ For support issues please contact {{{vars.motd.owner}}}.';
 bundle agent __main__{methods:"motd";}
 #+END_SRC
 
+#+CAPTION: Speaker notes
+#+begin_notes
+- What does this policy do?
+  - Renders =/etc/motd= using an inline mustache template, expanding variables from =datastate()=
+- How could you tweak this to set different owners for different hosts?
+#+end_notes
+
 ** Mustache extensions
 :PROPERTIES:
 :ID:       924c6942-3d39-48b5-abc9-cf822100a81f
@@ -2864,6 +2871,14 @@ bundle agent example_mustache_extensions
 bundle agent __main__{methods:"example_mustache_extensions";}
 #+END_SRC
 
+#+CAPTION: Speaker notes
+#+begin_notes
+- What does this policy do?
+  - Defines =d= as a data container
+  - Emits multiline, serialized JSON representation of datacontainer
+  - Emits keys of the data container
+#+end_notes
+
 #+REVEAL: split
 
 #+RESULTS: =examples/02-01-mustache-extensions.cf=
@@ -2876,6 +2891,54 @@ bundle agent __main__{methods:"example_mustache_extensions";}
 : }
 : R: Serial: {"key":"value","list":["one","two"]}
 : R: Keys: key, list, 
+
+#+REVEAL: split
+
+#+NAME: =examples/02-01-mustache-extensions-yaml.cf=
+#+CAPTION: =examples/02-01-mustache-extensions-yaml.cf=
+#+BEGIN_SRC cfengine3 :exports both :tangle examples/02-01-mustache-extensions-yaml.cf
+  bundle agent example_mustache_extensions_yaml
+  {
+    vars: "d" data => '---
+  key: value
+  list:
+    - one
+    - two';
+    reports:
+      "Multiline: $(with)" with => string_mustache( "{{%-top-}}", d);
+      "Serial: $(with)" with => string_mustache( "{{$-top-}}", d);
+      "Keys: $(with)" with => string_mustache( "{{#-top-}}{{{@}}}, {{/top}}", d);
+  }
+  bundle agent __main__{methods:"example_mustache_extensions_yaml";}
+#+END_SRC
+
+#+CAPTION: Speaker notes
+#+begin_notes
+- What does this policy do?
+  - Defines =d= as a data container by specifying YAML inline
+  - Emits multiline, serialized JSON representation of datacontainer
+  - Emits keys of the data container
+- Note: the output is identical to the version where =d= was defined with inline JSON
+#+end_notes
+
+#+REVEAL: split
+
+#+RESULTS: =examples/02-01-mustache-extensions-yaml.cf=
+: R: Multiline: {
+:   "key": "value",
+:   "list": [
+:     "one",
+:     "two"
+:   ]
+: }
+: R: Serial: {"key":"value","list":["one","two"]}
+: R: Keys: key, list, 
+
+#+CAPTION: Speaker notes
+#+begin_notes
+- Note: the output is identical to the version where =d= was defined with inline JSON
+#+end_notes
+
 
 ** Inventory SSH Host Keys
 :PROPERTIES:
