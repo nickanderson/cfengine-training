@@ -1,0 +1,10 @@
+#!/var/cfengine/bin/cf-agent -f-
+bundle agent example_library__main__2
+{
+  reports: "Hello from $(this.bundle)";
+}
+bundle agent __main__
+{
+  methods:
+      "example_library__main__2";
+}

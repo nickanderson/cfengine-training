@@ -1,0 +1,21 @@
+#!/var/cfengine/bin/cf-agent -f-
+body file control
+{
+  inputs => {
+              "example_library__main__1.cf",
+              "example_library__main__2.cf",
+            };
+}
+bundle agent example_library__main__
+{
+  reports: "Hello from $(this.bundle)";
+}
+bundle agent __main__
+{
+  vars: "b" slist => bundlesmatching( "example_.*" );
+  methods:
+      "example_library__main__";
+      "example_library__main__1";
+      "example_library__main__2";
+  reports: "$(b)";
+}
