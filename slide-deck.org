@@ -10,6 +10,7 @@
 #+OPTIONS: tags:nil timestamp:nil
 #+OPTIONS: reveal_single_file:nil
 #+REVEAL_MARGIN: 0.1
+#+REVEAL_EXTRA_CSS: cfengine.css
 #+REVEAL_MIN_SCALE: 0.5
 #+REVEAL_MAX_SCALE: 2.5
 #+REVEAL_TRANS: fade
@@ -2638,8 +2639,8 @@ bundle agent __main__{methods:"classes_role_by_hostname";}
 :PROPERTIES:
 :ID:       fae34dc9-c6af-4bb2-9755-142af0f22d79
 :END:
+[[file:examples/00-20-example-classes-geographic_location_by_network.cf][examples/00-20-example-classes-geographic_location_by_network]]
 
-#+Caption: =examples/00-20-example-classes-geographic_location_by_network.cf=
 #+BEGIN_SRC cfengine3 :tangle examples/00-20-example-classes-geographic_location_by_network.cf :prologue ""
 bundle common classify_geo_location_by_network
 {
