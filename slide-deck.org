@@ -2409,18 +2409,23 @@ R: DataContainer:{
 :PROPERTIES:
 :ID:       94b248ac-68df-4677-b03c-9149d3a548df
 :END:
+
 #+BEGIN_EXAMPLE
   [root@hub masterfiles]# cat > def.json <<EOF
   {
       "classes": {
-          "cfengine_internal_masterfiles_update": [
-              "policy_server"
-          ],
-          "services_autorun": [ "any" ]
+        "cfengine_internal_purge_policies": [ "any::" ],
+        "services_autorun": [ "any::" ]
       }
   }
   EOF
 #+END_EXAMPLE
+
+#+CAPTION: Speaker notes
+#+begin_notes
+- Enable autorun
+- Purge files in inputs that don't exist upstream (make update more of a sync behavior)
+#+end_notes
 
 ** Create a file
 :PROPERTIES:
