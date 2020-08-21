@@ -1,9 +1,4 @@
 #!/var/cfengine/bin/cf-agent -f-
-body file control
-{
-      inputs => { '$(sys.libdir)/stdlib.cf' };
-}
-
 bundle agent example_package_and_service
 {
   meta:
@@ -18,6 +13,7 @@ bundle agent example_package_and_service
     ubuntu|debian::
       "_package" string => "apache2";
       "_service" string => "apache2";
+  # ...
 
     any::
       "_default_page"

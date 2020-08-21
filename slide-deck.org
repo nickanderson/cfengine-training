@@ -2523,7 +2523,7 @@ bundle agent heartbeat
 :END:
 
 #+Caption: =examples/00-20-example-package_and_service.cf=
-#+BEGIN_SRC cfengine3 :tangle examples/00-20-example-package_and_service.cf
+#+BEGIN_SRC cfengine3 :tangle examples/00-20-example-package_and_service.cf :prologue ""
   bundle agent example_package_and_service
   {
     meta:
@@ -2538,7 +2538,18 @@ bundle agent heartbeat
       ubuntu|debian::
         "_package" string => "apache2";
         "_service" string => "apache2";
+    # ...
+#+END_SRC
 
+#+CAPTION: Speaker notes
+#+begin_notes
+- What is this policy doing?
+  - Defining variables for different platforms
+#+end_notes
+
+#+REVEAL: split
+
+#+BEGIN_SRC cfengine3 :tangle examples/00-20-example-package_and_service.cf :prologue ""
       any::
         "_default_page"
           string => ifelse( "debian|ubuntu", "/var/www/html/index.html",
@@ -2563,6 +2574,10 @@ bundle agent heartbeat
 
 #+CAPTION: Speaker notes
 #+begin_notes
+- What is this policy doing?
+  - Defining and inventorying the default page based on platform
+  - Ensuring the package (name based on variable which differs by platform) is present
+  - Ensure the service is running
 - Note, there are two implementations of /packages/ promises.
 #+end_notes
 
