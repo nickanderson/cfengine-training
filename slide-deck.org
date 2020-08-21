@@ -2420,6 +2420,7 @@ R: DataContainer:{
               "control_hub_exclude_hosts": [ "0.0.0.0/0" ]
     },
     "classes": {
+                 "mpf_augments_control_enabled": [ "any::" ],
                  "client_initiated_reporting_enabled": [ "any::" ],
                  "cfengine_internal_purge_policies": [ "any::" ],
                  "services_autorun": [ "any::" ]
