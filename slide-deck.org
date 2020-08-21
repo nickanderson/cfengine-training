@@ -2413,9 +2413,15 @@ R: DataContainer:{
 #+BEGIN_EXAMPLE
   [root@hub masterfiles]# cat > def.json <<EOF
   {
-      "classes": {
-        "cfengine_internal_purge_policies": [ "any::" ],
-        "services_autorun": [ "any::" ]
+    "vars": {
+              "mpf_access_rules_collect_calls_admit_ips": [ "0.0.0.0/0" ],
+              "control_server_call_collect_interval": "1",
+              "control_hub_exclude_hosts": [ "0.0.0.0/0" ]
+    },
+    "classes": {
+                 "client_initiated_reporting_enabled": [ "any::" ],
+                 "cfengine_internal_purge_policies": [ "any::" ],
+                 "services_autorun": [ "any::" ]
       }
   }
   EOF
@@ -2425,6 +2431,7 @@ R: DataContainer:{
 #+begin_notes
 - Enable autorun
 - Purge files in inputs that don't exist upstream (make update more of a sync behavior)
+- Client initated reporting with a 1 minute interval
 #+end_notes
 
 ** Create a file
