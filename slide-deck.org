@@ -2439,9 +2439,8 @@ R: DataContainer:{
 :PROPERTIES:
 :ID:       9cb68439-c70c-4fe1-be2c-176fdf328588
 :END:
-
+[[file:examples/00-20-example-create_file.cf][examples/00-20-example-create_file.cf]]
 #+Name: =examples/00-20-example-create_file.cf=
-#+Caption: =examples/00-20-example-create_file.cf=
 #+begin_src cfengine3 :tangle examples/00-20-example-create_file.cf :bundlesequence nologin
   bundle agent nologin
   {
@@ -2478,9 +2477,8 @@ What happens when you restrict the context of the =tags= meta variable?
 :PROPERTIES:
 :ID:       6c117f0e-2e5a-44e3-9119-4ea9568ab8c3
 :END:
-
+[[file:examples/00-20-example-update_file.cf][examples/00-20-example-update_file.cf]]
 #+Name: =examples/00-20-example-update_file.cf=
-#+Caption: =examples/00-20-example-update_file.cf=
 #+BEGIN_SRC cfengine3 :define DEBUG :command-in-result-t :tangle examples/00-20-example-update_file.cf
 bundle agent heartbeat
 {
@@ -2522,8 +2520,7 @@ bundle agent heartbeat
 :PROPERTIES:
 :ID:       aa3065ea-f167-4b8a-9fde-f07ca8677429
 :END:
-
-#+Caption: =examples/00-20-example-package_and_service.cf=
+[[file:examples/00-20-example-package_and_service.cf][examples/00-20-example-package_and_service.cf]]
 #+BEGIN_SRC cfengine3 :tangle examples/00-20-example-package_and_service.cf :prologue ""
   bundle agent example_package_and_service
   {
@@ -2638,9 +2635,7 @@ bundle agent __main__{methods:"classes_role_by_hostname";}
 :PROPERTIES:
 :ID:       fae34dc9-c6af-4bb2-9755-142af0f22d79
 :END:
-
 [[file:examples/00-20-example-classes-geographic_location_by_network.cf][examples/00-20-example-classes-geographic_location_by_network]]
-
 #+BEGIN_SRC cfengine3 :tangle examples/00-20-example-classes-geographic_location_by_network.cf :prologue ""
 bundle common classify_geo_location_by_network
 {
@@ -2718,8 +2713,7 @@ bundle agent __main__{methods:"classify_geo_location_by_network";}
 :PROPERTIES:
 :ID:       61e9705e-9cec-49f1-89cb-31322c34a17c
 :END:
-
-#+Caption: =manage_ssh= in =examples/00-20-example-key_value_config.cf=
+[[file:examples/00-20-example-key_value_config.cf][examples/00-20-example-key_value_config.cf]]
 #+BEGIN_SRC cfengine3 :tangle examples/00-20-example-key_value_config.cf :prologue ""
 bundle agent manage_ssh
 {
@@ -2737,7 +2731,6 @@ bundle agent manage_ssh
 
 #+REVEAL: split
 
-#+Caption: =ssh_config= in =examples/00-20-example-key_value_config.cf=
 #+BEGIN_SRC cfengine3 :tangle examples/00-20-example-key_value_config.cf  :include-stdlib nil :prologue ""
 bundle agent ssh_config
 {
@@ -2757,7 +2750,6 @@ bundle agent ssh_config
 
 #+REVEAL: split
 
-#+Caption: =ssh_config_manage_kv= in =examples/00-20-example-key_value_config.cf=
 #+BEGIN_SRC cfengine3 :tangle examples/00-20-example-key_value_config.cf  :include-stdlib nil :prologue ""
 bundle agent ssh_config_manage_kv(data)
 {
@@ -2821,8 +2813,7 @@ bundle agent __main__{methods:"manage_ssh";}
 :PROPERTIES:
 :ID:       c2bc7d78-1a04-4439-9ee8-935999e0ef06
 :END:
-
-#+Caption: =examples/00-20-example-mustache_template_inline_using_datastate.cf=
+[[file:examples/00-20-example-mustache_template_inline_using_datastate.cf][examples/00-20-example-mustache_template_inline_using_datastate.cf]]
 #+BEGIN_SRC cfengine3 :tangle examples/00-20-example-mustache_template_inline_using_datastate.cf
 bundle agent motd
 {
@@ -2858,8 +2849,8 @@ bundle agent __main__{methods:"motd";}
 - =%= Multi-line JSON representation of data
 - =$= Serialized JSON representation of data
 
+[[file:examples/02-01-mustache-extensions.cf][examples/02-01-mustache-extensions.cf]]
 #+NAME: =examples/02-01-mustache-extensions.cf=
-#+CAPTION: =examples/02-01-mustache-extensions.cf=
 #+BEGIN_SRC cfengine3 :exports both :tangle examples/02-01-mustache-extensions.cf
 bundle agent example_mustache_extensions
 {
@@ -2894,9 +2885,8 @@ bundle agent __main__{methods:"example_mustache_extensions";}
 : R: Keys: key, list, 
 
 #+REVEAL: split
-
+[[file:examples/02-01-mustache-extensions-yaml.cf][examples/02-01-mustache-extensions-yaml.cf]]
 #+NAME: =examples/02-01-mustache-extensions-yaml.cf=
-#+CAPTION: =examples/02-01-mustache-extensions-yaml.cf=
 #+BEGIN_SRC cfengine3 :exports both :tangle examples/02-01-mustache-extensions-yaml.cf
   bundle agent example_mustache_extensions_yaml
   {
@@ -2923,7 +2913,6 @@ bundle agent __main__{methods:"example_mustache_extensions";}
 #+end_notes
 
 #+REVEAL: split
-
 #+RESULTS: =examples/02-01-mustache-extensions-yaml.cf=
 : R: Multiline: {
 :   "key": "value",
@@ -2940,12 +2929,11 @@ bundle agent __main__{methods:"example_mustache_extensions";}
 - Note: the output is identical to the version where =d= was defined with inline JSON
 #+end_notes
 
-
 ** Inventory SSH Host Keys
 :PROPERTIES:
 :ID:       5de931a8-1b0d-48c7-a655-ed3c024eca17
 :END:
-
+[[file:examples/inventory-ssh-host-keys.cf][examples/inventory-ssh-host-keys.cf]]
 #+NAME: examples/inventory-ssh-host-keys.cf
 #+BEGIN_SRC cfengine3 :tangle examples/inventory-ssh-host-keys.cf
   bundle agent example_inventory_ssh_host_keys
@@ -3009,8 +2997,8 @@ R: /etc/ssh/ssh_host_rsa_key.pub
  Here is a very simple, contrived example working with the JSON returned by wtfismyip.com.
 #+END_NOTES
 
+[[file:examples/example-url_get-wtfismyip-v0.cf][examples/example-url_get-wtfismyip-v0.cf]]
 #+Name: example-url_get-wtfismyip-v0.cf
-#+CAPTION: examples/example-url_get-wtfismyip-v0.cf
 #+BEGIN_SRC cfengine3 :include-stdlib t :log-level info :exports both :tangle examples/example-url_get-wtfismyip-v0.cf :command-in-result t
   bundle agent example_url_get_wtfismyip_v0
   {
@@ -3313,8 +3301,8 @@ to be connected to IRC.
 
 - Let's use the response /content/ from the previous example in a template to manage a file.
 
+[[file:examples/example-url_get-wtfismyip-v1.cf][examples/example-url_get-wtfismyip-v1.cf]]
 #+Name: examples/example-url_get-wtfismyip-v1.cf
-#+CAPTION: examples/example-url_get-wtfismyip-v1.cf
 #+BEGIN_SRC cfengine3 :include-stdlib t :log-level info :exports none :tangle examples/example-url_get-wtfismyip-v1.cf :command-in-result t
   bundle agent example_url_get_wtfismyip_v1
   {
@@ -3400,8 +3388,8 @@ R: And your ISP is Midco.
 Here we add the =results= /classes/ body. It will define bundle (local) scoped classes for the outcomes (kept, notkept, repaired) produced by the promise.
 #+END_NOTES
 
+[[file:examples/example-url_get-wtfismyip-v2.cf][examples/example-url_get-wtfismyip-v2.cf]]
 #+Name: examples/example-url_get-wtfismyip-v2.cf
-#+CAPTION: examples/example-url_get-wtfismyip-v2.cf
 #+BEGIN_SRC cfengine3 :include-stdlib t :log-level info :exports none :tangle examples/example-url_get-wtfismyip-v2.cf :command-in-result t
   bundle agent example_url_get_wtfismyip_v2
   {
