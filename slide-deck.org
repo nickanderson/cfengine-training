@@ -2667,6 +2667,17 @@ bundle common classify_geo_location_by_network
       meta => { "inventory", "attribute_name=Continent" };
 #+END_SRC
 
+#+CAPTION: Speaker notes
+#+begin_notes
+- What does this policy do?
+  - Defines some variables containing subnet specifications
+  - Defines and inventories variable for continent based on presence of other classes
+    - Where are those other classes defined?
+      - Further down in the policy
+    - How does something written further down in the policy affect something at the top?
+      - Normal Order, 3 passes
+#+end_notes
+
 #+REVEAL: split
 
 #+Caption: Continued =examples/00-20-example-classes-geographic_location_by_network.cf=
@@ -2694,6 +2705,14 @@ bundle common classify_geo_location_by_network
 }
 bundle agent __main__{methods:"classify_geo_location_by_network";}
 #+END_SRC
+
+#+CAPTION: Speaker notes
+#+begin_notes
+- What does this policy do?
+  - Defines some classes based on the host having an ip within known subnet ranges
+  - Emits debug reports if DEBUG class is defined
+#+end_notes
+
 ** Manage key value entries in a config file
 :PROPERTIES:
 :ID:       61e9705e-9cec-49f1-89cb-31322c34a17c
