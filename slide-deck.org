@@ -2611,8 +2611,7 @@ bundle agent heartbeat
 :PROPERTIES:
 :ID:       b4f7b0a9-5839-4d1b-bbec-f12d6a68f282
 :END:
-
-#+Caption: =examples/00-20-example-classes-role_by_hostname.cf=
+[[file:examples/00-20-example-classes-role_by_hostname.cf][examples/00-20-example-classes-role_by_hostname.cf]]
 #+BEGIN_SRC cfengine3 :tangle examples/00-20-example-classes-role_by_hostname.cf
 bundle common classes_role_by_hostname
 {
@@ -2639,6 +2638,7 @@ bundle agent __main__{methods:"classes_role_by_hostname";}
 :PROPERTIES:
 :ID:       fae34dc9-c6af-4bb2-9755-142af0f22d79
 :END:
+
 [[file:examples/00-20-example-classes-geographic_location_by_network.cf][examples/00-20-example-classes-geographic_location_by_network]]
 
 #+BEGIN_SRC cfengine3 :tangle examples/00-20-example-classes-geographic_location_by_network.cf :prologue ""
