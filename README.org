@@ -1,12 +1,13 @@
 #+Title: CFEngine Training
 
-[[https://htmlpreview.github.io/?https://github.com/nickanderson/cfengine-training/blob/master/slide-deck.html][View Presentation]]
-
 This content is used during CFEngine Trainings. Please feel free to
 use it for your own trainings and submit improvements.
 
 This training material uses org-mode to build the slides.
 
 Examples are "tangled" from the presentation itself.
+
+- [[https://htmlpreview.github.io/?https://github.com/nickanderson/cfengine-training/blob/master/slide-deck.html][View Presentation]]
+- [[https://github.com/nickanderson/cfengine-training/blob/master/slide_deck-light.pdf][Light PDF]]
 
 
