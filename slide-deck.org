@@ -3870,6 +3870,36 @@ R: Classes starting with file_content: file_content_failed, file_content_not_kep
    error: Method 'example_url_get_wtfismyip_v5' failed in some repairs
 #+end_example
 
+** Inventory batteries
+- =/sys/class/power_supply/BAT*/capacity=
+  - What batteries are present
+  - What are their capacities
+  - More than 1? Aggregate capacity
+  - Broken batteries?
+*** Example solution :noexport:
+#+BEGIN_SRC cfengine3 :include-stdlib t :log-level info :exports both :extra-opts --show-evaluated-vars=battery
+bundle agent battery
+{
+  meta:
+    "tags" slist => { "autorun" };
+  vars:
+    "_batteries" slist => lsdir("/sys/class/power_supply/", "[bB][aA][tT]\d+", false);
+    "_battery_capacity[$(_batteries)]"
+      string => readfile( "/sys/class/power_supply/$(_batteries)/capacity" ),
+      meta => { "inventory", "attribute_name=Battery Capacity $(_batteries)" },
+      if => isplain( "/sys/class/power_supply/$(_batteries)/capacity" );
+    "_battery_capacities" slist => getvalues( _battery_capacity );
+    "_battery_count" int => length( _battery_capacities );
+    "_sum_battery_capacities" real => sum( _battery_capacities );
+    "_aggregate_battery_capacity" string => eval( "$(_sum_battery_capacities)/$(_battery_count)", "math", "infix" ),
+      meta => { "inventory", "attribute_name=Aggregate Battery Capacity" };
+    "_broken"
+      slist => difference( _batteries, getindices( _battery_capacity) ),
+      meta => { "inventory", "attribute_name=Broken Batteries" };
+}
+bundle agent __main__{ methods: "battery";}
+#+END_SRC
+
 * Enterprise Reporting
 ** APIs
 - Host
@@ -4079,30 +4109,104 @@ R: Classes starting with file_content: file_content_failed, file_content_not_kep
 ** Health API
 
 #+CAPTION: Get an overview of the health status
-#+BEGIN_SRC sh :results output :exports code
+#+BEGIN_SRC sh :results output :exports both :wrap "src json"
   curl -s -k --user $AUTHUSER:$PASSWORD \
-    -X GET \
-    https://$HUB/api/inventory/attributes-dictionary | jq'
+    https://$HUB/api/health-diagnostic/status/ | jq
 #+END_SRC
 
-
-#+BEGIN_SRC json
+#+RESULTS:
+#+begin_src json
 {
-  "hostsNeverCollected": 0,
+  "hostsNeverCollected": 2,
   "notRecentlyCollected": 3,
   "hostsUsingSameIdentity": 0,
   "agentNotRunRecently": 0,
   "lastAgentRunUnsuccessful": 0,
-  "totalFailed": 3,
+  "totalFailed": 5,
   "total": "8"
 }
-#+END_SRC
+#+end_src
 
 #+CAPTION: Speaker Notes
 #+BEGIN_NOTES
 - Get an overview of the health status
 - Query for details of each health status
 #+END_NOTES
+
+#+BEGIN_SRC sh :results output :exports both :wrap "src json"
+  curl -s -k --user $AUTHUSER:$PASSWORD \
+    https://$HUB/api/health-diagnostic/report_ids | jq
+#+END_SRC
+
+#+RESULTS:
+#+begin_src json
+#+end_src
+
+#+CAPTION: Get an overview of the health status
+#+BEGIN_SRC sh :results output :exports code
+  curl -s -k --user $AUTHUSER:$PASSWORD \
+    -X POST \
+    https://$HUB/api/health-diagnostic/report/hostsNeverCollected \
+    -H 'Content-Type: application/json' \
+    -d '{"limit": 50}' | jq
+#+END_SRC
+
+#+RESULTS:
+#+begin_example
+{
+  "data": [
+    {
+      "header": [
+        {
+          "columnName": "key",
+          "columnType": "STRING"
+        },
+        {
+          "columnName": "hostkey",
+          "columnType": "STRING"
+        },
+        {
+          "columnName": "IP address",
+          "columnType": "STRING"
+        },
+        {
+          "columnName": "Last report collected",
+          "columnType": "STRING"
+        },
+        {
+          "columnName": "First report collected",
+          "columnType": "STRING"
+        }
+      ],
+      "query": "SELECT h.Hostkey as key,h.Hostkey as hostkey, ipaddress as \"IP address\", lastreporttimestamp as \"Last report collected\", firstreporttimestamp as \"First report collected\"\n                            FROM hosts_not_reported h WHERE HostKey IN (SELECT hostkey FROM hosts_not_reported WHERE hostkey NOT IN (SELECT hostkey FROM health_diagnostics_dismissed WHERE username = 'a10042' AND report_type = 'hostsNeverCollected' ))",
+      "queryTimeMs": 22,
+      "rowCount": 2,
+      "rows": [
+        [
+          "SHA=5a9cd97cb5941f63caae95a377dc2e3a50e4ff2953fe921d8a143573a8fe0a9c",
+          "SHA=5a9cd97cb5941f63caae95a377dc2e3a50e4ff2953fe921d8a143573a8fe0a9c",
+          "24.143.37.227",
+          "2020-08-27 17:00:57-05",
+          "2020-07-16 15:23:55.932442-05"
+        ],
+        [
+          "SHA=0461796ddcd31f13d4701141eb7290e7d58f8149f14a4f2ac8c8776a9d3a854e",
+          "SHA=0461796ddcd31f13d4701141eb7290e7d58f8149f14a4f2ac8c8776a9d3a854e",
+          "84.212.143.13",
+          "2020-08-12 11:54:16-05",
+          "2020-07-14 05:12:25.525343-05"
+        ]
+      ]
+    }
+  ],
+  "meta": {
+    "count": 1,
+    "page": 1,
+    "timestamp": 1600184236,
+    "total": 1
+  }
+}
+#+end_example
 
 ** Query API
 
@@ -15067,6 +15171,32 @@ check_theo_test=scripts\check_theo.exe $ARG1$
 #+RESULTS: examples/usebundle_inherit_context.cf
 : R: First see class parent_1 defined
 : R: Second see class parent_1 NOT defined
+** Bundles can return data
+
+#+BEGIN_SRC cfengine3 :include-stdlib t :log-level info :exports both :extra-opts --show-evaluated-vars=parent
+  bundle agent parent
+  {
+
+    methods:
+       "Get data returned by bundle"
+          usebundle => my_bundle,
+          useresult => "my_returned_vars";
+
+
+  }
+  bundle agent my_bundle
+  {
+    reports:
+        "Hello world" bundle_return_value_index => "msg";
+        "Something" bundle_return_value_index => "1";
+  }
+  bundle agent __main__ { methods: "parent"; }
+#+END_SRC
+
+#+RESULTS:
+: Variable name                            Variable value                                               Meta tags                               
+: default:parent.my_returned_vars[1]       Something                                                    source=bundle                           
+: default:parent.my_returned_vars[msg]     Hello world                                                  source=bundle                           
 
 * Useful Tools and Tips
 :PROPERTIES:
