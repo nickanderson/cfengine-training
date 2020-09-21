@@ -15897,3 +15897,7 @@ This means new policy will be distributed as you push it into the repository.
 - How do you get an overview of the changes to your clone? :: ~git status~
 - How can you easily search a git repository? :: ~git grep~
 #+end_notes
+
+* Wrapping up
+
+Please take a few moments to [[https://www.surveymonkey.com/r/CFEngine-Training][fill out this survey]] about your experience: https://www.surveymonkey.com/r/CFEngine-Training
