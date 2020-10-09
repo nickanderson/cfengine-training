@@ -2033,7 +2033,7 @@ accessedbefore, changedbefore, classify, classmatch, every, fileexists, filesexi
   - =$(namespace:bundle.variable)=, =@(namespace:bundle.list)=
 
 ** Datatypes
-- string
+- string, int, real
 - slist, ilist, rlist
 - classic "array"
 - data
@@ -2047,7 +2047,7 @@ accessedbefore, changedbefore, classify, classmatch, every, fileexists, filesexi
 bundle agent main
 {
   vars:
-   "string1" string => "one";
+    "string1" string => "one";
     "string2" string => "strings
 can be multi-line";
     "string3" string => "with \"quotes\"";
@@ -2278,21 +2278,24 @@ bundle agent main
 : R: file: '/etc/fstab'
 
 *** Example - data containers
+:PROPERTIES:
+:ID:       97ffe09a-8f14-4767-8219-87175794cb07
+:END:
 #+Caption: =examples/00-06-data_containers.cf=
 #+Name: =examples/00-06-data_containers.cf=
-#+BEGIN_SRC cfengine3 :tangle ./examples/00-06-data_containers.cf
+#+BEGIN_SRC cfengine3 :tangle ./examples/00-06-data_containers.cf :wrap "example"
 bundle agent main
 {
   vars:
     "server" string => "mirror.int.cfengine.com";
     "repos"
-      data => parsejson('{
+      data => '{
                 "rhel6_updates": {
                   "id": { "value":"RHEL6_UPDATES" },
                   "name": { "value": "RHEL 6.x Updates" },
                   "baseurl": { "value": "https://$(server)/RHEL6/updates" }
                 }
-              }');
+              }';
 
     "idx" slist => getindices( repos );
 
@@ -2304,9 +2307,9 @@ bundle agent main
 #+REVEAL: split
 
 #+RESULTS: =examples/00-06-data_containers.cf=
-#+BEGIN_EXAMPLE
+#+begin_example
 R: URL = 'https://mirror.int.cfengine.com/RHEL6/updates'
-#+END_EXAMPLE
+#+end_example
 
 *** Differences between "Classic Arrays" and "Data containers" 
 #+CAPTURE: Speaker Notes
@@ -15897,7 +15900,9 @@ This means new policy will be distributed as you push it into the repository.
 - How do you get an overview of the changes to your clone? :: ~git status~
 - How can you easily search a git repository? :: ~git grep~
 #+end_notes
-
 * Wrapping up
+:PROPERTIES:
+:ID:       4578b68f-7110-4106-9826-07d4f6d8e143
+:END:
 
 Please take a few moments to [[https://www.surveymonkey.com/r/CFEngine-Training][fill out this survey]] about your experience: https://www.surveymonkey.com/r/CFEngine-Training

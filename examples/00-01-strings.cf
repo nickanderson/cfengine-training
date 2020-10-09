@@ -7,7 +7,7 @@ body file control
 bundle agent main
 {
   vars:
-   "string1" string => "one";
+    "string1" string => "one";
     "string2" string => "strings
 can be multi-line";
     "string3" string => "with \"quotes\"";
