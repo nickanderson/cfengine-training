@@ -394,7 +394,7 @@ http://channel9.msdn.com/blogs/pdc2008/tl16
 
 #+Caption: Quick Install Community
 #+BEGIN_SRC shell
-wget -O- http://cfengine.package-repos.s3.amazonaws.com/\
+wget -O- https://cfengine.package-repos.s3.amazonaws.com/\
   quickinstall/quick-install-cfengine-community.sh | sudo bash
 #+END_SRC
 
@@ -454,7 +454,7 @@ sudo bash ./quick-install-cfengine-enterprise.sh <hub|agent>
 :ID:       a4baabe0-6dda-42b1-9961-678f3bfa5a0c
 :END:
 
-- Utilizes port 5308
+- Utilizes port 5308 (~grep 5308 /etc/services~)
 - Encrypted (TLS)
 - Public key authentication (*key exchange required*)
 - Agents download policy from hub
@@ -671,6 +671,15 @@ sudo bash ./quick-install-cfengine-enterprise.sh <hub|agent>
 #+begin_notes
  - =cf-agent= is the agent of change, its the pointy end of the stick, or the dangerous end of the gun.
 - This is the component that you will interact with most commonly.
+#+end_notes
+
+** =cf-secret=
+
+- Encrypts and decrypts files using CFEngine keys
+
+#+CAPTION: Speaker notes
+#+begin_notes
+  - New in 3.16.0, backported to 3.15.2
 #+end_notes
 
 ** Pop Quiz
@@ -1458,10 +1467,19 @@ Here we simply report the variable values to illustrate how the value of myvar2 
 - [[https://docs.cfengine.com/docs/master/reference-macros.html][Conditional parsing]] based on version and features
 - Use for supporting future syntax, speed optimizations
 
-*** minimum_version
+*** Version based
 :PROPERTIES:
 :ID:       e1c5a8f8-eb8b-47f2-9479-9fd0fdede739
 :END:
+
+- =minimum_version=
+- =maximum_version=
+- =at_version=
+- =between_versions=
+- =before_version=
+- =after_version=
+
+#+REVEAL: split
 
 #+Name: =examples/macros-if-minimum_version.cf=
 #+CAPTION: =examples/macros-if-minimum_version.cf=
@@ -1483,7 +1501,7 @@ Here we simply report the variable values to illustrate how the value of myvar2 
   }
 #+END_SRC
 
-*** feature
+*** Feature based
 :PROPERTIES:
 :ID:       b90a28af-c48b-4b68-928b-5610a29d6150
 :END:
@@ -1511,6 +1529,25 @@ macro.
   }
 #+END_SRC
 
+*** Else
+- Must come /after/ an =@if= macro
+
+#+begin_example
+bundle agent extractor
+{
+@if minimum_version(3.16)
+  # Implementation for 3.16+
+  vars:
+    "container"
+      data => classfiltercsv(...);
+@else
+  # Implementation for versions before 3.16
+  vars:
+    "container"
+      data => readcsv(...);
+@endif
+}
+#+end_example
 ** Functions
 
 #+Caption: Count functions
