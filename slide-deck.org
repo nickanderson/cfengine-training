@@ -4021,7 +4021,7 @@ bundle agent __main__{ methods: "battery";}
     jq 'map(.attribute_name)[]'
 #+END_SRC
 
-#+REVEAL split
+#+REVEAL: split
 
 #+RESULTS:
 #+begin_example
