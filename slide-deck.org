@@ -1294,6 +1294,22 @@ body action files_action
 :     info: Using command line specified bundlesequence
 : R: red+blue = Purple
 
+** Convergence
+:PROPERTIES:
+:ID:       922eb776-a396-4752-a826-2cd43d748699
+:END:
+- A basic principal of CFEngine
+- cf-agent will perform three passes over each bundle explicitly actuated
+
+ #+DOWNLOADED: https://docs.cfengine.com/docs/3.12/convergence.png @ 2020-10-28 14:14:05
+[[./images./2020-10-28_14-14-05_convergence.png]]
+
+#+CAPTION: Speaker notes
+#+begin_notes
+- You don't have to leave the system in the desired state on the first pass.
+  - Make changes incrementally, getting closer to the objective
+- Advantage: You don't need to know the current state of the system in order to correct it
+#+end_notes
 ** Augments (=def.json=)
 
 - Very early definition
