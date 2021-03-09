@@ -1302,7 +1302,7 @@ body action files_action
 - cf-agent will perform three passes over each bundle explicitly actuated
 
  #+DOWNLOADED: https://docs.cfengine.com/docs/3.12/convergence.png @ 2020-10-28 14:14:05
-[[./images./2020-10-28_14-14-05_convergence.png]]
+[[./images/2020-10-28_14-14-05_convergence.png]]
 
 #+CAPTION: Speaker notes
 #+begin_notes
