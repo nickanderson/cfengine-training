@@ -15253,6 +15253,409 @@ check_theo_test=scripts\check_theo.exe $ARG1$
 : Variable name                            Variable value                                               Meta tags                               
 : default:parent.my_returned_vars[1]       Something                                                    source=bundle                           
 : default:parent.my_returned_vars[msg]     Hello world                                                  source=bundle                           
+** Tracking files for change (Tripwire/AIDE)
+
+multiple ways of achieving this with CFEngine, there are many useful functions, =lsdir()=, =findfiles()=, =filestat()=, =file_hash()= all come to mind. However, did you know that CFEngine has some native functionality kind of like AIDE or Tripwire?
+
+You can use the /changes/ attribute can be used on a files promise to help with this sort of tracking. The changes attribute can record and update file stats and digests. [[https://cfengine.com/company/blog-detail/cfengine-3-15-lts-released/#FileIntegrityMonitoring][CFEngine Enterprise can even report back diffs of the specific content changes]].
+
+#+CAPTION: Example tracking changes to a directory
+#+BEGIN_SRC cfengine3 :include-stdlib t :log-level info :exports both :tangle /tmp/example_action_on_dir_change.cf
+  bundle agent example_action_on_dir_change
+  {
+    files:
+        "/tmp/$(this.bundle)/"
+          changes => detect_all_change,
+          classes => results( "bundle", "_changes_$(this.promiser)");
+
+    reports:
+        "Classes prefixed with _changes:$(const.n)$(with)"
+          with => join( "$(const.t)$(const.n)", classesmatching( "_changes.*"));
+  }
+  bundle agent __main__
+  {
+    methods:
+        "example_action_on_dir_change";
+  }
+  #+END_SRC
+
+ #+CAPTION: Illustration of change tracking with a directory
+ #+begin_src sh :results output :exports both
+   exec 2>&1
+   echo "Resetting Observations"
+   rm -rf /tmp/example_action_on_dir_change
+   rm -rf ~/.cfagent/state/cf_changes.lmdb*
+   rm -rf ~/.cfagent/state/nova_diff.log
+   rm -rf ~/.cfagent/state/file_changes.log
+   cf-agent --version
+
+   echo "\nFirst observation of directory"
+   mkdir -p /tmp/example_action_on_dir_change/subdir0
+   touch /tmp/example_action_on_dir_change/file0
+   mkdir -p /tmp/example_action_on_dir_change
+   cf-agent -Kf /tmp/example_action_on_dir_change.cf
+
+   echo "\nSubsequent agent run, no changes since last run"
+   cf-agent -Kf /tmp/example_action_on_dir_change.cf
+
+   echo "\nSubsequent agent run, change stats on existing file in top level"
+   touch /tmp/example_action_on_dir_change/file0
+   cf-agent -Kf /tmp/example_action_on_dir_change.cf
+
+   echo "\nSubsequent agent run, change content in existing file in top level"
+   echo "Cha cha cha changes ..." > /tmp/example_action_on_dir_change/file0
+   cf-agent -Kf /tmp/example_action_on_dir_change.cf
+
+   echo "\nSubsequent agent run, new file in top level"
+   touch /tmp/example_action_on_dir_change/file1
+   cf-agent -Kf /tmp/example_action_on_dir_change.cf
+
+   echo "\nSubsequent agent run, new file in existing subdir"
+   touch /tmp/example_action_on_dir_change/subdir0/file2
+   cf-agent -Kf /tmp/example_action_on_dir_change.cf
+
+   echo "\nSubsequent agent run, new subdir in existing subdir"
+   mkdir -p /tmp/example_action_on_dir_change/subdir1
+   cf-agent -Kf /tmp/example_action_on_dir_change.cf
+
+   :
+#+end_src 
+
+#+RESULTS:
+#+begin_example
+Resetting Observations
+CFEngine Core 3.17.0
+CFEngine Enterprise 3.17.0
+
+First observation of directory
+R: Classes prefixed with _changes:
+_changes__tmp_example_action_on_dir_change__repaired	
+_changes__tmp_example_action_on_dir_change__kept	
+_changes__tmp_example_action_on_dir_change__reached
+
+Subsequent agent run, no changes since last run
+R: Classes prefixed with _changes:
+_changes__tmp_example_action_on_dir_change__kept	
+_changes__tmp_example_action_on_dir_change__reached
+
+Subsequent agent run, change stats on existing file in top level
+R: Classes prefixed with _changes:
+_changes__tmp_example_action_on_dir_change__kept	
+_changes__tmp_example_action_on_dir_change__reached
+
+Subsequent agent run, change content in existing file in top level
+R: Classes prefixed with _changes:
+_changes__tmp_example_action_on_dir_change__kept	
+_changes__tmp_example_action_on_dir_change__reached
+
+Subsequent agent run, new file in top level
+  notice: Last modified time for '/tmp/example_action_on_dir_change/' changed 'Tue Mar  9 09:24:21 2021' -> 'Tue Mar  9 09:24:23 2021'
+R: Classes prefixed with _changes:
+_changes__tmp_example_action_on_dir_change__repaired	
+_changes__tmp_example_action_on_dir_change__kept	
+_changes__tmp_example_action_on_dir_change__reached
+
+Subsequent agent run, new file in existing subdir
+R: Classes prefixed with _changes:
+_changes__tmp_example_action_on_dir_change__kept	
+_changes__tmp_example_action_on_dir_change__reached
+
+Subsequent agent run, new subdir in existing subdir
+  notice: Last modified time for '/tmp/example_action_on_dir_change/' changed 'Tue Mar  9 09:24:23 2021' -> 'Tue Mar  9 09:24:24 2021'
+R: Classes prefixed with _changes:
+_changes__tmp_example_action_on_dir_change__repaired	
+_changes__tmp_example_action_on_dir_change__kept	
+_changes__tmp_example_action_on_dir_change__reached
+#+end_example
+
+As  you can see from the output above, if the directory changes you can get a repaired result on the files promise. You might ask what was repaired when you are just monitoring for changes, ... the state database. You can choose to not update the state db when differences are noticed (more typical for AIDE or Tripwire) but that is atypical in my experience with CFEngine.
+
+You might also notice the example above is only watching the directory itself, it's not doing recursion. Monitoring a tree recursively can get expensive, but it's doable. Here is a modified example illustrating monitoring a directory recursively for changes.
+
+#+CAPTION: Example tracking changes to all files in a directory recursively
+#+BEGIN_SRC cfengine3 :include-stdlib t :log-level info :exports both :tangle /tmp/example_action_on_dir_change_all_files_recursively.cf
+  bundle agent example_action_on_dir_change_all_files_recursively
+  {
+    files:
+        "/tmp/$(this.bundle)/"
+          depth_search => recurse( inf ), 
+          file_select => all, 
+          changes => detect_all_change,
+          classes => results( "bundle", "_changes_$(this.promiser)");
+
+    reports:
+        "Classes prefixed with _changes:$(const.n)$(with)"
+          with => join( "$(const.t)$(const.n)", classesmatching( "_changes.*"));
+
+  }
+  bundle agent __main__
+  {
+    methods:
+        "example_action_on_dir_change_all_files_recursively";
+  }
+  #+END_SRC
+
+
+ #+CAPTION: Illustration of change tracking with a directory recursively
+ #+begin_src sh :results output :exports both
+   exec 2>&1
+   echo "Resetting Observations"
+   rm -rf /tmp/example_action_on_dir_change_all_files_recursively
+   rm -rf ~/.cfagent/state/cf_changes.lmdb*
+   rm -rf ~/.cfagent/state/nova_diff.log
+   rm -rf ~/.cfagent/state/file_changes.log
+   cf-agent --version
+
+   echo "\nFirst observation of directory"
+   mkdir -p /tmp/example_action_on_dir_change_all_files_recursively/subdir0
+   touch /tmp/example_action_on_dir_change_all_files_recursively/file0
+   mkdir -p /tmp/example_action_on_dir_change_all_files_recursively
+   cf-agent -Kf /tmp/example_action_on_dir_change_all_files_recursively.cf
+
+   echo "\nSubsequent agent run, no changes since last run"
+   cf-agent -Kf /tmp/example_action_on_dir_change_all_files_recursively.cf
+
+   echo "\nSubsequent agent run, change stats on existing file in top level"
+   touch /tmp/example_action_on_dir_change_all_files_recursively/file0
+   cf-agent -Kf /tmp/example_action_on_dir_change_all_files_recursively.cf
+
+   echo "\nSubsequent agent run, change content in existing file in top level"
+   echo "Cha cha cha changes ..." > /tmp/example_action_on_dir_change_all_files_recursively/file0
+   cf-agent -Kf /tmp/example_action_on_dir_change_all_files_recursively.cf
+
+   echo "\nSubsequent agent run, new file in top level"
+   touch /tmp/example_action_on_dir_change_all_files_recursively/file1
+   cf-agent -Kf /tmp/example_action_on_dir_change_all_files_recursively.cf
+
+   echo "\nSubsequent agent run, new file in existing subdir"
+   touch /tmp/example_action_on_dir_change_all_files_recursively/subdir0/file2
+   cf-agent -Kf /tmp/example_action_on_dir_change_all_files_recursively.cf
+
+   echo "\nSubsequent agent run, new subdir in existing subdir"
+   mkdir -p /tmp/example_action_on_dir_change_all_files_recursively/subdir1
+   cf-agent -Kf /tmp/example_action_on_dir_change_all_files_recursively.cf
+
+   :
+#+end_src 
+
+#+RESULTS:
+#+begin_example
+Resetting Observations
+CFEngine Core 3.17.0
+CFEngine Enterprise 3.17.0
+
+First observation of directory
+  notice: New file '/tmp/example_action_on_dir_change_recursively/file0' found
+  notice: New file '/tmp/example_action_on_dir_change_recursively/subdir0' found
+R: Classes prefixed with _changes:
+_changes__tmp_example_action_on_dir_change_recursively__repaired	
+_changes__tmp_example_action_on_dir_change_recursively__reached	
+_changes__tmp_example_action_on_dir_change_recursively_subdir0_repaired	
+_changes__tmp_example_action_on_dir_change_recursively_subdir0_kept	
+_changes__tmp_example_action_on_dir_change_recursively_subdir0_reached	
+_changes__tmp_example_action_on_dir_change_recursively_file0_repaired	
+_changes__tmp_example_action_on_dir_change_recursively_file0_kept	
+_changes__tmp_example_action_on_dir_change_recursively_file0_reached
+
+Subsequent agent run, no changes since last run
+R: Classes prefixed with _changes:
+_changes__tmp_example_action_on_dir_change_recursively__kept	
+_changes__tmp_example_action_on_dir_change_recursively__reached	
+_changes__tmp_example_action_on_dir_change_recursively_subdir0_kept	
+_changes__tmp_example_action_on_dir_change_recursively_subdir0_reached	
+_changes__tmp_example_action_on_dir_change_recursively_file0_kept	
+_changes__tmp_example_action_on_dir_change_recursively_file0_reached
+
+Subsequent agent run, change stats on existing file in top level
+  notice: Last modified time for '/tmp/example_action_on_dir_change_recursively/file0' changed 'Tue Mar  9 09:50:10 2021' -> 'Tue Mar  9 09:50:11 2021'
+R: Classes prefixed with _changes:
+_changes__tmp_example_action_on_dir_change_recursively__repaired	
+_changes__tmp_example_action_on_dir_change_recursively__reached	
+_changes__tmp_example_action_on_dir_change_recursively_subdir0_kept	
+_changes__tmp_example_action_on_dir_change_recursively_subdir0_reached	
+_changes__tmp_example_action_on_dir_change_recursively_file0_repaired	
+_changes__tmp_example_action_on_dir_change_recursively_file0_kept	
+_changes__tmp_example_action_on_dir_change_recursively_file0_reached
+
+Subsequent agent run, change content in existing file in top level
+R: Classes prefixed with _changes:
+_changes__tmp_example_action_on_dir_change_recursively__repaired	
+_changes__tmp_example_action_on_dir_change_recursively__reached	
+_changes__tmp_example_action_on_dir_change_recursively_subdir0_kept	
+_changes__tmp_example_action_on_dir_change_recursively_subdir0_reached	
+_changes__tmp_example_action_on_dir_change_recursively_file0_repaired	
+_changes__tmp_example_action_on_dir_change_recursively_file0_kept	
+_changes__tmp_example_action_on_dir_change_recursively_file0_reached
+
+Subsequent agent run, new file in top level
+  notice: New file '/tmp/example_action_on_dir_change_recursively/file1' found
+R: Classes prefixed with _changes:
+_changes__tmp_example_action_on_dir_change_recursively__repaired	
+_changes__tmp_example_action_on_dir_change_recursively__reached	
+_changes__tmp_example_action_on_dir_change_recursively_file1_repaired	
+_changes__tmp_example_action_on_dir_change_recursively_file1_kept	
+_changes__tmp_example_action_on_dir_change_recursively_file1_reached	
+_changes__tmp_example_action_on_dir_change_recursively_subdir0_kept	
+_changes__tmp_example_action_on_dir_change_recursively_subdir0_reached	
+_changes__tmp_example_action_on_dir_change_recursively_file0_kept	
+_changes__tmp_example_action_on_dir_change_recursively_file0_reached
+
+Subsequent agent run, new file in existing subdir
+  notice: New file '/tmp/example_action_on_dir_change_recursively/subdir0/file2' found
+  notice: Last modified time for '/tmp/example_action_on_dir_change_recursively/subdir0' changed 'Tue Mar  9 09:50:10 2021' -> 'Tue Mar  9 09:50:12 2021'
+R: Classes prefixed with _changes:
+_changes__tmp_example_action_on_dir_change_recursively_file1_kept	
+_changes__tmp_example_action_on_dir_change_recursively_file1_reached	
+_changes__tmp_example_action_on_dir_change_recursively_subdir0_repaired	
+_changes__tmp_example_action_on_dir_change_recursively_subdir0_kept	
+_changes__tmp_example_action_on_dir_change_recursively_subdir0_reached	
+_changes__tmp_example_action_on_dir_change_recursively__repaired	
+_changes__tmp_example_action_on_dir_change_recursively__reached	
+_changes__tmp_example_action_on_dir_change_recursively_subdir0_file2_repaired	
+_changes__tmp_example_action_on_dir_change_recursively_subdir0_file2_kept	
+_changes__tmp_example_action_on_dir_change_recursively_subdir0_file2_reached	
+_changes__tmp_example_action_on_dir_change_recursively_file0_kept	
+_changes__tmp_example_action_on_dir_change_recursively_file0_reached
+
+Subsequent agent run, new subdir in existing subdir
+  notice: New file '/tmp/example_action_on_dir_change_recursively/subdir1' found
+R: Classes prefixed with _changes:
+_changes__tmp_example_action_on_dir_change_recursively__repaired	
+_changes__tmp_example_action_on_dir_change_recursively__reached	
+_changes__tmp_example_action_on_dir_change_recursively_file1_kept	
+_changes__tmp_example_action_on_dir_change_recursively_file1_reached	
+_changes__tmp_example_action_on_dir_change_recursively_subdir1_repaired	
+_changes__tmp_example_action_on_dir_change_recursively_subdir1_kept	
+_changes__tmp_example_action_on_dir_change_recursively_subdir1_reached	
+_changes__tmp_example_action_on_dir_change_recursively_subdir0_kept	
+_changes__tmp_example_action_on_dir_change_recursively_subdir0_reached	
+_changes__tmp_example_action_on_dir_change_recursively_subdir0_file2_kept	
+_changes__tmp_example_action_on_dir_change_recursively_subdir0_file2_reached	
+_changes__tmp_example_action_on_dir_change_recursively_file0_kept	
+_changes__tmp_example_action_on_dir_change_recursively_file0_reached
+#+end_example
+
+In the examples above I used =$(this.promiser)= so that I would get a class for each file. If you don't need the detail, you could use something static.
+
+#+CAPTION: Example tracking changes to all files in a directory recursively with fewer classes
+#+BEGIN_SRC cfengine3 :include-stdlib t :log-level info :exports both :tangle /tmp/example_action_on_dir_change_all_files_recursively_with_fewer_classes.cf
+  bundle agent example_action_on_dir_change_all_files_recursively_with_fewer_classes
+  {
+    files:
+        "/tmp/$(this.bundle)/"
+          depth_search => recurse( inf ), 
+          file_select => all, 
+          changes => detect_all_change,
+          classes => results( "bundle", "i_see_changes");
+
+    reports:
+        "Classes prefixed with _changes:$(const.n)$(with)"
+          with => join( "$(const.t)$(const.n)", classesmatching( "i_see_changes.*"));
+
+  }
+  bundle agent __main__
+  {
+    methods:
+        "example_action_on_dir_change_all_files_recursively_with_fewer_classes";
+  }
+  #+END_SRC
+
+#+CAPTION: Illustration of change tracking with a directory recursively
+#+begin_src sh :results output :exports both
+   exec 2>&1
+   echo "Resetting Observations"
+   rm -rf /tmp/example_action_on_dir_change_all_files_recursively_with_fewer_classes
+   rm -rf ~/.cfagent/state/cf_changes.lmdb*
+   rm -rf ~/.cfagent/state/nova_diff.log
+   rm -rf ~/.cfagent/state/file_changes.log
+   cf-agent --version
+
+   echo "\nFirst observation of directory"
+   mkdir -p /tmp/example_action_on_dir_change_all_files_recursively_with_fewer_classes/subdir0
+   touch /tmp/example_action_on_dir_change_all_files_recursively_with_fewer_classes/file0
+   mkdir -p /tmp/example_action_on_dir_change_all_files_recursively_with_fewer_classes
+   cf-agent -Kf /tmp/example_action_on_dir_change_all_files_recursively_with_fewer_classes.cf
+
+   echo "\nSubsequent agent run, no changes since last run"
+   cf-agent -Kf /tmp/example_action_on_dir_change_all_files_recursively_with_fewer_classes.cf
+
+   echo "\nSubsequent agent run, change stats on existing file in top level"
+   touch /tmp/example_action_on_dir_change_all_files_recursively_with_fewer_classes/file0
+   cf-agent -Kf /tmp/example_action_on_dir_change_all_files_recursively_with_fewer_classes.cf
+
+   echo "\nSubsequent agent run, change content in existing file in top level"
+   echo "Cha cha cha changes ..." > /tmp/example_action_on_dir_change_all_files_recursively_with_fewer_classes/file0
+   cf-agent -Kf /tmp/example_action_on_dir_change_all_files_recursively_with_fewer_classes.cf
+
+   echo "\nSubsequent agent run, new file in top level"
+   touch /tmp/example_action_on_dir_change_all_files_recursively_with_fewer_classes/file1
+   cf-agent -Kf /tmp/example_action_on_dir_change_all_files_recursively_with_fewer_classes.cf
+
+   echo "\nSubsequent agent run, new file in existing subdir"
+   touch /tmp/example_action_on_dir_change_all_files_recursively_with_fewer_classes/subdir0/file2
+   cf-agent -Kf /tmp/example_action_on_dir_change_all_files_recursively_with_fewer_classes.cf
+
+   echo "\nSubsequent agent run, new subdir in existing subdir"
+   mkdir -p /tmp/example_action_on_dir_change_all_files_recursively_with_fewer_classes/subdir1
+   cf-agent -Kf /tmp/example_action_on_dir_change_all_files_recursively_with_fewer_classes.cf
+
+   :
+#+end_src 
+
+#+RESULTS:
+#+begin_example
+Resetting Observations
+CFEngine Core 3.17.0
+CFEngine Enterprise 3.17.0
+
+First observation of directory
+  notice: New file '/tmp/example_action_on_dir_change_all_files_recursively_with_fewer_classes/file0' found
+  notice: New file '/tmp/example_action_on_dir_change_all_files_recursively_with_fewer_classes/subdir0' found
+R: Classes prefixed with _changes:
+i_see_changes_repaired	
+i_see_changes_kept	
+i_see_changes_reached
+
+Subsequent agent run, no changes since last run
+R: Classes prefixed with _changes:
+i_see_changes_kept	
+i_see_changes_reached
+
+Subsequent agent run, change stats on existing file in top level
+  notice: Last modified time for '/tmp/example_action_on_dir_change_all_files_recursively_with_fewer_classes/file0' changed 'Tue Mar  9 09:59:04 2021' -> 'Tue Mar  9 09:59:05 2021'
+R: Classes prefixed with _changes:
+i_see_changes_repaired	
+i_see_changes_kept	
+i_see_changes_reached
+
+Subsequent agent run, change content in existing file in top level
+R: Classes prefixed with _changes:
+i_see_changes_repaired	
+i_see_changes_kept	
+i_see_changes_reached
+
+Subsequent agent run, new file in top level
+  notice: New file '/tmp/example_action_on_dir_change_all_files_recursively_with_fewer_classes/file1' found
+R: Classes prefixed with _changes:
+i_see_changes_repaired	
+i_see_changes_kept	
+i_see_changes_reached
+
+Subsequent agent run, new file in existing subdir
+  notice: New file '/tmp/example_action_on_dir_change_all_files_recursively_with_fewer_classes/subdir0/file2' found
+  notice: Last modified time for '/tmp/example_action_on_dir_change_all_files_recursively_with_fewer_classes/subdir0' changed 'Tue Mar  9 09:59:04 2021' -> 'Tue Mar  9 09:59:06 2021'
+R: Classes prefixed with _changes:
+i_see_changes_repaired	
+i_see_changes_kept	
+i_see_changes_reached
+
+Subsequent agent run, new subdir in existing subdir
+  notice: New file '/tmp/example_action_on_dir_change_all_files_recursively_with_fewer_classes/subdir1' found
+R: Classes prefixed with _changes:
+i_see_changes_repaired	
+i_see_changes_kept	
+i_see_changes_reached
+#+end_example
 
 * Useful Tools and Tips
 :PROPERTIES:
