@@ -2194,6 +2194,33 @@ having no limit at all.
 : R: var4 = '0.000100'
 : R: inf = '999999999'
 
+#+REVEAL: split
+
+#+BEGIN_SRC cfengine3 :include-stdlib t :log-level info :exports both
+  bundle agent lets_talk_about_inf_baby
+  {
+      vars:
+        "inf_is" int => "inf";
+        "biggest_int" int => "99999999999";
+        #"biggest_int" int => "100000000000"; # error: Integer is out of range
+
+      reports:
+       "inf ($(inf_is)) < biggest_int ($(biggest_int))"
+        if => isgreaterthan( $(biggest_int), $(inf_is) );
+
+       "$(biggest_int) is $(with) greater than $(inf_is)"
+         with => format( "%0.0f", eval( "$(biggest_int)-$(inf_is)", math, infix));
+  }
+  bundle agent __main__
+  {
+     methods: "lets_talk_about_inf_baby";
+  }
+#+END_SRC
+
+#+RESULTS:
+: R: inf (999999999) < biggest_int (99999999999)
+: R: 99999999999 is 99000000000 greater than 999999999
+
 *** Example - lists
 :PROPERTIES:
 :ID:       476782d9-3e3f-415b-bbc1-b0a010f31663
