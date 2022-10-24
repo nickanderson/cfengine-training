@@ -129,7 +129,7 @@ This seemed to fix it:
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100 2591k    0 2591k    0     0  2315k      0 --:--:--  0:00:01 --:--:-- 4011k
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100 2591k  100 2591k    0     0  2104k      0  0:00:01  0:00:01 --:--:-- 3986k
 Archive:  master.zip
 f6f657b627f9703e32414d8d3f16fb49d41031cb
    creating: reveal.js-master/
