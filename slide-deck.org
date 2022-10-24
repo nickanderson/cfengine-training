@@ -7,7 +7,7 @@
 #+OPTIONS: reveal_width:1024 reveal_height:768
 #+OPTIONS: toc:nil
 #+OPTIONS: tags:nil timestamp:nil
-#+OPTIONS: reveal_single_file:t
+#+OPTIONS: reveal_single_file:nil
 #+REVEAL_MARGIN: 0.1
 #+REVEAL_EXTRA_CSS: cfengine.css
 #+REVEAL_MIN_SCALE: 0.5
