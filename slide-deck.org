@@ -2,7 +2,7 @@
 #+Author: Nick Anderson
 #+Email: nick.anderson@northern.tech
 #+REVEAL_TITLE_SLIDE: <h1>%t</h1>
-#+REVEAL_ROOT: reveal.js
+#+NO_REVEAL_ROOT: reveal.js
 #+OPTIONS: reveal_center:t reveal_progress:t reveal_history:nil reveal_control:nil
 #+OPTIONS: reveal_rolling_links:t reveal_keyboard:t reveal_overview:t num:nil
 #+OPTIONS: reveal_width:1024 reveal_height:768
@@ -10,7 +10,8 @@
 #+OPTIONS: tags:nil timestamp:nil
 #+OPTIONS: reveal_single_file:nil
 #+REVEAL_MARGIN: 0.1
-#+REVEAL_EXTRA_CSS: cfengine.css
+#+NO_REVEAL_EXTRA_CSS: cfengine.css
+#+REVEAL_REVEAL_JS_VERSION: 4
 #+REVEAL_MIN_SCALE: 0.5
 #+REVEAL_MAX_SCALE: 2.5
 #+REVEAL_TRANS: fade
@@ -116,7 +117,7 @@ This seemed to fix it:
   mkdir -p reveal.js
   cd reveal.js
   curl -LO "https://github.com/hakimel/reveal.js/archive/refs/tags/$REVEALJSVERSION.tar.gz"
-  tar zxvf $REVEALJSVERSION.tar.gz --strip-components 2
+  tar zxvf $REVEALJSVERSION.tar.gz --strip-components 1
   rm -f $REVEALJSVERSION.tar.gz
   :
 #+end_src
@@ -125,12 +126,18 @@ This seemed to fix it:
 #+begin_example
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100 2531k    0 2531k    0     0  1661k      0 --:--:--  0:00:01 --:--:-- 2722k
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+100 1044k    0 1044k    0     0   881k      0 --:--:--  0:00:01 --:--:--  881k100 2531k    0 2531k    0     0  1875k      0 --:--:--  0:00:01 --:--:-- 9065k
+reveal.js-4.4.0/.github/
 reveal.js-4.4.0/.github/CONTRIBUTING.md
 reveal.js-4.4.0/.github/FUNDING.yml
 reveal.js-4.4.0/.github/workflows/
 reveal.js-4.4.0/.github/workflows/js.yml
+reveal.js-4.4.0/.gitignore
+reveal.js-4.4.0/.npmignore
+reveal.js-4.4.0/LICENSE
+reveal.js-4.4.0/README.md
+reveal.js-4.4.0/css/
 reveal.js-4.4.0/css/layout.scss
 reveal.js-4.4.0/css/print/
 reveal.js-4.4.0/css/print/paper.scss
@@ -155,6 +162,8 @@ reveal.js-4.4.0/css/theme/template/exposer.scss
 reveal.js-4.4.0/css/theme/template/mixins.scss
 reveal.js-4.4.0/css/theme/template/settings.scss
 reveal.js-4.4.0/css/theme/template/theme.scss
+reveal.js-4.4.0/demo.html
+reveal.js-4.4.0/dist/
 reveal.js-4.4.0/dist/reset.css
 reveal.js-4.4.0/dist/reveal.css
 reveal.js-4.4.0/dist/reveal.esm.js
@@ -195,6 +204,7 @@ reveal.js-4.4.0/dist/theme/simple.css
 reveal.js-4.4.0/dist/theme/sky.css
 reveal.js-4.4.0/dist/theme/solarized.css
 reveal.js-4.4.0/dist/theme/white.css
+reveal.js-4.4.0/examples/
 reveal.js-4.4.0/examples/assets/
 reveal.js-4.4.0/examples/assets/beeping.txt
 reveal.js-4.4.0/examples/assets/beeping.wav
@@ -210,6 +220,9 @@ reveal.js-4.4.0/examples/math.html
 reveal.js-4.4.0/examples/media.html
 reveal.js-4.4.0/examples/multiple-presentations.html
 reveal.js-4.4.0/examples/transitions.html
+reveal.js-4.4.0/gulpfile.js
+reveal.js-4.4.0/index.html
+reveal.js-4.4.0/js/
 reveal.js-4.4.0/js/components/
 reveal.js-4.4.0/js/components/playback.js
 reveal.js-4.4.0/js/config.js
@@ -238,6 +251,9 @@ reveal.js-4.4.0/js/utils/constants.js
 reveal.js-4.4.0/js/utils/device.js
 reveal.js-4.4.0/js/utils/loader.js
 reveal.js-4.4.0/js/utils/util.js
+reveal.js-4.4.0/package-lock.json
+reveal.js-4.4.0/package.json
+reveal.js-4.4.0/plugin/
 reveal.js-4.4.0/plugin/highlight/
 reveal.js-4.4.0/plugin/highlight/highlight.esm.js
 reveal.js-4.4.0/plugin/highlight/highlight.js
@@ -268,6 +284,7 @@ reveal.js-4.4.0/plugin/zoom/
 reveal.js-4.4.0/plugin/zoom/plugin.js
 reveal.js-4.4.0/plugin/zoom/zoom.esm.js
 reveal.js-4.4.0/plugin/zoom/zoom.js
+reveal.js-4.4.0/test/
 reveal.js-4.4.0/test/assets/
 reveal.js-4.4.0/test/assets/external-script-a.js
 reveal.js-4.4.0/test/assets/external-script-b.js
@@ -288,6 +305,14 @@ reveal.js-4.4.0/test/test-plugins.html
 reveal.js-4.4.0/test/test-state.html
 reveal.js-4.4.0/test/test.html
 #+end_example
+
+
+#+BEGIN_SRC sh
+ # find reveal.js-3.9.2/css/theme -name "*.css" -printf "%f\n" | sed 's/.css//'
+  find reveal.js/dist/theme -name "*.css" -printf "%f\n" | sed 's/.css//'
+#+END_SRC
+
+#+RESULTS:
 
 * Before we start
 :PROPERTIES:
