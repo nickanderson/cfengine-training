@@ -107,6 +107,210 @@ This seemed to fix it:
 #+RESULTS:
 : font-lock-warning-face
 
+** Update reveal.js
+
+#+begin_src sh :results output :exports both
+  exec 2>&1
+  rm -rf reveal.js
+  mkdir -p reveal.js
+  cd reveal.js
+  pwd
+  curl -LO https://github.com/hakimel/reveal.js/archive/master.zip
+  unzip master.zip
+  mv reveal.js-master/* .
+  rm -rf reveal.js-master
+  rm -f master.zip
+  :
+#+end_src
+
+#+RESULTS:
+#+begin_example
+/home/nickanderson/src/nickanderson/cfengine-training/reveal.js
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100 2591k    0 2591k    0     0  2315k      0 --:--:--  0:00:01 --:--:-- 4011k
+Archive:  master.zip
+f6f657b627f9703e32414d8d3f16fb49d41031cb
+   creating: reveal.js-master/
+   creating: reveal.js-master/.github/
+  inflating: reveal.js-master/.github/CONTRIBUTING.md
+ extracting: reveal.js-master/.github/FUNDING.yml
+   creating: reveal.js-master/.github/workflows/
+  inflating: reveal.js-master/.github/workflows/js.yml
+  inflating: reveal.js-master/.gitignore
+  inflating: reveal.js-master/.npmignore
+  inflating: reveal.js-master/LICENSE
+  inflating: reveal.js-master/README.md
+   creating: reveal.js-master/css/
+  inflating: reveal.js-master/css/layout.scss
+   creating: reveal.js-master/css/print/
+  inflating: reveal.js-master/css/print/paper.scss
+  inflating: reveal.js-master/css/print/pdf.scss
+  inflating: reveal.js-master/css/reveal.scss
+   creating: reveal.js-master/css/theme/
+  inflating: reveal.js-master/css/theme/README.md
+   creating: reveal.js-master/css/theme/source/
+  inflating: reveal.js-master/css/theme/source/beige.scss
+  inflating: reveal.js-master/css/theme/source/black.scss
+  inflating: reveal.js-master/css/theme/source/blood.scss
+  inflating: reveal.js-master/css/theme/source/league.scss
+  inflating: reveal.js-master/css/theme/source/moon.scss
+  inflating: reveal.js-master/css/theme/source/night.scss
+  inflating: reveal.js-master/css/theme/source/serif.scss
+  inflating: reveal.js-master/css/theme/source/simple.scss
+  inflating: reveal.js-master/css/theme/source/sky.scss
+  inflating: reveal.js-master/css/theme/source/solarized.scss
+  inflating: reveal.js-master/css/theme/source/white.scss
+   creating: reveal.js-master/css/theme/template/
+  inflating: reveal.js-master/css/theme/template/exposer.scss
+  inflating: reveal.js-master/css/theme/template/mixins.scss
+  inflating: reveal.js-master/css/theme/template/settings.scss
+  inflating: reveal.js-master/css/theme/template/theme.scss
+  inflating: reveal.js-master/demo.html
+   creating: reveal.js-master/dist/
+  inflating: reveal.js-master/dist/reset.css
+  inflating: reveal.js-master/dist/reveal.css
+  inflating: reveal.js-master/dist/reveal.esm.js
+  inflating: reveal.js-master/dist/reveal.esm.js.map
+  inflating: reveal.js-master/dist/reveal.js
+  inflating: reveal.js-master/dist/reveal.js.map
+   creating: reveal.js-master/dist/theme/
+  inflating: reveal.js-master/dist/theme/beige.css
+  inflating: reveal.js-master/dist/theme/black.css
+  inflating: reveal.js-master/dist/theme/blood.css
+   creating: reveal.js-master/dist/theme/fonts/
+   creating: reveal.js-master/dist/theme/fonts/league-gothic/
+  inflating: reveal.js-master/dist/theme/fonts/league-gothic/LICENSE
+  inflating: reveal.js-master/dist/theme/fonts/league-gothic/league-gothic.css
+  inflating: reveal.js-master/dist/theme/fonts/league-gothic/league-gothic.eot
+  inflating: reveal.js-master/dist/theme/fonts/league-gothic/league-gothic.ttf
+  inflating: reveal.js-master/dist/theme/fonts/league-gothic/league-gothic.woff
+   creating: reveal.js-master/dist/theme/fonts/source-sans-pro/
+  inflating: reveal.js-master/dist/theme/fonts/source-sans-pro/LICENSE
+  inflating: reveal.js-master/dist/theme/fonts/source-sans-pro/source-sans-pro-italic.eot
+  inflating: reveal.js-master/dist/theme/fonts/source-sans-pro/source-sans-pro-italic.ttf
+  inflating: reveal.js-master/dist/theme/fonts/source-sans-pro/source-sans-pro-italic.woff
+  inflating: reveal.js-master/dist/theme/fonts/source-sans-pro/source-sans-pro-regular.eot
+  inflating: reveal.js-master/dist/theme/fonts/source-sans-pro/source-sans-pro-regular.ttf
+  inflating: reveal.js-master/dist/theme/fonts/source-sans-pro/source-sans-pro-regular.woff
+  inflating: reveal.js-master/dist/theme/fonts/source-sans-pro/source-sans-pro-semibold.eot
+  inflating: reveal.js-master/dist/theme/fonts/source-sans-pro/source-sans-pro-semibold.ttf
+  inflating: reveal.js-master/dist/theme/fonts/source-sans-pro/source-sans-pro-semibold.woff
+  inflating: reveal.js-master/dist/theme/fonts/source-sans-pro/source-sans-pro-semibolditalic.eot
+  inflating: reveal.js-master/dist/theme/fonts/source-sans-pro/source-sans-pro-semibolditalic.ttf
+  inflating: reveal.js-master/dist/theme/fonts/source-sans-pro/source-sans-pro-semibolditalic.woff
+  inflating: reveal.js-master/dist/theme/fonts/source-sans-pro/source-sans-pro.css
+  inflating: reveal.js-master/dist/theme/league.css
+  inflating: reveal.js-master/dist/theme/moon.css
+  inflating: reveal.js-master/dist/theme/night.css
+  inflating: reveal.js-master/dist/theme/serif.css
+  inflating: reveal.js-master/dist/theme/simple.css
+  inflating: reveal.js-master/dist/theme/sky.css
+  inflating: reveal.js-master/dist/theme/solarized.css
+  inflating: reveal.js-master/dist/theme/white.css
+   creating: reveal.js-master/examples/
+   creating: reveal.js-master/examples/assets/
+  inflating: reveal.js-master/examples/assets/beeping.txt
+  inflating: reveal.js-master/examples/assets/beeping.wav
+  inflating: reveal.js-master/examples/assets/image1.png
+  inflating: reveal.js-master/examples/assets/image2.png
+  inflating: reveal.js-master/examples/auto-animate.html
+  inflating: reveal.js-master/examples/backgrounds.html
+  inflating: reveal.js-master/examples/barebones.html
+  inflating: reveal.js-master/examples/layout-helpers.html
+  inflating: reveal.js-master/examples/markdown.html
+  inflating: reveal.js-master/examples/markdown.md
+  inflating: reveal.js-master/examples/math.html
+  inflating: reveal.js-master/examples/media.html
+  inflating: reveal.js-master/examples/multiple-presentations.html
+  inflating: reveal.js-master/examples/transitions.html
+  inflating: reveal.js-master/gulpfile.js
+  inflating: reveal.js-master/index.html
+   creating: reveal.js-master/js/
+   creating: reveal.js-master/js/components/
+  inflating: reveal.js-master/js/components/playback.js
+  inflating: reveal.js-master/js/config.js
+   creating: reveal.js-master/js/controllers/
+  inflating: reveal.js-master/js/controllers/autoanimate.js
+  inflating: reveal.js-master/js/controllers/backgrounds.js
+  inflating: reveal.js-master/js/controllers/controls.js
+  inflating: reveal.js-master/js/controllers/focus.js
+  inflating: reveal.js-master/js/controllers/fragments.js
+  inflating: reveal.js-master/js/controllers/keyboard.js
+  inflating: reveal.js-master/js/controllers/location.js
+  inflating: reveal.js-master/js/controllers/notes.js
+  inflating: reveal.js-master/js/controllers/overview.js
+  inflating: reveal.js-master/js/controllers/plugins.js
+  inflating: reveal.js-master/js/controllers/pointer.js
+  inflating: reveal.js-master/js/controllers/print.js
+  inflating: reveal.js-master/js/controllers/progress.js
+  inflating: reveal.js-master/js/controllers/slidecontent.js
+  inflating: reveal.js-master/js/controllers/slidenumber.js
+  inflating: reveal.js-master/js/controllers/touch.js
+  inflating: reveal.js-master/js/index.js
+  inflating: reveal.js-master/js/reveal.js
+   creating: reveal.js-master/js/utils/
+  inflating: reveal.js-master/js/utils/color.js
+  inflating: reveal.js-master/js/utils/constants.js
+  inflating: reveal.js-master/js/utils/device.js
+  inflating: reveal.js-master/js/utils/loader.js
+  inflating: reveal.js-master/js/utils/util.js
+  inflating: reveal.js-master/package-lock.json
+  inflating: reveal.js-master/package.json
+   creating: reveal.js-master/plugin/
+   creating: reveal.js-master/plugin/highlight/
+  inflating: reveal.js-master/plugin/highlight/highlight.esm.js
+  inflating: reveal.js-master/plugin/highlight/highlight.js
+  inflating: reveal.js-master/plugin/highlight/monokai.css
+  inflating: reveal.js-master/plugin/highlight/plugin.js
+  inflating: reveal.js-master/plugin/highlight/zenburn.css
+   creating: reveal.js-master/plugin/markdown/
+  inflating: reveal.js-master/plugin/markdown/markdown.esm.js
+  inflating: reveal.js-master/plugin/markdown/markdown.js
+  inflating: reveal.js-master/plugin/markdown/plugin.js
+   creating: reveal.js-master/plugin/math/
+  inflating: reveal.js-master/plugin/math/katex.js
+  inflating: reveal.js-master/plugin/math/math.esm.js
+  inflating: reveal.js-master/plugin/math/math.js
+  inflating: reveal.js-master/plugin/math/mathjax2.js
+  inflating: reveal.js-master/plugin/math/mathjax3.js
+  inflating: reveal.js-master/plugin/math/plugin.js
+   creating: reveal.js-master/plugin/notes/
+  inflating: reveal.js-master/plugin/notes/notes.esm.js
+  inflating: reveal.js-master/plugin/notes/notes.js
+  inflating: reveal.js-master/plugin/notes/plugin.js
+  inflating: reveal.js-master/plugin/notes/speaker-view.html
+   creating: reveal.js-master/plugin/search/
+  inflating: reveal.js-master/plugin/search/plugin.js
+  inflating: reveal.js-master/plugin/search/search.esm.js
+  inflating: reveal.js-master/plugin/search/search.js
+   creating: reveal.js-master/plugin/zoom/
+  inflating: reveal.js-master/plugin/zoom/plugin.js
+  inflating: reveal.js-master/plugin/zoom/zoom.esm.js
+  inflating: reveal.js-master/plugin/zoom/zoom.js
+   creating: reveal.js-master/test/
+   creating: reveal.js-master/test/assets/
+ extracting: reveal.js-master/test/assets/external-script-a.js
+ extracting: reveal.js-master/test/assets/external-script-b.js
+ extracting: reveal.js-master/test/assets/external-script-c.js
+ extracting: reveal.js-master/test/assets/external-script-d.js
+  inflating: reveal.js-master/test/simple.md
+  inflating: reveal.js-master/test/test-auto-animate.html
+  inflating: reveal.js-master/test/test-dependencies-async.html
+  inflating: reveal.js-master/test/test-dependencies.html
+  inflating: reveal.js-master/test/test-grid-navigation.html
+  inflating: reveal.js-master/test/test-iframe-backgrounds.html
+  inflating: reveal.js-master/test/test-iframes.html
+  inflating: reveal.js-master/test/test-markdown.html
+  inflating: reveal.js-master/test/test-multiple-instances-es5.html
+  inflating: reveal.js-master/test/test-multiple-instances.html
+  inflating: reveal.js-master/test/test-pdf.html
+  inflating: reveal.js-master/test/test-plugins.html
+  inflating: reveal.js-master/test/test-state.html
+  inflating: reveal.js-master/test/test.html
+#+end_example
+
 * Before we start
 :PROPERTIES:
 :ID:       27318943-487d-4805-a592-26281f4f5bb2
