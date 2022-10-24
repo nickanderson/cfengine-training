@@ -16298,6 +16298,7 @@ cf-promises --eval-functions=yes --full-check \
 #+END_SRC
 
 - Full check requires =body common control= (or =bundle agent main=). Typically this is only used when you run cf-promsies against =promises.cf=, =update.cf=, or =standalone_self_upgrade.cf=
+- *NOTE: This is context sensitive/aware*
 
 #+REVEAL: split
 
