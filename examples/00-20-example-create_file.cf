@@ -18,7 +18,7 @@ bundle agent nologin
     my_file_repaired::
       "File repaired";
 
-    any:: 
+    any::
       "File Exists"
         if => fileexists("/tmp/nologin");
 }

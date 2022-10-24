@@ -10,7 +10,7 @@ bundle agent example_network_connections
     "_network_connections"
       data => network_connections();
     "_network_connections_str"
-      string => format( "%S", _network_connections ); 
+      string => format( "%S", _network_connections );
   reports:
     "$(_network_connections[tcp][0][local][address]):$(_network_connections[tcp][0][local][port]) is connected to $(_network_connections[tcp][0][remote][address]):$(_network_connections[tcp][0][remote][port])";
 }

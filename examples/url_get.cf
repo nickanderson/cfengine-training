@@ -1,0 +1,25 @@
+#!/var/cfengine/bin/cf-agent -f-
+body file control
+{
+      inputs => { '$(sys.libdir)/stdlib.cf' };
+}
+
+bundle agent example_url_get
+{
+  vars:
+      "_response"
+        data => url_get( "https://jsonplaceholder.typicode.com/todos/1",
+                         '{}' );
+      # Convert content string to data container
+      "_content" data => "$(_response[content])";
+
+      # JSON representation of data container
+      "_str_content" string => format( "%S", _content );
+
+  reports:
+      "$(_str_content)";
+}
+bundle agent __main__
+{
+  methods: "example_url_get";
+}

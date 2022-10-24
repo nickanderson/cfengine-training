@@ -19,3 +19,7 @@ bundle agent example_classfiltercsv
   reports:
       "Filtered data: $(with)" with => string_mustache("{{%-top-}}", d);
 }
+bundle agent __main__
+{
+  methods: "example_classfiltercsv";
+}

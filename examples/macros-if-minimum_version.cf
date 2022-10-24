@@ -4,7 +4,7 @@ body file control
       inputs => { '$(sys.libdir)/stdlib.cf' };
 }
 
-bundle agent example_macro_minimum_version 
+bundle agent example_macro_minimum_version
 {
 @if minimum_version(4.0.0)
   This contains completely invalid syntax, but it's OK.

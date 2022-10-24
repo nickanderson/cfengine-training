@@ -1,0 +1,27 @@
+#!/var/cfengine/bin/cf-agent -f-
+body file control
+{
+      inputs => { '$(sys.libdir)/stdlib.cf' };
+}
+
+bundle agent example_missing_ok
+{
+  vars:
+    copy_from_missing_ok_reached::
+      "_c"
+        string => string_mustache( "{{%-top-}}",
+                                   sort( classesmatching( "copy_from_.*" ), lex));
+  files:
+      "/tmp/copied_from_missing_ok"
+        copy_from => missing_ok( "/var/cfengine/masterfiles/missing" ),
+        classes => results("bundle", "copy_from_missing_ok");
+
+  reports:
+      "$(_c)" if => isvariable( _c );
+}
+body copy_from missing_ok( file_path )
+{
+        source => "$(file_path)";
+        missing_ok => "true";
+}
+bundle agent __main__{methods:"example_missing_ok";}

@@ -1,0 +1,28 @@
+#!/var/cfengine/bin/cf-agent -f-
+body file control
+{
+      inputs => { '$(sys.libdir)/stdlib.cf' };
+}
+
+bundle agent parent
+{
+  classes:
+      "parent_1" scope => "bundle";
+
+  methods:
+      "Inherit context"
+        usebundle => child( "First"),
+        inherit => "true";
+
+      "No context inheritance"
+        usebundle => child( "Second");
+}
+bundle agent child( id_string )
+{
+  reports:
+    parent_1::
+      "$(id_string) see class parent_1 defined";
+    !parent_1::
+      "$(id_string) see class parent_1 NOT defined";
+}
+bundle agent __main__ { methods: "parent"; }

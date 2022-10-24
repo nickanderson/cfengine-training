@@ -1,0 +1,26 @@
+#!/var/cfengine/bin/cf-agent -f-
+body file control
+{
+      inputs => { '$(sys.libdir)/stdlib.cf' };
+}
+
+bundle agent example_inline_mustache
+{
+  vars:
+    "d" data => '{
+  "Name": "Bruce Wayne",
+  "Secret Identity": "Batman"
+}';
+
+  files:
+    "/tmp/$(this.bundle)"
+        create => "true",
+        template_method => "inline_mustache",
+        template_data => @(d),
+        edit_template_string => 'Did you know that {{{Name}}}
+... is really {{{Secret Identity}}}!?';
+
+  reports:
+    "/tmp/$(this.bundle)" printfile => cat( $(this.promiser) );
+}
+bundle agent __main__{methods:"example_inline_mustache";}

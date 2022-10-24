@@ -1,0 +1,14 @@
+#!/var/cfengine/bin/cf-agent -f-
+body file control
+{
+      inputs => { '$(sys.libdir)/stdlib.cf' };
+}
+
+bundle agent hello_world
+{
+  reports: "Hello from $(this.bundle)";
+}
+bundle agent __main__
+{
+  methods: "hello_world";
+}

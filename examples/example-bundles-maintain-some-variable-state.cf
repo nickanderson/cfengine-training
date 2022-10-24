@@ -14,6 +14,12 @@ bundle agent main
   reports:
     "$(with)" with => join( ", ", getindices( "set_item_in_bag.array" ) );
 }
+
+body file control
+{
+      inputs => { '$(sys.libdir)/stdlib.cf' };
+}
+
 bundle agent set_item_in_bag(item, value)
 {
   vars:

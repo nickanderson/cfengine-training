@@ -15,7 +15,7 @@ bundle agent example_package_and_service
       "_service" string => "apache2";
   # ...
 
-    any::
+any::
       "_default_page"
         string => ifelse( "debian|ubuntu", "/var/www/html/index.html",
                           "centos|redhat", "/var/www/error/noindex.html",
@@ -34,4 +34,4 @@ bundle agent example_package_and_service
     inform_mode|verbose_mode::
       "My default page is from $(_default_page)";
 }
-bundle agent __main{methods:"example_package_and_service";}
+bundle agent __main__{methods:"example_package_and_service";}

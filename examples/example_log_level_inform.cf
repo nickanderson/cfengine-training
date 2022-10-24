@@ -1,0 +1,11 @@
+#!/var/cfengine/bin/cf-agent -f-
+body file control
+{
+      inputs => { '$(sys.libdir)/stdlib.cf' };
+}
+
+bundle agent main
+{
+  reports:
+    inform_mode:: "Running with info level logging";
+}

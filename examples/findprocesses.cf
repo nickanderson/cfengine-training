@@ -8,7 +8,7 @@ bundle agent example_findprocesses
 {
   vars:
     "_emacs_procs" data => findprocesses( ".*emacs.*" );
-    "_i" slist => getindices( _emacs_procs ); 
+    "_i" slist => getindices( _emacs_procs );
   reports:
       "Emacs process: $(_emacs_procs[$(_i)][line])";
 }

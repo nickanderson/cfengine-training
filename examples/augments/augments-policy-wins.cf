@@ -11,7 +11,7 @@ bundle common def
     "myvar2"
       string => "Defined in policy",
       if => not( isvariable( myvar2 ) );
-} 
+}
 bundle agent main
 {
   reports:

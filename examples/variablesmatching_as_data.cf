@@ -12,7 +12,7 @@ bundle agent example_variablesmatching_as_data
   reports:
     "$(ports_str)";
 }
-bundle agent one 
+bundle agent one
 {
   vars:
     "the_port" string => "443", meta => { "port" };
