@@ -2,6 +2,7 @@
 #+Author: Nick Anderson
 #+Email: nick.anderson@northern.tech
 #+REVEAL_TITLE_SLIDE: <h1>%t</h1>
+#+REVEAL_ROOT: reveal.js
 #+OPTIONS: reveal_center:t reveal_progress:t reveal_history:nil reveal_control:nil
 #+OPTIONS: reveal_rolling_links:t reveal_keyboard:t reveal_overview:t num:nil
 #+OPTIONS: reveal_width:1024 reveal_height:768
@@ -109,206 +110,183 @@ This seemed to fix it:
 
 ** Update reveal.js
 
-#+begin_src sh :results output :exports both
+#+begin_src sh :results output :exports both :var REVEALJSVERSION="4.4.0"
   exec 2>&1
   rm -rf reveal.js
   mkdir -p reveal.js
   cd reveal.js
-  pwd
-  curl -LO https://github.com/hakimel/reveal.js/archive/master.zip
-  unzip master.zip
-  mv reveal.js-master/* .
-  rm -rf reveal.js-master
-  rm -f master.zip
+  curl -LO "https://github.com/hakimel/reveal.js/archive/refs/tags/$REVEALJSVERSION.tar.gz"
+  tar zxvf $REVEALJSVERSION.tar.gz --strip-components 2
+  rm -f $REVEALJSVERSION.tar.gz
   :
 #+end_src
 
 #+RESULTS:
 #+begin_example
-/home/nickanderson/src/nickanderson/cfengine-training/reveal.js
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
   0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
-  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100 2591k  100 2591k    0     0  2104k      0  0:00:01  0:00:01 --:--:-- 3986k
-Archive:  master.zip
-f6f657b627f9703e32414d8d3f16fb49d41031cb
-   creating: reveal.js-master/
-   creating: reveal.js-master/.github/
-  inflating: reveal.js-master/.github/CONTRIBUTING.md
- extracting: reveal.js-master/.github/FUNDING.yml
-   creating: reveal.js-master/.github/workflows/
-  inflating: reveal.js-master/.github/workflows/js.yml
-  inflating: reveal.js-master/.gitignore
-  inflating: reveal.js-master/.npmignore
-  inflating: reveal.js-master/LICENSE
-  inflating: reveal.js-master/README.md
-   creating: reveal.js-master/css/
-  inflating: reveal.js-master/css/layout.scss
-   creating: reveal.js-master/css/print/
-  inflating: reveal.js-master/css/print/paper.scss
-  inflating: reveal.js-master/css/print/pdf.scss
-  inflating: reveal.js-master/css/reveal.scss
-   creating: reveal.js-master/css/theme/
-  inflating: reveal.js-master/css/theme/README.md
-   creating: reveal.js-master/css/theme/source/
-  inflating: reveal.js-master/css/theme/source/beige.scss
-  inflating: reveal.js-master/css/theme/source/black.scss
-  inflating: reveal.js-master/css/theme/source/blood.scss
-  inflating: reveal.js-master/css/theme/source/league.scss
-  inflating: reveal.js-master/css/theme/source/moon.scss
-  inflating: reveal.js-master/css/theme/source/night.scss
-  inflating: reveal.js-master/css/theme/source/serif.scss
-  inflating: reveal.js-master/css/theme/source/simple.scss
-  inflating: reveal.js-master/css/theme/source/sky.scss
-  inflating: reveal.js-master/css/theme/source/solarized.scss
-  inflating: reveal.js-master/css/theme/source/white.scss
-   creating: reveal.js-master/css/theme/template/
-  inflating: reveal.js-master/css/theme/template/exposer.scss
-  inflating: reveal.js-master/css/theme/template/mixins.scss
-  inflating: reveal.js-master/css/theme/template/settings.scss
-  inflating: reveal.js-master/css/theme/template/theme.scss
-  inflating: reveal.js-master/demo.html
-   creating: reveal.js-master/dist/
-  inflating: reveal.js-master/dist/reset.css
-  inflating: reveal.js-master/dist/reveal.css
-  inflating: reveal.js-master/dist/reveal.esm.js
-  inflating: reveal.js-master/dist/reveal.esm.js.map
-  inflating: reveal.js-master/dist/reveal.js
-  inflating: reveal.js-master/dist/reveal.js.map
-   creating: reveal.js-master/dist/theme/
-  inflating: reveal.js-master/dist/theme/beige.css
-  inflating: reveal.js-master/dist/theme/black.css
-  inflating: reveal.js-master/dist/theme/blood.css
-   creating: reveal.js-master/dist/theme/fonts/
-   creating: reveal.js-master/dist/theme/fonts/league-gothic/
-  inflating: reveal.js-master/dist/theme/fonts/league-gothic/LICENSE
-  inflating: reveal.js-master/dist/theme/fonts/league-gothic/league-gothic.css
-  inflating: reveal.js-master/dist/theme/fonts/league-gothic/league-gothic.eot
-  inflating: reveal.js-master/dist/theme/fonts/league-gothic/league-gothic.ttf
-  inflating: reveal.js-master/dist/theme/fonts/league-gothic/league-gothic.woff
-   creating: reveal.js-master/dist/theme/fonts/source-sans-pro/
-  inflating: reveal.js-master/dist/theme/fonts/source-sans-pro/LICENSE
-  inflating: reveal.js-master/dist/theme/fonts/source-sans-pro/source-sans-pro-italic.eot
-  inflating: reveal.js-master/dist/theme/fonts/source-sans-pro/source-sans-pro-italic.ttf
-  inflating: reveal.js-master/dist/theme/fonts/source-sans-pro/source-sans-pro-italic.woff
-  inflating: reveal.js-master/dist/theme/fonts/source-sans-pro/source-sans-pro-regular.eot
-  inflating: reveal.js-master/dist/theme/fonts/source-sans-pro/source-sans-pro-regular.ttf
-  inflating: reveal.js-master/dist/theme/fonts/source-sans-pro/source-sans-pro-regular.woff
-  inflating: reveal.js-master/dist/theme/fonts/source-sans-pro/source-sans-pro-semibold.eot
-  inflating: reveal.js-master/dist/theme/fonts/source-sans-pro/source-sans-pro-semibold.ttf
-  inflating: reveal.js-master/dist/theme/fonts/source-sans-pro/source-sans-pro-semibold.woff
-  inflating: reveal.js-master/dist/theme/fonts/source-sans-pro/source-sans-pro-semibolditalic.eot
-  inflating: reveal.js-master/dist/theme/fonts/source-sans-pro/source-sans-pro-semibolditalic.ttf
-  inflating: reveal.js-master/dist/theme/fonts/source-sans-pro/source-sans-pro-semibolditalic.woff
-  inflating: reveal.js-master/dist/theme/fonts/source-sans-pro/source-sans-pro.css
-  inflating: reveal.js-master/dist/theme/league.css
-  inflating: reveal.js-master/dist/theme/moon.css
-  inflating: reveal.js-master/dist/theme/night.css
-  inflating: reveal.js-master/dist/theme/serif.css
-  inflating: reveal.js-master/dist/theme/simple.css
-  inflating: reveal.js-master/dist/theme/sky.css
-  inflating: reveal.js-master/dist/theme/solarized.css
-  inflating: reveal.js-master/dist/theme/white.css
-   creating: reveal.js-master/examples/
-   creating: reveal.js-master/examples/assets/
-  inflating: reveal.js-master/examples/assets/beeping.txt
-  inflating: reveal.js-master/examples/assets/beeping.wav
-  inflating: reveal.js-master/examples/assets/image1.png
-  inflating: reveal.js-master/examples/assets/image2.png
-  inflating: reveal.js-master/examples/auto-animate.html
-  inflating: reveal.js-master/examples/backgrounds.html
-  inflating: reveal.js-master/examples/barebones.html
-  inflating: reveal.js-master/examples/layout-helpers.html
-  inflating: reveal.js-master/examples/markdown.html
-  inflating: reveal.js-master/examples/markdown.md
-  inflating: reveal.js-master/examples/math.html
-  inflating: reveal.js-master/examples/media.html
-  inflating: reveal.js-master/examples/multiple-presentations.html
-  inflating: reveal.js-master/examples/transitions.html
-  inflating: reveal.js-master/gulpfile.js
-  inflating: reveal.js-master/index.html
-   creating: reveal.js-master/js/
-   creating: reveal.js-master/js/components/
-  inflating: reveal.js-master/js/components/playback.js
-  inflating: reveal.js-master/js/config.js
-   creating: reveal.js-master/js/controllers/
-  inflating: reveal.js-master/js/controllers/autoanimate.js
-  inflating: reveal.js-master/js/controllers/backgrounds.js
-  inflating: reveal.js-master/js/controllers/controls.js
-  inflating: reveal.js-master/js/controllers/focus.js
-  inflating: reveal.js-master/js/controllers/fragments.js
-  inflating: reveal.js-master/js/controllers/keyboard.js
-  inflating: reveal.js-master/js/controllers/location.js
-  inflating: reveal.js-master/js/controllers/notes.js
-  inflating: reveal.js-master/js/controllers/overview.js
-  inflating: reveal.js-master/js/controllers/plugins.js
-  inflating: reveal.js-master/js/controllers/pointer.js
-  inflating: reveal.js-master/js/controllers/print.js
-  inflating: reveal.js-master/js/controllers/progress.js
-  inflating: reveal.js-master/js/controllers/slidecontent.js
-  inflating: reveal.js-master/js/controllers/slidenumber.js
-  inflating: reveal.js-master/js/controllers/touch.js
-  inflating: reveal.js-master/js/index.js
-  inflating: reveal.js-master/js/reveal.js
-   creating: reveal.js-master/js/utils/
-  inflating: reveal.js-master/js/utils/color.js
-  inflating: reveal.js-master/js/utils/constants.js
-  inflating: reveal.js-master/js/utils/device.js
-  inflating: reveal.js-master/js/utils/loader.js
-  inflating: reveal.js-master/js/utils/util.js
-  inflating: reveal.js-master/package-lock.json
-  inflating: reveal.js-master/package.json
-   creating: reveal.js-master/plugin/
-   creating: reveal.js-master/plugin/highlight/
-  inflating: reveal.js-master/plugin/highlight/highlight.esm.js
-  inflating: reveal.js-master/plugin/highlight/highlight.js
-  inflating: reveal.js-master/plugin/highlight/monokai.css
-  inflating: reveal.js-master/plugin/highlight/plugin.js
-  inflating: reveal.js-master/plugin/highlight/zenburn.css
-   creating: reveal.js-master/plugin/markdown/
-  inflating: reveal.js-master/plugin/markdown/markdown.esm.js
-  inflating: reveal.js-master/plugin/markdown/markdown.js
-  inflating: reveal.js-master/plugin/markdown/plugin.js
-   creating: reveal.js-master/plugin/math/
-  inflating: reveal.js-master/plugin/math/katex.js
-  inflating: reveal.js-master/plugin/math/math.esm.js
-  inflating: reveal.js-master/plugin/math/math.js
-  inflating: reveal.js-master/plugin/math/mathjax2.js
-  inflating: reveal.js-master/plugin/math/mathjax3.js
-  inflating: reveal.js-master/plugin/math/plugin.js
-   creating: reveal.js-master/plugin/notes/
-  inflating: reveal.js-master/plugin/notes/notes.esm.js
-  inflating: reveal.js-master/plugin/notes/notes.js
-  inflating: reveal.js-master/plugin/notes/plugin.js
-  inflating: reveal.js-master/plugin/notes/speaker-view.html
-   creating: reveal.js-master/plugin/search/
-  inflating: reveal.js-master/plugin/search/plugin.js
-  inflating: reveal.js-master/plugin/search/search.esm.js
-  inflating: reveal.js-master/plugin/search/search.js
-   creating: reveal.js-master/plugin/zoom/
-  inflating: reveal.js-master/plugin/zoom/plugin.js
-  inflating: reveal.js-master/plugin/zoom/zoom.esm.js
-  inflating: reveal.js-master/plugin/zoom/zoom.js
-   creating: reveal.js-master/test/
-   creating: reveal.js-master/test/assets/
- extracting: reveal.js-master/test/assets/external-script-a.js
- extracting: reveal.js-master/test/assets/external-script-b.js
- extracting: reveal.js-master/test/assets/external-script-c.js
- extracting: reveal.js-master/test/assets/external-script-d.js
-  inflating: reveal.js-master/test/simple.md
-  inflating: reveal.js-master/test/test-auto-animate.html
-  inflating: reveal.js-master/test/test-dependencies-async.html
-  inflating: reveal.js-master/test/test-dependencies.html
-  inflating: reveal.js-master/test/test-grid-navigation.html
-  inflating: reveal.js-master/test/test-iframe-backgrounds.html
-  inflating: reveal.js-master/test/test-iframes.html
-  inflating: reveal.js-master/test/test-markdown.html
-  inflating: reveal.js-master/test/test-multiple-instances-es5.html
-  inflating: reveal.js-master/test/test-multiple-instances.html
-  inflating: reveal.js-master/test/test-pdf.html
-  inflating: reveal.js-master/test/test-plugins.html
-  inflating: reveal.js-master/test/test-state.html
-  inflating: reveal.js-master/test/test.html
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0100 2531k    0 2531k    0     0  1661k      0 --:--:--  0:00:01 --:--:-- 2722k
+reveal.js-4.4.0/.github/CONTRIBUTING.md
+reveal.js-4.4.0/.github/FUNDING.yml
+reveal.js-4.4.0/.github/workflows/
+reveal.js-4.4.0/.github/workflows/js.yml
+reveal.js-4.4.0/css/layout.scss
+reveal.js-4.4.0/css/print/
+reveal.js-4.4.0/css/print/paper.scss
+reveal.js-4.4.0/css/print/pdf.scss
+reveal.js-4.4.0/css/reveal.scss
+reveal.js-4.4.0/css/theme/
+reveal.js-4.4.0/css/theme/README.md
+reveal.js-4.4.0/css/theme/source/
+reveal.js-4.4.0/css/theme/source/beige.scss
+reveal.js-4.4.0/css/theme/source/black.scss
+reveal.js-4.4.0/css/theme/source/blood.scss
+reveal.js-4.4.0/css/theme/source/league.scss
+reveal.js-4.4.0/css/theme/source/moon.scss
+reveal.js-4.4.0/css/theme/source/night.scss
+reveal.js-4.4.0/css/theme/source/serif.scss
+reveal.js-4.4.0/css/theme/source/simple.scss
+reveal.js-4.4.0/css/theme/source/sky.scss
+reveal.js-4.4.0/css/theme/source/solarized.scss
+reveal.js-4.4.0/css/theme/source/white.scss
+reveal.js-4.4.0/css/theme/template/
+reveal.js-4.4.0/css/theme/template/exposer.scss
+reveal.js-4.4.0/css/theme/template/mixins.scss
+reveal.js-4.4.0/css/theme/template/settings.scss
+reveal.js-4.4.0/css/theme/template/theme.scss
+reveal.js-4.4.0/dist/reset.css
+reveal.js-4.4.0/dist/reveal.css
+reveal.js-4.4.0/dist/reveal.esm.js
+reveal.js-4.4.0/dist/reveal.esm.js.map
+reveal.js-4.4.0/dist/reveal.js
+reveal.js-4.4.0/dist/reveal.js.map
+reveal.js-4.4.0/dist/theme/
+reveal.js-4.4.0/dist/theme/beige.css
+reveal.js-4.4.0/dist/theme/black.css
+reveal.js-4.4.0/dist/theme/blood.css
+reveal.js-4.4.0/dist/theme/fonts/
+reveal.js-4.4.0/dist/theme/fonts/league-gothic/
+reveal.js-4.4.0/dist/theme/fonts/league-gothic/LICENSE
+reveal.js-4.4.0/dist/theme/fonts/league-gothic/league-gothic.css
+reveal.js-4.4.0/dist/theme/fonts/league-gothic/league-gothic.eot
+reveal.js-4.4.0/dist/theme/fonts/league-gothic/league-gothic.ttf
+reveal.js-4.4.0/dist/theme/fonts/league-gothic/league-gothic.woff
+reveal.js-4.4.0/dist/theme/fonts/source-sans-pro/
+reveal.js-4.4.0/dist/theme/fonts/source-sans-pro/LICENSE
+reveal.js-4.4.0/dist/theme/fonts/source-sans-pro/source-sans-pro-italic.eot
+reveal.js-4.4.0/dist/theme/fonts/source-sans-pro/source-sans-pro-italic.ttf
+reveal.js-4.4.0/dist/theme/fonts/source-sans-pro/source-sans-pro-italic.woff
+reveal.js-4.4.0/dist/theme/fonts/source-sans-pro/source-sans-pro-regular.eot
+reveal.js-4.4.0/dist/theme/fonts/source-sans-pro/source-sans-pro-regular.ttf
+reveal.js-4.4.0/dist/theme/fonts/source-sans-pro/source-sans-pro-regular.woff
+reveal.js-4.4.0/dist/theme/fonts/source-sans-pro/source-sans-pro-semibold.eot
+reveal.js-4.4.0/dist/theme/fonts/source-sans-pro/source-sans-pro-semibold.ttf
+reveal.js-4.4.0/dist/theme/fonts/source-sans-pro/source-sans-pro-semibold.woff
+reveal.js-4.4.0/dist/theme/fonts/source-sans-pro/source-sans-pro-semibolditalic.eot
+reveal.js-4.4.0/dist/theme/fonts/source-sans-pro/source-sans-pro-semibolditalic.ttf
+reveal.js-4.4.0/dist/theme/fonts/source-sans-pro/source-sans-pro-semibolditalic.woff
+reveal.js-4.4.0/dist/theme/fonts/source-sans-pro/source-sans-pro.css
+reveal.js-4.4.0/dist/theme/league.css
+reveal.js-4.4.0/dist/theme/moon.css
+reveal.js-4.4.0/dist/theme/night.css
+reveal.js-4.4.0/dist/theme/serif.css
+reveal.js-4.4.0/dist/theme/simple.css
+reveal.js-4.4.0/dist/theme/sky.css
+reveal.js-4.4.0/dist/theme/solarized.css
+reveal.js-4.4.0/dist/theme/white.css
+reveal.js-4.4.0/examples/assets/
+reveal.js-4.4.0/examples/assets/beeping.txt
+reveal.js-4.4.0/examples/assets/beeping.wav
+reveal.js-4.4.0/examples/assets/image1.png
+reveal.js-4.4.0/examples/assets/image2.png
+reveal.js-4.4.0/examples/auto-animate.html
+reveal.js-4.4.0/examples/backgrounds.html
+reveal.js-4.4.0/examples/barebones.html
+reveal.js-4.4.0/examples/layout-helpers.html
+reveal.js-4.4.0/examples/markdown.html
+reveal.js-4.4.0/examples/markdown.md
+reveal.js-4.4.0/examples/math.html
+reveal.js-4.4.0/examples/media.html
+reveal.js-4.4.0/examples/multiple-presentations.html
+reveal.js-4.4.0/examples/transitions.html
+reveal.js-4.4.0/js/components/
+reveal.js-4.4.0/js/components/playback.js
+reveal.js-4.4.0/js/config.js
+reveal.js-4.4.0/js/controllers/
+reveal.js-4.4.0/js/controllers/autoanimate.js
+reveal.js-4.4.0/js/controllers/backgrounds.js
+reveal.js-4.4.0/js/controllers/controls.js
+reveal.js-4.4.0/js/controllers/focus.js
+reveal.js-4.4.0/js/controllers/fragments.js
+reveal.js-4.4.0/js/controllers/keyboard.js
+reveal.js-4.4.0/js/controllers/location.js
+reveal.js-4.4.0/js/controllers/notes.js
+reveal.js-4.4.0/js/controllers/overview.js
+reveal.js-4.4.0/js/controllers/plugins.js
+reveal.js-4.4.0/js/controllers/pointer.js
+reveal.js-4.4.0/js/controllers/print.js
+reveal.js-4.4.0/js/controllers/progress.js
+reveal.js-4.4.0/js/controllers/slidecontent.js
+reveal.js-4.4.0/js/controllers/slidenumber.js
+reveal.js-4.4.0/js/controllers/touch.js
+reveal.js-4.4.0/js/index.js
+reveal.js-4.4.0/js/reveal.js
+reveal.js-4.4.0/js/utils/
+reveal.js-4.4.0/js/utils/color.js
+reveal.js-4.4.0/js/utils/constants.js
+reveal.js-4.4.0/js/utils/device.js
+reveal.js-4.4.0/js/utils/loader.js
+reveal.js-4.4.0/js/utils/util.js
+reveal.js-4.4.0/plugin/highlight/
+reveal.js-4.4.0/plugin/highlight/highlight.esm.js
+reveal.js-4.4.0/plugin/highlight/highlight.js
+reveal.js-4.4.0/plugin/highlight/monokai.css
+reveal.js-4.4.0/plugin/highlight/plugin.js
+reveal.js-4.4.0/plugin/highlight/zenburn.css
+reveal.js-4.4.0/plugin/markdown/
+reveal.js-4.4.0/plugin/markdown/markdown.esm.js
+reveal.js-4.4.0/plugin/markdown/markdown.js
+reveal.js-4.4.0/plugin/markdown/plugin.js
+reveal.js-4.4.0/plugin/math/
+reveal.js-4.4.0/plugin/math/katex.js
+reveal.js-4.4.0/plugin/math/math.esm.js
+reveal.js-4.4.0/plugin/math/math.js
+reveal.js-4.4.0/plugin/math/mathjax2.js
+reveal.js-4.4.0/plugin/math/mathjax3.js
+reveal.js-4.4.0/plugin/math/plugin.js
+reveal.js-4.4.0/plugin/notes/
+reveal.js-4.4.0/plugin/notes/notes.esm.js
+reveal.js-4.4.0/plugin/notes/notes.js
+reveal.js-4.4.0/plugin/notes/plugin.js
+reveal.js-4.4.0/plugin/notes/speaker-view.html
+reveal.js-4.4.0/plugin/search/
+reveal.js-4.4.0/plugin/search/plugin.js
+reveal.js-4.4.0/plugin/search/search.esm.js
+reveal.js-4.4.0/plugin/search/search.js
+reveal.js-4.4.0/plugin/zoom/
+reveal.js-4.4.0/plugin/zoom/plugin.js
+reveal.js-4.4.0/plugin/zoom/zoom.esm.js
+reveal.js-4.4.0/plugin/zoom/zoom.js
+reveal.js-4.4.0/test/assets/
+reveal.js-4.4.0/test/assets/external-script-a.js
+reveal.js-4.4.0/test/assets/external-script-b.js
+reveal.js-4.4.0/test/assets/external-script-c.js
+reveal.js-4.4.0/test/assets/external-script-d.js
+reveal.js-4.4.0/test/simple.md
+reveal.js-4.4.0/test/test-auto-animate.html
+reveal.js-4.4.0/test/test-dependencies-async.html
+reveal.js-4.4.0/test/test-dependencies.html
+reveal.js-4.4.0/test/test-grid-navigation.html
+reveal.js-4.4.0/test/test-iframe-backgrounds.html
+reveal.js-4.4.0/test/test-iframes.html
+reveal.js-4.4.0/test/test-markdown.html
+reveal.js-4.4.0/test/test-multiple-instances-es5.html
+reveal.js-4.4.0/test/test-multiple-instances.html
+reveal.js-4.4.0/test/test-pdf.html
+reveal.js-4.4.0/test/test-plugins.html
+reveal.js-4.4.0/test/test-state.html
+reveal.js-4.4.0/test/test.html
 #+end_example
 
 * Before we start
