@@ -4559,6 +4559,13 @@ bundle agent battery
 bundle agent __main__{ methods: "battery";}
 #+END_SRC
 
+** Strip suffixes from a list of filenames
+:PROPERTIES:
+:SOLUTIONS: [[id:674c0773-c062-4117-8a21-3b7a5bd2b09b][Example illustrating a few ways to strip suffixes from a list]]
+:END:
+
+Given a list of filenames, (  =1.txt=, =2.txt=, =3.txt=  ) strip the suffix ( =.txt= ) and get the prefix into a new list.
+
 * Enterprise Reporting
 ** APIs
 - Host
