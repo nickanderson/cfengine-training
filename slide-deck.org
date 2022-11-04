@@ -1,3 +1,6 @@
+:PROPERTIES:
+:ID:       092d7e4e-78a4-40ec-b11d-8c554d2fc102
+:END:
 #+Title: CFEngine in a day
 #+Author: Nick Anderson
 #+Email: nick.anderson@northern.tech
