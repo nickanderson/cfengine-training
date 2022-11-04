@@ -825,7 +825,6 @@ It's a perl script and you will need =File::HomeDir=.
 - Installed with CFEngine Enterprise Hub
 #+end_notes
 
-
 * Client/Server Architecture                                         :ATTACH:
 :PROPERTIES:
 :ID:       66fd45c5-3f73-49e4-a938-ec3ecbdcd8ef
