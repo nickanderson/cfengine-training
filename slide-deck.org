@@ -4564,7 +4564,9 @@ bundle agent __main__{ methods: "battery";}
 :SOLUTIONS: [[id:674c0773-c062-4117-8a21-3b7a5bd2b09b][Example illustrating a few ways to strip suffixes from a list]]
 :END:
 
-Given a list of filenames, (  =1.txt=, =2.txt=, =3.txt=  ) strip the suffix ( =.txt= ) and get the prefix into a new list.
+Given a list of filenames strip the suffix and get the prefix into a new list.
+
+E.g. given a list containing =1.txt=, =2.txt=, =3.txt= produce a list containing =1=, =2=, =3=.
 
 * Enterprise Reporting
 ** APIs
