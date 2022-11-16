@@ -5020,6 +5020,89 @@ E.g. given a list containing =1.txt=, =2.txt=, =3.txt= produce a list containing
   echo "${LINK}"
 #+END_SRC
 
+** Actions
+
+Actions API enables you to perform specific actions such a requesting report collection and triggering un-scheduled agent runs.
+
+Note: Triggered actions (agent run, report collection) will not work for hosts that the hub cannot initiate connections to, e.g. hosts behind NAT.
+
+:DRAWER:
+#+name: hub-hostkey
+#+begin_src sh :results output :exports none :dir /ssh:hub|sudo:hub: :wrap "src json"
+  exec 2>&1
+  HUB_HOSTNAME=hub.example.com
+  CANONIFIED_HUB_HOSTNAME=$(echo $HUB_HOSTNAME | tr '.-' '_')
+  curl --silent --insecure --user admin:admin https://hub.example.com/api/host?context-include=$CANONIFIED_HUB_HOSTNAME
+  :
+#+end_src
+
+#+RESULTS: hub-hostkey
+#+begin_src json
+{
+  "data": [
+    {
+      "firstseen": "1668614330",
+      "hostname": "hub.example.com",
+      "id": "SHA=55425b6c6c5fcd1ea7f00cf45736a3acd87a3503dc61abaf268ca59f47fe4a05",
+      "ip": "192.168.56.2",
+      "lastreport": "1668616552"
+    }
+  ],
+  "meta": {
+    "count": 1,
+    "page": 1,
+    "timestamp": 1668616573,
+    "total": 1
+  }
+}
+#+end_src
+:END:
+
+*** Trigger report collection
+
+#+caption: API call to trigger report collection
+#+begin_src sh :results output :exports both :dir /ssh:hub|sudo:hub:
+  exec 2>&1
+  /var/cfengine/bin/curl \
+      --insecure \
+      --user admin:admin \
+      --write-out "HTTP %{response_code}" \
+      --request POST \
+      -H 'content-tyupe: application/json' \
+      -d '{"hostkey": "SHA=55425b6c6c5fcd1ea7f00cf45736a3acd87a3503dc61abaf268ca59f47fe4a05" }' \
+      https://hub.example.com/api/actions/report_collection
+  :
+#+end_src
+
+#+RESULTS:
+: Array
+: HTTP 202
+
+*** Trigger agent run
+
+#+caption: API call to trigger agent run
+#+begin_src sh :results output :exports both :dir /ssh:hub|sudo:hub:
+  exec 2>&1
+  /var/cfengine/bin/curl \
+      --insecure \
+      --user admin:admin \
+      --write-out "HTTP %{response_code}" \
+      --request POST \
+      -H 'content-tyupe: application/json' \
+      -d '{"hostkey": "SHA=55425b6c6c5fcd1ea7f00cf45736a3acd87a3503dc61abaf268ca59f47fe4a05" }' \
+      https://hub.example.com/api/actions/agent_run
+  :
+#+end_src
+
+#+RESULTS:
+: {
+: "output" : "",
+: "exit_code": 0
+: }
+:
+: HTTP 202
+
+
 * What's New
 ** Coming up in 3.21...
 ** In 3.20
