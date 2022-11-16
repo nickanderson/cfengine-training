@@ -3783,37 +3783,17 @@ Inventory the users listed in =/etc/cron.allow=
 ** Enable sshd banner
 Write a policy that enables the ssh banner and directs it to =/etc/issue=. sshd
 should be restarted after changing its configuration.
-** Install ntpd and configure driftfile :noexport:
+** Install ntpd and configure driftfile
+:PROPERTIES:
+:ID:       1a5a1fce-640e-4037-8dec-b50755dc5875
+:SOLUTIONS: [[id:6c04ab5b-87fb-40c3-95bb-bec655f8015c][Example illustrating Install ntpd and configure driftfile]]
+:END:
 - Install ntp
 - Ensure service is running
 - Configure path to driftfile =/var/lib/ntp/drift=?
 - Make sure service is restarted if configuration file content is altered
-#+CAPTION:
-#+BEGIN_SRC cfengine3 :include-stdlib t :log-level info :exports both
-bundle agent excercise_configure_nptd_driftfile
-{
-  vars:
-      "config[driftfile]" string => "/var/lib/ntp/drift";
-  packages:
-      "ntp" policy => "present";
-  services:
-      "ntpd" service_policy => "start";
-      "ntpd"
-        service_policy => "restart",
-        if => "ntpd_conf_repaired";
-  files:
-      "/etc/ntp.conf"
-        edit_line => set_line_based("$(this.bundle).config", # Key Values
-                                    " ",        # Separator
-                                    "\s+",      # Separator regex
-                                    ".*",       # Keys to use
-                                    "\s*#\s*"), # Ignore lines
-        classes => results("bundle", "ntpd_conf");
-}
-bundle agent __main__{methods:"excercise_configure_nptd_driftfile";}
-#+END_SRC
 
-** Multiple outcomes
+** Multiple outcomes :noexport:
 :PROPERTIES:
 :ID:       7d3b755b-1313-430f-8e46-9c6d6ad8e281
 :END:
