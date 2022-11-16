@@ -2494,6 +2494,10 @@ Caveat methods promises that use ~inherit => "true"~
   - So that you
 #+end_notes
 
+*** Pro tips
+- Use *=bundle=* scoped classes whenever possible.
+- Define classes that describe the current state, not desired action.
+
 *** Example class names
 #+begin_src cfengine3 :include-stdlib nil :log-level info :exports both
   bundle agent sshd_config
