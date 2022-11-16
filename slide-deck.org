@@ -1310,13 +1310,13 @@ The backbone of your policy, it's the scaffolding from which you can build on.
 - Where do you configure /most/ MPF tunables?
 
 #+ATTR_REVEAL: :frag roll-in
-- When is the MPF typically upgraded?
+- At what point in the Upgrade Process should the MPF be upgraded?
 
 #+CAPTION: Speaker Notes
 #+begin_notes
 - What is the /*MPF*/? :: The /*Masterfiles Policy Framework*/. The default policy set.
 - Where do you configure /most/ MPF tunables? :: Augments
-- When is the MPF typically upgraded? :: First
+- At what point in the Upgrade Process should the MPF be upgraded? :: First
 #+end_notes
 
 * Promise Theory
