@@ -1,0 +1,12 @@
+#+caption: Michael Rice
+#+begin_src cfengine3 :include-stdlib nil :log-level info :exports both :define DEBUG :command-in-result t
+  bundle agent __main__
+  {
+    vars:
+        "user" string => "two";
+
+    files:
+        "/etc/cron.allow"
+          content => "$(user)$(const.n)";
+  }
+#+end_src

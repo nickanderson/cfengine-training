@@ -1,0 +1,28 @@
+#+caption: Michael Rice
+#+begin_src cfengine3 :include-stdlib nil :log-level info :exports both :define DEBUG :command-in-result t
+  bundle agent legaleze
+  {
+    vars:
+        "file" string => "/etc/issue";
+    files:
+        "$(file)"
+          edit_line => legaleze;
+  }
+
+  bundle edit_line legaleze
+  {
+    vars:
+        "legaleze" string => "We now offer diplomas in four-dimensional monitored capability.$(const.n)The consultants recommend total policy resources.$(const.n)";
+
+    insert_lines:
+        "$(legaleze)"
+          location => first_line;
+  }
+
+  body location first_line
+  {
+          before_after => "before";
+          first_last => "first";
+          select_line_matching => ".*"; # Didn't work with empty file (BUG?)
+  }
+#+end_src

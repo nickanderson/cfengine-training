@@ -1,0 +1,25 @@
+#+caption: Nick Anderson
+#+begin_src cfengine3 :include-stdlib t :log-level info :exports both :define DEBUG :command-in-result t
+  bundle agent __main__
+  {
+    vars:
+      "file" string => ifelse( "DEBUG", "/tmp/etc/issue",
+                             "/etc/issue" );
+
+      # Samsungism
+      "prefix" string => ifelse( "DEBUG", "", "/tmp");
+
+    files:
+      "$(prefix)$(file)"
+        content => ifelse( isvariable( "default:def.legal" ), "$(default:def.legal)",
+                                       "The most tremendously legal" );
+
+   reports: "$(file)" printfile => cat( $(file) );
+  }
+#+end_src
+
+#+RESULTS:
+: # cf-agent --define DEBUG --no-lock --log-level info --file /tmp/cfengine3-KdBOur
+:     info: Updated file '/tmp/etc/issue' with content 'Hi world'
+: R: /tmp/etc/issue
+: R: Hi world

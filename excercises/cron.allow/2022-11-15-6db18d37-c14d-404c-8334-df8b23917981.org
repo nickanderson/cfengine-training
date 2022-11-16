@@ -1,0 +1,20 @@
+#+begin_src cfengine3 :include-stdlib t :log-level info :exports both :define DEBUG :command-in-result t
+  bundle agent __main__
+  {
+    vars:
+      "file" string => ifelse( "DEBUG", "/tmp/etc/cron.allow",
+                             "/etc/cron.allow" );
+
+      "users" slist => { "nick", "notnick" };
+      "cron_allow_users" slist => { "nick" };
+
+    files:
+      "$(file)"
+        content => "$(with)$(const.n)", # cron.allow really wants a newline
+        with => join( "$(const.n)", cron_allow_users );
+
+
+   reports: "$(file)" printfile => cat( $(file) );
+  }
+
+#+end_src
