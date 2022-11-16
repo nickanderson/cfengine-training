@@ -4548,6 +4548,24 @@ Given a list of filenames strip the suffix and get the prefix into a new list.
 
 E.g. given a list containing =1.txt=, =2.txt=, =3.txt= produce a list containing =1=, =2=, =3=.
 
+** Manage files described by a data container
+:PROPERTIES:
+:SOLUTIONS: [[id:70aaaa9c-6770-4d20-86ec-30e1c9bf2c28][Example illustrating managing files described by a data container]]
+:END:
+
+#+begin_src json
+ [
+    {
+      "name": "/tmp/create-multiple-files-with.content-1.txt",
+      "content": "Hello CFEngine!"
+    },
+    {
+      "name": "/tmp/create-multiple-files-with.content-2.txt",
+      "content": "Bye CFEngine!"
+    }
+  ]
+#+end_src
+
 * Enterprise Reporting
 ** APIs
 - Host
