@@ -3073,8 +3073,7 @@ R: URL = 'https://mirror.int.cfengine.com/RHEL6/updates'
 - Data containers are a single variable
 #+end_notes
 
-#+REVEAL: split
-
+*** Example Associative Arrays vs Data containers
 #+Name: =examples/00-04-classicarray-vs-datacontainer.cf=
 #+Caption: =examples/00-04-classicarray-vs-datacontainer.cf=
 #+BEGIN_SRC cfengine3 :tangle ./examples/00-04-classicarray-vs-datacontainer.cf
@@ -3097,8 +3096,7 @@ R: URL = 'https://mirror.int.cfengine.com/RHEL6/updates'
   }
 #+END_SRC
 
-#+REVEAL: split
-
+*** Example Associative Arrays vs Data containers output
 #+RESULTS: =examples/00-04-classicarray-vs-datacontainer.cf=
 #+begin_example
 R: ClassicArray:{
@@ -3115,7 +3113,6 @@ R: DataContainer:{
 }
 #+end_example
 
-
 ** Pop Quiz
 :PROPERTIES:
 :ID:       7f27eca0-1121-4c25-bfb3-b5e0cdd3de46
@@ -3131,7 +3128,7 @@ R: DataContainer:{
 - What symbol terminates a promise?
 
 #+ATTR_REVEAL: :frag roll-in
-    - [[file:images/What is your quest - To seek the Holy Grail.mp4][What is your quest?]]
+- [[file:images/What is your quest - To seek the Holy Grail.mp4][What is your quest?]]
 
 #+ATTR_REVEAL: :frag roll-in
 - What are promise comments used for?
