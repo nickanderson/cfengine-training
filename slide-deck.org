@@ -1432,7 +1432,7 @@ access, build_xpath, classes, *commands*, databases, defaults, delete_attribute,
 
 *** Custom Promise Types
 
-- Available starting with 3.20
+- Available starting with 3.17.0
 - Can be written in any language
 - Bash and Python libraries available
 
