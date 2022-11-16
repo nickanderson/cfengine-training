@@ -8,6 +8,6 @@ This training material uses org-mode to build the slides.
 Examples are "tangled" from the presentation itself.
 
 - [[https://htmlpreview.github.io/?https://github.com/nickanderson/cfengine-training/blob/master/slide-deck.html][View Presentation]]
+  - Probably this won't work since the presentation has grown so large.
+  - To view the presentation as it's meant to be viewed, download [[./slide-deck.html][slide-deck.html]] locally and open.
 - [[https://github.com/nickanderson/cfengine-training/blob/master/slide_deck-light.pdf][Light PDF]]
-
-
