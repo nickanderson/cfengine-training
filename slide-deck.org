@@ -1449,6 +1449,8 @@ access, build_xpath, classes, *commands*, databases, defaults, delete_attribute,
       context::
 
         "promiser" -> { "optional", "stakeholder" }
+          handle => "unique_promise_identifier",
+          depends_on => { "handles", "must_be_kept_or_repaired_first" },
           attribute_1 => value_1,
           attribute_2 => value_2,
           meta => { "tag1", "tag2", "tag3=something" },
