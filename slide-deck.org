@@ -2434,7 +2434,9 @@ Caveat methods promises that use ~inherit => "true"~
   - Inventoried classes *must be =namespace= scoped*.
 #+end_notes
 
-**** Non default namespace
+#+REVEAL: split
+
+*** Non default namespace
 
 - Beware confusing namespace /scope/ with specific namespace
 - Referencing non-default namespace scoped classes
