@@ -2408,19 +2408,52 @@ bundle agent main
 :ID:       3000b84d-cd58-49c7-9e2e-06f72d5e3b80
 :END:
 
-- Namespace scoped classes are accessible from any bundle. (=theNamespace:the_class|anotherNamespace:another_class::=
+Classes have one of two scopes:
+
+- Namespace :: The class is visible from other bundles
+- Bundle :: The class is only visible from within the bundle it was defined
+
+Caveat methods promises that use ~inherit => "true"~
+
+#+CAPTION: Speaker Notes
+#+begin_notes
+  - Bundles actuated by methods promises that use ~inherit => "true"~ have access to their parents bundle scoped classes.
+#+end_notes
+
+*** Namespace scoped classes
+
+- Aka /globally scoped/
+- Accessible from any bundle
 - Persist until end of agent run or explicitly undefined.
-- Bundle scoped classes are only accessible from within the bundle the class was defined, or bundles actuated via methods where inheritance is specified
+- Must be used if want reported to CFEngine Enterprise Hub
 - All hard classes are namespace scoped
 
 #+CAPTION: Speaker Notes
 #+begin_notes
-  Don't worry too much about namespaces yet. It's an advanced topic and mostly
-  relates to very large policy sets or environments with many different groups
-  of policy writers.
-
   - Namespace scoped classes are also referred to as "global" classes.
   - Inventoried classes *must be =namespace= scoped*.
+#+end_notes
+
+**** Non default namespace
+
+- Beware confusing namespace /scope/ with specific namespace
+- Referencing non-default namespace scoped classes
+   =class_in_current_NS|anotherNS:another_class::=
+
+#+CAPTION: Speaker Notes
+#+begin_notes
+  Don't worry too much about non-default namespaces yet. It's an advanced topic
+  and mostly relates to very large policy sets or environments with many
+  different groups of policy writers.
+#+end_notes
+
+*** Bundle scoped classes
+
+- Accessible from within the bundle where they were defined
+
+#+CAPTION: Speaker Notes
+#+begin_notes
+  - Bundles actuated by methods promises that use ~inherit => "true"~ have access to their parents bundle scoped classes.
 #+end_notes
 
 ** Class scope rules
