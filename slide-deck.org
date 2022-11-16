@@ -1173,7 +1173,7 @@ This software is Copyright (C) 2008,2010-present Northern.tech AS.
 - How does information from client hosts get into the Enterprise Hub Database?
 
 #+ATTR_REVEAL: :frag roll-in
-- What is the meaning of life, the universe and everything?
+- What is the answer to the ultimate question of life, the universe and everything?
 
 #+CAPTION: Speaker Notes
 #+begin_notes
@@ -1181,7 +1181,7 @@ This software is Copyright (C) 2008,2010-present Northern.tech AS.
   - Where is the policy that the agent runs by default? :: =$(sys.default_policy_path)= , =/var/cfengine/inputs/promises.cf=, =/var/cfengine/inputs=, or =$(sys.inputdir)=
   - What port needs to be open bidirectionally? :: *5308*
   - How does information from client hosts get into the Enterprise Hub Database? :: They are collected by cf-hub. Hub initiated collection, Client initiated advertisement of availability.
-  - What is the meaning of life, the universe and everything? :: *42*.  In The Hitchhiker's Guide to the Galaxy by Douglas Adams, is the "Answer to the Ultimate Question of Life, the Universe, and Everything", calculated by a supercomputer named Deep Thought over a period of 7.5M years.
+  - What is the answer to the ultimate question of life, the universe and everything? :: *42*.  In The Hitchhiker's Guide to the Galaxy by Douglas Adams, is the "Answer to the Ultimate Question of Life, the Universe, and Everything", calculated by a supercomputer named Deep Thought over a period of 7.5M years.
 #+end_notes
 
 * MPF & stdlib
