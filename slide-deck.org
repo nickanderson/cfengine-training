@@ -2463,9 +2463,6 @@ Caveat methods promises that use ~inherit => "true"~
 
 - =classes= bodies (define classes based on promise results default to *namespace scope*)
 
-*Pro Tips:*
-- Use *=bundle=* scoped classes whenever possible.
-- Define classes that describe the current state, not desired action.
 *** Example class scopes for classes type promises
 #+begin_src cfengine3 :include-stdlib nil :log-level info :exports both
   bundle agent bundle0
