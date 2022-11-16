@@ -2825,7 +2825,12 @@ In some contexts, =%= can be used a special suffix to denote percentages.
 Lastly, there is a reserved value which can be used to specific a parameter as
 having no limit at all.
 
-- =inf= :: a constant representing an "unlimited", value.
+- =inf= :: a constant representing an "unlimited", value. *But, not in /all/ cases*.
+https://docs.cfengine.com/docs/master/reference-language-concepts-variables.html#scalar-variables
+
+inf is a special value that in the code corresponds to the magic number of 999999999 (nine nines). Thus any function that accepts a number, can accept inf without a problem. Keep in mind though that you can get a higher number if you set the upper limit manually, but that's almost never a problem.
+
+For a few functions inf is being treated specially and truly means "there is no limit" instead of "nine nines limit". This is the case for the maxbytes parameter and applies to most read* functions.
 #+end_notes
 
 #+REVEAL: split
@@ -2851,7 +2856,7 @@ having no limit at all.
        "inf ($(inf_is)) < biggest_int ($(biggest_int))"
         if => isgreaterthan( $(biggest_int), $(inf_is) );
 
-       "$(biggest_int) is $(with) greater than $(inf_is)"
+       "biggest_int ($(biggest_int)) is $(with) greater than inf ($(inf_is))"
          with => format( "%0.0f", eval( "$(biggest_int)-$(inf_is)", math, infix));
   }
   bundle agent __main__
@@ -2862,7 +2867,17 @@ having no limit at all.
 
 #+RESULTS:
 : R: inf (999999999) < biggest_int (99999999999)
-: R: 99999999999 is 99000000000 greater than 999999999
+: R: biggest_int (99999999999) is 99000000000 greater than inf (999999999)
+
+#+CAPTION: Speaker Notes
+#+begin_notes
+- =inf= :: a constant representing an "unlimited", value. *But, not in /all/ cases*.
+https://docs.cfengine.com/docs/master/reference-language-concepts-variables.html#scalar-variables
+
+inf is a special value that in the code corresponds to the magic number of 999999999 (nine nines). Thus any function that accepts a number, can accept inf without a problem. Keep in mind though that you can get a higher number if you set the upper limit manually, but that's almost never a problem.
+
+For a few functions inf is being treated specially and truly means "there is no limit" instead of "nine nines limit". This is the case for the maxbytes parameter and applies to most read* functions.
+#+end_notes
 
 *** Example - lists
 :PROPERTIES:
@@ -3027,6 +3042,14 @@ bundle agent main
 }
 #+END_SRC
 
+#+CAPTURE: Speaker Notes
+#+begin_notes
+- Note: reading data from files will NOT expand cfengine variables by default
+  - Not necessarily recommended to mix cfengine variables in external data
+    - Now data must know something about CFEngine, ideally it's independent data
+    - But, if you really want ... the ~dataexpand()~ function can help
+#+end_notes
+
 #+REVEAL: split
 
 #+RESULTS: =examples/00-06-data_containers.cf=
@@ -3034,16 +3057,23 @@ bundle agent main
 R: URL = 'https://mirror.int.cfengine.com/RHEL6/updates'
 #+end_example
 
-*** Differences between "Classic Arrays" and "Data containers"
+*** Associative Arrays vs Data containers
+- Data containers defined as a single variable
+- Associative Arrays aka Classic arrays
+  - collection of individual variables
+  - cleared at the start of each bundle evaluation
+
 #+CAPTURE: Speaker Notes
 #+begin_notes
 - Data containers are defined as a single entity
-- Arrays are defined by each index
+- Associative Arrays are defined by each index
 - "Classic arrays" are cleared at the start of each bundle evaluation
 
 - Arrays are a collection of related variables
 - Data containers are a single variable
 #+end_notes
+
+#+REVEAL: split
 
 #+Name: =examples/00-04-classicarray-vs-datacontainer.cf=
 #+Caption: =examples/00-04-classicarray-vs-datacontainer.cf=
@@ -3053,14 +3083,17 @@ R: URL = 'https://mirror.int.cfengine.com/RHEL6/updates'
     vars:
         "ClassicArray[key]" string => "value";
         "ClassicArray[deep]" slist => { "list" };
+        "ClassicArray[nevermind]"
+          string => "value",
+          if => "notdefined";
         "DataContainer"
           data => '{ "key": "value", "deep": [ "list" ] }';
 
     reports:
         "ClassicArray:$(with)"
-          with => string_mustache( "{{%-top-}}", ClassicArray);
+          with => storejson( ClassicArray);
         "DataContainer:$(with)"
-          with => string_mustache( "{{%-top-}}", DataContainer);
+          with => storejson( DataContainer);
   }
 #+END_SRC
 
@@ -3081,6 +3114,7 @@ R: DataContainer:{
   "key": "value"
 }
 #+end_example
+
 
 ** Pop Quiz
 :PROPERTIES:
@@ -3118,6 +3152,8 @@ R: DataContainer:{
 - What types of variables are available? :: list, string, int, real, data
 - How are decisions made? :: Using classes and class expressions
 #+end_notes
+
+
 * Policy Examples
 :PROPERTIES:
 :ID:       190c0079-5336-4e03-8ea4-c71a2cfa684f
