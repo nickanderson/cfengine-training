@@ -1525,11 +1525,11 @@ bundle agent main
 #+REVEAL: split
 
 #+BEGIN_SRC cfengine3 :tangle ./examples/example-bundles-maintain-some-variable-state.cf
-bundle agent set_item_in_bag(item, value)
+bundle agent set_item_in_bag(item, condition)
 {
   vars:
-    "$(item)" string => "$(value)";
-    "array[$(item)]" string => "$(value)";
+    "$(item)" string => "$(condition)";
+    "array[$(item)]" string => "$(condition)";
 }
 bundle agent report_bag_contents
 {

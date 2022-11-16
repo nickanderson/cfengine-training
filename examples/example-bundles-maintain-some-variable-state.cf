@@ -20,11 +20,11 @@ body file control
       inputs => { '$(sys.libdir)/stdlib.cf' };
 }
 
-bundle agent set_item_in_bag(item, value)
+bundle agent set_item_in_bag(item, condition)
 {
   vars:
-    "$(item)" string => "$(value)";
-    "array[$(item)]" string => "$(value)";
+    "$(item)" string => "$(condition)";
+    "array[$(item)]" string => "$(condition)";
 }
 bundle agent report_bag_contents
 {
