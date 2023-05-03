@@ -6,26 +6,29 @@
 #+Email: nick.anderson@northern.tech
 #+REVEAL_TITLE_SLIDE: <h1>%t</h1>
 #+NO_REVEAL_ROOT: reveal.js
+#+REVEAL_TITLE_SLIDE_BACKGROUND: ./orange-blue-tilt-right.png
 #+OPTIONS: reveal_center:t reveal_progress:t reveal_history:nil reveal_control:nil
 #+OPTIONS: reveal_rolling_links:t reveal_keyboard:t reveal_overview:t num:nil
-#+OPTIONS: reveal_width:1024 reveal_height:768
+#+NO_OPTIONS: reveal_width:1024 reveal_height:768
+#+OPTIONS: reveal_width:1280 reveal_height:1024
 #+OPTIONS: toc:nil
 #+OPTIONS: tags:nil timestamp:nil
 #+OPTIONS: reveal_single_file:nil
 #+OPTIONS: broken-links: t
-#+REVEAL_MARGIN: 0.1
-#+NO_REVEAL_EXTRA_CSS: cfengine.css
+#+REVEAL_MARGIN: -1
+#+REVEAL_EXTRA_CSS: cfengine.css
 #+REVEAL_REVEAL_JS_VERSION: 4
-#+REVEAL_MIN_SCALE: 0.5
-#+REVEAL_MAX_SCALE: 2.5
+#+REVEAL_MIN_SCALE: -1
+#+REVEAL_MAX_SCALE: -1
 #+REVEAL_TRANS: fade
-#+REVEAL_THEME: solarized
+#+NO_REVEAL_THEME: solarized
 #+REVEAL_TALK_URL: https://htmlpreview.github.io/?https://github.com/nickanderson/cfengine-training/blob/master/slide-deck.html
 #+REVEAL_TALK_QR_CODE: does not exist
 #+REVEAL_HLEVEL: 1
 #+REVEAL_HEAD_PREAMBLE: <meta name="description" content="CFEngine in a Day">
 #+REVEAL_POSTAMBLE: <p> CFEngine </p>
-#+REVEAL_PLUGINS: (markdown notes)
+#+REVEAL_PLUGINS: (markdown notes highlight)
+#+REVEAL_HIGHLIGHT_CSS: ./highlight.js/styles/agate.css
 #+PROPERTY: header-args :eval never-export
 #+LINK: cfe-promiseType    https://docs.cfengine.com/master/reference-promise-types-%s.html
 * Instructions :noexport:
@@ -318,6 +321,54 @@ reveal.js-4.4.0/test/test.html
 
 #+RESULTS:
 
+** Fonts
+I am not any kind of web-developer, I dunno the right way to do this but I wanted to use Red Hat Display per our style guide.
+
+I found https://gitlab.com/redhatdemocentral/workshop-slides-template-project
+
+And in there I found an import:
+
+#+begin_src css :exports none
+@import url('https://fonts.googleapis.com/css?family=Red+Hat+Display:400,400i,700,700i&display=swap');
+#+end_src
+
+I added that to my =cfengine.css= and it seemed to work.
+* Tasks :noexport:
+** TODO Add qr code to intro slide with Info
+#+caption: Shell command with stderr
+#+begin_src sh :results output :exports both
+  exec 2>&1
+
+  :
+#+end_src
+*** Making a vCard QR Code
+- org-vcard
+- qrencode
+#+begin_src vcard
+
+#+end_src
+**** Nick Anderson
+:PROPERTIES:
+:FIELDTYPE: name
+:KIND: individual
+:END:
+***** Mobile
+****** +1 (785) 550-1767
+:PROPERTIES:
+:FIELDTYPE: cell
+:END:
+***** Email
+****** nick.anderson@northern.tech
+:PROPERTIES:
+:FIELDTYPE: email-work
+:PREFERRED:
+:END:
+
+****** nick@cmdln.org
+:PROPERTIES:
+:FIELDTYPE: email-home
+:END:
+
 * Before we start
 :PROPERTIES:
 :ID:       27318943-487d-4805-a592-26281f4f5bb2
@@ -328,6 +379,10 @@ reveal.js-4.4.0/test/test.html
 :ID:       c3399d41-b849-41b7-b113-b6c8bec076a0
 :END:
 
+- 9:30 AM - 5:00 PM
+- We will check need for breaks at the end of each section
+
+#+BEGIN_COMMENT
 #+CAPTION: A rough schedule (this varies greatly).
 | Time                | Activity        |
 |---------------------+-----------------|
@@ -338,11 +393,14 @@ reveal.js-4.4.0/test/test.html
 | 01:30 PM - 03:00 PM | Class           |
 | 03:00 PM - 03:30 PM | Afternoon break |
 | 03:30 PM - 05:00 PM | Class           |
+#+END_COMMENT
 
 #+CAPTION: Speaker Notes
 #+begin_notes
 - Who will volunteer to *remind me of breaks*?
 #+end_notes
+
+*** History                                                      :noexport:
 
 #+BEGIN_COMMENT
 - [2020-03-09 Mon]
@@ -352,6 +410,7 @@ reveal.js-4.4.0/test/test.html
   - Resumed 12:23
   - Finished examples by 3pm
 #+END_COMMENT
+
 
 ** Use the source
 :PROPERTIES:
@@ -374,11 +433,11 @@ See a *mistake*? Please consider submitting a Pull Request.
 - Sysadmin/Infrastructure Engineer/Doer of things
 - CFEngineering since ~2010
 - Find me online
-  - [[mailto:nick@cmdln.org][nick@cmdln.org]] | [[mailto:nick.anderson@cfengine.com][nick.anderson@northern.tech]]
-  - [[https://twitter.com/cmdln_][@cmdln_]]
-  - [[http://www.cmdln.org][cmdln.org]]
+  -  [[mailto:nick.anderson@cfengine.com][nick.anderson@northern.tech]] | https://cfengine.com/author/nick-anderson/
+  - [[https://fosstodon.org/@nickanderson][@nickanderson@fosstodon.org]] |  [[https://twitter.com/cmdln_][@cmdln_]]
+  - [[mailto:nick@cmdln.org][nick@cmdln.org]] | [[https://cmdln.org][https://cmdln.org]]
   - [[https://linkedin.com/in/hithisisnick][linkedin.com/in/hithisisnick]]
-  - [[https://sks-keyservers.net/pks/lookup?op=get&search=0x9EB3AD425D1CCC11][=9274 E588 E866 A10B 713C  9CCD 9EB3 AD42 5D1C CC11=]]
+  - =9274 E588 E866 A10B 713C  9CCD 9EB3 AD42 5D1C CC11=
 
 #+CAPTION: Speaker Notes
 #+begin_notes
@@ -420,7 +479,6 @@ See a *mistake*? Please consider submitting a Pull Request.
 :ID:       3b1b50d5-c41a-49d7-9af4-5c65963a957e
 :END:
 
-- Modern
 - Secure
 - Scalable
 - Agile *infrastructure automation tool*
@@ -657,14 +715,11 @@ https://emacs.stackexchange.com/a/39154
 
 ** Current Releases
 
-- 3.15 ( December 2019 - December 2022 )
-  - 3.15.6 ( June 2022 )
-
 - 3.18 ( June 2021 - June 2024 )
-   - 3.18.2 ( June 2022 )
+  - 3.18.2 ( June 2022 )
 
-- 3.21 ( Q4 2022 - Q4 2025 )
-  - 3.21.0 ( Q4 2022 )
+- 3.21 ( December 2022 - December 2025 )
+  - 3.21.0 ( December 22nd 2022 )
 
 * Tools
 ** ~cf-remote~
@@ -1246,6 +1301,13 @@ The backbone of your policy, it's the scaffolding from which you can build on.
 
 #+COMMENT: [[file:data/22/f5f5e0-c36f-4be8-ae6e-702619a863cf/policy_flow_diagram_2016-10-15_21-25-54.png]]
 
+#+begin_src emacs-lisp :tangle no :exports none
+(setq org-plantuml-jar-path "/usr/share/plantuml/plantuml.jar")
+#+end_src
+
+#+RESULTS:
+: /usr/share/plantuml/plantuml.jar
+
 #+begin_src plantuml :file images/MPF-policy-execution-high-level.png
   create "cf-execd"
   loop "Check ""body executor control schedule"""
@@ -1257,6 +1319,13 @@ The backbone of your policy, it's the scaffolding from which you can build on.
     alt "At least one element of execution_schedule evaluates true"
       create "cf-agent -f update.cf"
       "cf-execd"->"cf-agent -f update.cf": Update Policy Execution
+
+       alt """$(sys.workdir)/data/host_specific.json"" differs\nfrom ""$(sys.policy_hub):$(sys.workdir)/cmdb/$(default:sys.key_digest)/host_specific.json"""
+         note over "cf-agent -f update.cf"
+           Update host specific data from Mission Portal CMDB
+         end note
+       end
+
       alt """masterfiles/cf_promises_validated"" differs\nfrom ""intputs/cf_promises_validated"""
         note over "cf-agent -f update.cf"
           Copy masterfiles to inputs
@@ -1363,6 +1432,8 @@ The fundamental underlying philosophy that CFEngine is based on.
 
 #+CAPTION: https://www.youtube.com/watch?v=2TPsB5WuZgk
 #+REVEAL_HTML: <video controls width="800" data-src="./images/Promise-Theory-Basic-Concepts-part-1.mp4"></video>
+
+https://www.youtube.com/watch?v=2TPsB5WuZgk
 
 * Language
 :PROPERTIES:
@@ -1998,6 +2069,15 @@ Merge more augments on top.
 #+CAPTION: Speaker Notes
 #+begin_notes
 Here we merge a more specific augments for linux (the value derived from sys.os on top of the default.
+
+cf-agent will error if listed augnets file does not exist!
+
+
+root@demohub:/tmp# cf-agent -KIf ./t.cf
+   error: Could not load requested further augments from file '$(sys.policy_entry_dirname)/$(sys.os_release[DEPARTMENT]).json'
+   error: Could not load requested further augments from file '$(sys.policy_entry_dirname)/$(sys.os_release[DEPARTMENT]).json'
+R: Defined in augments
+
 #+end_notes
 
 #+Caption: =examples/augments-multiple/def.json=
@@ -3150,7 +3230,6 @@ R: DataContainer:{
 - How are decisions made? :: Using classes and class expressions
 #+end_notes
 
-
 * Policy Examples
 :PROPERTIES:
 :ID:       190c0079-5336-4e03-8ea4-c71a2cfa684f
@@ -3165,7 +3244,7 @@ R: DataContainer:{
     specific ordering.
 #+end_notes
 
-** Enable services_autorun
+** Enable services_autorun :noexport:
 :PROPERTIES:
 :ID:       94b248ac-68df-4677-b03c-9149d3a548df
 :END:
@@ -3220,7 +3299,10 @@ R: DataContainer:{
         "File Exists"
           if => fileexists("/tmp/nologin");
   }
-  bundle agent __main__{methods:"nologin";}
+  bundle agent __main__
+  {
+        methods:"nologin";
+  }
 #+END_SRC
 
 #+RESULTS: =examples/00-20-example-create_file.cf=
@@ -3296,18 +3378,7 @@ bundle agent heartbeat
       ubuntu|debian::
         "_package" string => "apache2";
         "_service" string => "apache2";
-    # ...
-#+END_SRC
 
-#+CAPTION: Speaker notes
-#+begin_notes
-- What is this policy doing?
-  - Defining variables for different platforms
-#+end_notes
-
-#+REVEAL: split
-
-#+BEGIN_SRC cfengine3 :tangle examples/00-20-example-package_and_service.cf :prologue ""
       any::
         "_default_page"
           string => ifelse( "debian|ubuntu", "/var/www/html/index.html",
@@ -3333,6 +3404,7 @@ bundle agent heartbeat
 #+CAPTION: Speaker notes
 #+begin_notes
 - What is this policy doing?
+  - Defining variables for different platforms
   - Defining and inventorying the default page based on platform
   - Ensuring the package (name based on variable which differs by platform) is present
   - Ensure the service is running
@@ -5201,7 +5273,6 @@ Note: Triggered actions (agent run, report collection) will not work for hosts t
 : }
 :
 : HTTP 202
-
 
 * What's New
 ** Coming up in 3.21...
@@ -15852,7 +15923,6 @@ TODO
   packages that are served from the hub.
 #+end_notes
 ** Data transformations
-
 *** Re-parent a data structure
 
 With =mergedata()= it is possible to wrap data containers inside of a new JSON

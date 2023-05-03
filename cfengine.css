@@ -1,34 +1,51 @@
+@import url('https://fonts.googleapis.com/css?family=Red+Hat+Display:400,400i,700,700i&display=swap');
+
 body {
-    background-color: #F8FAFB;
+    background-color: white;
 }
 
 .reveal.section {
-    background-color: #F4F7F8;
-    color: #8AB2B9;
+    background-color: white;
+    color: #052569;
 }
 
 .reveal pre {
-    background-color: #FCFDFD;
+    background-color: gainsboro;
+    width: 100%;
 }
 
+.reveal-full-page {
+    background-color: white;
+
+}
 .reveal a{
-    color: #F79B4D;
+    text-decoration: underline;
+
 }
 .reveal h1 {
-    color: #F58220;
+    color: #052569;
 }
 
 .reveal h2 {
-    color: #F58220;
+    color: #052569;
 }
 
 .reveal h3 {
-    color: #1D6B91;
+    color: #052569;
 }
 
 .reveal h4 {
-    color: #1D6B91;
+    color: #052569;
 }
 li:before {
-    color: #F58220;
+    color: #f5821f;
+}
+
+:root {
+    --r-heading-font: 'Red Hat Text', sans-serif;
+    --r-main-font: 'Red Hat Display', sans-serif;
+    --r-background-color: white;
+    --r-main-color: #666666;
+    --r-link-color: #666666;
+    --r-link-color-hover: #f5821fc9;
 }

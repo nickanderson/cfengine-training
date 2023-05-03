@@ -1,0 +1,5 @@
+{
+  "dependencies": {
+    "fs.promises": "^0.1.2"
+  }
+}
